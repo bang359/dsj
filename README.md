@@ -1,4 +1,4 @@
-电视家重生版本
+电视家重生版本  个人空余时间长期维护
 电视直播软件，安装即可使用
 
 下载链接  https://raw.githubusercontent.com/bang359/dsj/main/%E7%94%B5%E8%A7%86%E5%AE%B6417.apk
