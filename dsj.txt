@@ -688,9 +688,6 @@ NBA经典,http://k.061899.xyz/k.php?id=nba
 凤凰香港,http://k.061899.xyz/k.php?id=fhhk
 
 
-河南/商丘/联通-高峰不卡（失效）,#genre#
-
-
 北京/联通高峰卡,#genre#
 CCTV1,http://114.241.111.4:85/tsfile/live/1/1001_1.m3u8?key=txiptv$北京/联通酒店高峰不卡
 CCTV2,http://114.241.111.4:85/tsfile/live/2/1002_1.m3u8?key=txiptv$北京/联通酒店
