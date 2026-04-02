@@ -12,7 +12,7 @@ CHC动作电影,http://go.bkpcp.top/mg/dzdy
 CHC影迷电影,http://go.bkpcp.top/mg/ymdy
 CHC家庭影院,http://go.bkpcp.top/mg/jtyy
 
-📺咪咕1,#genre#
+📺咪咕cdn6,#genre#
 CCTV1,http://cdn6.bkpcp.top/tl/tuiliu.php?id=cctv1$标清高峰不卡带广告
 CCTV2,http://cdn6.bkpcp.top/tl/tuiliu.php?id=cctv2
 CCTV3,http://cdn6.bkpcp.top/tl/tuiliu.php?id=cctv3
@@ -56,7 +56,7 @@ CCTV17,http://cdn6.bkpcp.top/tl/tuiliu.php?id=cctv17
 吉林卫视,http://cdn6.bkpcp.top/tl/tuiliu.php?id=jlws
 黑龙江卫视,http://cdn6.bkpcp.top/tl/tuiliu.php?id=hljws
 
-📺咪咕2,#genre#
+📺咪咕go,#genre#
 CCTV1,http://go.bkpcp.top/mg/cctv1$高峰不卡带广告
 CCTV2,http://go.bkpcp.top/mg/cctv2
 CCTV3,http://go.bkpcp.top/mg/cctv3
@@ -102,7 +102,7 @@ CGTN-法,http://go.bkpcp.top/mg/cgtnf
 广东新闻,http://go.bkpcp.top/mg/gdxw
 广东民生,http://go.bkpcp.top/mg/gdms
 
-📺咪咕3,#genre#
+📺咪咕m.06,#genre#
 CCTV1,http://m.061899.xyz/mg/cctv1$高峰不卡带广告
 CCTV2,http://m.061899.xyz/mg/cctv2
 CCTV3,http://m.061899.xyz/mg/cctv3
@@ -174,7 +174,7 @@ CETV-04,http://m.061899.xyz/mg/cetv4
 乡村振兴,http://m.061899.xyz/mg/xczx
 
 📺hls-高峰不卡,#genre#
-CCTV-1 综合,http://hls.netlive.ggff.net/hls/cctv1.m3u8$
+CCTV-1 综合,http://hls.netlive.ggff.net/hls/cctv1.m3u8
 CCTV-2 财经,http://hls.netlive.ggff.net/hls/cctv2.m3u8
 CCTV-3 综艺,http://hls.netlive.ggff.net/hls/cctv3.m3u8
 CCTV-4 中文国际,http://hls.netlive.ggff.net/hls/cctv4.m3u8
@@ -237,7 +237,7 @@ CHC动作电影,http://hls.netlive.ggff.net/hls/dzdy.m3u8
 CHC家庭影院,http://hls.netlive.ggff.net/hls/jtyy.m3u8
 CHC影迷电影,http://hls.netlive.ggff.net/hls/ymdy.m3u8
 
-📺咪咕阿里云-高峰不卡,#genre#
+📺咪咕47阿里云-高峰不卡,#genre#
 CCTV1综合,http://47.92.252.72:3566/608807420$
 CCTV2财经,http://47.92.252.72:3566/631780532
 CCTV3综艺,http://47.92.252.72:3566/624878271
@@ -361,7 +361,51 @@ CETV4,http://47.92.252.72:3566/923287339
 中华特产,http://47.92.252.72:3566/959986618
 环球旅游,http://47.92.252.72:3566/958475356
 茶,http://47.92.252.72:3566/961930369
-📺美国线路-高峰卡,#genre#
+
+
+襄阳103-高峰不卡,#genre#
+CCTV1-综合,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV1
+CCTV2-财经,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV2
+CCTV3-综艺,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV3
+CCTV4-国际,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV4
+CCTV5-体育,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV5
+CCTV6-电影,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV6
+CCTV7-军农,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV7
+CCTV8-电视剧,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV8
+CCTV9-纪录,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV9
+CCTV10-科教,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV10
+CCTV11-戏曲,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV11
+CCTV12-社会与法,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV12
+CCTV13-新闻,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV13
+CCTV14-少儿,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV14
+CCTV15-音乐,http://103.45.128.46:2001/jmb/IPTV.php?id=CCTV15
+北京卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=北京卫视
+湖南卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=湖南卫视
+东方卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=东方卫视
+江苏卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=江苏卫视
+浙江卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=浙江卫视
+安徽卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=安徽卫视
+吉林卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=吉林卫视
+辽宁卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=辽宁卫视
+黑龙江卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=黑龙江卫视
+河北卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=河北卫视
+山东卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=山东卫视
+天津卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=天津卫视
+河南卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=河南卫视
+湖北卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=湖北卫视
+东南卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=东南卫视
+四川卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=四川卫视
+江西卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=江西卫视
+广东卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=广东卫视
+深圳卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=深圳卫视
+广西卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=广西卫视
+重庆卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=重庆卫视
+贵州卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=贵州卫视
+陕西卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=陕西卫视
+甘肃卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=甘肃卫视
+内蒙古卫视,http://103.45.128.46:2001/jmb/IPTV.php?id=内蒙古卫视
+
+📺美国107-高峰卡,#genre#
 CCTV-1 综合,http://107.150.60.122/live/cctv1hd.m3u8
 CCTV-2 财经,http://107.150.60.122/live/cctv2hd.m3u8
 CCTV-3 综艺,http://107.150.60.122/live/cctv3hd.m3u8
@@ -400,7 +444,7 @@ CCTV-8K 超高清,http://107.150.60.122/live/cctv8k.m3u8
 西藏卫视,http://107.150.60.122/live/xzws.m3u8
 卡酷少儿,http://107.150.60.122/live/btvkk.m3u8
 
-📺襄阳/电信标清-高峰不卡,#genre#
+📺mgcn标清-高峰不卡,#genre#
 CCTV1综合,https://mgcn.chinacert.cftest5.cn/608807420$
 CCTV2财经,https://mgcn.chinacert.cftest5.cn/631780532
 CCTV3综艺,https://mgcn.chinacert.cftest5.cn/624878271
@@ -525,7 +569,7 @@ CETV4,https://mgcn.chinacert.cftest5.cn/923287339
 环球旅游,https://mgcn.chinacert.cftest5.cn/958475356
 茶,https://mgcn.chinacert.cftest5.cn/961930369
 
-📺咪咕腾讯-高峰不卡带广,#genre#
+📺咪咕k.06-高峰不卡带广,#genre#
 CCTV-1综合,http://k.061899.xyz/k.php?id=cctv1$广东/广州/腾讯云-标清-高峰不卡带广告
 CCTV-2财经,http://k.061899.xyz/k.php?id=cctv2
 CCTV-3综艺,http://k.061899.xyz/k.php?id=cctv3
