@@ -74,28 +74,6 @@
                 "分类": "电影$1#剧集$2#动漫$4#综艺$3#伦理剧$20"
             }
         },
-           {
-            "key": "csp_XYBQ",
-            "name": "🔞比卡|比卡",
-            "type": 3,
-            "api": "csp_XBPQ",
-             "jar": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/jar/hl.jar",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "ext": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/h/比卡比卡.json"
-        },
-        	{
-            "key": "csp_XBPQ_yyxl",
-            "name": "🔞夜夜新郎",
-            "type": 3,
-            "api": "csp_XBPQ",
-             "jar": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/jar/hl.jar",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 0,
-            "ext": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/lib/夜夜新郎.json"
-        },
         {
       "key": "XMVideo",
       "name": "🔞熊猫视频",
