@@ -17,7 +17,7 @@
       "api": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/lib/drpy2.min.js",
       "ext": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/js/jp.js"
     },
-       {"key":"荐片","name":"荐片｜磁力｜蓝光","type":3,"api":"csp_Jianpian","searchable":1,"quickSearch":1,"changeable":1,"ext":"./lib/jianpian.json"},
+       {"key":"drpy_js_荐片","name":"🌊荐片","type":3,"api":"https://cdn.jsdelivr.net/gh/yxcqr/DZDRPY@main/libs/drpy.min.js","ext":"https://cdn.jsdelivr.net/gh/yxcqr/DZDRPY@main/js/荐片.js"},
  {
             "key": "好看影视",
             "name": "🧿好看吧┃蓝光",
