@@ -1,17 +1,24 @@
 //永久维护，欢迎打赏
+{"spider":"https://gitee.com/lwlxh/tvhome/raw/master/pg.jar",
+"sites":[
 {
-  "spider": "https://gitee.com/lwlxh/tvhome/raw/master/pg.jar",
-  "sites": [{
-    "key": "js豆瓣1",
-    "name": "🌈影视中心自动去广告",
-    "type": 3,
-    "api": "./lib/drpy2.min.js",
-    "ext": "./lib/douban.js",
-    "searchable": 0,
-    "quickSearch": 0,
-    "filterable": 0
-  }, {
-            "key": "好看影视",
+            "key": "js豆瓣1",
+            "name": "🌈永久维护请打赏观看",
+            "type": 3,
+            "api": "./lib/drpy2.min.js",
+            "ext": "./lib/douban.js",
+            "searchable": 0,
+            "quickSearch": 0,
+            "filterable": 0
+        },
+		        {
+      "key": "drpy_js_荐片",
+      "name": "荐片|优质",
+      "type": 3,
+      "api": "https://py.nxog.eu.org/https://raw.githubusercontent.com/guot55/yg/main/lib/drpy2.min.js",
+      "ext": "https://py.nxog.eu.org/https://raw.githubusercontent.com/guot55/yg/main/js/jp.js"
+    },
+           {  "key": "好看影视",
             "name": "🧿好看吧┃蓝光",
             "type": 3,
             "api": "csp_XBPQ",
