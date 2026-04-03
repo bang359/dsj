@@ -2,7 +2,7 @@
 "sites":[
 {
             "key": "js豆瓣1",
-            "name": "🌈永久维护请打赏观看",
+            "name": "🌈永久维护请打赏",
             "type": 3,
             "api": "./lib/drpy2.min.js",
             "ext": "./lib/douban.js",
@@ -17,7 +17,8 @@
       "api": "https://py.nxog.eu.org/https://raw.githubusercontent.com/guot55/yg/main/lib/drpy2.min.js",
       "ext": "https://py.nxog.eu.org/https://raw.githubusercontent.com/guot55/yg/main/js/jp.js"
     },
-           {  "key": "好看影视",
+        {
+            "key": "好看影视",
             "name": "🧿好看吧┃蓝光",
             "type": 3,
             "api": "csp_XBPQ",
@@ -105,22 +106,22 @@
             "name": "🔞比卡|比卡",
             "type": 3,
             "api": "csp_XBPQ",
-             "jar": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/jar/hl.jar",
+             "jar": "https://py.nxog.eu.org/https://raw.githubusercontent.com/guot55/yg/main/jar/hl.jar",
             "searchable": 1,
             "quickSearch": 1,
             "filterable": 1,
-            "ext": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/h/比卡比卡.json"
+            "ext": "https://py.nxog.eu.org/https://raw.githubusercontent.com/guot55/yg/main/h/比卡比卡.json"
         },
         	{
             "key": "csp_XBPQ_yyxl",
             "name": "🔞夜夜新郎",
             "type": 3,
             "api": "csp_XBPQ",
-             "jar": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/jar/hl.jar",
+             "jar": "https://py.nxog.eu.org/https://raw.githubusercontent.com/guot55/yg/main/jar/hl.jar",
             "searchable": 1,
             "quickSearch": 1,
             "filterable": 0,
-            "ext": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/lib/夜夜新郎.json"
+            "ext": "https://py.nxog.eu.org/https://raw.githubusercontent.com/guot55/yg/main/lib/夜夜新郎.json"
         },
         {
       "key": "XMVideo",
@@ -128,7 +129,7 @@
       "type": 3,
       "api": "csp_XMVideo",
       "searchable": 1,
-      "filterable": 1,"jar": "https://gh-proxy.com/https://raw.githubusercontent.com/guot55/yg/main/jar/182.jar"
+      "filterable": 1,"jar": "https://py.nxog.eu.org/https://raw.githubusercontent.com/guot55/yg/main/jar/182.jar"
     },
 	{
       "key": "光速资源",
@@ -568,6 +569,4 @@
 		"wallpaper": "https://深色壁纸.xxooo.cf/",
 	        "logo": "./logo.gif",
 		"disabled_wallpaper":"http://www.kf666888.cn/api/tvbox/img"
-            }
-
- {"name": "黄仓库",
+}
