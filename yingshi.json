@@ -1,17 +1,16 @@
 //永久维护，欢迎打赏
-{"spider":"https://gitee.com/lwlxh/tvhome/raw/master/pg.jar",
-"sites":[
 {
-            "key": "js豆瓣1",
-            "name": "🌈影视中心自动去广告",
-            "type": 3,
-            "api": "./lib/drpy2.min.js",
-            "ext": "./lib/douban.js",
-            "searchable": 0,
-            "quickSearch": 0,
-            "filterable": 0
-        },
-	   {
+  "spider": "https://gitee.com/lwlxh/tvhome/raw/master/pg.jar",
+  "sites": [{
+    "key": "js豆瓣1",
+    "name": "🌈影视中心自动去广告",
+    "type": 3,
+    "api": "./lib/drpy2.min.js",
+    "ext": "./lib/douban.js",
+    "searchable": 0,
+    "quickSearch": 0,
+    "filterable": 0
+  }, {
             "key": "好看影视",
             "name": "🧿好看吧┃蓝光",
             "type": 3,
