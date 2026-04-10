@@ -21,15 +21,15 @@ U盘安装
 本项目使用的部分代码、图片、文字等资源来源于网络，如有侵权，请联系删除。
 
 <h2 id="捐赠">捐赠</h2>
-<p>我都吃泡面了，求个打赏~(记得备注博客园id呀)</p>
-<table>
-<thead>
-<tr class="header"><th style="text-align: center;">微信</th><th style="text-align: center;">支付宝</th></tr>
-</thead>
+<p>永久维护，感谢打赏~</p>
+<表格>
+<表头>
+<tr class="header"><th style="text-align: center;">微信</th>
+</表头>
 <tbody>
-<tr class="odd">
+<tr 类="奇数行">
 <td style="text-align: center;"><img src="https://images.cnblogs.com/cnblogs_com/yangxiaochuan/1634226/o_200117031055IMG_20200104_170532.jpg" alt="" width="200" /></td>
-<td style="text-align: center;"><img src="https://images.cnblogs.com/cnblogs_com/yangxiaochuan/1634226/o_200117031307IMG_20200104_170623.jpg" alt="" width="200" /></td>
+<td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
