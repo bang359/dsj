@@ -7,27 +7,16 @@ U盘安装
 小米电视可以使用小米电视助手进行安装
 如电视可以启用ADB，也可以通过ADB进行安装
  
- 
- 
- 
 
-版权说明
- 
-
-本项目仅供学习研究，禁止用于商业用途，请于下载二十四小时内删除。
-
-本项目可能随时终止，请大家谨慎使用，建议使用官方渠道进行观看。
-
-本项目使用的部分代码、图片、文字等资源来源于网络，如有侵权，请联系删除。
 
 <h2 id="捐赠">捐赠</h2>
-<p>永久维护，感谢打赏~(记得备注博客园id呀)</p>
-<table>
-<thead>
+<p>永久维护，感谢打赏~</p>
+<表格>
+<表头>
 <tr class="header"><th style="text-align: center;">微信</th><th style="text-align: center;">支付宝</th></tr>
-</thead>
+</表头>
 <tbody>
-<tr class="odd">
+<表格行 类="奇数行">
 <td style="text-align: center;"><img src="https://github.com/bang359/dsj/raw/main/wx.png" alt="" width="250" /></td>
 <td style="text-align: center;"><img src="https://github.com/bang359/dsj/raw/main/zfb.png" alt="" width="250" /></td>
 </tr>
