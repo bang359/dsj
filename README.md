@@ -28,8 +28,8 @@ U盘安装
 </表头>
 <tbody>
 <表格行 类="奇数行">
-<td style="text-align: center;"><img src="https://github.com/bang359/dsj/raw/main/wx.png" alt="" width="250" /></td>
-<td style="text-align: center;"><img src="https://github.com/bang359/dsj/raw/main/zfb.png" alt="" width="250" /></td>
+<td style="text-align: center;"><img src="https://github.com/bang359/dsj/raw/main/wx.png" alt="" width="200" /></td>
+<td style="text-align: center;"><img src="https://github.com/bang359/dsj/raw/main/zfb.png" alt="" width="200" /></td>
 </tr>
 </tbody>
 </table>
