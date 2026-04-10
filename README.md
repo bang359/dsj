@@ -1,7 +1,7 @@
 电视家重生版本  个人空余时间长期维护
 电视直播软件，安装即可使用
 
-2026最新下载链接 https://raw.githubusercontent.com/bang359/dsj/dsj10.5.apk
+2026最新下载链接 https://github.com/bang359/dsj/raw/main/dsj10.5.apk
 安装U盘安装
 小米电视可以使用小米电视助手进行安装
 如电视可以启用ADB，也可以通过ADB进行安装
