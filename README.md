@@ -10,15 +10,15 @@ U盘安装
 
 
 <h2 id="捐赠">捐赠</h2>
-<p>永久维护，感谢打赏~</p>
-<表格>
-<表头>
+<p>永久维护,感谢支持~</p>
+<table>
+<thead>
 <tr class="header"><th style="text-align: center;">微信</th><th style="text-align: center;">支付宝</th></tr>
-</表头>
+</thead>
 <tbody>
-<表格行 类="奇数行">
+<tr class="odd">
 <td style="text-align: center;"><img src="https://github.com/bang359/dsj/raw/main/wx.png" alt="" width="250" /></td>
 <td style="text-align: center;"><img src="https://github.com/bang359/dsj/raw/main/zfb.png" alt="" width="250" /></td>
-</表格>
+</tr>
 </tbody>
-</表格>
+</table>
