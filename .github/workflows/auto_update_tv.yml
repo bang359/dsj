@@ -1,50 +1,70 @@
-name: 每日自动更新直播源
+name: 自动更新直播源（无错版）
 
 on:
   schedule:
-    - cron: "0 8,20 * * *"  # 每天 8 点、20 点（北京时间）
-  workflow_dispatch:         # 可手动触发
+    - cron: "0 0,12 * * *"
+  workflow_dispatch:
 
 jobs:
-  update:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - name: 拉取仓库
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}  # 👈 这一行修复了错误！
 
       - name: 安装工具
         run: sudo apt-get install -y curl
 
-      - name: 抓取所有直播源
+      - name: 抓取直播源
         run: |
-          > all.m3u
+          > all_sources.m3u
           cat sources.txt | grep -v '^#' | while read url; do
-            curl -s --connect-timeout 10 --max-time 20 "$url" | grep -aE '^#EXTINF|^http' >> all.m3u
+            curl -sSL --connect-timeout 8 --max-time 15 "$url" | grep -aE '^#EXTINF|^http' >> all_sources.m3u
           done
 
-      - name: 去重 + 测速过滤（只保留有效源）
+      - name: 去重 + 测速过滤
         run: |
-          echo '#EXTM3U url-tvg="https://epg.112114.xyz/pp.xml"' > live.m3u
-          cat all.m3u | awk 'NR%2==1{inf=$0}NR%2==0{url=$0;print inf;print url}' | sort -u | while read inf && read url; do
+          echo '#EXTM3U url-tvg="https://epg.112114.xyz/ppm.xml"' > live.m3u
+          cat all_sources.m3u | awk 'NR%2==1{inf=$0}NR%2==0{url=$0;print inf;print url}' | sort -u | while read inf && read url; do
             if curl -sf --connect-timeout 1 --max-time 2 -r 0-500 "$url" >/dev/null 2>&1; then
               echo "$inf" >> live.m3u
               echo "$url" >> live.m3u
             fi
           done
 
-      - name: 生成 TVBox 专用接口
+      - name: 生成 TVBox 分类接口
         run: |
-          cat > tvbox.json << EOF
+          cat > tvbox.json << 'EOF'
           {
             "lives": [
               {
-                "name": "央视卫视高清",
-                "url": "https://raw.githubusercontent.com/bang359/dsj/main/live.m3u",
-                "epg": "https://epg.112114.xyz/pp.xml"
+                "name": "📺 央视全套",
+                "url": "https://raw.githubusercontent.com/bang359/dsj/main/live.m3u#CCTV",
+                "epg": "https://epg.112114.xyz/ppm.xml"
+              },
+              {
+                "name": "📡 各省卫视",
+                "url": "https://raw.githubusercontent.com/bang359/dsj/main/live.m3u#卫视",
+                "epg": "https://epg.112114.xyz/ppm.xml"
+              },
+              {
+                "name": "⚽ 体育频道",
+                "url": "https://raw.githubusercontent.com/bang359/dsj/main/live.m3u#体育|CCTV5|咪咕",
+                "epg": "https://epg.112114.xyz/ppm.xml"
+              },
+              {
+                "name": "🧸 少儿动漫",
+                "url": "https://raw.githubusercontent.com/bang359/dsj/main/live.m3u#少儿|卡通|动漫",
+                "epg": "https://epg.112114.xyz/ppm.xml"
+              },
+              {
+                "name": "🎬 影视轮播",
+                "url": "https://raw.githubusercontent.com/bang359/dsj/main/live.m3u#电影|轮播|影视",
+                "epg": "https://epg.112114.xyz/ppm.xml"
               }
             ]
           }
@@ -54,6 +74,6 @@ jobs:
         run: |
           git config --global user.name "bang359"
           git config --global user.email "bang359@users.noreply.github.com"
-          git add live.m3u tvbox.json sources.txt
+          git add live.m3u tvbox.json
           git commit -m "✅ 直播源自动更新 $(date +'%Y-%m-%d %H:%M')" || exit 0
           git push
