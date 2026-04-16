@@ -1,0 +1,49 @@
+name: 自动抓取看看新闻 + 合并到主直播源
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: 拉取仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - name: 安装工具
+        run: sudo apt-get install -y curl
+
+      - name: 抓取最新看看新闻直播源
+        run: |
+          URL="https://live.kankanews.com/huikan/"
+          M3U8=$(curl -s -A "Mozilla/5.0" "$URL" | grep -Eo "https?://[a-zA-Z0-9\./_-]+\.m3u8" | head -1)
+          echo "#EXTINF:-1 tvg-logo=\"https://live.kankanews.com/images/logo.png\",看看新闻" > kankan_temp.m3u
+          echo "$M3U8" >> kankan_temp.m3u
+
+      - name: 合并到主直播源 live.m3u
+        run: |
+          # 如果主文件不存在，先创建头
+          if [ ! -f live.m3u ]; then
+            echo '#EXTM3U url-tvg="https://epg.112114.xyz/ppm.xml"' > live.m3u
+          fi
+          
+          # 先删除旧的看看新闻，避免重复
+          sed -i '/看看新闻/d' live.m3u
+          
+          # 追加最新源
+          cat kankan_temp.m3u >> live.m3u
+
+      - name: 提交更新
+        run: |
+          git config --global user.name "bang359"
+          git config --global user.email "bang359@users.noreply.github.com"
+          git add live.m3u kankan_temp.m3u
+          git commit -m "✅ 自动更新看看新闻直播源" || exit 0
+          git push
