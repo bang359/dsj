@@ -1,0 +1,40 @@
+name: 接收微信赞赏并保存
+
+on:
+  repository_dispatch:
+    types: [ wechat_donate ]
+
+jobs:
+  save_to_github:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: 解析数据
+        id: data
+        run: |
+          echo "nick=$(jq -r '.client_payload.nick' $GITHUB_EVENT_PATH)" >> $GITHUB_OUTPUT
+          echo "money=$(jq -r '.client_payload.money' $GITHUB_EVENT_PATH)" >> $GITHUB_OUTPUT
+          echo "msg=$(jq -r '.client_payload.msg' $GITHUB_EVENT_PATH)" >> $GITHUB_OUTPUT
+          echo "time=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+
+      - name: 写入感谢名单
+        run: |
+          echo '
+---------------------------
+赞赏用户：${{ steps.data.outputs.nick }}
+金额：${{ steps.data.outputs.money }} 元
+留言：${{ steps.data.outputs.msg }}
+时间：${{ steps.data.outputs.time }}
+' >> thankyou.md
+
+      - name: 提交到 GitHub
+        run: |
+          git config --global user.name "AutoSync"
+          git config --global user.email "bot@dsj.com"
+          git add thankyou.md
+          git commit -m "新增赞赏记录" || exit 0
+          git push
