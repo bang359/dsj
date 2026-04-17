@@ -1,135 +1,67 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>📺 电视家 - 全平台通用版</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #000;
-            color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-            padding: 10px;
-        }
-
-        .box {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .title {
-            text-align: center;
-            color: #4ecdc4;
-            padding: 12px 0;
-            font-size: 22px;
-        }
-
-        /* 播放器区域 */
-        .video-area {
-            width: 100%;
-            background: #111;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-
-        #player {
-            width: 100%;
-            display: block;
-        }
-
-        /* 频道列表 */
-        .channel-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .channel {
-            background: #222;
-            color: #fff;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 15px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .channel.active {
-            background: #007aff;
-        }
-
-        .tip {
-            text-align: center;
-            color: #ff6b6b;
-            padding: 10px;
-            display: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全能电视直播</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:sans-serif;padding:10px}
+.container{max-width:1000px;margin:0 auto}
+.title{text-align:center;padding:15px 0;color:#4fc3f7}
+#dplayer{border-radius:12px;overflow:hidden;margin-bottom:15px}
+.channel-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.channel{background:#222;color:#fff;border:none;padding:14px;border-radius:8px}
+.channel.active{background:#007aff}
+</style>
 </head>
-
 <body>
-    <div class="box">
-        <div class="title">📺 电视家 - 全平台通用</div>
-        <div class="video-area">
-            <video id="player" controls playsinline webkit-playsinline></video>
-        </div>
-        <div id="tip" class="tip">播放失败，请切换其他频道</div>
-        <div class="channel-list" id="channels"></div>
-    </div>
+<div class="container">
+<div class="title">📺 全能电视直播</div>
+<div id="dplayer"></div>
+<div class="channel-grid" id="channelList"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/dplayer@latest"></script>
+<script>
+const TXT_URL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+const channelList = document.getElementById("channelList");
+let dp = null;
 
-    <script>
-        const video = document.getElementById('player');
-        const channels = document.getElementById('channels');
-        const tip = document.getElementById('tip');
-        const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+async function loadChannels(){
+  const res = await fetch(TXT_URL);
+  const text = await res.text();
+  const lines = text.trim().split("\n");
+  
+  lines.forEach(line => {
+    if(!line) return;
+    const [name, url] = line.split(",").map(i=>i.trim());
+    if(!name || !url) return;
+    
+    const btn = document.createElement("button");
+    btn.className = "channel";
+    btn.innerText = name;
+    btn.onclick = () => {
+      document.querySelectorAll(".channel").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      playVideo(url);
+    };
+    channelList.appendChild(btn);
+  });
+}
 
-        // 加载直播源
-        (async function loadList() {
-            try {
-                let res = await fetch(sourceUrl);
-                let text = await res.text();
-                let lines = text.trim().split('\n');
+function playVideo(url){
+  if(dp) dp.destroy();
+  dp = new DPlayer({
+    container: document.getElementById("dplayer"),
+    autoplay: true,
+    video: { url: url }
+  });
+}
 
-                lines.forEach(line => {
-                    if (!line) return;
-                    let [name, url] = line.split(',').map(i => i.trim());
-                    if (!name || !url) return;
-
-                    let btn = document.createElement('button');
-                    btn.className = 'channel';
-                    btn.innerText = name;
-                    btn.onclick = () => play(url, btn);
-                    channels.appendChild(btn);
-                });
-            } catch (e) {
-                tip.innerText = "加载频道失败";
-                tip.style.display = "block";
-            }
-        })();
-
-        // 万能播放（支持所有源 + 苹果/电脑全兼容）
-        function play(url, btn) {
-            document.querySelectorAll('.channel').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            tip.style.display = 'none';
-
-            // 核心：苹果/电脑通用播放方式
-            video.src = url;
-            video.load();
-
-            // 用户点击后播放（解决苹果限制）
-            video.play().catch(() => {
-                tip.style.display = 'block';
-            });
-        }
-    </script>
+loadChannels();
+</script>
 </body>
 </html>
