@@ -89,6 +89,8 @@ function play(index) {
   });
   tip.style.display = "block";
   player.src = channels[index].url;
+  player.volume = 1.0;
+  player.muted = false;
   player.play().catch(() => {});
 }
 
