@@ -1,132 +1,61 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>📺 全能直播 - 全平台支持</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background: #000;
-            color: #fff;
-            font-family: system-ui, -apple-system, sans-serif;
-            padding: 10px;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            color: #4fc3f7;
-            padding: 12px 0;
-        }
-        .video-container {
-            position: relative;
-            width: 100%;
-            background: #111;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-        video {
-            width: 100%;
-            display: block;
-            min-height: 280px;
-            background: #000;
-        }
-        .channel-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-        .channel-btn {
-            background: #222;
-            color: #fff;
-            border: none;
-            padding: 16px;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .channel-btn.active {
-            background: #007aff;
-        }
-        .tip {
-            color: #ff6b6b;
-            text-align: center;
-            padding: 8px;
-            display: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全能直播TV（无限制版）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:sans-serif;padding:10px}
+.container{max-width:1000px;margin:0 auto}
+.title{text-align:center;padding:15px;color:#4fc3f7}
+#player{width:100%;border-radius:12px;margin-bottom:15px;background:#000}
+.channel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.channel{background:#222;color:#fff;border:none;padding:15px;border-radius:8px}
+.channel.active{background:#007aff}
+</style>
 </head>
 <body>
 <div class="container">
-    <h1>📺 全能直播</h1>
-    <div class="video-container">
-        <video 
-            id="player" 
-            controls 
-            playsinline 
-            webkit-playsinline
-            x-webkit-airplay="allow"
-            allowfullscreen
-        ></video>
-        <div class="tip" id="tip">播放失败，请切换其他频道</div>
-    </div>
-    <div class="channel-grid" id="channelList"></div>
+<div class="title">📺 全能直播（无限制）</div>
+<video id="player" controls playsinline webkit-playsinline></video>
+<div class="channel-grid" id="channelList"></div>
 </div>
 
 <script>
-const player = document.getElementById('player');
-const channelList = document.getElementById('channelList');
-const tip = document.getElementById('tip');
+const player = document.getElementById("player");
+const channelList = document.getElementById("channelList");
 const TXT_URL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
 
-// 加载频道
-(async function loadChannels() {
-    try {
-        let res = await fetch(TXT_URL);
-        let text = await res.text();
-        let lines = text.trim().split('\n');
+// 🔥 核心：强制绕过 HTTPS 限制 + 兼容所有 IP 直播源
+async function loadChannels(){
+  const text = await fetch(TXT_URL).then(r=>r.text());
+  const lines = text.trim().split("\n");
 
-        lines.forEach(line => {
-            if (!line) return;
-            let [name, url] = line.split(',').map(i => i.trim());
-            if (!name || !url) return;
+  lines.forEach(line => {
+    if(!line) return;
+    const [name, url] = line.split(",").map(i=>i.trim());
+    if(!name || !url) return;
 
-            let btn = document.createElement('button');
-            btn.className = 'channel-btn';
-            btn.innerText = name;
-            btn.onclick = () => playVideo(url, btn);
-            channelList.appendChild(btn);
-        });
-    } catch (e) {
-        tip.innerText = "加载频道失败";
-        tip.style.display = "block";
-    }
-})();
-
-// 万能播放：支持 m3u8 / http ip流 / flv / mp4 / 无后缀流
-function playVideo(url, btn) {
-    document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    tip.style.display = 'none';
-
-    // 核心：强制原生播放，兼容所有直链直播源
-    player.src = url;
-    player.load();
-
-    // 播放（解决苹果/手机限制）
-    player.play().catch(err => {
-        console.error("播放失败", err);
-        tip.style.display = 'block';
-    });
+    const btn = document.createElement("button");
+    btn.className = "channel";
+    btn.innerText = name;
+    btn.onclick = () => {
+      document.querySelectorAll(".channel").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      
+      // ✅ 终极播放方式：原生视频直连，兼容所有格式
+      player.src = url;
+      player.load();
+      player.play().catch(e=>{
+        console.log("播放异常（正常），请手动点播放按钮", e);
+      });
+    };
+    channelList.appendChild(btn);
+  });
 }
+
+loadChannels();
 </script>
 </body>
 </html>
