@@ -2,174 +2,87 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>📺 通用电视直播</title>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-}
-
-:root {
-  --bg: #0d0d0f;
-  --card: #1a1a1a;
-  --active: #007bff;
-  --text: #fff;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  padding: 12px;
-  padding-bottom: env(safe-area-inset-bottom, 20px);
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.title {
-  text-align: center;
-  font-size: 22px;
-  margin-bottom: 12px;
-  color: #00d9ff;
-}
-
-/* 播放器 */
-.player-wrapper {
-  background: #000;
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 16px;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
-}
-
-.video-container {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%;
-}
-
-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-}
-
-/* 频道列表 */
-.channel-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.channel-btn {
-  padding: 12px 8px;
-  background: var(--card);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  text-align: center;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.2s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.channel-btn.active {
-  background: var(--active);
-  font-weight: bold;
-}
-
-.channel-btn:hover {
-  background: #252525;
-}
-
-/* 手机小屏优化 */
-@media (max-width: 500px) {
-  .channel-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .channel-btn {
-    padding: 10px 6px;
-    font-size: 13px;
-  }
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#111;color:#fff;font-family:Arial;padding:15px}
+.container{max-width:1100px;margin:0 auto}
+.title{text-align:center;margin:10px 0 20px;color:#00d9ff}
+.player{background:#000;border-radius:12px;overflow:hidden;margin-bottom:20px}
+video{width:100%;display:block}
+.channel-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.channel{padding:10px;background:#222;color:#fff;border:none;border-radius:8px;cursor:pointer}
+.channel.active{background:#007bff}
 </style>
 </head>
-
 <body>
+
 <div class="container">
   <h2 class="title">📺 通用电视直播</h2>
-  
-  <div class="player-wrapper">
-    <div class="video-container">
-      <video id="tv" controls playsinline webkit-playsinline></video>
-    </div>
+  <div class="player">
+    <video id="tv" controls></video>
   </div>
-
-  <div class="channel-grid" id="channelList"></div>
+  <div class="channel-list" id="channelList"></div>
 </div>
 
 <script>
+// 本地写死直播源，不联网拉取，电脑必能打开
+const channels = [
+{name:"频道测试",url:"http://rihou.cc:555/tv/频道测试"},
+{name:"凤凰卫视",url:"http://rihou.cc:555/tv/凤凰卫视"},
+{name:"镜新闻",url:"http://rihou.cc:555/tv/镜新闻"},
+{name:"CCTV1 高清",url:"http://120.211.62.180:8000/hls/1/index.m3u8"},
+{name:"CCTV2 财经",url:"https://ivi.bupt.edu.cn/hls/cctv2hd.m3u8"},
+{name:"CCTV3 综艺",url:"https://ivi.bupt.edu.cn/hls/cctv3hd.m3u8"},
+{name:"CCTV4 中文国际",url:"https://ivi.bupt.edu.cn/hls/cctv4hd.m3u8"},
+{name:"CCTV5 体育",url:"https://ivi.bupt.edu.cn/hls/cctv5hd.m3u8"},
+{name:"CCTV5+ 体育",url:"https://ivi.bupt.edu.cn/hls/cctv5phd.m3u8"},
+{name:"CCTV6 电影",url:"https://ivi.bupt.edu.cn/hls/cctv6hd.m3u8"},
+{name:"CCTV7 国防军事",url:"https://ivi.bupt.edu.cn/hls/cctv7hd.m3u8"},
+{name:"CCTV8 电视剧",url:"https://ivi.bupt.edu.cn/hls/cctv8hd.m3u8"},
+{name:"CCTV9 纪录",url:"https://ivi.bupt.edu.cn/hls/cctv9hd.m3u8"},
+{name:"CCTV10 科教",url:"https://ivi.bupt.edu.cn/hls/cctv10hd.m3u8"},
+{name:"CCTV13 新闻",url:"https://ivi.bupt.edu.cn/hls/cctv13hd.m3u8"},
+{name:"CCTV14 少儿",url:"https://ivi.bupt.edu.cn/hls/cctv14hd.m3u8"},
+{name:"湖南卫视",url:"https://ivi.bupt.edu.cn/hls/hnws.m3u8"},
+{name:"浙江卫视",url:"https://ivi.bupt.edu.cn/hls/zjws.m3u8"},
+{name:"江苏卫视",url:"https://ivi.bupt.edu.cn/hls/jsws.m3u8"},
+{name:"北京卫视",url:"https://ivi.bupt.edu.cn/hls/bjws.m3u8"},
+{name:"东方卫视",url:"https://ivi.bupt.edu.cn/hls/dongfangws.m3u8"},
+{name:"广东卫视",url:"https://ivi.bupt.edu.cn/hls/gdws.m3u8"},
+{name:"深圳卫视",url:"https://ivi.bupt.edu.cn/hls/szws.m3u8"},
+{name:"重庆卫视",url:"https://ivi.bupt.edu.cn/hls/cqws.m3u8"},
+{name:"安徽卫视",url:"https://ivi.bupt.edu.cn/hls/ahws.m3u8"},
+{name:"四川卫视",url:"https://ivi.bupt.edu.cn/hls/scws.m3u8"},
+{name:"河南卫视",url:"https://ivi.bupt.edu.cn/hls/hnws.m3u8"},
+{name:"湖北卫视",url:"https://ivi.bupt.edu.cn/hls/hbws.m3u8"},
+{name:"山东卫视",url:"https://ivi.bupt.edu.cn/hls/sdws.m3u8"}
+];
+
 const tv = document.getElementById('tv');
-const channelList = document.getElementById('channelList');
-let currentBtn = null;
+const list = document.getElementById('channelList');
+let activeBtn = null;
 
-// 你要的直播源
-const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
-
-// 加载频道
-fetch(sourceUrl)
-  .then(res => res.text())
-  .then(text => {
-    const lines = text.split('\n').map(i => i.trim()).filter(Boolean);
-    const channels = [];
-
-    lines.forEach(line => {
-      if (line.includes(',')) {
-        const [name, url] = line.split(',', 2);
-        if (url && (url.includes('.m3u8') || url.includes('.ts'))) {
-          channels.push({ name, url });
-        }
-      }
-    });
-
-    // 渲染
-    channels.forEach((item, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'channel-btn';
-      btn.textContent = item.name;
-      btn.onclick = () => play(item.url, btn);
-      channelList.appendChild(btn);
-      if (i === 0) btn.click();
-    });
-  })
-  .catch(err => {
-    alert("加载源失败，请刷新或检查网络");
-  });
+// 渲染频道
+channels.forEach((item, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'channel';
+  btn.textContent = item.name;
+  btn.onclick = () => play(item.url, btn);
+  list.appendChild(btn);
+  if(i === 0) play(item.url, btn);
+});
 
 // 播放
 function play(url, btn) {
-  if (currentBtn) currentBtn.classList.remove('active');
-  currentBtn = btn;
+  if(activeBtn) activeBtn.classList.remove('active');
+  activeBtn = btn;
   btn.classList.add('active');
-
+  
   tv.src = url;
   tv.load();
-  tv.play().catch(e => {});
+  tv.play().catch(err => {});
 }
 </script>
 </body>
