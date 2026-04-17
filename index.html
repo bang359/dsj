@@ -96,35 +96,19 @@
             margin-top: 2px;
         }
 
-        /* 天气插件 */
+        /* 2345天气插件（已优化样式） */
         .weather-widget {
-            display: flex;
-            align-items: center;
-            gap: 8px;
             background-color: rgba(255, 255, 255, 0.15);
-            padding: 6px 12px;
+            padding: 4px 8px;
             border-radius: var(--radius-md);
             backdrop-filter: blur(10px);
+            overflow: hidden;
         }
 
-        .weather-icon {
-            font-size: 28px;
-        }
-
-        .weather-info {
-            text-align: right;
-        }
-
-        .temperature {
-            font-size: 18px;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .weather-desc {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-top: 2px;
+        .weather-widget iframe {
+            border: none;
+            background: transparent;
+            display: block;
         }
 
         /* 分类导航 */
@@ -367,13 +351,16 @@
                     <div class="date" id="current-date">2026年01月01日 星期一</div>
                 </div>
                 
-                <!-- 天气插件 -->
-                <div class="weather-widget" id="weather-widget">
-                    <div class="weather-icon" id="weather-icon">☀️</div>
-                    <div class="weather-info">
-                        <div class="temperature" id="temperature">--°C</div>
-                        <div class="weather-desc" id="weather-desc">加载中...</div>
-                    </div>
+                <!-- 2345免费天气插件（自动IP定位） -->
+                <div class="weather-widget">
+                    <iframe 
+                        allowtransparency="true" 
+                        frameborder="0" 
+                        width="180" 
+                        height="36" 
+                        scrolling="no" 
+                        src="https://tianqi.2345.com/plugin/widget/index.htm?s=3&z=1&t=1&v=0&d=1&bd=0&k=&f=&ltf=ffffff&htf=ffffff&q=1&e=0&a=1&c=&w=180&h=36&align=right"
+                    ></iframe>
                 </div>
             </div>
         </div>
@@ -444,65 +431,6 @@
         // 立即更新一次，然后每秒更新
         updateDateTime();
         setInterval(updateDateTime, 1000);
-
-        // ==================== 本地天气插件 ====================
-        // 使用免费的和风天气API（请替换为你自己的API密钥）
-        const WEATHER_API_KEY = 'YOUR_WEATHER_API_KEY';
-        
-        // 天气图标映射
-        const weatherIcons = {
-            '晴': '☀️',
-            '多云': '⛅',
-            '阴': '☁️',
-            '阵雨': '🌧️',
-            '雷阵雨': '⛈️',
-            '小雨': '🌦️',
-            '中雨': '🌧️',
-            '大雨': '🌧️',
-            '暴雨': '🌧️',
-            '小雪': '🌨️',
-            '中雪': '🌨️',
-            '大雪': '🌨️',
-            '雾': '🌫️',
-            '霾': '🌫️'
-        };
-
-        async function loadWeather() {
-            try {
-                // 获取用户地理位置
-                const position = await new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
-                });
-                
-                const { latitude, longitude } = position.coords;
-                
-                // 获取天气信息
-                const response = await fetch(
-                    `https://devapi.qweather.com/v7/weather/now?location=${longitude},${latitude}&key=${WEATHER_API_KEY}`
-                );
-                
-                const data = await response.json();
-                
-                if (data.code === '200') {
-                    const temp = data.now.temp;
-                    const text = data.now.text;
-                    
-                    document.getElementById('temperature').textContent = `${temp}°C`;
-                    document.getElementById('weather-desc').textContent = text;
-                    document.getElementById('weather-icon').textContent = weatherIcons[text] || '🌤️';
-                }
-            } catch (error) {
-                console.error('获取天气信息失败:', error);
-                document.getElementById('weather-desc').textContent = '天气不可用';
-            }
-        }
-
-        // 加载天气（如果用户允许定位）
-        if (navigator.geolocation && WEATHER_API_KEY !== 'YOUR_WEATHER_API_KEY') {
-            loadWeather();
-        } else {
-            document.getElementById('weather-desc').textContent = '请配置API密钥';
-        }
 
         // ==================== 播放器初始化 ====================
         const player = videojs('live-player', {
