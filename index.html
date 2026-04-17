@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="电视直播">
 <title>手机电视直播</title>
 <link href="https://cdn.jsdelivr.net/npm/video.js@7/dist/video-js.min.css" rel="stylesheet">
 <style>
@@ -14,15 +13,15 @@ html,body{height:100%;background:#000;color:#fff;font-family:-apple-system,Blink
 .container{padding:12px;padding-bottom:max(20px,env(safe-area-inset-bottom))}
 .header{display:flex;justify-content:space-between;align-items:center;padding:10px 0;margin-bottom:12px}
 .title{font-size:18px;font-weight:600}
-.player-box{border-radius:14px;overflow:hidden;background:#111;margin-bottom:16px;position:relative}
-.video-js{width:100%;height:auto;display:block;background:#000}
+.player-box{border-radius:14px;overflow:hidden;background:#111;margin-bottom:16px;position:relative;width:100%;height:220px}
+.video-js{width:100%;height:100%!important;display:block;background:#000}
 .loading{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
 .loading.show{opacity:1}
 .spinner{width:30px;height:30px;border:3px solid #fff3;border-top-color:#007bff;border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .channel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .channel{padding:12px 6px;background:#1a1a1a;border-radius:10px;text-align:center;font-size:13px;border:1px solid #222}
-.channel.active{background:#007ff;color:#fff;border-color:#007bff}
+.channel.active{background:#007bff;color:#fff;border-color:#007bff}
 </style>
 </head>
 
@@ -44,8 +43,12 @@ html,body{height:100%;background:#000;color:#fff;font-family:-apple-system,Blink
 <script src="https://cdn.jsdelivr.net/npm/@videojs/http-streaming@3/dist/videojs-http-streaming.min.js"></script>
 <script>
 const player = videojs('player', {
-  autoplay:true, muted:true, fluid:true, playsinline:true,
-  html5:{hls:{overrideNative:true,smoothQualityChange:true}}
+  autoplay:true, muted:true, fluid:false, playsinline:true,
+  html5:{
+    hls:{overrideNative:true,smoothQualityChange:true},
+    vhs:{overrideNative:true},
+    flushSourceOnReset:true
+  }
 });
 
 const loading = document.getElementById('loading');
@@ -53,7 +56,6 @@ const channelsEl = document.getElementById('channels');
 let currentBtn = null;
 const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
 
-// 自动加载远程直播源
 fetch(sourceUrl)
   .then(r=>r.text())
   .then(text=>{
@@ -73,28 +75,34 @@ function renderChannels(channels){
     btn.textContent=ch.name;
     btn.onclick=()=>play(ch,btn);
     channelsEl.appendChild(btn);
-    if(i===0) setTimeout(()=>btn.click(),600);
+    if(i===0) setTimeout(()=>btn.click(),800);
   });
 }
 
-// 全格式播放
 function play(channel,btn){
   if(currentBtn)currentBtn.classList.remove('active');
   currentBtn=btn;
   btn.classList.add('active');
   loading.classList.add('show');
 
+  // 全格式自动识别
   let type = 'application/x-mpegURL';
   if(channel.url.includes('.mp4')) type='video/mp4';
   else if(channel.url.includes('.ts')) type='video/MP2T';
   else if(channel.url.includes('.flv')) type='video/x-flv';
+  else if(channel.url.includes('.m3u')) type='application/x-mpegURL';
 
+  // 强制重置播放器（解决黑屏）
+  player.reset();
   player.src({src:channel.url,type});
   player.load();
+
   player.play().then(()=>{
     player.muted(false);
     loading.classList.remove('show');
-  }).catch(()=>loading.classList.remove('show'));
+  }).catch(()=>{
+    loading.classList.remove('show');
+  });
 }
 </script>
 </body>
