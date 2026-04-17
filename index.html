@@ -2,223 +2,65 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📺 高清网页电视</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>苹果电视直播</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Microsoft YaHei", sans-serif;
-}
-
-body {
-    background: #121212;
-    color: #fff;
-    padding: 20px;
-}
-
-.container {
-    max-width: 1300px;
-    margin: 0 auto;
-}
-
-.title {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #00ddff;
-    text-shadow: 0 0 10px #00aaff;
-}
-
-/* 播放器区域 */
-.player-wrapper {
-    background: #000;
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 25px;
-    position: relative;
-    box-shadow: 0 0 40px #000;
-}
-
-.video-container {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%;
-}
-
-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-}
-
-/* 加载提示 */
-.loading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #aaa;
-    font-size: 16px;
-    background: rgba(0,0,0,0.7);
-    display: none;
-}
-
-/* 频道区域 */
-.channel-box {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 10px;
-    max-height: 500px;
-    overflow-y: auto;
-    padding-right: 5px;
-}
-
-.channel-btn {
-    padding: 12px 8px;
-    background: #1e1e1e;
-    color: #fff;
-    border: 1px solid #333;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-    text-align: center;
-}
-
-.channel-btn:hover {
-    background: #2a2a2a;
-    border-color: #00aaff;
-}
-
-.channel-btn.active {
-    background: #007bff;
-    border-color: #007bff;
-    font-weight: bold;
-}
-
-/* 滚动条美化 */
-::-webkit-scrollbar {
-    width: 6px;
-}
-::-webkit-scrollbar-thumb {
-    background: #444;
-    border-radius: 3px;
-}
-
-/* 提示文字 */
-.tip {
-    text-align: center;
-    color: #888;
-    margin-bottom: 15px;
-    font-size: 14px;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+body{background:#000;color:#fff;padding:10px;padding-bottom:env(safe-area-inset-bottom)}
+.video-box{width:100%;background:#000;border-radius:12px;overflow:hidden;margin-bottom:12px}
+video{width:100%;display:block;background:#000}
+.channel-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:450px;overflow-y:auto}
+.channel{padding:10px;background:#1c1c1e;color:#fff;border:none;border-radius:8px;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.channel.active{background:#007aff}
 </style>
 </head>
-
 <body>
-<div class="container">
-    <h1 class="title">📺 高清网页电视</h1>
-    <p class="tip">打开 CORS 插件后播放更稳定 | 部分频道失效属于正常现象</p>
 
-    <div class="player-wrapper">
-        <div class="video-container">
-            <video id="tvPlayer" controls autoplay playsinline></video>
-            <div class="loading" id="loading">正在加载频道...</div>
-        </div>
-    </div>
-
-    <div class="channel-box" id="channelList"></div>
+<div class="video-box">
+  <video id="tv" playsinline controls webkit-playsinline x-webkit-airplay="allow"></video>
 </div>
+<div class="channel-list" id="list"></div>
 
 <script>
-const player = document.getElementById('tvPlayer');
-const channelList = document.getElementById('channelList');
-const loading = document.getElementById('loading');
-let currentBtn = null;
+const tv = document.getElementById('tv');
+const list = document.getElementById('list');
+let activeBtn = null;
 
-// 直播源地址（你提供的仓库）
+// 你的原始直播源（不筛选、不修改）
 const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
 
-// 加载直播源列表
-loadChannelList();
-
-async function loadChannelList() {
-    try {
-        let res = await fetch(sourceUrl);
-        let text = await res.text();
-        parseChannels(text);
-    } catch (e) {
-        alert("加载直播源失败，请开启 CORS 插件或检查网络");
-        console.error(e);
-    }
-}
-
-// 解析频道
-function parseChannels(text) {
-    let lines = text.split('\n').map(i => i.trim()).filter(i => i);
-    let channels = [];
-
-    lines.forEach(line => {
-        if (line.includes(',')) {
-            let [name, url] = line.split(',', 2);
-            if (url && (url.includes('.m3u8') || url.includes('.ts'))) {
-                channels.push({ name, url });
-            }
+fetch(sourceUrl)
+  .then(r=>r.text())
+  .then(t=>{
+    const lines = t.split('\n').map(i=>i.trim()).filter(i=>i);
+    const channels = [];
+    lines.forEach(line=>{
+      if(line.includes(',')){
+        const [name,url] = line.split(',',2);
+        if(url && (url.includes('.m3u8')||url.includes('.ts'))){
+          channels.push({name,url});
         }
+      }
     });
 
-    if (channels.length === 0) {
-        alert("未解析到有效频道");
-        return;
-    }
-
-    renderChannels(channels);
-    // 默认播放第一个
-    if (channels[0]) playChannel(channels[0].url);
-}
-
-// 渲染频道按钮
-function renderChannels(channels) {
-    channelList.innerHTML = '';
-
-    channels.forEach((ch, index) => {
-        let btn = document.createElement('div');
-        btn.className = 'channel-btn';
-        btn.innerText = ch.name;
-        btn.onclick = () => {
-            playChannel(ch.url, btn);
-        };
-        channelList.appendChild(btn);
+    channels.forEach((item,i)=>{
+      const btn = document.createElement('button');
+      btn.className = 'channel';
+      btn.textContent = item.name;
+      btn.onclick = ()=>{
+        if(activeBtn)activeBtn.classList.remove('active');
+        activeBtn=btn;btn.classList.add('active');
+        tv.src=item.url;tv.load();
+        setTimeout(()=>tv.play().catch(()=>{}),100);
+      };
+      list.appendChild(btn);
+      if(i===0)btn.click();
     });
-}
-
-// 播放频道
-function playChannel(url, btn) {
-    loading.style.display = 'flex';
-    
-    // 按钮高亮
-    if (currentBtn) currentBtn.classList.remove('active');
-    currentBtn = btn;
-    if (btn) btn.classList.add('active');
-
-    player.src = url;
-    player.load();
-
-    player.play()
-        .then(() => loading.style.display = 'none')
-        .catch(err => {
-            loading.style.display = 'none';
-            alert("播放失败：该频道已失效或网络异常");
-        });
-}
+  })
+  .catch(e=>{
+    alert('加载失败，请检查网络');
+  });
 </script>
 </body>
 </html>
