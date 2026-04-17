@@ -2,134 +2,400 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>网络电视</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免费电视直播 - 就看电视</title>
+    <!-- 引入video.js播放器 -->
+    <link href="https://cdn.jsdelivr.net/npm/video.js@8.10.0/dist/video-js.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/video.js@8.10.0/dist/video.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
         }
-        .container {
-            width: 80%;
-            margin: auto;
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 15px 20px 15px 0;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: #3498db;
+        }
+
+        /* 主内容区 */
+        .main-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            gap: 20px;
+            padding: 0 15px;
+        }
+
+        /* 左侧频道列表 */
+        .channel-sidebar {
+            width: 220px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            position: sticky;
+            top: 80px;
+        }
+
+        .channel-list-title {
+            padding: 12px 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+            background-color: #f8f9fa;
+        }
+
+        .channel-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            font-size: 14px;
+        }
+
+        .channel-item:hover {
+            background-color: #f0f7ff;
+            border-left-color: #3498db;
+        }
+
+        .channel-item.active {
+            background-color: #3498db;
+            color: white;
+            border-left-color: #2980b9;
+        }
+
+        .list-loading {
+            padding: 30px 15px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 右侧播放区域 */
+        .player-section {
+            flex: 1;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
         }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            padding: 0;
-        }
-        nav li {
-            margin: 0 15px;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-        }
-        section {
-            background: #fff;
-            margin-top: 20px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,.1);
-        }
-        .channel-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .channel-item {
-            background: #eee;
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
-            transition: background .3s ease;
-        }
-        .channel-item:hover {
-            background: #ddd;
-        }
-        .channel-item a {
-            color: #333;
-            text-decoration: none;
+
+        .player-header {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
             font-size: 16px;
-            display: block;
+            font-weight: bold;
         }
-        footer {
-            background: #333;
-            color: #fff;
+
+        .player-container {
+            position: relative;
+            background-color: black;
+        }
+
+        #live-player {
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+            z-index: 10;
+        }
+
+        .player-footer {
+            padding: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* 底部 */
+        .footer {
             text-align: center;
-            padding: 10px 0;
+            padding: 20px;
+            color: #999;
+            font-size: 12px;
+            border-top: 1px solid #eee;
             margin-top: 20px;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .channel-sidebar {
+                width: 100%;
+                height: 200px;
+                position: static;
+            }
+
+            .nav-item {
+                padding: 12px 10px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-
-<header>
-    <h1>网络电视</h1>
-</header>
-
-<nav>
-    <ul>
-        <li><a href="#">首页</a></li>
-        <li><a href="#">分类</a></li>
-        <li><a href="#">排行榜</a></li>
-        <li><a href="#">关于我们</a></li>
-    </ul>
-</nav>
-
-<section>
-    <div class="container">
-        <h2>热门频道</h2>
-        <div class="channel-list" id="channelList">
-            <!-- 动态加载频道 -->
+    <!-- 顶部导航 -->
+    <div class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">📺 免费电视直播</a>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item active" data-group="all">全部频道</li>
+            </ul>
         </div>
     </div>
-</section>
 
-<footer>
-    &copy; 2023 网络电视 版权所有
-</footer>
+    <!-- 主内容 -->
+    <div class="main-container">
+        <!-- 左侧频道列表 -->
+        <div class="channel-sidebar">
+            <div class="channel-list-title">📺 频道列表</div>
+            <div id="channel-list">
+                <div class="list-loading">正在加载频道列表...</div>
+            </div>
+        </div>
 
-<script>
-// 内置直播源
-const liveSources = [
-    { name: 'CCTV-1', url: 'http://1.24.39.180:9003/hls/1/index.m3u8' },
-    { name: 'CCTV-2', url: 'http://39.81.41.1:1234/608807420' },
-    { name: 'CCTV-3', url: 'https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8' },
+        <!-- 右侧播放区 -->
+        <div class="player-section">
+            <div class="player-header" id="current-channel">请选择左侧频道开始观看</div>
+            <div class="player-container">
+                <div class="loading" id="player-loading" style="display: none;">正在加载直播...</div>
+                <video id="live-player" class="video-js vjs-big-play-centered" controls preload="auto">
+                    您的浏览器不支持视频播放，请升级浏览器。
+                </video>
+            </div>
+            <div class="player-footer">
+                <p>提示：直播源可能会随时间失效，如无法播放请尝试其他频道</p>
+                <p>频道列表自动同步自GitHub仓库，更新后刷新页面即可生效</p>
+            </div>
+        </div>
+    </div>
 
-     
+    <!-- 底部 -->
+    <div class="footer">
+        <p>© 2026 免费电视直播 - 仅供学习交流使用</p>
+    </div>
 
+    <script>
+        // 初始化播放器
+        const player = videojs('live-player', {
+            autoplay: false,
+            fluid: true,
+            controlBar: {
+                volumePanel: {
+                    inline: false
+                }
+            }
+        });
 
-    // 添加更多直播源...
-];
+        const playerLoading = document.getElementById('player-loading');
+        const currentChannelEl = document.getElementById('current-channel');
+        const channelListEl = document.getElementById('channel-list');
+        const navMenuEl = document.getElementById('nav-menu');
 
-// 加载频道列表
-function loadChannels() {
-    const channelList = document.getElementById('channelList');
-    liveSources.forEach(source => {
-        const channelItem = document.createElement('div');
-        channelItem.className = 'channel-item';
-        
-        const link = document.createElement('a');
-        link.href = '#'; // 可替换为实际的播放链接
-        link.textContent = source.name;
+        // 存储所有频道数据
+        let allChannels = [];
+        let allGroups = [];
 
-        channelItem.appendChild(link);
-        channelList.appendChild(channelItem);
-    });
-}
+        // 从GitHub加载直播源文件
+        async function loadChannelsFromGitHub() {
+            try {
+                // 你的GitHub直播源地址
+                const response = await fetch('https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt');
+                const text = await response.text();
+                
+                // 清空加载提示
+                channelListEl.innerHTML = '';
+                
+                // 解析txt文件
+                const lines = text.split('\n').filter(line => line.trim() !== '');
+                let currentGroupName = '其他频道';
+                
+                lines.forEach(line => {
+                    // 分组标记：以 # 开头的行作为分组标题
+                    if (line.trim().startsWith('#')) {
+                        currentGroupName = line.trim().substring(1).trim();
+                        if (!allGroups.includes(currentGroupName)) {
+                            allGroups.push(currentGroupName);
+                        }
+                        return;
+                    }
+                    
+                    // 解析频道行：名称,地址
+                    const parts = line.split(',');
+                    if (parts.length >= 2) {
+                        const channelName = parts[0].trim();
+                        const channelUrl = parts.slice(1).join(',').trim();
+                        
+                        if (channelName && channelUrl) {
+                            allChannels.push({
+                                name: channelName,
+                                url: channelUrl,
+                                group: currentGroupName
+                            });
+                        }
+                    }
+                });
 
-window.onload = loadChannels;
-</script>
+                // 生成导航菜单
+                generateNavMenu();
+                
+                // 默认显示全部频道
+                showChannelsByGroup('all');
 
+            } catch (error) {
+                console.error('加载频道列表失败:', error);
+                channelListEl.innerHTML = '<div class="list-loading">频道列表加载失败，请刷新页面重试</div>';
+            }
+        }
+
+        // 生成导航菜单
+        function generateNavMenu() {
+            // 清空原有导航（保留"全部频道"）
+            navMenuEl.innerHTML = '<li class="nav-item active" data-group="all">全部频道</li>';
+            
+            // 添加分组导航
+            allGroups.forEach(group => {
+                const li = document.createElement('li');
+                li.className = 'nav-item';
+                li.textContent = group;
+                li.setAttribute('data-group', group);
+                li.addEventListener('click', function() {
+                    // 切换导航激活状态
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // 显示对应分组的频道
+                    showChannelsByGroup(this.getAttribute('data-group'));
+                });
+                navMenuEl.appendChild(li);
+            });
+        }
+
+        // 按分组显示频道
+        function showChannelsByGroup(group) {
+            channelListEl.innerHTML = '';
+            
+            let filteredChannels = allChannels;
+            if (group !== 'all') {
+                filteredChannels = allChannels.filter(channel => channel.group === group);
+            }
+            
+            filteredChannels.forEach(channel => {
+                const item = document.createElement('div');
+                item.className = 'channel-item';
+                item.textContent = channel.name;
+                item.setAttribute('data-url', channel.url);
+                item.setAttribute('data-name', channel.name);
+                
+                // 频道点击事件
+                item.addEventListener('click', function() {
+                    playChannel(this);
+                });
+                
+                channelListEl.appendChild(item);
+            });
+
+            if (filteredChannels.length === 0) {
+                channelListEl.innerHTML = '<div class="list-loading">该分组暂无频道</div>';
+            }
+        }
+
+        // 播放指定频道
+        function playChannel(channelItem) {
+            // 移除所有选中状态
+            document.querySelectorAll('.channel-item').forEach(i => i.classList.remove('active'));
+            // 添加当前选中状态
+            channelItem.classList.add('active');
+
+            const channelName = channelItem.getAttribute('data-name');
+            const channelUrl = channelItem.getAttribute('data-url');
+
+            // 更新当前频道显示
+            currentChannelEl.textContent = `当前播放: ${channelName}`;
+            
+            // 显示加载提示
+            playerLoading.style.display = 'block';
+
+            // 切换播放源
+            player.src({
+                src: channelUrl,
+                type: 'application/x-mpegURL'
+            });
+
+            // 开始播放
+            player.play().catch(err => {
+                console.error('播放失败:', err);
+                alert('该频道暂时无法播放，请尝试其他频道');
+            }).finally(() => {
+                // 隐藏加载提示
+                playerLoading.style.display = 'none';
+            });
+        }
+
+        // 播放错误处理
+        player.on('error', function() {
+            playerLoading.style.display = 'none';
+            alert('播放出错，请尝试其他频道');
+        });
+
+        // 页面加载完成后加载频道列表
+        window.addEventListener('load', loadChannelsFromGitHub);
+    </script>
 </body>
 </html>
