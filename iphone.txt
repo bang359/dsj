@@ -1,7 +1,9 @@
+❤️台湾全网,#genre#
 频道测试,http://rihou.cc:555/tv/频道测试
 凤凰卫视,http://rihou.cc:555/tv/凤凰卫视
 镜新闻,http://rihou.cc:555/tv/镜新闻
 NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
+❤️央卫全网,#genre#
 CCTV1,http://74.91.26.218:82/live/cctv1hd.m3u8
 CCTV2,http://107.150.60.122/live/cctv2hd.m3u8
 CCTV3,http://107.150.60.122/live/cctv3hd.m3u8
