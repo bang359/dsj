@@ -1,20 +1,26 @@
 新唐人,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
 频道测试,http://rihou.cc:555/tv/频道测试
-CCTV-1 综合,http://74.91.26.218:82/live/cctv1hd.m3u8
-CCTV-2 财经,http://74.91.26.218:82/live/cctv2hd.m3u8
-CCTV-3 综艺,http://74.91.26.218:82/live/cctv3hd.m3u8
-CCTV-4 中文国际,http://74.91.26.218:82/live/cctv4hd.m3u8
-CCTV-5 体育,http://74.91.26.218:82/live/cctv5hd.m3u8
-CCTV-5+ 体育赛事,http://74.91.26.218:82/live/cctv5p.m3u8
-CCTV-6 电影,http://74.91.26.218:82/live/cctv6hd.m3u8
-CCTV-7 国防军事,http://74.91.26.218:82/live/cctv7hd.m3u8
-CCTV-8 电视剧,http://74.91.26.218:82/live/cctv8hd.m3u8
-CCTV-9 纪录,http://74.91.26.218:82/live/cctv9hd.m3u8
-CCTV-10 科教,http://74.91.26.218:82/live/cctv10hd.m3u8
-CCTV-11 戏曲,http://74.91.26.218:82/live/cctv11hd.m3u8
-CCTV-12 社会与法,http://74.91.26.218:82/live/cctv12hd.m3u8
-CCTV-13 新闻,http://74.91.26.218:82/live/cctv13hd.m3u8
-CCTV-14 少儿,http://74.91.26.218:82/live/cctv14hd.m3u8
-CCTV-15 音乐,http://74.91.26.218:82/live/cctv15hd.m3u8
-CCTV-16 奥林匹克,http://74.91.26.218:82/live/cctv16hd.m3u8
-CCTV-17 农业农村,http://74.91.26.218:82/live/cctv17hd.m3u8
+湖南卫视,http://rihou.cc:555/tv/湖南卫视
+江苏卫视,http://rihou.cc:555/tv/江苏卫视4K
+浙江卫视,http://rihou.cc:555/tv/浙江卫视4K
+东方卫视,http://rihou.cc:555/tv/东方卫视4K
+深圳卫视,http://rihou.cc:555/tv/szws
+北京卫视,http://rihou.cc:555/tv/北京卫视4K
+CCTV-1综合,http://74.91.26.218:82/live/cctv1hd.m3u8
+CCTV-2财经,http://74.91.26.218:82/live/cctv2hd.m3u8
+CCTV-3综艺,http://74.91.26.218:82/live/cctv3hd.m3u8
+CCTV-4中文国际,http://74.91.26.218:82/live/cctv4hd.m3u8
+CCTV-5体育,http://74.91.26.218:82/live/cctv5hd.m3u8
+CCTV-5+体育赛事,http://74.91.26.218:82/live/cctv5p.m3u8
+CCTV-6电影,http://74.91.26.218:82/live/cctv6hd.m3u8
+CCTV-7国防军事,http://74.91.26.218:82/live/cctv7hd.m3u8
+CCTV-8电视剧,http://74.91.26.218:82/live/cctv8hd.m3u8
+CCTV-9纪录,http://74.91.26.218:82/live/cctv9hd.m3u8
+CCTV-10科教,http://74.91.26.218:82/live/cctv10hd.m3u8
+CCTV-11戏曲,http://74.91.26.218:82/live/cctv11hd.m3u8
+CCTV-12社会与法,http://74.91.26.218:82/live/cctv12hd.m3u8
+CCTV-13新闻,http://74.91.26.218:82/live/cctv13hd.m3u8
+CCTV-14少儿,http://74.91.26.218:82/live/cctv14hd.m3u8
+CCTV-15音乐,http://74.91.26.218:82/live/cctv15hd.m3u8
+CCTV-16奥林匹克,http://74.91.26.218:82/live/cctv16hd.m3u8
+CCTV-17农业农村,http://74.91.26.218:82/live/cctv17hd.m3u8
