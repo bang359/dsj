@@ -2,202 +2,130 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网络电视</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>手机网络电视</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         body {
-            background: #0b0b0b;
-            color: #fff;
-            height: 100vh;
-            display: flex;
-            overflow: hidden;
-        }
-        /* 播放区域 */
-        .player {
-            flex: 1;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .video-container {
-            flex: 1;
-            position: relative;
             background: #000;
-            border-radius: 10px;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
             overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+        /* 视频播放器 */
+        .video-box {
+            width: 100%;
+            height: 46vh;
+            background: #000;
+            position: relative;
         }
         video {
             width: 100%;
             height: 100%;
             object-fit: contain;
-        }
-        .status {
-            padding: 8px 12px;
-            background: #1a1a1a;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #aaa;
+            background: #000;
         }
         /* 频道列表 */
-        .sidebar {
-            width: 280px;
-            background: #141414;
-            border-left: 1px solid #333;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .category-tabs {
-            display: flex;
-            gap: 6px;
-            padding: 10px;
-            background: #181818;
-            flex-wrap: wrap;
-        }
-        .tab {
-            padding: 6px 10px;
-            background: #262626;
-            border-radius: 4px;
-            font-size: 13px;
-            cursor: pointer;
-            user-select: none;
-        }
-        .tab.active {
-            background: #007bff;
-        }
-        .channel-list {
-            flex: 1;
+        .channel-container {
+            height: 54vh;
+            background: #121212;
             overflow-y: auto;
             padding: 8px;
         }
         .channel {
-            padding: 11px 14px;
-            margin-bottom: 6px;
             background: #1f1f1f;
-            border-radius: 6px;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
             cursor: pointer;
-            transition: 0.2s;
-            font-size: 14px;
         }
-        .channel:hover {
-            background: #0066cc;
+        .channel:active {
+            background: #007aff;
         }
         .channel.active {
-            background: #0056b3;
-            font-weight: 500;
+            background: #007aff;
         }
-        /* 滚动条 */
-        ::-webkit-scrollbar {width: 6px;}
-        ::-webkit-scrollbar-thumb {background: #444; border-radius: 3px;}
-        ::-webkit-scrollbar-track {background: #111;}
+        .tip {
+            text-align: center;
+            padding: 12px;
+            color: #888;
+            font-size: 13px;
+        }
     </style>
 </head>
+
 <body>
-
-<div class="player">
-    <div class="video-container">
-        <video id="video" controls autoplay></video>
+    <div class="video-box">
+        <video id="video" playsinline controls preload="none"></video>
     </div>
-    <div class="status" id="status">加载中...</div>
-</div>
+    <div class="channel-container" id="list"></div>
 
-<div class="sidebar">
-    <div class="category-tabs">
-        <div class="tab active" data-cate="all">全部</div>
-        <div class="tab" data-cate="cctv">央视</div>
-        <div class="tab" data-cate="sat">卫视</div>
-        <div class="tab" data-cate="movie">影视</div>
-        <div class="tab" data-cate="kids">少儿</div>
-    </div>
-    <div class="channel-list" id="channelList"></div>
-</div>
+    <script>
+        const video = document.getElementById('video');
+        const list = document.getElementById('list');
 
-<script>
-const video = document.getElementById('video');
-const channelList = document.getElementById('channelList');
-const status = document.getElementById('status');
-const tabs = document.querySelectorAll('.tab');
+        // 直播源（苹果手机专用加速）
+        const URL = 'https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt';
 
-// 直播源地址
-const sourceUrl = 'https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt';
+        let channels = [];
 
-let allChannels = [];
-let currentPlaying = null;
+        // 加载频道
+        fetch(URL)
+            .then(res => res.text())
+            .then(text => {
+                const lines = text.split('\n').map(i => i.trim()).filter(Boolean);
+                lines.forEach(line => {
+                    if (line.includes(',')) {
+                        const [name, url] = line.split(',', 2);
+                        if (name && url && url.startsWith('http')) {
+                            channels.push({ name, url });
+                        }
+                    }
+                });
+                renderList();
+                // 自动播放第一个
+                if (channels.length) play(0);
+            })
+            .catch(err => {
+                list.innerHTML = '<div class="tip">加载失败，请检查网络</div>';
+            });
 
-// 加载频道
-fetch(sourceUrl)
-  .then(r => r.text())
-  .then(t => {
-    const lines = t.split('\n').map(i => i.trim()).filter(Boolean);
-    const list = [];
-    lines.forEach(line => {
-      if (line.includes(',')) {
-        const [name, url] = line.split(',', 2);
-        if (name && url && url.startsWith('http')) {
-          list.push({ name: name.trim(), url: url.trim() });
+        // 渲染频道
+        function renderList() {
+            list.innerHTML = '';
+            channels.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'channel';
+                div.textContent = item.name;
+                div.onclick = () => play(index);
+                list.appendChild(div);
+            });
         }
-      }
-    });
-    allChannels = list;
-    renderChannels('all');
-    status.textContent = `加载完成 → 共 ${list.length} 个频道`;
 
-    // 自动播放第一个
-    if (list.length) playChannel(list[0].name, list[0].url);
-  })
-  .catch(e => {
-    status.textContent = '❌ 直播源加载失败';
-    console.error(e);
-  });
+        // 播放
+        function play(index) {
+            const { name, url } = channels[index];
+            video.src = url;
+            video.load();
+            video.play().catch(e => {});
 
-// 渲染频道
-function renderChannels(cate) {
-  channelList.innerHTML = '';
-  let filtered = allChannels;
-
-  if (cate === 'cctv') filtered = allChannels.filter(i => i.name.includes('CCTV'));
-  if (cate === 'sat') filtered = allChannels.filter(i => /卫视|广东|湖南|浙江|江苏/.test(i.name));
-  if (cate === 'movie') filtered = allChannels.filter(i => /电影|电视剧|影视|院线/.test(i.name));
-  if (cate === 'kids') filtered = allChannels.filter(i => /少儿|卡通|动画|宝宝/.test(i.name));
-
-  filtered.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'channel';
-    if (currentPlaying === item.url) div.classList.add('active');
-    div.textContent = item.name;
-    div.onclick = () => playChannel(item.name, item.url);
-    channelList.appendChild(div);
-  });
-}
-
-// 播放
-function playChannel(name, url) {
-  currentPlaying = url;
-  video.src = url;
-  video.load();
-  video.play().catch(() => {});
-  status.textContent = `正在播放：${name}`;
-
-  // 更新高亮
-  document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
-  [...document.querySelectorAll('.channel')].find(i => i.textContent === name)?.classList.add('active');
-}
-
-// 分类切换
-tabs.forEach(tab => {
-  tab.onclick = () => {
-    tabs.forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    renderChannels(tab.dataset.cate);
-  };
-});
-</script>
+            // 高亮选中
+            document.querySelectorAll('.channel').forEach((i, idx) => {
+                i.classList.toggle('active', idx === index);
+            });
+        }
+    </script>
 </body>
 </html>
