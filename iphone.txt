@@ -24,6 +24,8 @@ CCTV15,http://74.91.26.218:82/live/cctv15hd.m3u8
 CCTV16,http://74.91.26.218:82/live/cctv16hd.m3u8
 CCTV17,http://74.91.26.218:82/live/cctv17hd.m3u8
 CCTV-4K,http://107.150.60.122/live/cctv4k.m3u8
+CCTV-4K,http://198.204.240.250:82/live/cctv4k.m3u8
+
 CCTV-8K,http://107.150.60.122/live/cctv8k.m3u8
 湖南卫视,http://107.150.60.122/live/hnwshd.m3u8
 东方卫视,http://107.150.60.122/live/dfwshd.m3u8
@@ -43,9 +45,8 @@ CCTV-8K,http://107.150.60.122/live/cctv8k.m3u8
 西藏卫视,http://107.150.60.122/live/xzws.m3u8
 卡酷少儿,http://107.150.60.122/live/btvkk.m3u8
 大湾区卫视,http://107.150.60.122/live/nfws.m3u8
+
+
 三沙卫视,https://livessws.hnntv.cn/live/ssws_260111hnntv.m3u8
-惊艳,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/85.ts
-潘朵啦,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/86.ts
-松1,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/88.ts
-松2,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/89.ts
-松3,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/90.ts
+延边卫视,https://srs.iyb983.cn:443/video/CYS/index.m3u8
+山西卫视,https://livehhhttps.sxrtv.com/lsdream/q8RVWgs/1000/i1sh8gV.m3u8
