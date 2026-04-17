@@ -180,7 +180,7 @@
         async function loadChannelsFromGitHub() {
             try {
                 // 你的GitHub直播源地址（gh-proxy加速，国内访问更快）
-                const response = await fetch('https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt');
+                const response = await fetch('https://raw.githubusercontent.com/bang359/dsj/main/dsj.txt');
                 const text = await response.text();
                 
                 // 清空加载提示
