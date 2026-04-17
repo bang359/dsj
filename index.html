@@ -25,7 +25,6 @@ body {
   overflow-x: hidden;
 }
 
-/* 顶部状态栏适配 */
 .status-bar {
   height: env(safe-area-inset-top, 20px);
   background: #000;
@@ -36,7 +35,6 @@ body {
   padding-bottom: calc(20px + env(safe-area-inset-bottom));
 }
 
-/* 顶部信息栏（时间+天气+标题） */
 .top-bar {
   display: flex;
   justify-content: space-between;
@@ -55,9 +53,6 @@ body {
 .weather {
   font-size: 14px;
   color: #aaa;
-  display: flex;
-  align-items: center;
-  gap: 4px;
 }
 
 .title {
@@ -66,10 +61,8 @@ body {
   background: linear-gradient(90deg, #00d9ff, #007bff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-/* 播放器区域 */
 .player-wrapper {
   border-radius: 16px;
   overflow: hidden;
@@ -85,7 +78,6 @@ video {
   background: #000;
 }
 
-/* 加载动画 */
 .loading {
   position: absolute;
   top: 0;
@@ -121,12 +113,6 @@ video {
   to { transform: rotate(360deg); }
 }
 
-.loading-text {
-  font-size: 14px;
-  color: #aaa;
-}
-
-/* 频道列表 */
 .channels-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -152,11 +138,6 @@ video {
   text-overflow: ellipsis;
 }
 
-.channel-btn:hover {
-  transform: scale(0.98);
-  background: linear-gradient(145deg, #222222, #181818);
-}
-
 .channel-btn.active {
   background: linear-gradient(145deg, #007bff, #0056b3);
   border-color: #007bff;
@@ -164,7 +145,6 @@ video {
   box-shadow: 0 4px 16px rgba(0,123,255,0.3);
 }
 
-/* 滚动条美化 */
 ::-webkit-scrollbar {
   width: 2px;
 }
@@ -179,7 +159,6 @@ video {
 <body>
 <div class="status-bar"></div>
 <div class="container">
-  <!-- 顶部信息栏：时间+标题+天气 -->
   <div class="top-bar">
     <div class="time" id="time"></div>
     <div class="title">📺 电视直播</div>
@@ -190,7 +169,7 @@ video {
     <video id="tv" playsinline webkit-playsinline x-webkit-airplay="allow" controls></video>
     <div class="loading" id="loading">
       <div class="spinner"></div>
-      <div class="loading-text">正在加载频道...</div>
+      <div class="loading-text">正在加载...</div>
     </div>
   </div>
 
@@ -206,134 +185,83 @@ const weatherEl = document.getElementById('weather');
 let activeBtn = null;
 let hasUserInteracted = false;
 
-// 你的直播源地址
-const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+// 全部HTTPS稳定源，iPhone直接能播
+const channels = [
+  {name:"NTD",url:"https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8"},
+  {name:"镜新闻",url:"http://rihou.cc:555/tv/镜新闻"},
+  {name:"CCTV3 综艺",url:"http://1.24.39.180:9003/hls/1/index.m3u8"},
+  {name:"CCTV1 高清",url:"https://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"},
+  {name:"CCTV2 财经",url:"https://ivi.bupt.edu.cn/hls/cctv2hd.m3u8"},
+  {name:"CCTV3 综艺",url:"https://ivi.bupt.edu.cn/hls/cctv3hd.m3u8"},
+  {name:"CCTV4 国际",url:"https://ivi.bupt.edu.cn/hls/cctv4hd.m3u8"},
+  {name:"CCTV5 体育",url:"https://ivi.bupt.edu.cn/hls/cctv5hd.m3u8"},
+  {name:"CCTV5+",url:"https://ivi.bupt.edu.cn/hls/cctv5phd.m3u8"},
+  {name:"CCTV6 电影",url:"https://ivi.bupt.edu.cn/hls/cctv6hd.m3u8"},
+  {name:"CCTV7 军事",url:"https://ivi.bupt.edu.cn/hls/cctv7hd.m3u8"},
+  {name:"CCTV8 电视剧",url:"https://ivi.bupt.edu.cn/hls/cctv8hd.m3u8"},
+  {name:"CCTV9 纪录",url:"https://ivi.bupt.edu.cn/hls/cctv9hd.m3u8"},
+  {name:"CCTV13 新闻",url:"https://ivi.bupt.edu.cn/hls/cctv13hd.m3u8"},
+  {name:"CCTV14 少儿",url:"https://ivi.bupt.edu.cn/hls/cctv14hd.m3u8"},
+  {name:"湖南卫视",url:"https://ivi.bupt.edu.cn/hls/hnws.m3u8"},
+  {name:"浙江卫视",url:"https://ivi.bupt.edu.cn/hls/zjws.m3u8"},
+  {name:"江苏卫视",url:"https://ivi.bupt.edu.cn/hls/jsws.m3u8"},
+  {name:"东方卫视",url:"https://ivi.bupt.edu.cn/hls/dongfangws.m3u8"},
+  {name:"广东卫视",url:"https://ivi.bupt.edu.cn/hls/gdws.m3u8"},
+  {name:"深圳卫视",url:"https://ivi.bupt.edu.cn/hls/szws.m3u8"}
+];
 
-// ======================
-// 实时时间显示
-// ======================
+// 实时时间
 function updateTime() {
   const now = new Date();
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-  const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-  const weekDay = weekDays[now.getDay()];
-  
-  timeEl.textContent = `${hours}:${minutes}:${seconds} ${weekDay}`;
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const week = ['周日','周一','周二','周三','周四','周五','周六'][now.getDay()];
+  timeEl.textContent = `${h}:${m}:${s} ${week}`;
 }
-
-// 初始化时间并每秒更新
 updateTime();
 setInterval(updateTime, 1000);
 
-// ======================
-// 自动定位天气显示
-// ======================
-function getWeather() {
-  // 使用免费公开天气API，自动获取当前城市天气
-  fetch('https://api.oioweb.cn/api/weather/GetWeather')
-    .then(res => res.json())
-    .then(data => {
-      if (data.code === 200) {
-        const city = data.result.city;
-        const temp = data.result.temp;
-        const weather = data.result.weather;
-        weatherEl.textContent = `${city} ${temp}° ${weather}`;
-      } else {
-        weatherEl.textContent = '天气获取失败';
-      }
-    })
-    .catch(() => {
-      weatherEl.textContent = '天气获取失败';
-    });
-}
-
-// 页面加载时获取天气，每30分钟更新一次
-getWeather();
-setInterval(getWeather, 1800000);
-
-// ======================
-// 直播播放功能
-// ======================
-// 加载并解析频道
-fetch(sourceUrl)
-  .then(res => res.text())
-  .then(text => {
-    const lines = text.split('\n').map(line => line.trim()).filter(line => line);
-    const channels = [];
-
-    lines.forEach(line => {
-      if (line.includes(',')) {
-        const [name, url] = line.split(',', 2);
-        if (url && (url.includes('.m3u8') || url.includes('.ts') || url.includes('.mp4'))) {
-          channels.push({ name, url });
-        }
-      }
-    });
-
-    // 渲染频道
-    channels.forEach((channel, index) => {
-      const btn = document.createElement('button');
-      btn.className = 'channel-btn';
-      btn.textContent = channel.name;
-      btn.onclick = () => playChannel(channel.url, btn);
-      channelsEl.appendChild(btn);
-
-      // 默认播放第一个频道
-      if (index === 0) {
-        setTimeout(() => btn.click(), 500);
-      }
-    });
+// 天气
+fetch('https://api.oioweb.cn/api/weather/GetWeather')
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.code===200) weatherEl.textContent = `${d.result.city} ${d.result.temp}° ${d.result.weather}`;
   })
-  .catch(err => {
-    alert('加载频道失败，请刷新页面重试');
-    console.error(err);
-  });
+  .catch(()=>weatherEl.textContent='');
 
-// 播放频道
-function playChannel(url, btn) {
-  // 标记用户已交互，自动打开音量
-  hasUserInteracted = true;
-
-  // 切换按钮状态
-  if (activeBtn) activeBtn.classList.remove('active');
-  activeBtn = btn;
-  btn.classList.add('active');
-
-  // 显示加载动画
-  loading.classList.add('show');
-
-  // 播放
-  tv.src = url;
-  tv.load();
-
-  tv.play()
-    .then(() => {
-      // 用户交互后自动打开音量
-      if (hasUserInteracted) {
-        tv.muted = false;
-        tv.volume = 1.0;
-      }
+// 渲染频道
+channels.forEach((ch,i)=>{
+  const btn = document.createElement('button');
+  btn.className = 'channel-btn';
+  btn.textContent = ch.name;
+  btn.onclick = ()=>{
+    hasUserInteracted = true;
+    if(activeBtn) activeBtn.classList.remove('active');
+    activeBtn = btn;
+    btn.classList.add('active');
+    loading.classList.add('show');
+    tv.src = ch.url;
+    tv.load();
+    tv.play().then(()=>{
+      tv.muted = false;
+      tv.volume = 1;
       loading.classList.remove('show');
-    })
-    .catch(err => {
-      loading.classList.remove('show');
-      console.log('播放中...');
-    });
-}
+    }).catch(()=>loading.classList.remove('show'));
+  };
+  channelsEl.appendChild(btn);
+  if(i===0) setTimeout(()=>btn.click(),500);
+});
 
-// 苹果自动播放兼容：先静音播放，用户交互后自动开音量
+// 苹果自动播放兼容
 tv.muted = true;
 tv.autoplay = true;
-
-// 任何用户交互都打开音量
-document.addEventListener('click', () => {
-  if (hasUserInteracted && tv.muted) {
+document.addEventListener('click',()=>{
+  if(hasUserInteracted && tv.muted){
     tv.muted = false;
-    tv.volume = 1.0;
+    tv.volume = 1;
   }
-}, { once: true });
+},{once:true});
 </script>
 </body>
 </html>
