@@ -2,102 +2,177 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>高清电视直播</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风云直播 - 网页电视</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-html,body{height:100%;overflow:hidden;background:#000;color:#fff}
-.main{display:flex;height:100%}
-
-.sidebar{width:180px;background:#111;padding:10px;overflow-y:auto;border-right:1px solid #333}
-.channel{padding:9px;background:#222;border-radius:4px;margin:4px 0;cursor:pointer;font-size:14px}
-.channel.active{background:#007aff;color:#fff}
-
-.player{flex:1;position:relative}
-#dplayer{width:100%;height:100%}
-.tip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:16px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif}
+body{background:#0f0f0f;min-height:100vh;padding:20px;color:#fff}
+.tv-app{max-width:1400px;margin:0 auto}
+.header{text-align:center;margin-bottom:25px}
+.logo{font-size:32px;font-weight:bold;color:#00eaff;text-shadow:0 0 15px rgba(0,234,255,.5);margin-bottom:10px}
+.subtitle{color:#ccc;font-size:14px}
+.player-section{background:#000;border-radius:12px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.8);margin-bottom:25px;position:relative}
+.video-container{position:relative;width:100%;padding-top:56.25%}
+video{position:absolute;top:0;left:0;width:100%;height:100%;background:#000}
+.no-source{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;font-size:18px}
+.category-tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tab-btn{padding:10px 20px;background:#222;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:all .3s;font-size:14px}
+.tab-btn.active{background:#00aaff;color:#fff}
+.tab-btn:hover{background:#333}
+.tab-btn.active:hover{background:#0099dd}
+.channels-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.channel-item{padding:14px 10px;background:#1a1a1a;border:1px solid #333;border-radius:8px;text-align:center;cursor:pointer;transition:all .3s;font-size:14px;color:#eee}
+.channel-item:hover{background:#2a2a2a;border-color:#00aaff;transform:translateY(-2px)}
+.channel-item.active{background:#00aaff;color:#fff;border-color:#00aaff}
+@media (max-width:768px){
+.logo{font-size:24px}
+.channels-container{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+.channel-item{padding:12px 8px;font-size:13px}
+}
 </style>
 </head>
-
 <body>
-<div class="main">
-  <div class="sidebar" id="channelList">加载中...</div>
-  <div class="player">
-    <div id="dplayer"></div>
-    <div class="tip" id="tip">点击播放</div>
-  </div>
+<div class="tv-app">
+    <div class="header">
+        <div class="logo">📺 风云直播</div>
+        <div class="subtitle">高清电视直播 | 浏览器直接观看</div>
+    </div>
+
+    <div class="player-section">
+        <div class="video-container">
+            <video id="tvPlayer" controls autoplay playsinline></video>
+            <div id="noSourceTip" class="no-source">请选择频道开始播放</div>
+        </div>
+    </div>
+
+    <div class="category-tabs" id="categoryTabs"></div>
+    <div class="channels-container" id="channelsContainer"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
-
 <script>
-const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt";
+const channelData = {
+    "央视频道": [
+        {name:"CCTV1综合",url:"http://iptv.4666888.xyz/iptv2A.php?id=7"},
+        {name:"CCTV2财经",url:"http://iptv.4666888.xyz/iptv2A.php?id=8"},
+        {name:"CCTV3综艺",url:"http://iptv.4666888.xyz/iptv2A.php?id=9"},
+        {name:"CCTV4中文国际",url:"http://iptv.4666888.xyz/iptv2A.php?id=10"},
+        {name:"CCTV13新闻",url:"http://iptv.4666888.xyz/iptv2A.php?id=11"},
+        {name:"CCTV14少儿",url:"http://iptv.4666888.xyz/iptv2A.php?id=12"},
+        {name:"广东卫视",url:"http://iptv.4666888.xyz/iptv2A.php?id=18"},
+        {name:"广东珠江",url:"http://iptv.4666888.xyz/iptv2A.php?id=19"},
+        {name:"广东体育",url:"http://iptv.4666888.xyz/iptv2A.php?id=20"},
+        {name:"湖南卫视",url:"http://iptv.4666888.xyz/iptv2A.php?id=13"},
+        {name:"浙江卫视",url:"http://iptv.4666888.xyz/iptv2A.php?id=14"},
+        {name:"江苏卫视",url:"http://iptv.4666888.xyz/iptv2A.php?id=15"},
+        {name:"山西卫视",url:"http://iptv.4666888.xyz/iptv2A.php?id=16"},
+        {name:"青海卫视",url:"http://iptv.4666888.xyz/iptv2A.php?id=17"}
+    ],
+    "体育频道": [
+        {name:"SPOTV",url:"http://iptv.4666888.xyz/iptv2A.php?id=2"},
+        {name:"SPOTV2",url:"http://iptv.4666888.xyz/iptv2A.php?id=1"},
+        {name:"astroFootball",url:"http://iptv.4666888.xyz/iptv2A.php?id=4"},
+        {name:"TntSports1",url:"http://iptv.4666888.xyz/iptv2A.php?id=3"},
+        {name:"智林体育",url:"http://iptv.4666888.xyz/iptv2A.php?id=5"},
+        {name:"JSPORTS1",url:"http://iptv.4666888.xyz/iptv2A.php?id=6"},
+        {name:"SkyTennis+",url:"http://iptv.4666888.xyz/iptv2A.php?id=62"}
+    ],
+    "港澳频道": [
+        {name:"凤凰中文",url:"http://iptv.4666888.xyz/iptv2A.php?id=27"},
+        {name:"TVB黄金华剧",url:"http://iptv.4666888.xyz/iptv2A.php?id=34"},
+        {name:"TVB翡翠(马来)",url:"http://iptv.4666888.xyz/iptv2A.php?id=28"},
+        {name:"TVB明珠",url:"http://iptv.4666888.xyz/iptv2A.php?id=29"},
+        {name:"TVBJ1",url:"http://iptv.4666888.xyz/iptv2A.php?id=26"},
+        {name:"TVB1",url:"http://iptv.4666888.xyz/iptv2A.php?id=25"},
+        {name:"千禧经典",url:"http://iptv.4666888.xyz/iptv2A.php?id=22"},
+        {name:"HOY77",url:"http://iptv.4666888.xyz/iptv2A.php?id=35"},
+        {name:"TVB-奖门人",url:"http://iptv.4666888.xyz/iptv2A.php?id=31"},
+        {name:"TVB-金曲",url:"http://iptv.4666888.xyz/iptv2A.php?id=57"},
+        {name:"RTHK31",url:"http://iptv.4666888.xyz/iptv2A.php?id=23"},
+        {name:"TVB娱乐新闻",url:"http://iptv.4666888.xyz/iptv2A.php?id=36"},
+        {name:"MYTV黄金翡翠",url:"http://iptv.4666888.xyz/iptv2A.php?id=32"},
+        {name:"TVB翡翠剧集",url:"http://iptv.4666888.xyz/iptv2A.php?id=33"},
+        {name:"澳视澳门",url:"http://iptv.4666888.xyz/iptv2A.php?id=41"},
+        {name:"中国电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=61"}
+    ],
+    "台湾频道": [
+        {name:"TVBS新闻",url:"http://iptv.4666888.xyz/iptv2A.php?id=43"},
+        {name:"非凡新闻",url:"http://iptv.4666888.xyz/iptv2A.php?id=44"},
+        {name:"民视",url:"http://iptv.4666888.xyz/iptv2A.php?id=55"},
+        {name:"华艺中文",url:"http://iptv.4666888.xyz/iptv2A.php?id=37"},
+        {name:"爱奇艺",url:"http://iptv.4666888.xyz/iptv2A.php?id=21"},
+        {name:"靖洋戏剧",url:"http://iptv.4666888.xyz/iptv2A.php?id=42"},
+        {name:"靖天电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=56"},
+        {name:"东森电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=48"},
+        {name:"纬来电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=54"},
+        {name:"龙华电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=45"},
+        {name:"龙华洋片",url:"http://iptv.4666888.xyz/iptv2A.php?id=60"},
+        {name:"风云恐怖电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=59"},
+        {name:"ROCK_Action",url:"http://iptv.4666888.xyz/iptv2A.php?id=50"},
+        {name:"梦工场动漫",url:"http://iptv.4666888.xyz/iptv2A.php?id=40"},
+        {name:"Duck TV儿童卡通",url:"http://iptv.4666888.xyz/iptv2A.php?id=39"},
+        {name:"MOMO亲子",url:"http://iptv.4666888.xyz/iptv2A.php?id=49"},
+        {name:"金光布袋戏",url:"http://iptv.4666888.xyz/iptv2A.php?id=38"},
+        {name:"民视综艺",url:"http://iptv.4666888.xyz/iptv2A.php?id=46"},
+        {name:"民视影剧",url:"http://iptv.4666888.xyz/iptv2A.php?id=53"},
+        {name:"TVBS精采",url:"http://iptv.4666888.xyz/iptv2A.php?id=47"},
+        {name:"台视综合",url:"http://iptv.4666888.xyz/iptv2A.php?id=51"},
+        {name:"东森综合2",url:"http://iptv.4666888.xyz/iptv2A.php?id=58"},
+        {name:"八度空间",url:"http://iptv.4666888.xyz/iptv2A.php?id=52"},
+        {name:"韩流美食料理秀",url:"http://iptv.4666888.xyz/iptv2A.php?id=63"},
+        {name:"娱乐百分百",url:"http://iptv.4666888.xyz/iptv2A.php?id=64"},
+        {name:"综艺大赢家",url:"http://iptv.4666888.xyz/iptv2A.php?id=65"}
+    ]
+};
 
-const tip = document.getElementById('tip');
-let dp = null;
-let channels = [];
+const player = document.getElementById('tvPlayer');
+const noSourceTip = document.getElementById('noSourceTip');
+const categoryTabs = document.getElementById('categoryTabs');
+const channelsContainer = document.getElementById('channelsContainer');
 
-async function loadChannels() {
-  try {
-    let res = await fetch(sourceUrl);
-    let txt = await res.text();
-    channels = txt.split('\n')
-      .filter(line => line.trim() && line.includes(','))
-      .map(line => {
-        let [name, url] = line.split(',');
-        return { name: name.trim(), url: url.trim() };
-      });
+let currentCategory = "央视频道";
+let currentChannelIndex = 0;
+
+function initCategories(){
+    categoryTabs.innerHTML = '';
+    Object.keys(channelData).forEach(cat=>{
+        const btn = document.createElement('button');
+        btn.className = `tab-btn ${cat===currentCategory?'active':''}`;
+        btn.textContent = cat;
+        btn.onclick = ()=>{
+            currentCategory = cat;
+            initCategories();
+            renderChannels();
+        };
+        categoryTabs.appendChild(btn);
+    });
+}
+
+function renderChannels(){
+    channelsContainer.innerHTML = '';
+    const channels = channelData[currentCategory]||[];
+    channels.forEach((ch,i)=>{
+        const item = document.createElement('div');
+        item.className = `channel-item ${i===currentChannelIndex?'active':''}`;
+        item.textContent = ch.name;
+        item.onclick = ()=>playChannel(ch.url,i);
+        channelsContainer.appendChild(item);
+    });
+}
+
+function playChannel(url,idx){
+    currentChannelIndex = idx;
+    noSourceTip.style.display = 'none';
+    player.src = url;
+    player.load();
+    player.play().catch(e=>alert('播放失败，换个频道试试'));
     renderChannels();
-  } catch (e) {
-    channelList.innerHTML = '<div style="color:red">加载失败</div>';
-  }
 }
 
-// 普通无分组列表
-function renderChannels() {
-  let html = '';
-  channels.forEach((ch, i) => {
-    html += `<div class="channel" data-i="${i}">${ch.name}</div>`;
-  });
-  channelList.innerHTML = html;
-
-  document.querySelectorAll('.channel').forEach(el => {
-    el.onclick = () => play(+el.dataset.i);
-  });
-
-  if (channels.length) play(0);
-}
-
-function play(index) {
-  document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.channel')[index].classList.add('active');
-
-  tip.style.display = 'block';
-  let url = channels[index].url;
-
-  if (dp) dp.destroy();
-  dp = new DPlayer({
-    container: document.getElementById('dplayer'),
-    autoplay: false,
-    volume: 1.0,
-    video: { url }
-  });
-
-  dp.on('canplay', () => { tip.style.display = 'none'; });
-  dp.on('error', () => { tip.textContent = '播放失败'; });
-}
-
-document.addEventListener('click', () => {
-  if (dp && dp.video.paused) dp.play();
-  tip.style.display = 'none';
-}, { once: true });
-
-loadChannels();
+window.onload = ()=>{
+    initCategories();
+    renderChannels();
+    if(channelData[currentCategory]?.length) playChannel(channelData[currentCategory][0].url,0);
+};
 </script>
 </body>
 </html>
