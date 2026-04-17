@@ -5,92 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>电视家重生版</title>
     <style>
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{background:#000;color:#fff;font-family:system-ui,sans-serif;padding:15px}
-        .container{max-width:900px;margin:0 auto}
-        h1{text-align:center;color:#4fc3f7;margin:20px 0}
-        .video-box{position:relative;background:#111;border-radius:10px;overflow:hidden;margin-bottom:20px}
-        video{width:100%;display:block;min-height:280px;background:#000}
-        .tips{color:#ff6b6b;text-align:center;padding:10px;display:none}
-        .loading{color:#4fc3f7;text-align:center;padding:10px}
-        .channel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-        .channel{background:#222;color:#fff;border:none;padding:14px;border-radius:8px;font-size:15px;cursor:pointer}
-        .channel.active{background:#007aff}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #000;
+            color: #fff;
+            padding: 15px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #4fc3f7;
+            margin: 20px 0;
+        }
+        .video-box {
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        video {
+            width: 100%;
+            display: block;
+            min-height: 280px;
+            background: #000;
+        }
+        .error {
+            color: #ff6b6b;
+            text-align: center;
+            padding: 10px;
+            display: none;
+        }
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .channel-btn {
+            background: #222;
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .channel-btn.active {
+            background: #007aff;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
     <div class="container">
         <h1>📺 电视家重生版</h1>
         <div class="video-box">
-            <video id="video" controls playsinline webkit-playsinline></video>
-            <div id="tips" class="tips">播放失败 → 换个频道即可</div>
+            <video id="player" controls playsinline webkit-playsinline></video>
+            <div class="error" id="errorTip">播放失败，请切换其他频道</div>
         </div>
-        <div id="grid" class="channel-grid"></div>
+        <div class="channel-grid" id="channelList"></div>
     </div>
 
     <script>
-        const video = document.getElementById('video');
-        const grid = document.getElementById('grid');
-        const tips = document.getElementById('tips');
-        let hls = null;
+        const video = document.getElementById('player');
+        const channelList = document.getElementById('channelList');
+        const errorTip = document.getElementById('errorTip');
+        const TXT_URL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
 
-        // 你的源，完全不动
-        const URL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+        // 加载你的频道列表（完全不修改）
+        (async function loadChannels() {
+            try {
+                const res = await fetch(TXT_URL);
+                const text = await res.text();
+                const lines = text.trim().split('\n');
 
-        async function start(){
-            let txt = await fetch(URL).then(r=>r.text());
-            let lines = txt.trim().split('\n');
-            
-            lines.forEach(line => {
-                if(!line) return;
-                let [name, url] = line.split(',').map(i=>i.trim());
-                if(!name || !url) return;
+                lines.forEach(line => {
+                    if (!line) return;
+                    const [name, url] = line.split(',').map(i => i.trim());
+                    if (!name || !url) return;
 
-                let btn = document.createElement('button');
-                btn.className = 'channel';
-                btn.innerText = name;
-                btn.onclick = ()=> play(url);
-                grid.appendChild(btn);
+                    const btn = document.createElement('button');
+                    btn.className = 'channel-btn';
+                    btn.innerText = name;
+                    btn.onclick = () => play(url, btn);
+                    channelList.appendChild(btn);
+                });
+            } catch (e) {
+                errorTip.innerText = "加载频道失败";
+                errorTip.style.display = "block";
+            }
+        })();
+
+        // 苹果专用播放（终极兼容）
+        function play(url, btn) {
+            document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            errorTip.style.display = 'none';
+
+            // 苹果 Safari 原生播放（唯一有效方式）
+            video.src = url;
+            video.load();
+
+            // 用户点击后播放
+            video.play().catch(err => {
+                errorTip.style.display = 'block';
+                console.log("播放失败：", err);
             });
         }
-
-        function play(url){
-            tips.hidden = true;
-            document.querySelectorAll('.channel').forEach(b=>b.classList.remove('active'));
-            event.target.classList.add('active');
-
-            if(hls) hls.destroy();
-
-            // Safari 直接播放
-            if(video.canPlayType('application/vnd.apple.mpegurl')){
-                video.src = url;
-                video.load();
-                video.play().catch(showErr);
-                return;
-            }
-
-            // Chrome / Edge 用 hls.js 播放（修复版）
-            if(Hls.isSupported()){
-                hls = new Hls({
-                    maxBufferLength: 30,
-                    maxMaxBufferLength: 60
-                });
-                hls.loadSource(url);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, ()=>{
-                    video.play().catch(showErr);
-                });
-                hls.on(Hls.Events.ERROR, showErr);
-            }
-        }
-
-        function showErr(){
-            tips.style.display = 'block';
-            console.log('播放失败 → 切换其他频道');
-        }
-
-        start();
     </script>
 </body>
 </html>
