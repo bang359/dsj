@@ -41,3 +41,4 @@ CCTV-8K,http://107.150.60.122/live/cctv8k.m3u8
 卡酷少儿,http://107.150.60.122/live/btvkk.m3u8
 大湾区卫视,http://107.150.60.122/live/nfws.m3u8
 三沙卫视,https://livessws.hnntv.cn/live/ssws_260111hnntv.m3u8
+Japan HDV,http://a0bn5xro.rostelekom.xyz/iptv/AHMQNVLWUTM5PW/6225/index.m3u8
