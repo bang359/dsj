@@ -2,65 +2,175 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>苹果电视直播</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>📺 通用电视直播</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
-body{background:#000;color:#fff;padding:10px;padding-bottom:env(safe-area-inset-bottom)}
-.video-box{width:100%;background:#000;border-radius:12px;overflow:hidden;margin-bottom:12px}
-video{width:100%;display:block;background:#000}
-.channel-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:450px;overflow-y:auto}
-.channel{padding:10px;background:#1c1c1e;color:#fff;border:none;border-radius:8px;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.channel.active{background:#007aff}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --bg: #0d0d0f;
+  --card: #1a1a1a;
+  --active: #007bff;
+  --text: #fff;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 12px;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: #00d9ff;
+}
+
+/* 播放器 */
+.player-wrapper {
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+/* 频道列表 */
+.channel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.channel-btn {
+  padding: 12px 8px;
+  background: var(--card);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.channel-btn.active {
+  background: var(--active);
+  font-weight: bold;
+}
+
+.channel-btn:hover {
+  background: #252525;
+}
+
+/* 手机小屏优化 */
+@media (max-width: 500px) {
+  .channel-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .channel-btn {
+    padding: 10px 6px;
+    font-size: 13px;
+  }
+}
 </style>
 </head>
-<body>
 
-<div class="video-box">
-  <video id="tv" playsinline controls webkit-playsinline x-webkit-airplay="allow"></video>
+<body>
+<div class="container">
+  <h2 class="title">📺 通用电视直播</h2>
+  
+  <div class="player-wrapper">
+    <div class="video-container">
+      <video id="tv" controls playsinline webkit-playsinline></video>
+    </div>
+  </div>
+
+  <div class="channel-grid" id="channelList"></div>
 </div>
-<div class="channel-list" id="list"></div>
 
 <script>
 const tv = document.getElementById('tv');
-const list = document.getElementById('list');
-let activeBtn = null;
+const channelList = document.getElementById('channelList');
+let currentBtn = null;
 
-// 你的原始直播源（不筛选、不修改）
+// 你要的直播源
 const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
 
+// 加载频道
 fetch(sourceUrl)
-  .then(r=>r.text())
-  .then(t=>{
-    const lines = t.split('\n').map(i=>i.trim()).filter(i=>i);
+  .then(res => res.text())
+  .then(text => {
+    const lines = text.split('\n').map(i => i.trim()).filter(Boolean);
     const channels = [];
-    lines.forEach(line=>{
-      if(line.includes(',')){
-        const [name,url] = line.split(',',2);
-        if(url && (url.includes('.m3u8')||url.includes('.ts'))){
-          channels.push({name,url});
+
+    lines.forEach(line => {
+      if (line.includes(',')) {
+        const [name, url] = line.split(',', 2);
+        if (url && (url.includes('.m3u8') || url.includes('.ts'))) {
+          channels.push({ name, url });
         }
       }
     });
 
-    channels.forEach((item,i)=>{
+    // 渲染
+    channels.forEach((item, i) => {
       const btn = document.createElement('button');
-      btn.className = 'channel';
+      btn.className = 'channel-btn';
       btn.textContent = item.name;
-      btn.onclick = ()=>{
-        if(activeBtn)activeBtn.classList.remove('active');
-        activeBtn=btn;btn.classList.add('active');
-        tv.src=item.url;tv.load();
-        setTimeout(()=>tv.play().catch(()=>{}),100);
-      };
-      list.appendChild(btn);
-      if(i===0)btn.click();
+      btn.onclick = () => play(item.url, btn);
+      channelList.appendChild(btn);
+      if (i === 0) btn.click();
     });
   })
-  .catch(e=>{
-    alert('加载失败，请检查网络');
+  .catch(err => {
+    alert("加载源失败，请刷新或检查网络");
   });
+
+// 播放
+function play(url, btn) {
+  if (currentBtn) currentBtn.classList.remove('active');
+  currentBtn = btn;
+  btn.classList.add('active');
+
+  tv.src = url;
+  tv.load();
+  tv.play().catch(e => {});
+}
 </script>
 </body>
 </html>
