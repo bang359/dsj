@@ -1,98 +1,204 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📺电视家重生版</title>
-<link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.min.css" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a0a;color:#fff;padding:15px;font-family:Arial}
-.container{max-width:1200px;margin:0 auto}
-.title{text-align:center;margin:0 0 15px;color:#00d9ff}
-.player{border-radius:12px;overflow:hidden;margin-bottom:15px}
-.channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:500px;overflow-y:auto}
-
-/* 🖤 暗黑风格按钮 */
-.channels button{
-  padding:10px;
-  background:#161616;      /* 超黑底色 */
-  color:#ffffff;          /* 白色文字 */
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-/* 鼠标悬浮效果 */
-.channels button:hover{
-  background:#252525;
-}
-
-/* 选中状态：蓝色高亮 */
-.channels button.active{
-  background:#007bff;
-  color:#fff;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电视家重生版</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #000;
+            color: #fff;
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #4fc3f7;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        video {
+            width: 100%;
+            display: block;
+            min-height: 300px;
+            background: #000;
+        }
+        .loading, .error-tip {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .loading {
+            color: #4fc3f7;
+        }
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .channel-btn {
+            background: #222;
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .channel-btn:hover {
+            background: #333;
+        }
+        .channel-btn.active {
+            background: #007aff;
+        }
+    </style>
+    <!-- 引入hls.js，解决电脑端Chrome/Edge不支持HLS的问题 -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
-
 <body>
-<div class="container">
-  <h2 class="title">📺电视家重生版</h2>
-  <div class="player">
-    <video id="tv" class="video-js vjs-fluid" controls autoplay></video>
-  </div>
-  <div class="channels" id="list"></div>
-</div>
+    <div class="container">
+        <h1>📺 电视家重生版</h1>
 
-<script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@videojs/http-streaming/dist/videojs-http-streaming.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
+        <div class="video-container">
+            <video 
+                id="livePlayer" 
+                controls 
+                playsinline 
+                webkit-playsinline
+            >
+                你的浏览器不支持视频播放，请使用Chrome/Edge/Safari最新版。
+            </video>
+            <p class="loading" id="loadingTip">正在加载频道列表...</p>
+            <p class="error-tip" id="errorTip" style="display: none;">播放失败，请检查直播源或网络</p>
+        </div>
 
-<script>
-const player = videojs('tv', {
-  autoplay: true,
-  fluid: true,
-  preload: 'auto'
-});
+        <div class="channel-grid" id="channelGrid">
+            <!-- 频道按钮会自动从iphone.txt生成 -->
+        </div>
+    </div>
 
-const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
-const list = document.getElementById('list');
-let activeBtn = null;
+    <script>
+        const player = document.getElementById('livePlayer');
+        const channelGrid = document.getElementById('channelGrid');
+        const loadingTip = document.getElementById('loadingTip');
+        const errorTip = document.getElementById('errorTip');
+        let hls = null;
 
-fetch(sourceUrl)
-.then(r=>r.text())
-.then(t=>{
-  t.split('\n').forEach(line=>{
-    line = line.trim();
-    if(!line || !line.includes(',')) return;
-    const [name, url] = line.split(',',2);
-    
-    const btn = document.createElement('button');
-    btn.textContent = name;
-    btn.onclick = ()=>{
-      if(activeBtn) activeBtn.classList.remove('active');
-      activeBtn = btn;
-      btn.classList.add('active');
-      playAnySource(url);
-    };
-    list.appendChild(btn);
-  });
-})
-.catch(e=>alert("加载失败，请打开 CORS 插件"));
+        // 你的iphone.txt地址，直接用你给的gh-proxy代理地址
+        const TXT_URL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
 
-function playAnySource(url) {
-  let type = '';
-  if (url.includes('.m3u8')) type = 'application/x-mpegURL';
-  else if (url.includes('.flv')) type = 'video/x-flv';
-  else if (url.includes('.mp4')) type = 'video/mp4';
-  else if (url.includes('.ts')) type = 'video/MP2T';
-  else type = 'video/mp4';
+        // 第一步：加载并解析iphone.txt文件
+        async function loadChannelList() {
+            try {
+                const response = await fetch(TXT_URL);
+                if (!response.ok) throw new Error("加载频道列表失败");
+                
+                const text = await response.text();
+                loadingTip.style.display = 'none';
 
-  player.src({ src: url, type: type });
-  player.play();
-}
-</script>
+                // 解析TXT格式（频道名,直播地址）
+                const lines = text.trim().split('\n');
+                lines.forEach(line => {
+                    if (!line || line.trim() === '') return;
+                    // 分割频道名和地址，支持英文逗号分隔
+                    const [channelName, streamUrl] = line.split(',').map(item => item.trim());
+                    if (!channelName || !streamUrl) return;
+
+                    // 创建频道按钮
+                    const btn = document.createElement('button');
+                    btn.className = 'channel-btn';
+                    btn.textContent = channelName;
+                    btn.dataset.url = streamUrl;
+
+                    // 绑定点击事件
+                    btn.addEventListener('click', () => {
+                        // 移除其他按钮高亮
+                        document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+
+                        // 初始化播放器
+                        initPlayer(streamUrl);
+
+                        // 用户交互触发播放，解决Safari自动播放限制
+                        player.play().catch(err => {
+                            console.error("播放失败:", err);
+                            errorTip.style.display = 'block';
+                        });
+                    });
+
+                    channelGrid.appendChild(btn);
+                });
+
+            } catch (err) {
+                console.error("加载频道列表错误:", err);
+                loadingTip.textContent = "加载频道列表失败：" + err.message;
+                loadingTip.style.color = "#ff6b6b";
+            }
+        }
+
+        // 第二步：初始化播放器，兼容所有浏览器
+        function initPlayer(url) {
+            // 重置错误提示
+            errorTip.style.display = 'none';
+
+            // 销毁之前的hls实例
+            if (hls) {
+                hls.destroy();
+                hls = null;
+            }
+
+            // 1. 电脑端Chrome/Edge：用hls.js解析HLS流
+            if (Hls.isSupported()) {
+                hls = new Hls({
+                    debug: false,
+                    enableWorker: true,
+                    lowLatencyMode: true
+                });
+                hls.loadSource(url);
+                hls.attachMedia(player);
+
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    console.log("直播流加载成功");
+                });
+
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    console.error("播放错误:", data);
+                    if (data.fatal) {
+                        errorTip.style.display = 'block';
+                    }
+                });
+            } 
+            // 2. Safari（手机/电脑）：原生支持HLS，直接播放
+            else if (player.canPlayType('application/vnd.apple.mpegurl')) {
+                player.src = url;
+            } 
+            // 3. 其他不支持的浏览器提示
+            else {
+                errorTip.textContent = "你的浏览器不支持直播播放，请使用Chrome/Edge/Safari";
+                errorTip.style.display = 'block';
+            }
+        }
+
+        // 页面加载完成后自动加载频道列表
+        document.addEventListener('DOMContentLoaded', loadChannelList);
+    </script>
 </body>
 </html>
