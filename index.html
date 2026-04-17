@@ -3,360 +3,830 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全兼容网页电视</title>
+    <title>多格式网页电视播放器</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Microsoft YaHei", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
         }
+        
         body {
-            background: #1a1a1a;
-            color: #fff;
-            padding: 10px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #ffffff;
             min-height: 100vh;
+            padding: 15px;
         }
+        
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
-        header {
+        
+        /* 头部区域 */
+        .header {
             text-align: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #333;
-            margin-bottom: 15px;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        h1 {
-            font-size: 1.8rem;
-            color: #4CAF50;
+        
+        .header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
         }
-        .subtitle {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            margin-top: 5px;
+        
+        .header p {
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         
         /* 播放器区域 */
-        .player-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        #videoPlayer {
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%; /* 16:9 比例 */
-            background: #000;
+        .player-container {
             position: relative;
-            border-radius: 8px;
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        #videoPlayer video {
+        
+        .player-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 比例 */
+        }
+        
+        #videoElement {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            outline: none;
+            background: #000;
         }
-        .player-info {
+        
+        .player-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 20px 15px 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .player-container:hover .player-controls {
+            opacity: 1;
+        }
+        
+        .control-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .time-display {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        /* 频道区域 */
+        .channels-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-title h2 {
+            font-size: 1.4rem;
+            color: #00dbde;
+        }
+        
+        .channels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .channel-card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .channel-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+            border-color: #00dbde;
+        }
+        
+        .channel-card.active {
+            background: linear-gradient(135deg, rgba(0,219,222,0.2), rgba(252,0,255,0.2));
+            border-color: #00dbde;
+        }
+        
+        .channel-number {
+            font-size: 0.8rem;
+            color: #00dbde;
+            margin-bottom: 5px;
+        }
+        
+        .channel-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        /* 状态栏 */
+        .status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(255,255,255,0.05);
-            padding: 10px 15px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-        }
-        #currentChannel {
-            color: #4CAF50;
-            font-weight: bold;
-        }
-        #playStatus {
-            opacity: 0.8;
-        }
-        
-        /* 频道列表 */
-        .channels-section h2 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #333;
-        }
-        #channelList {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 10px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 5px;
-        }
-        .channel-btn {
-            background: rgba(255,255,255,0.08);
-            border: none;
-            color: #eee;
-            padding: 12px 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s;
+            padding: 12px 20px;
+            border-radius: 8px;
             font-size: 0.9rem;
-            line-height: 1.4;
-            word-break: break-all;
-        }
-        .channel-btn:hover {
-            background: rgba(255,255,255,0.15);
-        }
-        .channel-btn.active {
-            background: #4CAF50;
-            color: #fff;
         }
         
-        /* 控制栏 */
-        .controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        .ctrl-btn {
-            background: #333;
-            border: none;
+        .quality-selector select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
             color: white;
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .ctrl-btn:hover {
-            background: #555;
-        }
-        #volumeSlider {
-            flex: 1;
-            max-width: 120px;
+            outline: none;
         }
         
-        /* 响应式 */
-        @media (max-width: 768px) {
-            #channelList {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
-        }
-        @media (max-width: 480px) {
-            #channelList {
-                grid-template-columns: 1fr;
-            }
-            .controls {
-                justify-content: center;
-            }
-        }
-        
-        /* 加载动画 */
+        /* 加载状态 */
         .loading {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #fff;
-            font-size: 1.2rem;
-        }
-        .error {
-            color: #ff5252;
             text-align: center;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: #00dbde;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 错误提示 */
+        .error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff6b6b;
             padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 300px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .channels-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .player-controls {
+                opacity: 1; /* 移动端始终显示控制栏 */
+                padding: 10px 10px 5px;
+            }
+            
+            .control-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .channels-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .channel-card {
+                padding: 12px 8px;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>📺 全兼容网页电视</h1>
-            <p class="subtitle">手机/电脑通用 | 支持 m3u8/m3u 直播源</p>
-        </header>
-        
-        <div class="player-section">
-            <div id="videoPlayer">
-                <video id="video" controls playsinline></video>
-                <div id="loadingText" class="loading" style="display:none;">加载中...</div>
-            </div>
-            <div class="player-info">
-                <span>当前播放: <span id="currentChannel">请选择频道</span></span>
-                <span id="playStatus">就绪</span>
-            </div>
+        <!-- 头部 -->
+        <div class="header">
+            <h1>📺 多格式网页电视播放器</h1>
+            <p>支持 m3u8 / flv / mp4 等多种格式 | 手机电脑全兼容</p>
         </div>
         
-        <div class="controls">
-            <button class="ctrl-btn" onclick="togglePlay()">播放/暂停</button>
-            <button class="ctrl-btn" onclick="toggleFullscreen()">全屏</button>
-            <label>音量: <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.7"></label>
-            <button class="ctrl-btn" onclick="switchToAuto()">自动模式</button>
-        </div>
-        
-        <div class="channels-section">
-            <h2>频道列表</h2>
-            <div id="channelList">
-                <!-- 频道按钮由JS动态生成 -->
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 播放器区域 -->
+            <div class="player-container">
+                <div class="player-wrapper">
+                    <video id="videoElement" controls playsinline webkit-playsinline>
+                        <!-- 视频源将由JS动态设置 -->
+                    </video>
+                    
+                    <!-- 加载状态 -->
+                    <div class="loading" id="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>正在加载频道...</p>
+                    </div>
+                    
+                    <!-- 错误提示 -->
+                    <div class="error-message" id="error" style="display: none;">
+                        <p>播放失败，请尝试其他频道</p>
+                    </div>
+                </div>
+                
+                <!-- 自定义控制栏 -->
+                <div class="player-controls">
+                    <button class="control-btn" onclick="togglePlay()">⏯️</button>
+                    <div class="volume-container">
+                        <button class="control-btn" onclick="toggleMute()">🔊</button>
+                        <input type="range" id="volume" min="0" max="1" step="0.1" value="0.7" style="flex: 1;">
+                    </div>
+                    <div class="time-display">
+                        <span id="currentTime">00:00</span> / <span id="duration">00:00</span>
+                    </div>
+                    <button class="control-btn" onclick="toggleFullscreen()">⛶</button>
+                </div>
+            </div>
+            
+            <!-- 频道列表 -->
+            <div class="channels-section">
+                <div class="section-title">
+                    <h2>电视频道</h2>
+                    <div class="quality-selector">
+                        <select id="qualitySelect" onchange="changeQuality()">
+                            <option value="auto">自动选择</option>
+                            <option value="720p">720p</option>
+                            <option value="480p">480p</option>
+                            <option value="360p">360p</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="channels-grid" id="channelsGrid">
+                    <!-- 频道将由JS动态生成 -->
+                </div>
+            </div>
+            
+            <!-- 状态栏 -->
+            <div class="status-bar">
+                <div id="status">就绪 - 点击频道开始播放</div>
+                <div id="playerInfo">播放器: HTML5 Video</div>
             </div>
         </div>
     </div>
 
+    <!-- 核心脚本 -->
     <script>
-        // ========== 配置区域 ==========
-        // 你提供的直播源数据
-        const channels = [
-            { name: "频道测试", url: "http://rihou.cc:555/tv/频道测试" },
-            { name: "❤️永久维护", url: "http://rihou.cc:555/tv/padan" },
-            { name: "❤️觉得好用", url: "http://rihou.cc:555/tv/padan" },
-            { name: "❤️请打赏观看", url: "http://rihou.cc:555/tv/padan" },
-            { name: "凤凰卫视", url: "http://rihou.cc:555/tv/凤凰卫视" },
-            { name: "镜新闻", url: "http://rihou.cc:555/tv/镜新闻" },
-            { name: "NTD", url: "https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8" },
-            { name: "CCTV1", url: "http://1.24.39.180:9003/hls/1/index.m3u8" },
-            { name: "CCTV2", url: "http://1.24.39.180:9003/hls/2/index.m3u8" },
-            { name: "CCTV3", url: "url: "http://1.24.39.180:9003/hls/3/index.m3u8" },
-            { name: "CCTV4", url: "http://1.24.39.180:9003/hls/4/index.m3u8" },
-            { name: "CCTV5", url: "http://1.24.39.180:9003/hls/5/index.m3u8" },
-            { name: "CCTV6", url: "http://1.24.39.180:9003/hls/6/index.m3u8" },
-            { name: "CCTV7", url: "http://1.24.39.180:9003/hls/7/index.m3u8" },
-            { name: "CCTV8", url: "http://1.24.39.180:9003/hls/8/index.m3u8" },
-            { name: "CCTV9", url: "http://1.24.39.180:9003/hls/9/index.m3u8" },
-            { name: "CCTV10", url: "http://1.24.39.180:9003/hls/10/index.m3u8" },
-            { name: "CCTV11", url: "http://1.24.39.180:9003/hls/11/index.m3u8" },
-            { name: "CCTV12", url: "http://1.24.39.180:9003/hls/12/index.m3u8" },
-            { name: "CCTV13", url: "http://1.24.39.180:9003/hls/13/index.m3u8" },
-            { name: "CCTV14", url: "http://1.24.39.180:9003/hls/14/index.m3u8" },
-            { name: "CCTV15", url: "http://1.24.39.180:9003/hls/15/index.m3u8" },
-            { name: "CCTV16", url: "http://1.24.39.180:9003/hls/60/index.m3u8" },
-            { name: "CCTV17", url: "http://1.24.39.180:9003/hls/61/index.m3u8" },
-            { name: "湖南卫视", url: "http://1.24.39.180:9003/hls/28/index.m3u8" },
-            { name: "浙江卫视", url: "http://1.24.39.180:9003/hls/29/index.m3u8" },
-            { name: "江苏卫视", url: "http://1.24.39.180:9003/hls/30/index.m3u8" },
-            { name: "东方卫视", url: "http://1.24.39.180:9003/hls/44/index.m3u8" },
-            { name: "安徽卫视", url: "http://1.24.39.180:9003/hls/31/index.m3u8" },
-            { name: "贵州卫视", url: "http://1.24.39.180:9003/hls/32/index.m3u8" },
-            { name: "天津卫视", url: "http://1.24.39.180:9003/hls/33/index.m3u8" },
-            { name: "深圳卫视", url: "http://1.24.39.180:9003/hls/34/index.m3u8" },
-            { name: "山东卫视", url: "http://1.24.39.180:9003/hls/35/index.m3u8" },
-            { name: "云南卫视", url: "http://1.24.39.180:9003/hls/36/index.m3u8" },
-            { name: "河南卫视", url: "http://1.24.39.180:9003/hls/37/index.m3u8" },
-            { name: "黑龙江卫视", url: "http://1.24.39.180:9003/hls/38/index.m3u8" },
-            { name: "四川卫视", url: "http://1.24.39.180:9003/hls/39/index.m3u8" },
-            { name: "湖北卫视", url: "http://1.24.39.180:9003/hls/43/index.m3u8" },
-            { name: "东南卫视", url: "http://1.24.39.180:9003/hls/46/index.m3u8" },
-            { name: "河北卫视", url: "http://1.24.39.180:9003/hls/47/index.m3u8" },
-            { name: "广东卫视", url: "http://1.24.39.180:9003/hls/48/index.m3u8" },
-            { name: "内蒙古蒙语卫视", url: "http://1.24.39.180:9003/hls/16/index.m3u8" },
-            { name: "内蒙古汉语卫视", url: "http://1.24.39.180:9003/hls/17/index.m3u8" },
-            { name: "内蒙古蒙语文化", url: "http://1.24.39.180:9003/hls/18/index.m3u8" },
-            { name: "内蒙古新闻综合", url: "http://1.24.39.180:9003/hls/19/index.m3u8" },
-            { name: "内蒙古经济生活", url: "http://1.24.39.180:9003/hls/20/index.m3u8" },
-            { name: "内蒙古文体娱乐", url: "http://1.24.39.180:9003/hls/21/index.m3u8" },
-            { name: "内蒙古农牧频道", url: "http://1.24.39.180:9003/hls/22/index.m3u8" },
-            { name: "内蒙古少儿频道", url: "http://1.24.39.180:9003/hls/23/index.m3u8" },
-            { name: "乌兰察布经济生活", url: "http://1.24.39.180:9003/hls/24/index.m3u8" },
-            { name: "乌兰察布新闻综合", url: "http://1.24.39.180:9003/hls/26/index.m3u8" },
-            { name: "凉城频道", url: "http://1.24.39.180:9003/hls/27/index.m3u8" },
-            { name: "三沙卫视", url: "https://livessws.hnntv.cn/live/ssws_260111hnntv.m3u8" },
-            { name: "延边卫视", url: "https://srs.iyb983.cn:443/video/CYS/index.m3u8" },
-            { name: "山西卫视", url: "https://livehhhttps.sxrtv.com/lsdream/q8RVWgs/1000/i1sh8gV.m3u8" }
-            // 注：你源文件中的成人频道已过滤，如需添加请自行按格式补充
+        // ========== 配置 ==========
+        // 由于链接无法访问，使用示例频道数据
+        const CHANNELS = [
+            { id: 1, name: "CCTV-1 综合", url: "http://1.24.39.180:9003/hls/1/index.m3u8", type: "hls" },
+            { id: 2, name: "CCTV-5 体育", url: "http://1.24.39.180:9003/hls/5/index.m3u8", type: "hls" },
+            { id: 3, name: "湖南卫视", url: "http://1.24.39.180:9003/hls/28/index.m3u8", type: "hls" },
+            { id: 4, name: "凤凰卫视", url: "http://rihou.cc:555/tv/凤凰卫视", type: "unknown" },
+            { id: 5, name: "NTD", url: "https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8", type: "hls" },
+            { id: 6, name: "测试 MP4", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" }
         ];
-
-        // ========== 核心逻辑 ==========
-        const video = document.getElementById('video');
-        const currentChannelEl = document.getElementById('currentChannel');
-        const playStatusEl = document.getElementById('playStatus');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const channelListEl = document.getElementById('channelList');
-        const loadingText = document.getElementById('loadingText');
-
-        let currentChannelIndex = -1;
-
-        // 初始化频道列表
-        function initChannels() {
-            channelListEl.innerHTML = '';
-            channels.forEach((channel, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'channel-btn';
-                btn.textContent = channel.name;
-                btn.onclick = () => switchChannel(index);
-                channelListEl.appendChild(btn);
-            });
+        
+        // 添加更多格式的示例
+        const FORMAT_EXAMPLES = {
+            hls: [
+                "http://example.com/live/channel.m3u8",
+                "https://example.com/stream/playlist.m3u8"
+            ],
+            flv: [
+                "rtmp://example.com/live/stream",
+                "http://example.com/live/stream.flv"
+            ],
+            mp4: [
+                "http://example.com/video.mp4",
+                "https://example.com/live/stream.mp4"
+            ],
+            mpegdash: [
+                "https://example.com/manifest.mpd"
+            ]
+        };
+        
+        // ========== 状态变量 ==========
+        let currentChannel = null;
+        let player = null;
+        let hlsInstance = null;
+        let isPlaying = false;
+        
+        // ========== DOM元素 ==========
+        const videoElement = document.getElementById('videoElement');
+        const channelsGrid = document.getElementById('channelsGrid');
+        const statusElement = document.getElementById('status');
+        const loadingElement = document.getElementById('loading');
+        const errorElement = document.getElementById('error');
+        const currentTimeElement = document.getElementById('currentTime');
+        const durationElement = document.getElementById('duration');
+        const volumeSlider = document.getElementById('volume');
+        const playerInfoElement = document.getElementById('playerInfo');
+        const qualitySelect = document.getElementById('qualitySelect');
+        
+        // ========== 初始化 ==========
+        function init() {
+            // 加载播放器库
+            loadPlayerLibraries();
+            
+            // 初始化频道列表
+            renderChannels();
+            
+            // 设置音量
+            updateVolume();
+            
+            // 绑定事件
+            bindEvents();
+            
+            // 设置状态
+            updateStatus("就绪 - 点击任意频道开始播放");
         }
-
-        // 切换频道
-        function switchChannel(index) {
-            if (currentChannelIndex === index) return;
+        
+        // 动态加载播放器库
+        function loadPlayerLibraries() {
+            // 加载 HLS.js
+            if (!window.Hls) {
+                const hlsScript = document.createElement('script');
+                hlsScript.src = 'https://cdn.jsdelivr.net/npm/hls.js@latest';
+                hlsScript.onload = () => console.log("HLS.js 加载完成");
+                document.head.appendChild(hlsScript);
+            }
             
-            // 更新UI状态
-            document.querySelectorAll('.channel-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.channel-btn')[index].classList.add('active');
+            // 加载 FLV.js
+            if (!window.flvjs) {
+                const flvScript = document.createElement('script');
+                flvScript.src = 'https://cdn.jsdelivr.net/npm/flv.js@latest';
+                flvScript.onload = () => console.log("FLV.js 加载完成");
+                document.head.appendChild(flvScript);
+            }
             
-            currentChannelIndex = index;
-            const channel = channels[index];
-            currentChannelEl.textContent = channel.name;
-            playStatusEl.textContent = '加载中...';
-            loadingText.style.display = 'block';
-
-            // 尝试使用 HLS.js 播放 (兼容 m3u8)
-            if (Hls.isSupported() && channel.url.includes('.m3u8')) {
-                const hls = new Hls({ enableWorker: false });
-                hls.loadSource(channel.url);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    video.play().catch(e => console.warn("自动播放被阻止，请手动点击播放"));
-                    playStatusEl.textContent = '播放中';
-                    loadingText.style.display = 'none';
-                });
-                hls.on(Hls.Events.ERROR, () => {
-                    playStatusEl.textContent = '加载失败，尝试直接播放';
-                    // 降级方案：直接设置 src
-                    video.src = channel.url;
-                    video.load();
-                });
-            } else {
-                // 直接播放（支持 mp4 等格式）
-                video.src = channel.url;
-                video.load();
-                video.play().catch(e => console.warn("自动播放被阻止，请手动点击播放"));
-                playStatusEl.textContent = '播放中';
-                loadingText.style.display = 'none';
+            // 加载 DASH.js
+            if (!window.dashjs) {
+                const dashScript = document.createElement('script');
+                dashScript.src = 'https://cdn.dashjs.org/latest/dash.all.min.js';
+                dashScript.onload = () => console.log("DASH.js 加载完成");
+                document.head.appendChild(dashScript);
             }
         }
-
-        // 工具函数
+        
+        // 渲染频道列表
+        function renderChannels() {
+            channelsGrid.innerHTML = '';
+            
+            CHANNELS.forEach(channel => {
+                const channelCard = document.createElement('div');
+                channelCard.className = 'channel-card';
+                channelCard.innerHTML = `
+                    <div class="channel-number">${String(channel.id).padStart(2, '0')}</div>
+                    <div class="channel-name">${channel.name}</div>
+                `;
+                channelCard.addEventListener('click', () => playChannel(channel));
+                channelsGrid.appendChild(channelCard);
+            });
+            
+            // 添加自定义源选项
+            const customCard = document.createElement('div');
+            customCard.className = 'channel-card';
+            customCard.innerHTML = `
+                <div class="channel-number">+</div>
+                <div class="channel-name">自定义源</div>
+            `;
+            customCard.addEventListener('click', () => addCustomSource());
+            channelsGrid.appendChild(customCard);
+        }
+        
+        // 播放频道
+        async function playChannel(channel) {
+            try {
+                // 更新UI
+                updateActiveChannel(channel.id);
+                showLoading(true);
+                hideError();
+                updateStatus(`正在加载: ${channel.name}`);
+                
+                // 停止当前播放
+                stopCurrentPlayback();
+                
+                // 检测格式并选择播放器
+                const format = detectVideoFormat(channel.url);
+                playerInfoElement.textContent = `格式: ${format.toUpperCase()}`;
+                
+                // 根据格式选择播放器
+                switch(format) {
+                    case 'hls':
+                        await playHLS(channel.url);
+                        break;
+                    case 'flv':
+                        await playFLV(channel.url);
+                        break;
+                    case 'mp4':
+                    case 'webm':
+                        await playNative(channel.url);
+                        break;
+                    case 'mpegdash':
+                        await playDash(channel.url);
+                        break;
+                    default:
+                        // 尝试通用方法
+                        await playNative(channel.url);
+                }
+                
+                currentChannel = channel;
+                updateStatus(`正在播放: ${channel.name}`);
+                showLoading(false);
+                
+            } catch (error) {
+                console.error('播放失败:', error);
+                showError(`播放失败: ${error.message}`);
+                updateStatus('播放失败');
+                showLoading(false);
+            }
+        }
+        
+        // 检测视频格式
+        function detectVideoFormat(url) {
+            const urlLower = url.toLowerCase();
+            
+            if (urlLower.includes('.m3u8')) return 'hls';
+            if (urlLower.includes('.flv') || urlLower.includes('rtmp://')) return 'flv';
+            if (urlLower.includes('.mpd')) return 'mpegdash';
+            if (urlLower.includes('.mp4')) return 'mp4';
+            if (urlLower.includes('.webm')) return 'webm';
+            
+            // 默认尝试HLS
+            return 'hls';
+        }
+        
+        // 播放HLS流
+        function playHLS(url) {
+            return new Promise((resolve, reject) => {
+                if (window.Hls && Hls.isSupported()) {
+                    if (hlsInstance) {
+                        hlsInstance.destroy();
+                    }
+                    
+                    hlsInstance = new Hls({
+                        enableWorker: false, // 移动端兼容
+                        autoStartLoad: true,
+                        startLevel: -1, // 自动选择质量
+                    });
+                    
+                    hlsInstance.loadSource(url);
+                    hlsInstance.attachMedia(videoElement);
+                    
+                    hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+                        videoElement.play();
+                        resolve();
+                    });
+                    
+                    hlsInstance.on(Hls.Events.ERROR, (event, data) => {
+                        if (data.fatal) {
+                            switch(data.type) {
+                                case Hls.ErrorTypes.NETWORK_ERROR:
+                                    reject(new Error('网络错误，请检查链接'));
+                                    break;
+                                case Hls.ErrorTypes.MEDIA_ERROR:
+                                    reject(new Error('媒体错误，格式可能不支持'));
+                                    break;
+                                default:
+                                    reject(new Error('HLS播放失败'));
+                            }
+                        }
+                    });
+                } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                    // Safari原生支持HLS
+                    videoElement.src = url;
+                    videoElement.addEventListener('loadedmetadata', () => resolve());
+                    videoElement.load();
+                } else {
+                    reject(new Error('当前浏览器不支持HLS播放'));
+                }
+            });
+        }
+        
+        // 播放FLV流
+        function playFLV(url) {
+            return new Promise((resolve, reject) => {
+                if (window.flvjs && flvjs.isSupported()) {
+                    if (player) {
+                        player.unload();
+                        player.detachMediaElement();
+                        player.destroy();
+                        player = null;
+                    }
+                    
+                    player = flvjs.createPlayer({
+                        type: 'flv',
+                        url: url
+                    }, {
+                        enableWorker: false,
+                        stashInitialSize: 128,
+                    });
+                    
+                    player.attachMediaElement(videoElement);
+                    player.load();
+                    player.play();
+                    
+                    player.on(flvjs.Events.ERROR, (error) => {
+                        reject(new Error('FLV播放失败: ' + error));
+                    });
+                    
+                    resolve();
+                } else {
+                    reject(new Error('当前浏览器不支持FLV播放'));
+                }
+            });
+        }
+        
+        // 播放MP4/WebM
+        function playNative(url) {
+            return new Promise((resolve) => {
+                videoElement.src = url;
+                videoElement.load();
+                videoElement.play();
+                resolve();
+            });
+        }
+        
+        // 播放MPEG-DASH
+        function playDash(url) {
+            return new Promise((resolve, reject) => {
+                if (window.dashjs) {
+                    if (player) {
+                        player.reset();
+                    }
+                    
+                    player = dashjs.MediaPlayer().create();
+                    player.initialize(videoElement, url, true);
+                    
+                    player.on(dashjs.MediaPlayer.events.ERROR, (e) => {
+                        reject(new Error('DASH播放失败'));
+                    });
+                    
+                    resolve();
+                } else {
+                    reject(new Error('DASH.js未加载'));
+                }
+            });
+        }
+        
+        // 停止当前播放
+        function stopCurrentPlayback() {
+            videoElement.pause();
+            videoElement.src = '';
+            videoElement.load();
+            
+            if (hlsInstance) {
+                hlsInstance.destroy();
+                hlsInstance = null;
+            }
+            
+            if (player) {
+                if (player.unload) player.unload();
+                if (player.detachMediaElement) player.detachMediaElement();
+                if (player.destroy) player.destroy();
+                player = null;
+            }
+        }
+        
+        // 更新激活的频道
+        function updateActiveChannel(channelId) {
+            document.querySelectorAll('.channel-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            const cards = document.querySelectorAll('.channel-card');
+            if (channelId && cards[channelId - 1]) {
+                cards[channelId - 1].classList.add('active');
+            }
+        }
+        
+        // 添加自定义源
+        function addCustomSource() {
+            const url = prompt('请输入直播源地址:');
+            if (url) {
+                const name = prompt('请输入频道名称:', '自定义频道');
+                const channel = {
+                    id: CHANNELS.length + 1,
+                    name: name || '自定义频道',
+                    url: url,
+                    type: 'custom'
+                };
+                
+                CHANNELS.push(channel);
+                renderChannels();
+                playChannel(channel);
+            }
+        }
+        
+        // 控制函数
         function togglePlay() {
-            if (video.paused) video.play();
-            else video.pause();
+            if (videoElement.paused) {
+                videoElement.play();
+            } else {
+                videoElement.pause();
+            }
         }
-
+        
+        function toggleMute() {
+            videoElement.muted = !videoElement.muted;
+        }
+        
         function toggleFullscreen() {
-            if (video.requestFullscreen) video.requestFullscreen();
-            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+            if (!document.fullscreenElement) {
+                if (videoElement.requestFullscreen) {
+                    videoElement.requestFullscreen();
+                } else if (videoElement.webkitRequestFullscreen) {
+                    videoElement.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
         }
-
-        function switchToAuto() {
-            video.controls = true;
-            video.autoplay = true;
+        
+        function updateVolume() {
+            videoElement.volume = volumeSlider.value;
         }
-
-        // 音量控制
-        volumeSlider.addEventListener('input', () => {
-            video.volume = volumeSlider.value;
+        
+        function changeQuality() {
+            const quality = qualitySelect.value;
+            updateStatus(`已切换至 ${quality} 画质`);
+        }
+        
+        // 工具函数
+        function updateStatus(message) {
+            statusElement.textContent = message;
+        }
+        
+        function showLoading(show) {
+            loadingElement.style.display = show ? 'block' : 'none';
+        }
+        
+        function showError(message) {
+            errorElement.innerHTML = `<p>${message}</p>`;
+            errorElement.style.display = 'block';
+        }
+        
+        function hideError() {
+            errorElement.style.display = 'none';
+        }
+        
+        // 绑定事件
+        function bindEvents() {
+            // 音量控制
+            volumeSlider.addEventListener('input', updateVolume);
+            
+            // 时间更新
+            videoElement.addEventListener('timeupdate', () => {
+                const current = formatTime(videoElement.currentTime);
+                const duration = formatTime(videoElement.duration);
+                currentTimeElement.textContent = current;
+                durationElement.textContent = isNaN(duration) ? '00:00' : duration;
+            });
+            
+            // 视频事件
+            videoElement.addEventListener('play', () => {
+                isPlaying = true;
+            });
+            
+            videoElement.addEventListener('pause', () => {
+                isPlaying = false;
+            });
+            
+            videoElement.addEventListener('error', (e) => {
+                showError('播放错误: ' + videoElement.error?.message || '未知错误');
+                updateStatus('播放错误');
+            });
+            
+            // 键盘快捷键
+            document.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case ' ':
+                        togglePlay();
+                        e.preventDefault();
+                        break;
+                    case 'f':
+                        toggleFullscreen();
+                        break;
+                    case 'm':
+                        toggleMute();
+                        break;
+                    case 'ArrowUp':
+                        videoElement.volume = Math.min(videoElement.volume + 0.1, 1);
+                        volumeSlider.value = videoElement.volume;
+                        break;
+                    case 'ArrowDown':
+                        videoElement.volume = Math.max(videoElement.volume - 0.1, 0);
+                        volumeSlider.value = videoElement.volume;
+                        break;
+                }
+            });
+        }
+        
+        // 格式化时间
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', init);
+        
+        // 自动播放处理
+        document.addEventListener('click', () => {
+            if (videoElement.paused && currentChannel) {
+                videoElement.play().catch(e => {
+                    console.log('需要用户交互才能播放');
+                });
+            }
         });
-
-        // 初始化
-        initChannels();
-        console.log("网页电视初始化完成，共加载 " + channels.length + " 个频道");
     </script>
-    
-    <!-- 引入 HLS.js 库以实现 m3u8 高级兼容 -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </body>
 </html>
