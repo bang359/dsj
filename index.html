@@ -1,67 +1,70 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>全能电视直播</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;font-family:sans-serif;padding:10px}
-.container{max-width:1000px;margin:0 auto}
-.title{text-align:center;padding:15px 0;color:#4fc3f7}
-#dplayer{border-radius:12px;overflow:hidden;margin-bottom:15px}
-.channel-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.channel{background:#222;color:#fff;border:none;padding:14px;border-radius:8px}
-.channel.active{background:#007aff}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电视家全能版</title>
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{background:#000;color:#fff;font-family:system-ui,sans-serif;padding:10px}
+        .container{max-width:1000px;margin:0 auto}
+        h1{text-align:center;color:#4fc3f7;padding:10px 0}
+        .dplayer{border-radius:12px;overflow:hidden;margin-bottom:15px}
+        .channel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+        .channel{background:#222;color:#fff;border:0;padding:14px;border-radius:8px;font-size:15px}
+        .channel.active{background:#007aff}
+    </style>
 </head>
 <body>
-<div class="container">
-<div class="title">📺 全能电视直播</div>
-<div id="dplayer"></div>
-<div class="channel-grid" id="channelList"></div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/flv.js@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/dplayer@latest"></script>
-<script>
-const TXT_URL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
-const channelList = document.getElementById("channelList");
-let dp = null;
+    <div class="container">
+        <h1>📺 电视家全能版</h1>
+        <div id="dplayer"></div>
+        <div class="channel-grid" id="channelList"></div>
+    </div>
 
-async function loadChannels(){
-  const res = await fetch(TXT_URL);
-  const text = await res.text();
-  const lines = text.trim().split("\n");
-  
-  lines.forEach(line => {
-    if(!line) return;
-    const [name, url] = line.split(",").map(i=>i.trim());
-    if(!name || !url) return;
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flv.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dplayer@latest"></script>
     
-    const btn = document.createElement("button");
-    btn.className = "channel";
-    btn.innerText = name;
-    btn.onclick = () => {
-      document.querySelectorAll(".channel").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-      playVideo(url);
-    };
-    channelList.appendChild(btn);
-  });
-}
+    <script>
+        const TXT_URL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+        const channelList = document.getElementById("channelList");
+        let dp = null;
 
-function playVideo(url){
-  if(dp) dp.destroy();
-  dp = new DPlayer({
-    container: document.getElementById("dplayer"),
-    autoplay: true,
-    video: { url: url }
-  });
-}
+        // 加载你的直播源（完全不修改）
+        async function loadChannels() {
+            const res = await fetch(TXT_URL);
+            const text = await res.text();
+            const lines = text.trim().split("\n");
 
-loadChannels();
-</script>
+            lines.forEach(line => {
+                if (!line) return;
+                const [name, url] = line.split(",").map(i => i.trim());
+                if (!name || !url) return;
+
+                const btn = document.createElement("button");
+                btn.className = "channel";
+                btn.innerText = name;
+                btn.onclick = () => {
+                    document.querySelectorAll(".channel").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    play(url);
+                };
+                channelList.appendChild(btn);
+            });
+        }
+
+        // 万能播放引擎（全格式全设备支持）
+        function play(url) {
+            if (dp) dp.destroy();
+            dp = new DPlayer({
+                container: document.getElementById("dplayer"),
+                autoplay: true,
+                video: { url: url }
+            });
+        }
+
+        loadChannels();
+    </script>
 </body>
 </html>
