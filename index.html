@@ -2,378 +2,134 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>全格式网页电视 - 武汉</title>
-    <!-- 引入播放器核心库 -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flv.js@1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dashjs/dist/dash.all.min.js"></script>
+    <title>网络电视</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background: #111; color: #fff; 
-            overflow-x: hidden;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-        
-        /* 顶部状态栏 */
-        #top-bar {
-            background: linear-gradient(90deg, #1a1a2e, #16213e);
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-            font-size: 14px;
-            flex-wrap: wrap;
-        }
-        #datetime { font-weight: bold; color: #4fc3f7; }
-        #weather { 
-            background: rgba(255,255,255,0.1); 
-            padding: 4px 8px; 
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-        }
-        #weather img { width: 20px; height: 20px; margin-right: 5px; }
-        
-        /* 播放器区域 */
-        #player-container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            background: #000;
-        }
-        #video {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 16/9; /* 固定宽高比，避免页面跳动 */
-            display: block;
-        }
-        
-        /* 频道列表 */
-        #channel-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-            padding: 15px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .channel {
-            background: #1e1e2e;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 12px 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 14px;
-            user-select: none;
-        }
-        .channel:hover, .channel.active {
-            background: #3498db;
-            border-color: #3498db;
-        }
-        .channel-name { 
-            white-space: nowrap;
+        .container {
+            width: 80%;
+            margin: auto;
             overflow: hidden;
-            text-overflow: ellipsis;
         }
-        
-        /* 控制栏 */
-        #controls {
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
             display: flex;
             justify-content: center;
-            gap: 15px;
-            padding: 15px;
-            background: #1a1a1a;
-            border-top: 1px solid #333;
+            padding: 0;
         }
-        button {
-            background: #333;
-            border: none;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
+        nav li {
+            margin: 0 15px;
         }
-        button:active { background: #555; }
-        
-        /* 移动端优化 */
-        @media (max-width: 768px) {
-            #top-bar { font-size: 12px; padding: 8px 10px; }
-            .channel { padding: 10px 5px; font-size: 12px; }
-            #controls { padding: 10px; gap: 10px; }
-            button { padding: 6px 12px; font-size: 13px; }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
         }
-        
-        /* 加载和错误状态 */
-        #status {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.8);
-            padding: 10px 20px;
+        section {
+            background: #fff;
+            margin-top: 20px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,.1);
+        }
+        .channel-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .channel-item {
+            background: #eee;
+            padding: 10px;
+            text-align: center;
             border-radius: 5px;
-            display: none;
+            transition: background .3s ease;
         }
-        .loading { color: #4fc3f7; }
-        .error { color: #ff6b6b; }
+        .channel-item:hover {
+            background: #ddd;
+        }
+        .channel-item a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            display: block;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <!-- 顶部插件：时间 + 天气 -->
-    <div id="top-bar">
-        <div id="datetime">--:--:--</div>
-        <div id="weather">🌤️ 武汉 加载中...</div>
+
+<header>
+    <h1>网络电视</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#">首页</a></li>
+        <li><a href="#">分类</a></li>
+        <li><a href="#">排行榜</a></li>
+        <li><a href="#">关于我们</a></li>
+    </ul>
+</nav>
+
+<section>
+    <div class="container">
+        <h2>热门频道</h2>
+        <div class="channel-list" id="channelList">
+            <!-- 动态加载频道 -->
+        </div>
     </div>
+</section>
 
-    <!-- 播放器 -->
-    <div id="player-container">
-        <video id="video" controls muted playsinline webkit-playsinline></video>
-        <div id="status"></div>
-    </div>
+<footer>
+    &copy; 2023 网络电视 版权所有
+</footer>
 
-    <!-- 控制栏 -->
-    <div id="controls">
-        <button onclick="togglePlay()">播放/暂停</button>
-        <button onclick="toggleMute()">静音/取消</button>
-        <button onclick="toggleFullscreen()">全屏</button>
-        <button onclick="switchToCustom()">自定义源</button>
-    </div>
+<script>
+// 内置直播源
+const liveSources = [
+    { name: 'CCTV-1', url: 'http://1.24.39.180:9003/hls/1/index.m3u8' },
+    { name: 'CCTV-2', url: 'http://39.81.41.1:1234/608807420' },
+    { name: 'CCTV-3', url: 'https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8' },
 
-    <!-- 频道列表 -->
-    <div id="channel-list"></div>
+     
 
-    <script>
-        // ==================== 配置区域 ====================
-        // 默认频道列表（从你提供的链接解析出的示例，实际使用时需替换完整列表）
-        const DEFAULT_CHANNELS = [
-            { name: "CCTV-1 综合", url: "http://1.24.39.180:9003/hls/1/index.m3u8" }, // 示例，请替换为真实源
-            { name: "CCTV-5 体育", url: "http://rihou.cc:555/tv/padan" }
-        ];
+
+    // 添加更多直播源...
+];
+
+// 加载频道列表
+function loadChannels() {
+    const channelList = document.getElementById('channelList');
+    liveSources.forEach(source => {
+        const channelItem = document.createElement('div');
+        channelItem.className = 'channel-item';
         
-        // 武汉天气API（模拟数据，实际可对接免费API）
-        const WEATHER_DATA = {
-            city: "武汉",
-            temp: "28℃",
-            desc: "晴转多云",
-            icon: "🌤️"
-        };
+        const link = document.createElement('a');
+        link.href = '#'; // 可替换为实际的播放链接
+        link.textContent = source.name;
 
-        // ==================== 全局变量 ====================
-        let currentPlayer = null; // HLS/FLV/DASH 播放器实例
-        let currentChannel = null;
+        channelItem.appendChild(link);
+        channelList.appendChild(channelItem);
+    });
+}
 
-        // ==================== 初始化 ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            initDateTime();
-            initWeather();
-            renderChannels();
-            loadLastChannel();
-        });
+window.onload = loadChannels;
+</script>
 
-        // ==================== 顶部插件 ====================
-        // 1. 实时时钟
-        function initDateTime() {
-            function updateTime() {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false });
-                const dateStr = now.toLocaleDateString('zh-CN', { 
-                    year: 'numeric', month: '2-digit', day: '2-digit',
-                    weekday: 'short'
-                });
-                document.getElementById('datetime').textContent = `${dateStr} ${timeStr}`;
-            }
-            updateTime();
-            setInterval(updateTime, 1000);
-        }
-
-        // 2. 天气预报
-        function initWeather() {
-            // 这里使用静态数据，实际可替换为 fetch 请求天气API
-            const w = WEATHER_DATA;
-            document.getElementById('weather').innerHTML = 
-                `${w.icon} ${w.city} ${w.temp} ${w.desc}`;
-        }
-
-        // ==================== 频道管理 ====================
-        // 渲染频道列表
-        function renderChannels() {
-            const listEl = document.getElementById('channel-list');
-            // 尝试从本地存储读取，否则用默认列表
-            const channels = JSON.parse(localStorage.getItem('tv_channels')) || DEFAULT_CHANNELS;
-            
-            listEl.innerHTML = '';
-            channels.forEach((channel, index) => {
-                const div = document.createElement('div');
-                div.className = 'channel';
-                div.innerHTML = `<div class="channel-name">${channel.name}</div>`;
-                div.onclick = () => playChannel(channel);
-                listEl.appendChild(div);
-            });
-        }
-
-        // 播放频道（核心功能）
-        function playChannel(channel) {
-            showStatus('正在加载...', 'loading');
-            
-            // 清除上一个播放器
-            stopCurrentPlayback();
-            
-            const video = document.getElementById('video');
-            const url = channel.url.toLowerCase();
-            
-            try {
-                // 自动检测格式并选择播放器
-                if (url.includes('.m3u8')) {
-                    // HLS 流
-                    if (Hls.isSupported()) {
-                        const hls = new Hls({ enableWorker: false });
-                        hls.loadSource(channel.url);
-                        hls.attachMedia(video);
-                        currentPlayer = hls;
-                    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                        // Safari 原生支持
-                        video.src = channel.url;
-                        currentPlayer = 'native';
-                    }
-                } 
-                else if (url.includes('.flv') || url.includes('rtmp://')) {
-                    // FLV 流
-                    if (flvjs.isSupported()) {
-                        const flvPlayer = flvjs.createPlayer({
-                            type: 'flv',
-                            url: channel.url
-                        });
-                        flvPlayer.attachMediaElement(video);
-                        flvPlayer.load();
-                        currentPlayer = flvPlayer;
-                    }
-                }
-                else if (url.includes('.mpd')) {
-                    // MPEG-DASH 流
-                    if (dashjs.supportsMediaSource()) {
-                        const dashPlayer = dashjs.MediaPlayer().create();
-                        dashPlayer.initialize(video, channel.url, true);
-                        currentPlayer = dashPlayer;
-                    }
-                }
-                else {
-                    // 其他格式（MP4等）直接使用原生video
-                    video.src = channel.url;
-                    currentPlayer = 'native';
-                }
-                
-                // 播放视频
-                video.play().then(() => {
-                    hideStatus();
-                    currentChannel = channel;
-                    // 标记激活状态
-                    document.querySelectorAll('.channel').forEach(el => el.classList.remove('active'));
-                    event.target.classList.add('active');
-                    // 保存记录
-                    localStorage.setItem('last_channel', JSON.stringify(channel));
-                }).catch(e => {
-                    showStatus('点击画面或按播放键开始', 'loading');
-                });
-                
-            } catch (error) {
-                console.error('播放失败:', error);
-                showStatus('播放失败: ' + error.message, 'error');
-            }
-        }
-
-        // ==================== 控制函数 ====================
-        function togglePlay() {
-            const video = document.getElementById('video');
-            if (video.paused) video.play();
-            else video.pause();
-        }
-        
-        function toggleMute() {
-            const video = document.getElementById('video');
-            video.muted = !video.muted;
-        }
-        
-        function toggleFullscreen() {
-            const container = document.getElementById('player-container');
-            if (!document.fullscreenElement) {
-                if (container.requestFullscreen) container.requestFullscreen();
-                else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen(); // iOS Safari
-            } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-            }
-        }
-        
-        function switchToCustom() {
-            const url = prompt('请输入直播源地址（支持 m3u8/flv/mp4 等）:');
-            if (url) {
-                const name = prompt('请输入频道名称:', '自定义频道');
-                const channel = { name: name || '自定义频道', url: url };
-                
-                // 保存到本地列表
-                let channels = JSON.parse(localStorage.getItem('tv_channels')) || [];
-                channels.push(channel);
-                localStorage.setItem('tv_channels', JSON.stringify(channels));
-                
-                renderChannels();
-                playChannel(channel);
-            }
-        }
-
-        // ==================== 工具函数 ====================
-        function stopCurrentPlayback() {
-            const video = document.getElementById('video');
-            video.pause();
-            video.src = '';
-            
-            if (currentPlayer) {
-                if (currentPlayer.destroy) currentPlayer.destroy();
-                currentPlayer = null;
-            }
-        }
-        
-        function showStatus(msg, type) {
-            const el = document.getElementById('status');
-            el.textContent = msg;
-            el.className = type;
-            el.style.display = 'block';
-        }
-        
-        function hideStatus() {
-            document.getElementById('status').style.display = 'none';
-        }
-        
-        function loadLastChannel() {
-            const last = localStorage.getItem('last_channel');
-            if (last) {
-                try {
-                    playChannel(JSON.parse(last));
-                } catch (e) {
-                    console.warn('加载上次频道失败', e);
-                }
-            }
-        }
-
-        // ==================== 事件监听 ====================
-        // 点击画面播放（解决iOS自动播放限制）
-        document.getElementById('video').addEventListener('click', function() {
-            if (this.paused) this.play();
-        });
-        
-        // 页面可见性变化时暂停/播放（节省流量）
-        document.addEventListener('visibilitychange', function() {
-            const video = document.getElementById('video');
-            if (document.hidden) {
-                video.pause();
-            }
-        });
-    </script>
 </body>
 </html>
