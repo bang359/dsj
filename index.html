@@ -12,14 +12,10 @@
 html,body{height:100%;overflow:hidden;background:#000;color:#fff}
 .main{display:flex;height:100%}
 
-/* 左侧分组频道列表 */
 .sidebar{width:180px;background:#111;padding:10px;overflow-y:auto;border-right:1px solid #333}
-.group{margin:12px 0 6px}
-.gtitle{padding:6px 8px;background:#222;color:#007aff;border-radius:4px;font-size:13px}
 .channel{padding:9px;background:#222;border-radius:4px;margin:4px 0;cursor:pointer;font-size:14px}
 .channel.active{background:#007aff;color:#fff}
 
-/* 播放器 */
 .player{flex:1;position:relative}
 #dplayer{width:100%;height:100%}
 .tip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:16px}
@@ -40,14 +36,12 @@ html,body{height:100%;overflow:hidden;background:#000;color:#fff}
 <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
 
 <script>
-// 你的直播源文件（自动读取 iphone.txt）
-const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/dsj.txt";
+const sourceUrl = "https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt";
 
 const tip = document.getElementById('tip');
 let dp = null;
 let channels = [];
 
-// 加载直播源
 async function loadChannels() {
   try {
     let res = await fetch(sourceUrl);
@@ -64,43 +58,12 @@ async function loadChannels() {
   }
 }
 
-// 渲染分组
+// 普通无分组列表
 function renderChannels() {
-  let groups = {
-    "📺 央视": [],
-    "📡 卫视": [],
-    "⚽ 体育": [],
-    "🎬 影视": [],
-    "🧸 少儿": [],
-    "📺 其他": []
-  };
-
-  channels.forEach(ch => {
-    let name = ch.name;
-    if (name.includes("CCTV") || name.includes("央视")) {
-      groups["📺 央视"].push(ch);
-    } else if (name.includes("卫视")) {
-      groups["📡 卫视"].push(ch);
-    } else if (name.includes("体育") || name.includes("CCTV5") || name.includes("赛事")) {
-      groups["⚽ 体育"].push(ch);
-    } else if (name.includes("电影") || name.includes("影视") || name.includes("剧")) {
-      groups["🎬 影视"].push(ch);
-    } else if (name.includes("少儿") || name.includes("动画") || name.includes("卡通")) {
-      groups["🧸 少儿"].push(ch);
-    } else {
-      groups["📺 其他"].push(ch);
-    }
-  });
-
   let html = '';
-  for (let g in groups) {
-    if (groups[g].length === 0) continue;
-    html += `<div class="group"><div class="gtitle">${g}</div>`;
-    groups[g].forEach((ch, i) => {
-      html += `<div class="channel" data-i="${i}">${ch.name}</div>`;
-    });
-    html += `</div>`;
-  }
+  channels.forEach((ch, i) => {
+    html += `<div class="channel" data-i="${i}">${ch.name}</div>`;
+  });
   channelList.innerHTML = html;
 
   document.querySelectorAll('.channel').forEach(el => {
@@ -110,7 +73,6 @@ function renderChannels() {
   if (channels.length) play(0);
 }
 
-// 万能播放
 function play(index) {
   document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.channel')[index].classList.add('active');
@@ -130,7 +92,6 @@ function play(index) {
   dp.on('error', () => { tip.textContent = '播放失败'; });
 }
 
-// 点击播放
 document.addEventListener('click', () => {
   if (dp && dp.video.paused) dp.play();
   tip.style.display = 'none';
