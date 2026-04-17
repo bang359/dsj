@@ -1,122 +1,63 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>电视家重生版</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background: #000;
-            color: #fff;
-            padding: 15px;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            color: #4fc3f7;
-            margin: 20px 0;
-        }
-        .video-box {
-            background: #111;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        video {
-            width: 100%;
-            display: block;
-            min-height: 280px;
-            background: #000;
-        }
-        .error {
-            color: #ff6b6b;
-            text-align: center;
-            padding: 10px;
-            display: none;
-        }
-        .channel-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-        .channel-btn {
-            background: #222;
-            color: #fff;
-            border: none;
-            padding: 16px;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        .channel-btn.active {
-            background: #007aff;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电视家重生版 - 全能解码</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:12px}
+.container{max-width:900px;margin:0 auto}
+h1{text-align:center;color:#4fc3f7;margin:20px 0}
+#dplayer{margin-bottom:20px;border-radius:12px;overflow:hidden}
+.channel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.channel-btn{background:#222;color:#fff;border:0;padding:16px;border-radius:8px;font-size:16px;cursor:pointer}
+.channel-btn.active{background:#007aff}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>📺 电视家重生版</h1>
-        <div class="video-box">
-            <video id="player" controls playsinline webkit-playsinline></video>
-            <div class="error" id="errorTip">播放失败，请切换其他频道</div>
-        </div>
-        <div class="channel-grid" id="channelList"></div>
-    </div>
+<div class="container">
+<h1>📺 电视家重生版</h1>
+<div id="dplayer"></div>
+<div class="channel-grid" id="channelList"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+<script>
+const TXT_URL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+const channelList = document.getElementById("channelList");
+let dp = null;
 
-    <script>
-        const video = document.getElementById('player');
-        const channelList = document.getElementById('channelList');
-        const errorTip = document.getElementById('errorTip');
-        const TXT_URL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+// 初始化万能播放器
+function initPlayer(url){
+    if(dp) dp.destroy();
+    dp = new DPlayer({
+        container: document.getElementById("dplayer"),
+        autoplay: true,
+        video: { url: url }
+    });
+}
 
-        // 加载你的频道列表（完全不修改）
-        (async function loadChannels() {
-            try {
-                const res = await fetch(TXT_URL);
-                const text = await res.text();
-                const lines = text.trim().split('\n');
-
-                lines.forEach(line => {
-                    if (!line) return;
-                    const [name, url] = line.split(',').map(i => i.trim());
-                    if (!name || !url) return;
-
-                    const btn = document.createElement('button');
-                    btn.className = 'channel-btn';
-                    btn.innerText = name;
-                    btn.onclick = () => play(url, btn);
-                    channelList.appendChild(btn);
-                });
-            } catch (e) {
-                errorTip.innerText = "加载频道失败";
-                errorTip.style.display = "block";
-            }
-        })();
-
-        // 苹果专用播放（终极兼容）
-        function play(url, btn) {
-            document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            errorTip.style.display = 'none';
-
-            // 苹果 Safari 原生播放（唯一有效方式）
-            video.src = url;
-            video.load();
-
-            // 用户点击后播放
-            video.play().catch(err => {
-                errorTip.style.display = 'block';
-                console.log("播放失败：", err);
-            });
-        }
-    </script>
+// 加载频道
+(async ()=>{
+    const text = await fetch(TXT_URL).then(r=>r.text());
+    text.trim().split("\n").forEach(line=>{
+        if(!line) return;
+        const [name,url] = line.split(",").map(i=>i.trim());
+        if(!name||!url) return;
+        const btn = document.createElement("button");
+        btn.className = "channel-btn";
+        btn.innerText = name;
+        btn.onclick = ()=>{
+            document.querySelectorAll(".channel-btn").forEach(b=>b.classList.remove("active"));
+            btn.classList.add("active");
+            initPlayer(url);
+        };
+        channelList.appendChild(btn);
+    });
+})();
+</script>
 </body>
 </html>
