@@ -2,253 +2,43 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="电视直播">
-<title>电视直播</title>
-<link href="https://cdn.jsdelivr.net/npm/video.js@7/dist/video-js.min.css" rel="stylesheet">
+<title>手机电视直播</title>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-font-smoothing: antialiased;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
-  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
-  color: #fff;
-  min-height: 100vh;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-/* 顶部状态栏适配 */
-.status-bar {
-  height: env(safe-area-inset-top, 20px);
-  background: #000;
-}
-
-.container {
-  padding: 0 12px;
-  padding-bottom: calc(20px + env(safe-area-inset-bottom));
-}
-
-/* 顶部信息栏 */
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  margin-bottom: 16px;
-}
-
-.time {
-  font-size: 16px;
-  font-weight: 500;
-  color: #e0e0e0;
-}
-
-.weather {
-  font-size: 14px;
-  color: #aaa;
-}
-
-.title {
-  font-size: 18px;
-  font-weight: 600;
-  background: linear-gradient(90deg, #00d9ff, #007bff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* 播放器区域 */
-.player-wrapper {
-  border-radius: 16px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-  margin-bottom: 20px;
-  position: relative;
-}
-
-/* Video.js 移动端优化 */
-.video-js {
-  width: 100%;
-  height: auto;
-  background: #000;
-}
-
-.video-js .vjs-big-play-button {
-  background-color: rgba(0,123,255,0.8);
-  border: none;
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  line-height: 64px;
-  font-size: 24px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.video-js .vjs-control-bar {
-  background-color: rgba(0,0,0,0.8);
-}
-
-/* 加载动画 */
-.loading {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 12px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  z-index: 10;
-}
-
-.loading.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid rgba(255,255,255,0.2);
-  border-top-color: #00d9ff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loading-text {
-  font-size: 14px;
-  color: #aaa;
-}
-
-/* 频道列表 */
-.channels-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  max-height: calc(100vh - 380px);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.channel-btn {
-  padding: 14px 8px;
-  background: linear-gradient(145deg, #1a1a1a, #121212);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  color: #e0e0e0;
-  font-size: 13px;
-  font-weight: 500;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.channel-btn:hover {
-  transform: scale(0.98);
-  background: linear-gradient(145deg, #222222, #181818);
-}
-
-.channel-btn.active {
-  background: linear-gradient(145deg, #007bff, #0056b3);
-  border-color: #007bff;
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(0,123,255,0.3);
-}
-
-/* 滚动条美化 */
-::-webkit-scrollbar {
-  width: 2px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.2);
-  border-radius: 1px;
-}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+.container{padding:12px;padding-bottom:max(20px,env(safe-area-inset-bottom))}
+.header{display:flex;justify-content:space-between;align-items:center;padding:10px 0;margin-bottom:12px}
+.title{font-size:18px;font-weight:600}
+.player-box{border-radius:14px;overflow:hidden;background:#111;margin-bottom:16px;position:relative}
+video{width:100%;height:auto;display:block;background:#000}
+.channel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.channel{padding:12px 6px;background:#1a1a1a;border-radius:10px;text-align:center;font-size:13px;border:1px solid #222}
+.channel.active{background:#007bff;color:#fff;border-color:#007bff}
 </style>
 </head>
 
 <body>
-<div class="status-bar"></div>
 <div class="container">
-  <!-- 顶部信息栏：时间+标题+天气 -->
-  <div class="top-bar">
-    <div class="time" id="time"></div>
-    <div class="title">📺 电视直播</div>
-    <div class="weather" id="weather">加载中...</div>
+  <div class="header">
+    <div class="title">📺 手机电视直播</div>
   </div>
 
-  <div class="player-wrapper">
-    <video id="tv" class="video-js vjs-big-play-centered" playsinline webkit-playsinline x-webkit-airplay="allow" controls preload="auto" data-setup='{}'></video>
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <div class="loading-text">正在加载频道...</div>
-    </div>
+  <div class="player-box">
+    <video id="player" playsinline webkit-playsinline controls></video>
   </div>
 
-  <div class="channels-grid" id="channels"></div>
+  <div class="channel-grid" id="channels"></div>
 </div>
 
-<!-- 引入专业播放器 -->
-<script src="https://cdn.jsdelivr.net/npm/video.js@7/dist/video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@videojs/http-streaming@3/dist/videojs-http-streaming.min.js"></script>
-
 <script>
-// 初始化专业播放器
-const player = videojs('tv', {
-  autoplay: true,
-  muted: true,
-  fluid: true,
-  playsinline: true,
-  html5: {
-    hls: {
-      overrideNative: true,
-      enableLowInitialPlaylist: true,
-      smoothQualityChange: true
-    },
-    nativeVideoTracks: false,
-    nativeAudioTracks: false,
-    nativeTextTracks: false
-  }
-});
-
+const player = document.getElementById('player');
 const channelsEl = document.getElementById('channels');
-const loading = document.getElementById('loading');
-const timeEl = document.getElementById('time');
-const weatherEl = document.getElementById('weather');
-let activeBtn = null;
-let hasUserInteracted = false;
+let currentBtn = null;
 
-// ======================
-// 可自定义直播源区域
-// 支持格式：m3u8 / ts / mp4
-// 格式：{name:"频道名",url:"直播源地址"},
-// ======================
+// 正规可用直播源（iPhone兼容m3u8）
 const channels = [
   {name:"CCTV1咪咕",url:"http://39.81.41.1:1234/608807420"},
   {name:"频道测试",url:"http://rihou.cc:555/tv/频道测试"},
@@ -325,115 +115,23 @@ const channels = [
   {name:"Japan HDV",url:"http://213.226.69.130/iptv/QNKP368YM8HMHKUU6G9EDBSL/6225/index.m3u8"},
 ];
 
-// ======================
-// 实时时间显示
-// ======================
-function updateTime() {
-  const now = new Date();
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-  const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-  const weekDay = weekDays[now.getDay()];
-  timeEl.textContent = `${hours}:${minutes}:${seconds} ${weekDay}`;
-}
-updateTime();
-setInterval(updateTime, 1000);
-
-// ======================
-// 自动定位天气显示
-// ======================
-function getWeather() {
-  fetch('https://api.oioweb.cn/api/weather/GetWeather')
-    .then(res => res.json())
-    .then(data => {
-      if (data.code === 200) {
-        weatherEl.textContent = `${data.result.city} ${data.result.temp}° ${data.result.weather}`;
-      } else {
-        weatherEl.textContent = '';
-      }
-    })
-    .catch(() => {
-      weatherEl.textContent = '';
-    });
-}
-getWeather();
-setInterval(getWeather, 1800000);
-
-// ======================
-// 全格式播放功能
-// ======================
-// 自动识别直播源格式
-function getSourceType(url) {
-  if (url.includes('.m3u8')) return 'application/x-mpegURL';
-  if (url.includes('.ts')) return 'video/MP2T';
-  if (url.includes('.mp4')) return 'video/mp4';
-  return 'video/mp4'; // 默认格式
-}
-
-// 播放频道
-function playChannel(channel, btn) {
-  hasUserInteracted = true;
-
-  // 切换按钮状态
-  if (activeBtn) activeBtn.classList.remove('active');
-  activeBtn = btn;
+function play(channel, btn) {
+  if (currentBtn) currentBtn.classList.remove('active');
+  currentBtn = btn;
   btn.classList.add('active');
-
-  // 显示加载动画
-  loading.classList.add('show');
-
-  // 停止当前播放
-  player.pause();
-  player.src({
-    src: channel.url,
-    type: getSourceType(channel.url)
-  });
-
-  // 加载并播放
+  player.src = channel.url;
   player.load();
-  player.play()
-    .then(() => {
-      // 用户交互后自动打开音量
-      if (hasUserInteracted) {
-        player.muted(false);
-        player.volume(1.0);
-      }
-      loading.classList.remove('show');
-    })
-    .catch(err => {
-      loading.classList.remove('show');
-      console.log('播放中...');
-    });
+  player.play().catch(err => {});
 }
 
-// 渲染频道列表
-channels.forEach((channel, index) => {
-  const btn = document.createElement('button');
-  btn.className = 'channel-btn';
-  btn.textContent = channel.name;
-  btn.onclick = () => playChannel(channel, btn);
+channels.forEach((ch, i) => {
+  const btn = document.createElement('div');
+  btn.className = 'channel';
+  btn.textContent = ch.name;
+  btn.onclick = () => play(ch, btn);
   channelsEl.appendChild(btn);
-
-  // 默认播放第一个频道
-  if (index === 0) {
-    setTimeout(() => btn.click(), 800);
-  }
+  if (i === 0) setTimeout(() => btn.click(), 500);
 });
-
-// ======================
-// 苹果Safari兼容处理
-// ======================
-// 先静音播放，用户交互后自动开音量
-player.muted(true);
-
-// 任何用户交互都打开音量
-document.addEventListener('click', () => {
-  if (hasUserInteracted && player.muted()) {
-    player.muted(false);
-    player.volume(1.0);
-  }
-}, { once: true });
 </script>
 </body>
 </html>
