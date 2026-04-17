@@ -4,26 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>高清电视直播</title>
+<title>全能电视直播</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 html,body{height:100%;overflow:hidden;background:#000;color:#fff}
 .main{display:flex;height:100%}
 
-.sidebar{width:160px;background:#111;padding:10px;overflow-y:auto;border-right:1px solid #222}
+.sidebar{width:170px;background:#111;padding:10px;overflow-y:auto;border-right:1px solid #333}
 .sidebar h3{font-size:14px;color:#aaa;margin-bottom:10px}
-.channel{padding:9px 10px;margin:4px 0;background:#222;border-radius:6px;font-size:14px;cursor:pointer}
-.channel.active{background:#007BFF;color:#fff}
+.channel{padding:10px;background:#222;border-radius:6px;margin:4px 0;cursor:pointer;font-size:14px}
+.channel.active{background:#007aff;color:#fff}
 
-.player-box{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
-video{width:100%;height:100%;object-fit:contain;background:#000}
-.loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:16px}
-
-@media(max-width:768px){
-  .sidebar{width:120px}
-  .channel{font-size:12px;padding:8px}
-}
+.player-box{flex:1;position:relative}
+#dplayer{width:100%;height:100%}
+.tip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:16px}
 </style>
 </head>
 
@@ -31,70 +26,82 @@ video{width:100%;height:100%;object-fit:contain;background:#000}
 <div class="main">
   <div class="sidebar">
     <h3>频道列表</h3>
-    <div id="list">加载中...</div>
+    <div id="channelList">加载中...</div>
   </div>
   <div class="player-box">
-    <video id="player" playsinline controls></video>
-    <div class="loading" id="tip">加载直播源中...</div>
+    <div id="dplayer"></div>
+    <div class="tip" id="tip">加载直播源...</div>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
 <script>
 const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt";
-const player = document.getElementById("player");
-const list = document.getElementById("list");
-const tip = document.getElementById("tip");
-
+const tip = document.getElementById('tip');
 let channels = [];
+let dp = null;
 
-async function loadList() {
+// 加载频道列表
+async function loadChannels() {
   try {
     let res = await fetch(sourceUrl);
-    let text = await res.text();
-    let lines = text.split("\n").filter(i => i.trim());
-    channels = [];
-
-    lines.forEach(line => {
-      let [name, url] = line.split(",");
-      if (name && url && (url.startsWith("http://") || url.startsWith("https://"))) {
-        channels.push({ name: name.trim(), url: url.trim() });
-      }
-    });
-
-    renderList();
+    let txt = await res.text();
+    channels = txt.split('\n')
+      .filter(l => l.trim())
+      .map(l => {
+        let [name, url] = l.split(',');
+        return name && url ? { name: name.trim(), url: url.trim() } : null;
+      })
+      .filter(i => i);
+    renderChannels();
   } catch (e) {
-    list.innerHTML = "<div style='color:red'>加载失败</div>";
+    channelList.innerHTML = '<div style="color:red">加载失败</div>';
   }
 }
 
-function renderList() {
-  list.innerHTML = "";
+// 渲染频道
+function renderChannels() {
+  let html = '';
   channels.forEach((ch, i) => {
-    let div = document.createElement("div");
-    div.className = "channel";
-    div.textContent = ch.name;
-    div.onclick = () => play(i);
-    list.appendChild(div);
+    html += `<div class="channel" data-index="${i}">${ch.name}</div>`;
   });
-}
-
-function play(index) {
-  document.querySelectorAll(".channel").forEach((d, i) => {
-    d.classList.toggle("active", i === index);
-  });
-  tip.style.display = "block";
+  channelList.innerHTML = html;
   
-  // ✅ 核心：默认打开音量（1.0 最大音量）
-  player.src = channels[index].url;
-  player.volume = 1.0;
-  player.muted = false;
+  document.querySelectorAll('.channel').forEach(el => {
+    el.onclick = () => play(+el.dataset.index);
+  });
+
+  if (channels.length) play(0);
 }
 
-player.oncanplay = () => {
-  tip.style.display = "none";
-};
+// 播放（自动识别 m3u8 / 普通流）
+function play(index) {
+  document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.channel')[index].classList.add('active');
+  
+  tip.style.display = 'block';
+  let url = channels[index].url;
 
-loadList();
+  if (dp) dp.destroy();
+  
+  dp = new DPlayer({
+    container: document.getElementById('dplayer'),
+    autoplay: false,
+    volume: 1.0,
+    video: { url }
+  });
+
+  dp.on('canplay', () => { tip.style.display = 'none'; });
+  dp.on('error', () => { tip.textContent = '播放失败'; });
+}
+
+// 点击屏幕播放（绕过iPhone限制）
+document.addEventListener('click', () => {
+  if (dp && dp.video.paused) dp.play();
+}, { once: true });
+
+loadChannels();
 </script>
 </body>
 </html>
