@@ -1,211 +1,203 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网页电视 - 安全直播源</title>
+    <title>网络电视</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Microsoft YaHei", sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
         }
         body {
-            background: #1a1a1a;
+            background: #0b0b0b;
             color: #fff;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            font-size: 28px;
-            color: #409eff;
-            margin-bottom: 10px;
-        }
-        .main {
+            height: 100vh;
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .player-box {
-            flex: 1;
-            min-width: 700px;
-            background: #000;
-            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
-        .channel-list {
-            width: 280px;
-            background: #2a2a2a;
-            border-radius: 8px;
-            padding: 10px;
-            height: 700px;
-            overflow-y: auto;
+        /* 播放区域 */
+        .player {
+            flex: 1;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-        .channel-item {
-            padding: 10px 12px;
-            margin-bottom: 6px;
-            background: #3a3a3a;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 14px;
-        }
-        .channel-item:hover {
-            background: #409eff;
-        }
-        .channel-item.active {
-            background: #409eff;
-            font-weight: bold;
+        .video-container {
+            flex: 1;
+            position: relative;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
         }
         video {
             width: 100%;
-            height: 700px;
-            object-fit: cover;
+            height: 100%;
+            object-fit: contain;
         }
-        .tip {
-            text-align: center;
-            margin-top: 15px;
-            color: #999;
-            font-size: 12px;
+        .status {
+            padding: 8px 12px;
+            background: #1a1a1a;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #aaa;
         }
-        @media (max-width: 1024px) {
-            .main {
-                flex-direction: column;
-            }
-            .player-box, .channel-list {
-                min-width: 100%;
-                width: 100%;
-            }
-            video, .channel-list {
-                height: auto;
-                max-height: 500px;
-            }
+        /* 频道列表 */
+        .sidebar {
+            width: 280px;
+            background: #141414;
+            border-left: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
+        .category-tabs {
+            display: flex;
+            gap: 6px;
+            padding: 10px;
+            background: #181818;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 6px 10px;
+            background: #262626;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .tab.active {
+            background: #007bff;
+        }
+        .channel-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+        .channel {
+            padding: 11px 14px;
+            margin-bottom: 6px;
+            background: #1f1f1f;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 14px;
+        }
+        .channel:hover {
+            background: #0066cc;
+        }
+        .channel.active {
+            background: #0056b3;
+            font-weight: 500;
+        }
+        /* 滚动条 */
+        ::-webkit-scrollbar {width: 6px;}
+        ::-webkit-scrollbar-thumb {background: #444; border-radius: 3px;}
+        ::-webkit-scrollbar-track {background: #111;}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📺 网页电视直播</h1>
-            <p>点击右侧频道即可播放</p>
-        </div>
-        <div class="main">
-            <div class="player-box">
-                <video id="videoPlayer" controls autoplay></video>
-            </div>
-            <div class="channel-list" id="channelList">
-                <!-- 频道列表将通过JS动态生成 -->
-            </div>
-        </div>
-        <div class="tip">
-            本页面仅提供合法央视、卫视直播源，无任何违规内容 | 播放失败请刷新页面
-        </div>
+
+<div class="player">
+    <div class="video-container">
+        <video id="video" controls autoplay></video>
     </div>
+    <div class="status" id="status">加载中...</div>
+</div>
 
-    <script>
-        // 仅保留合法合规的直播源，已过滤所有色情、违规内容
-        const channels = [
-            {name:"CCTV1咪咕",url:"http://39.81.41.1:1234/608807420"},
-            {name:"频道测试",url:"http://rihou.cc:555/tv/频道测试"},
-            {name:"❤️永久维护",url:"http://rihou.cc:555/tv/padan"},
-            {name:"❤️觉得好用",url:"http://rihou.cc:555/tv/padan"},
-            {name:"❤️请打赏观看",url:"http://rihou.cc:555/tv/padan"},
-            {name:"凤凰卫视",url:"http://rihou.cc:555/tv/凤凰卫视"},
-            {name:"镜新闻",url:"http://rihou.cc:555/tv/镜新闻"},
-            {name:"NTD",url:"https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8"},
-            { name: "CCTV1 综合", url: "http://1.24.39.180:9003/hls/1/index.m3u8" },
-            { name: "CCTV2 财经", url: "http://1.24.39.180:9003/hls/2/index.m3u8" },
-            { name: "CCTV3 综艺", url: "http://1.24.39.180:9003/hls/3/index.m3u8" },
-            { name: "CCTV4 中文国际", url: "http://1.24.39.180:9003/hls/4/index.m3u8" },
-            { name: "CCTV5 体育", url: "http://1.24.39.180:9003/hls/5/index.m3u8" },
-            { name: "CCTV6 电影", url: "http://1.24.39.180:9003/hls/6/index.m3u8" },
-            { name: "CCTV7 国防军事", url: "http://1.24.39.180:9003/hls/7/index.m3u8" },
-            { name: "CCTV8 电视剧", url: "http://1.24.39.180:9003/hls/8/index.m3u8" },
-            { name: "CCTV9 纪录", url: "http://1.24.39.180:9003/hls/9/index.m3u8" },
-            { name: "CCTV10 科教", url: "http://1.24.39.180:9003/hls/10/index.m3u8" },
-            { name: "CCTV11 戏曲", url: "http://1.24.39.180:9003/hls/11/index.m3u8" },
-            { name: "CCTV12 社会与法", url: "http://1.24.39.180:9003/hls/12/index.m3u8" },
-            { name: "CCTV13 新闻", url: "http://1.24.39.180:9003/hls/13/index.m3u8" },
-            { name: "CCTV14 少儿", url: "http://1.24.39.180:9003/hls/14/index.m3u8" },
-            { name: "CCTV15 音乐", url: "http://1.24.39.180:9003/hls/15/index.m3u8" },
-            { name: "CCTV16 奥林匹克", url: "http://1.24.39.180:9003/hls/60/index.m3u8" },
-            { name: "CCTV17 农业农村", url: "http://1.24.39.180:9003/hls/61/index.m3u8" },
-            { name: "湖南卫视", url: "http://1.24.39.180:9003/hls/28/index.m3u8" },
-            { name: "浙江卫视", url: "http://1.24.39.180:9003/hls/29/index.m3u8" },
-            { name: "江苏卫视", url: "http://1.24.39.180:9003/hls/30/index.m3u8" },
-            { name: "东方卫视", url: "http://1.24.39.180:9003/hls/44/index.m3u8" },
-            { name: "安徽卫视", url: "http://1.24.39.180:9003/hls/31/index.m3u8" },
-            { name: "贵州卫视", url: "http://1.24.39.180:9003/hls/32/index.m3u8" },
-            { name: "天津卫视", url: "http://1.24.39.180:9003/hls/33/index.m3u8" },
-            { name: "深圳卫视", url: "http://1.24.39.180:9003/hls/34/index.m3u8" },
-            { name: "山东卫视", url: "http://1.24.39.180:9003/hls/35/index.m3u8" },
-            { name: "云南卫视", url: "http://1.24.39.180:9003/hls/36/index.m3u8" },
-            { name: "河南卫视", url: "http://1.24.39.180:9003/hls/37/index.m3u8" },
-            { name: "黑龙江卫视", url: "http://1.24.39.180:9003/hls/38/index.m3u8" },
-            { name: "四川卫视", url: "http://1.24.39.180:9003/hls/39/index.m3u8" },
-            { name: "湖北卫视", url: "http://1.24.39.180:9003/hls/43/index.m3u8" },
-            { name: "东南卫视", url: "http://1.24.39.180:9003/hls/46/index.m3u8" },
-            { name: "河北卫视", url: "http://1.24.39.180:9003/hls/47/index.m3u8" },
-            { name: "广东卫视", url: "http://1.24.39.180:9003/hls/48/index.m3u8" }
-        ];
+<div class="sidebar">
+    <div class="category-tabs">
+        <div class="tab active" data-cate="all">全部</div>
+        <div class="tab" data-cate="cctv">央视</div>
+        <div class="tab" data-cate="sat">卫视</div>
+        <div class="tab" data-cate="movie">影视</div>
+        <div class="tab" data-cate="kids">少儿</div>
+    </div>
+    <div class="channel-list" id="channelList"></div>
+</div>
 
-        const videoPlayer = document.getElementById('videoPlayer');
-        const channelList = document.getElementById('channelList');
-        let currentActive = null;
+<script>
+const video = document.getElementById('video');
+const channelList = document.getElementById('channelList');
+const status = document.getElementById('status');
+const tabs = document.querySelectorAll('.tab');
 
-        // 生成频道列表
-        function renderChannels() {
-            channels.forEach((channel, index) => {
-                const div = document.createElement('div');
-                div.className = 'channel-item';
-                div.textContent = channel.name;
-                div.dataset.index = index;
-                
-                div.addEventListener('click', () => {
-                    playChannel(index);
-                });
-                
-                channelList.appendChild(div);
-            });
-            
-            // 默认播放第一个频道
-            if (channels.length > 0) {
-                playChannel(0);
-            }
+// 直播源地址
+const sourceUrl = 'https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt';
+
+let allChannels = [];
+let currentPlaying = null;
+
+// 加载频道
+fetch(sourceUrl)
+  .then(r => r.text())
+  .then(t => {
+    const lines = t.split('\n').map(i => i.trim()).filter(Boolean);
+    const list = [];
+    lines.forEach(line => {
+      if (line.includes(',')) {
+        const [name, url] = line.split(',', 2);
+        if (name && url && url.startsWith('http')) {
+          list.push({ name: name.trim(), url: url.trim() });
         }
+      }
+    });
+    allChannels = list;
+    renderChannels('all');
+    status.textContent = `加载完成 → 共 ${list.length} 个频道`;
 
-        // 播放指定频道
-        function playChannel(index) {
-            const channel = channels[index];
-            videoPlayer.src = channel.url;
-            videoPlayer.load();
-            videoPlayer.play().catch(err => {
-                console.log('播放失败:', err);
-                alert('该频道暂时无法播放，请尝试其他频道');
-            });
-            
-            // 更新选中状态
-            if (currentActive) {
-                currentActive.classList.remove('active');
-            }
-            currentActive = channelList.children[index];
-            currentActive.classList.add('active');
-        }
+    // 自动播放第一个
+    if (list.length) playChannel(list[0].name, list[0].url);
+  })
+  .catch(e => {
+    status.textContent = '❌ 直播源加载失败';
+    console.error(e);
+  });
 
-        // 初始化
-        window.addEventListener('DOMContentLoaded', renderChannels);
-    </script>
+// 渲染频道
+function renderChannels(cate) {
+  channelList.innerHTML = '';
+  let filtered = allChannels;
+
+  if (cate === 'cctv') filtered = allChannels.filter(i => i.name.includes('CCTV'));
+  if (cate === 'sat') filtered = allChannels.filter(i => /卫视|广东|湖南|浙江|江苏/.test(i.name));
+  if (cate === 'movie') filtered = allChannels.filter(i => /电影|电视剧|影视|院线/.test(i.name));
+  if (cate === 'kids') filtered = allChannels.filter(i => /少儿|卡通|动画|宝宝/.test(i.name));
+
+  filtered.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'channel';
+    if (currentPlaying === item.url) div.classList.add('active');
+    div.textContent = item.name;
+    div.onclick = () => playChannel(item.name, item.url);
+    channelList.appendChild(div);
+  });
+}
+
+// 播放
+function playChannel(name, url) {
+  currentPlaying = url;
+  video.src = url;
+  video.load();
+  video.play().catch(() => {});
+  status.textContent = `正在播放：${name}`;
+
+  // 更新高亮
+  document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
+  [...document.querySelectorAll('.channel')].find(i => i.textContent === name)?.classList.add('active');
+}
+
+// 分类切换
+tabs.forEach(tab => {
+  tab.onclick = () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderChannels(tab.dataset.cate);
+  };
+});
+</script>
 </body>
 </html>
