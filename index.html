@@ -3,169 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>风云直播 - 网页电视</title>
+<title>📺 高清网页电视</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif}
-body{background:#0f0f0f;min-height:100vh;padding:20px;color:#fff}
-.tv-app{max-width:1400px;margin:0 auto}
-.header{text-align:center;margin-bottom:25px}
-.logo{font-size:32px;font-weight:bold;color:#00eaff;text-shadow:0 0 15px rgba(0,234,255,.5);margin-bottom:10px}
-.subtitle{color:#ccc;font-size:14px}
-.player-section{background:#000;border-radius:12px;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.8);margin-bottom:25px;position:relative}
-.video-container{position:relative;width:100%;padding-top:56.25%}
-video{position:absolute;top:0;left:0;width:100%;height:100%;background:#000}
-.no-source{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;font-size:18px}
-.category-tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
-.tab-btn{padding:10px 20px;background:#222;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:all .3s;font-size:14px}
-.tab-btn.active{background:#00aaff;color:#fff}
-.tab-btn:hover{background:#333}
-.tab-btn.active:hover{background:#0099dd}
-.channels-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
-.channel-item{padding:14px 10px;background:#1a1a1a;border:1px solid #333;border-radius:8px;text-align:center;cursor:pointer;transition:all .3s;font-size:14px;color:#eee}
-.channel-item:hover{background:#2a2a2a;border-color:#00aaff;transform:translateY(-2px)}
-.channel-item.active{background:#00aaff;color:#fff;border-color:#00aaff}
-@media (max-width:768px){
-.logo{font-size:24px}
-.channels-container{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
-.channel-item{padding:12px 8px;font-size:13px}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", sans-serif;
+}
+
+body {
+    background: #121212;
+    color: #fff;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #00ddff;
+    text-shadow: 0 0 10px #00aaff;
+}
+
+/* 播放器区域 */
+.player-wrapper {
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    position: relative;
+    box-shadow: 0 0 40px #000;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+}
+
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+
+/* 加载提示 */
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 16px;
+    background: rgba(0,0,0,0.7);
+    display: none;
+}
+
+/* 频道区域 */
+.channel-box {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.channel-btn {
+    padding: 12px 8px;
+    background: #1e1e1e;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.channel-btn:hover {
+    background: #2a2a2a;
+    border-color: #00aaff;
+}
+
+.channel-btn.active {
+    background: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+
+/* 提示文字 */
+.tip {
+    text-align: center;
+    color: #888;
+    margin-bottom: 15px;
+    font-size: 14px;
 }
 </style>
 </head>
-<body>
-<div class="tv-app">
-    <div class="header">
-        <div class="logo">📺 风云直播</div>
-        <div class="subtitle">高清电视直播 | 浏览器直接观看</div>
-    </div>
 
-    <div class="player-section">
+<body>
+<div class="container">
+    <h1 class="title">📺 高清网页电视</h1>
+    <p class="tip">打开 CORS 插件后播放更稳定 | 部分频道失效属于正常现象</p>
+
+    <div class="player-wrapper">
         <div class="video-container">
             <video id="tvPlayer" controls autoplay playsinline></video>
-            <div id="noSourceTip" class="no-source">请选择频道开始播放</div>
+            <div class="loading" id="loading">正在加载频道...</div>
         </div>
     </div>
 
-    <div class="category-tabs" id="categoryTabs"></div>
-    <div class="channels-container" id="channelsContainer"></div>
+    <div class="channel-box" id="channelList"></div>
 </div>
 
 <script>
-const channelData = {
-    "央视频道": [
-    {name:"CCTV1",url:"http://74.91.26.218:82/live/cctv1hd.m3u8"},
-    {name:"CCTV2",url:"http://74.91.26.218:82/live/cctv2hd.m3u8"},
-    {name:"CCTV3",url:"http://74.91.26.218:82/live/cctv3hd.m3u8"},
-    {name:"CCTV4",url:"http://74.91.26.218:82/live/cctv4hd.m3u8"},
-    {name:"CCTV5",url:"http://74.91.26.218:82/live/cctv5hd.m3u8"},
-    {name:"CCTV5+",url:"http://74.91.26.218:82/live/cctv5p.m3u8"},
-    {name:"CCTV6",url:"http://74.91.26.218:82/live/cctv6hd.m3u8"},
-    {name:"CCTV7",url:"http://74.91.26.218:82/live/cctv7hd.m3u8"},
-    {name:"CCTV8",url:"http://74.91.26.218:82/live/cctv8hd.m3u8"},
-    {name:"CCTV9",url:"http://74.91.26.218:82/live/cctv9hd.m3u8"},
-    {name:"CCTV10",url:"http://74.91.26.218:82/live/cctv10hd.m3u8"},
-    {name:"CCTV11",url:"http://74.91.26.218:82/live/cctv11hd.m3u8"},
-    {name:"CCTV12",url:"http://74.91.26.218:82/live/cctv12hd.m3u8"},
-    {name:"CCTV13",url:"http://74.91.26.218:82/live/cctv13hd.m3u8"},
-    {name:"CCTV14",url:"http://74.91.26.218:82/live/cctv14hd.m3u8"},
-    {name:"CCTV15",url:"http://74.91.26.218:82/live/cctv15hd.m3u8"},
-    {name:"CCTV16",url:"http://74.91.26.218:82/live/cctv16hd.m3u8"},
-    {name:"CCTV17",url:"http://74.91.26.218:82/live/cctv17hd.m3u8"},
-    {name:"CCTV-4K",url:"http://107.150.60.122/live/cctv4k.m3u8"},
-    ],
-    "卫视频道": [
-    {name:"湖南卫视",url:"http://107.150.60.122/live/hnwshd.m3u8"},
-    {name:"东方卫视",url:"http://107.150.60.122/live/dfwshd.m3u8"},
-    {name:"浙江卫视",url:"http://107.150.60.122/live/zjwshd.m3u8"},
-    {name:"江苏卫视",url:"http://107.150.60.122/live/jswshd.m3u8"},
-    {name:"重庆卫视",url:"http://107.150.60.122/live/cqwshd.m3u8"},
-    {name:"东南卫视",url:"http://107.150.60.122/live/dnwshd.m3u8"},
-    {name:"广西卫视",url:"http://107.150.60.122/live/gxwshd.m3u8"},
-    {name:"湖北卫视",url:"http://107.150.60.122/live/hbwshd.m3u8"},
-    {name:"辽宁卫视",url:"http://107.150.60.122/live/lnwshd.m3u8"},
-    {name:"山东卫视",url:"http://107.150.60.122/live/sdwshd.m3u8"},
-    {name:"天津卫视",url:"http://107.150.60.122/live/tjwshd.m3u8"},
-    {name:"广东卫视",url:"http://107.150.60.122/live/gdwshd.m3u8"},
-    {name:"深圳卫视",url:"http://107.150.60.122/live/szwshd.m3u8"}
-    ],
-    "台湾频道": [
-        {name:"NTD",url:"https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8"},
-        {name:"Japan HDV",url:"http://a0bn5xro.rostelekom.xyz/iptv/AHMQNVLWUTM5PW/6225/index.m3u8"},
-        {name:"民视",url:"http://iptv.4666888.xyz/iptv2A.php?id=55"},
-        {name:"华艺中文",url:"http://iptv.4666888.xyz/iptv2A.php?id=37"},
-        {name:"爱奇艺",url:"http://iptv.4666888.xyz/iptv2A.php?id=21"},
-        {name:"靖洋戏剧",url:"http://iptv.4666888.xyz/iptv2A.php?id=42"},
-        {name:"靖天电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=56"},
-        {name:"东森电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=48"},
-        {name:"纬来电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=54"},
-        {name:"龙华电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=45"},
-        {name:"龙华洋片",url:"http://iptv.4666888.xyz/iptv2A.php?id=60"},
-        {name:"风云恐怖电影",url:"http://iptv.4666888.xyz/iptv2A.php?id=59"},
-        {name:"ROCK_Action",url:"http://iptv.4666888.xyz/iptv2A.php?id=50"},
-        {name:"梦工场动漫",url:"http://iptv.4666888.xyz/iptv2A.php?id=40"},
-        {name:"Duck TV儿童卡通",url:"http://iptv.4666888.xyz/iptv2A.php?id=39"},
-        {name:"MOMO亲子",url:"http://iptv.4666888.xyz/iptv2A.php?id=49"},
-        {name:"金光布袋戏",url:"http://iptv.4666888.xyz/iptv2A.php?id=38"},
-        {name:"民视综艺",url:"http://iptv.4666888.xyz/iptv2A.php?id=46"},
-        {name:"民视影剧",url:"http://iptv.4666888.xyz/iptv2A.php?id=53"},
-        {name:"TVBS精采",url:"http://iptv.4666888.xyz/iptv2A.php?id=47"},
-        {name:"台视综合",url:"http://iptv.4666888.xyz/iptv2A.php?id=51"},
-        {name:"东森综合2",url:"http://iptv.4666888.xyz/iptv2A.php?id=58"},
-        {name:"八度空间",url:"http://iptv.4666888.xyz/iptv2A.php?id=52"},
-        {name:"韩流美食料理秀",url:"http://iptv.4666888.xyz/iptv2A.php?id=63"},
-        {name:"娱乐百分百",url:"http://iptv.4666888.xyz/iptv2A.php?id=64"},
-        {name:"综艺大赢家",url:"http://iptv.4666888.xyz/iptv2A.php?id=65"}
-    ]
-};
-
 const player = document.getElementById('tvPlayer');
-const noSourceTip = document.getElementById('noSourceTip');
-const categoryTabs = document.getElementById('categoryTabs');
-const channelsContainer = document.getElementById('channelsContainer');
+const channelList = document.getElementById('channelList');
+const loading = document.getElementById('loading');
+let currentBtn = null;
 
-let currentCategory = "央视频道";
-let currentChannelIndex = 0;
+// 直播源地址（你提供的仓库）
+const sourceUrl = "https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt";
 
-function initCategories(){
-    categoryTabs.innerHTML = '';
-    Object.keys(channelData).forEach(cat=>{
-        const btn = document.createElement('button');
-        btn.className = `tab-btn ${cat===currentCategory?'active':''}`;
-        btn.textContent = cat;
-        btn.onclick = ()=>{
-            currentCategory = cat;
-            initCategories();
-            renderChannels();
+// 加载直播源列表
+loadChannelList();
+
+async function loadChannelList() {
+    try {
+        let res = await fetch(sourceUrl);
+        let text = await res.text();
+        parseChannels(text);
+    } catch (e) {
+        alert("加载直播源失败，请开启 CORS 插件或检查网络");
+        console.error(e);
+    }
+}
+
+// 解析频道
+function parseChannels(text) {
+    let lines = text.split('\n').map(i => i.trim()).filter(i => i);
+    let channels = [];
+
+    lines.forEach(line => {
+        if (line.includes(',')) {
+            let [name, url] = line.split(',', 2);
+            if (url && (url.includes('.m3u8') || url.includes('.ts'))) {
+                channels.push({ name, url });
+            }
+        }
+    });
+
+    if (channels.length === 0) {
+        alert("未解析到有效频道");
+        return;
+    }
+
+    renderChannels(channels);
+    // 默认播放第一个
+    if (channels[0]) playChannel(channels[0].url);
+}
+
+// 渲染频道按钮
+function renderChannels(channels) {
+    channelList.innerHTML = '';
+
+    channels.forEach((ch, index) => {
+        let btn = document.createElement('div');
+        btn.className = 'channel-btn';
+        btn.innerText = ch.name;
+        btn.onclick = () => {
+            playChannel(ch.url, btn);
         };
-        categoryTabs.appendChild(btn);
+        channelList.appendChild(btn);
     });
 }
 
-function renderChannels(){
-    channelsContainer.innerHTML = '';
-    const channels = channelData[currentCategory]||[];
-    channels.forEach((ch,i)=>{
-        const item = document.createElement('div');
-        item.className = `channel-item ${i===currentChannelIndex?'active':''}`;
-        item.textContent = ch.name;
-        item.onclick = ()=>playChannel(ch.url,i);
-        channelsContainer.appendChild(item);
-    });
-}
+// 播放频道
+function playChannel(url, btn) {
+    loading.style.display = 'flex';
+    
+    // 按钮高亮
+    if (currentBtn) currentBtn.classList.remove('active');
+    currentBtn = btn;
+    if (btn) btn.classList.add('active');
 
-function playChannel(url,idx){
-    currentChannelIndex = idx;
-    noSourceTip.style.display = 'none';
     player.src = url;
     player.load();
-    player.play().catch(e=>alert('播放失败，换个频道试试'));
-    renderChannels();
-}
 
-window.onload = ()=>{
-    initCategories();
-    renderChannels();
-    if(channelData[currentCategory]?.length) playChannel(channelData[currentCategory][0].url,0);
-};
+    player.play()
+        .then(() => loading.style.display = 'none')
+        .catch(err => {
+            loading.style.display = 'none';
+            alert("播放失败：该频道已失效或网络异常");
+        });
+}
 </script>
 </body>
 </html>
