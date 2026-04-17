@@ -4,28 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" "black-translucent">
-<title>TS 格式专用电视</title>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>TS 电视直播</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;font-family:-apple-system, sans-serif}
+body{background:#000;color:#fff;font-family:-apple-system, BlinkMacSystemFont, sans-serif}
 .container{padding:12px}
 .title{font-size:18px;margin:10px 0 16px}
 .player-box{width:100%;height:220px;background:#111;border-radius:14px;overflow:hidden}
-video{width:100%;height:100%;object-fit:cover}
-.channel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+video{width:100%;height:100%;object-fit:cover;background:#000}
+.channel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:16px}
 .channel{padding:12px;background:#1a1a1a;border-radius:10px;text-align:center}
-.channel.active{background:#007bff}
+.channel.active{background:#007bff;color:#fff}
 </style>
 </head>
 
 <body>
 <div class="container">
-  <div class="title">📺 TS 格式直播</div>
+  <div class="title">📺 TS 专用电视</div>
   <div class="player-box">
     <video id="player" playsinline webkit-playsinline controls muted></video>
   </div>
-
   <div class="channel-grid" id="channels"></div>
 </div>
 
@@ -34,11 +33,13 @@ const player = document.getElementById('player');
 const channelsEl = document.getElementById('channels');
 let currentBtn = null;
 
-// ========= 你可以在这里放任意 .ts 直播源 =========
+// 你提供的 TS 直播源（已直接填入）
 const channels = [
   { name: "惊艳", url: "http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/85.ts" },
-  { name: "潘多拉", url: "http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/86.ts" },
-  // 可以继续加：{name:"名称",url:"xxx.ts"},
+  { name: "潘朵啦", url: "http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/86.ts" },
+  { name: "松1", url: "http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/88.ts" },
+  { name: "松2", url: "http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/89.ts" },
+  { name: "松3", url: "http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/90.ts" },
 ];
 
 function play(channel, btn) {
@@ -46,24 +47,24 @@ function play(channel, btn) {
   currentBtn = btn;
   btn.classList.add('active');
 
-  // 核心：iPhone 播放 TS 必须这样写
-  player.pause();
-  player.src = channel.url;
-  player.load();
-  
-  player.play().then(() => {
-    player.muted = false;
-  }).catch(err => {});
+  try {
+    player.pause();
+    player.src = "";
+    player.src = channel.url;
+    player.load();
+    
+    player.play().then(() => {
+      player.muted = false;
+    }).catch(err => {});
+  } catch(e) {}
 }
 
-// 渲染频道
 channels.forEach((ch, i) => {
   const btn = document.createElement('div');
   btn.className = 'channel';
   btn.textContent = ch.name;
   btn.onclick = () => play(ch, btn);
   channelsEl.appendChild(btn);
-  if (i === 0) setTimeout(() => btn.click(), 500);
 });
 </script>
 </body>
