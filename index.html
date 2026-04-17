@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📺 万能全格式电视</title>
+<title>📺电视家重生版</title>
 <link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.min.css" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -12,14 +12,34 @@ body{background:#0a0a0a;color:#fff;padding:15px;font-family:Arial}
 .title{text-align:center;margin:0 0 15px;color:#00d9ff}
 .player{border-radius:12px;overflow:hidden;margin-bottom:15px}
 .channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:500px;overflow-y:auto}
-.ch button{padding:10px;background:#1a1a1a;color:#fff;border:none;border-radius:8px;cursor:pointer}
-.ch button.active{background:#007bff}
+
+/* 🖤 暗黑风格按钮 */
+.channels button{
+  padding:10px;
+  background:#161616;      /* 超黑底色 */
+  color:#ffffff;          /* 白色文字 */
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* 鼠标悬浮效果 */
+.channels button:hover{
+  background:#252525;
+}
+
+/* 选中状态：蓝色高亮 */
+.channels button.active{
+  background:#007bff;
+  color:#fff;
+}
 </style>
 </head>
 
 <body>
 <div class="container">
-  <h2 class="title">📺 万能全格式电视直播</h2>
+  <h2 class="title">📺电视家重生版</h2>
   <div class="player">
     <video id="tv" class="video-js vjs-fluid" controls autoplay></video>
   </div>
@@ -55,8 +75,6 @@ fetch(sourceUrl)
       if(activeBtn) activeBtn.classList.remove('active');
       activeBtn = btn;
       btn.classList.add('active');
-      
-      // 自动识别所有格式
       playAnySource(url);
     };
     list.appendChild(btn);
@@ -64,7 +82,6 @@ fetch(sourceUrl)
 })
 .catch(e=>alert("加载失败，请打开 CORS 插件"));
 
-// 万能播放：自动适配 m3u8 / ts / mp4 / flv
 function playAnySource(url) {
   let type = '';
   if (url.includes('.m3u8')) type = 'application/x-mpegURL';
