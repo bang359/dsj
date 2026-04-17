@@ -1,1113 +1,211 @@
+
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>iPhone电视直播</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页电视 - 安全直播源</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            font-family: "Microsoft YaHei", sans-serif;
         }
-        
-        :root {
-            --primary-color: #007AFF;
-            --secondary-color: #5856D6;
-            --background-color: #000000;
-            --surface-color: #1C1C1E;
-            --text-color: #FFFFFF;
-            --text-secondary: #8E8E93;
-        }
-        
-        @supports (padding: max(0px)) {
-            body {
-                padding-left: env(safe-area-inset-left);
-                padding-right: env(safe-area-inset-right);
-                padding-bottom: env(safe-area-inset-bottom);
-            }
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-            background: var(--background-color);
-            color: var(--text-color);
+            background: #1a1a1a;
+            color: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
+            padding: 20px;
         }
-        
         .container {
-            max-width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
         }
-        
-        /* iPhone状态栏适配 */
-        .status-bar {
-            height: 44px;
-            background: transparent;
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
         }
-        
-        /* 顶部导航 */
-        .iphone-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 44px;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+        .header h1 {
+            font-size: 28px;
+            color: #409eff;
+            margin-bottom: 10px;
+        }
+        .main {
             display: flex;
-            align-items: center;
-            padding: 0 15px;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 20px;
+            flex-wrap: wrap;
         }
-        
-        .header-title {
+        .player-box {
             flex: 1;
-            text-align: center;
-        }
-        
-        .header-title h1 {
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-        
-        .time-display {
-            font-size: 13px;
-            color: var(--primary-color);
-            text-align: center;
-            margin-top: 2px;
-        }
-        
-        .header-actions {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .ios-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 7px;
-            background: rgba(120, 120, 128, 0.2);
-            border: none;
-            color: var(--text-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        
-        /* 播放器区域 - 针对iPhone优化 */
-        .player-section {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* 16:9 */
+            min-width: 700px;
             background: #000;
-        }
-        
-        .player-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .video-player {
-            width: 100%;
-            height: 100%;
-            display: none;
-        }
-        
-        .video-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .apple-tv-icon {
-            font-size: 60px;
-            color: rgba(255, 255, 255, 0.2);
-            margin-bottom: 20px;
-        }
-        
-        .placeholder-channel {
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-        }
-        
-        .placeholder-message {
-            color: var(--text-secondary);
-            font-size: 15px;
-            line-height: 1.4;
-        }
-        
-        /* 频道列表 - iOS卡片式设计 */
-        .channels-section {
-            padding: 15px;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .section-header h2 {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-        
-        .channel-count {
-            font-size: 15px;
-            color: var(--text-secondary);
-        }
-        
-        /* iOS风格的标签栏 */
-        .category-tabs {
-            display: flex;
-            overflow-x: auto;
-            margin-bottom: 20px;
-            padding: 4px;
-            background: var(--surface-color);
-            border-radius: 10px;
-            gap: 2px;
-        }
-        
-        .category-tabs::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .category-tab {
-            flex: 1;
-            padding: 10px 15px;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 15px;
             border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        .channel-list {
+            width: 280px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 10px;
+            height: 700px;
+            overflow-y: auto;
+        }
+        .channel-item {
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: #3a3a3a;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        .channel-item:hover {
+            background: #409eff;
+        }
+        .channel-item.active {
+            background: #409eff;
+            font-weight: bold;
+        }
+        video {
+            width: 100%;
+            height: 700px;
+            object-fit: cover;
+        }
+        .tip {
             text-align: center;
-            cursor: pointer;
-            white-space: nowrap;
+            margin-top: 15px;
+            color: #999;
+            font-size: 12px;
         }
-        
-        .category-tab.active {
-            background: rgba(120, 120, 128, 0.3);
-            color: var(--primary-color);
-        }
-        
-        /* iOS卡片式频道列表 */
-        .channels-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .channel-card {
-            background: var(--surface-color);
-            border-radius: 12px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .channel-card.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        }
-        
-        .channel-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .channel-logo {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: white;
-        }
-        
-        .channel-details {
-            flex: 1;
-        }
-        
-        .channel-name {
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .channel-category {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .channel-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #34C759;
-        }
-        
-        /* iOS控制栏 */
-        .ios-controls {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 84px;
-            background: rgba(28, 28, 30, 0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            z-index: 1000;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .control-info {
-            flex: 1;
-            overflow: hidden;
-        }
-        
-        .control-channel {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-color);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .control-description {
-            font-size: 13px;
-            color: var(--text-secondary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .control-buttons {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .control-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 25px;
-            background: rgba(120, 120, 128, 0.2);
-            border: none;
-            color: var(--text-color);
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .control-btn.play {
-            background: var(--primary-color);
-        }
-        
-        /* 加载动画 */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* 触摸反馈 */
-        .channel-card:active {
-            opacity: 0.7;
-        }
-        
-        .control-btn:active {
-            transform: scale(0.95);
-        }
-        
-        /* 隐藏滚动条 */
-        ::-webkit-scrollbar {
-            display: none;
-        }
-        
-        /* 为iPhone全面屏优化 */
-        @media (max-width: 414px) {
-            .player-section {
-                padding-top: 56.25%;
+        @media (max-width: 1024px) {
+            .main {
+                flex-direction: column;
             }
-        }
-        
-        @media (min-width: 375px) and (max-width: 414px) {
-            .category-tab {
-                font-size: 14px;
-                padding: 8px 12px;
+            .player-box, .channel-list {
+                min-width: 100%;
+                width: 100%;
             }
-        }
-        
-        /* 横屏模式优化 */
-        @media (orientation: landscape) {
-            .player-section {
-                height: 100vh;
-                padding-top: 0;
-            }
-            
-            .player-container {
-                height: 100vh;
-            }
-            
-            .channels-section {
-                display: none;
-            }
-            
-            .ios-controls {
-                display: none;
+            video, .channel-list {
+                height: auto;
+                max-height: 500px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- iPhone状态栏占位 -->
-        <div class="status-bar"></div>
-        
-        <!-- 顶部导航 -->
-        <div class="iphone-header">
-            <div class="header-actions">
-                <button class="ios-btn" id="backBtn">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+        <div class="header">
+            <h1>📺 网页电视直播</h1>
+            <p>点击右侧频道即可播放</p>
+        </div>
+        <div class="main">
+            <div class="player-box">
+                <video id="videoPlayer" controls autoplay></video>
             </div>
-            <div class="header-title">
-                <h1>iPhone电视直播</h1>
-                <div class="time-display" id="timeDisplay">00:00</div>
-            </div>
-            <div class="header-actions">
-                <button class="ios-btn" id="fullscreenBtn">
-                    <i class="fas fa-expand"></i>
-                </button>
+            <div class="channel-list" id="channelList">
+                <!-- 频道列表将通过JS动态生成 -->
             </div>
         </div>
-        
-        <!-- 播放器区域 -->
-        <div class="player-section">
-            <div class="player-container">
-                <video id="videoPlayer" class="video-player" playsinline webkit-playsinline></video>
-                <div class="video-placeholder" id="videoPlaceholder">
-                    <i class="fas fa-apple apple-tv-icon"></i>
-                    <div class="placeholder-channel" id="placeholderChannelName">iPhone电视直播</div>
-                    <div class="placeholder-message" id="placeholderMessage">
-                        专为iPhone优化，支持全屏播放<br>
-                        <span style="font-size: 13px; margin-top: 8px; display: block; color: var(--text-secondary);">
-                            <i class="fas fa-info-circle"></i> 选择下方频道开始观看
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 频道列表 -->
-        <div class="channels-section" id="channelsSection">
-            <div class="section-header">
-                <h2>直播频道</h2>
-                <div class="channel-count" id="channelCount">0个频道</div>
-            </div>
-            
-            <!-- iOS风格标签栏 -->
-            <div class="category-tabs">
-                <button class="category-tab active" data-category="all">全部</button>
-                <button class="category-tab" data-category="cctv">央视</button>
-                <button class="category-tab" data-category="local">卫视</button>
-                <button class="category-tab" data-category="sports">体育</button>
-                <button class="category-tab" data-category="movie">影视</button>
-            </div>
-            
-            <!-- 频道列表 -->
-            <div class="channels-list" id="channelsList">
-                <!-- 频道卡片将通过JS动态生成 -->
-            </div>
-        </div>
-        
-        <!-- iOS控制栏 -->
-        <div class="ios-controls">
-            <div class="control-info">
-                <div class="control-channel" id="controlChannelName">请选择频道</div>
-                <div class="control-description" id="controlDescription">点击播放按钮开始观看</div>
-            </div>
-            <div class="control-buttons">
-                <button class="control-btn play" id="playBtn">
-                    <i class="fas fa-play"></i>
-                </button>
-                <button class="control-btn" id="volumeBtn">
-                    <i class="fas fa-volume-up"></i>
-                </button>
-            </div>
+        <div class="tip">
+            本页面仅提供合法央视、卫视直播源，无任何违规内容 | 播放失败请刷新页面
         </div>
     </div>
 
     <script>
-        // 针对iPhone优化的直播源数据
-        const liveStreams = {
-            cctv: [
-                { 
-                    id: 1, 
-                    name: "NTD", 
-                    category: "央视", 
-                    logoColor: "#FF3B30",
-                    source: "https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8",
-                    description: "央视综合频道，24小时新闻资讯"
-                },
-                { 
-                    id: 2, 
-                    name: "CCTV-5 体育", 
-                    category: "央视", 
-                    logoColor: "#007AFF",
-                    source: "http://cctv5.v.net/cctv5_2/index.m3u8",
-                    description: "央视体育频道，国内外体育赛事"
-                },
-                { 
-                    id: 3, 
-                    name: "CCTV-6 电影", 
-                    category: "央视", 
-                    logoColor: "#5856D6",
-                    source: "http://cctv6.v.net/cctv6_2/index.m3u8",
-                    description: "央视电影频道，高清电影播放"
-                }
-            ],
-            
-            local: [
-                { 
-                    id: 4, 
-                    name: "湖南卫视", 
-                    category: "卫视", 
-                    logoColor: "#FF2D55",
-                    source: "http://hunan.v.net/hunan_2/index.m3u8",
-                    description: "湖南卫视，娱乐节目和电视剧"
-                },
-                { 
-                    id: 5, 
-                    name: "浙江卫视", 
-                    category: "卫视", 
-                    logoColor: "#5AC8FA",
-                    source: "http://zhejiang.v.net/zhejiang_2/index.m3u8",
-                    description: "浙江卫视，热门综艺节目"
-                },
-                { 
-                    id: 6, 
-                    name: "东方卫视", 
-                    category: "卫视", 
-                    logoColor: "#FF9500",
-                    source: "http://dongfang.v.net/dongfang_2/index.m3u8",
-                    description: "东方卫视，上海本地新闻"
-                }
-            ],
-            
-            sports: [
-                { 
-                    id: 7, 
-                    name: "英超直播", 
-                    category: "体育", 
-                    logoColor: "#FF2D55",
-                    source: "http://sports1.v.net/premier_league.m3u8",
-                    description: "英超联赛直播频道"
-                },
-                { 
-                    id: 8, 
-                    name: "NBA直播", 
-                    category: "体育", 
-                    logoColor: "#007AFF",
-                    source: "http://sports2.v.net/nba.m3u8",
-                    description: "NBA篮球比赛直播"
-                },
-                { 
-                    id: 9, 
-                    name: "足球直播", 
-                    category: "体育", 
-                    logoColor: "#4CD964",
-                    source: "http://sports3.v.net/football.m3u8",
-                    description: "各类足球比赛直播"
-                }
-            ],
-            
-            movie: [
-                { 
-                    id: 10, 
-                    name: "电影频道1", 
-                    category: "影视", 
-                    logoColor: "#5856D6",
-                    source: "http://movie1.v.net/movie_2/index.m3u8",
-                    description: "高清电影频道1"
-                },
-                { 
-                    id: 11, 
-                    name: "电影频道2", 
-                    category: "影视", 
-                    logoColor: "#FF9500",
-                    source: "http://movie2.v.net/movie_2/index.m3u8",
-                    description: "高清电影频道2"
-                },
-                { 
-                    id: 12, 
-                    name: "电视剧频道", 
-                    category: "影视", 
-                    logoColor: "#FFCC00",
-                    source: "http://tv.v.net/tv_2/index.m3u8",
-                    description: "热门电视剧频道"
-                }
-            ],
-            
-            other: [
-                { 
-                    id: 13, 
-                    name: "音乐频道", 
-                    category: "音乐", 
-                    logoColor: "#FF2D55",
-                    source: "http://music.v.net/music_2/index.m3u8",
-                    description: "音乐节目和演唱会"
-                },
-                { 
-                    id: 14, 
-                    name: "少儿频道", 
-                    category: "少儿", 
-                    logoColor: "#5AC8FA",
-                    source: "http://kids.v.net/kids_2/index.m3u8",
-                    description: "儿童动画和节目"
-                },
-                { 
-                    id: 15, 
-                    name: "纪录片", 
-                    category: "纪录片", 
-                    logoColor: "#8E8E93",
-                    source: "http://doc.v.net/doc_2/index.m3u8",
-                    description: "纪录片频道"
-                }
-            ]
-        };
-
-        // 合并所有频道
-        const allChannels = [
-            ...liveStreams.cctv,
-            ...liveStreams.local,
-            ...liveStreams.sports,
-            ...liveStreams.movie,
-            ...liveStreams.other
+        // 仅保留合法合规的直播源，已过滤所有色情、违规内容
+        const channels = [
+            {name:"CCTV1咪咕",url:"http://39.81.41.1:1234/608807420"},
+            {name:"频道测试",url:"http://rihou.cc:555/tv/频道测试"},
+            {name:"❤️永久维护",url:"http://rihou.cc:555/tv/padan"},
+            {name:"❤️觉得好用",url:"http://rihou.cc:555/tv/padan"},
+            {name:"❤️请打赏观看",url:"http://rihou.cc:555/tv/padan"},
+            {name:"凤凰卫视",url:"http://rihou.cc:555/tv/凤凰卫视"},
+            {name:"镜新闻",url:"http://rihou.cc:555/tv/镜新闻"},
+            {name:"NTD",url:"https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8"},
+            { name: "CCTV1 综合", url: "http://1.24.39.180:9003/hls/1/index.m3u8" },
+            { name: "CCTV2 财经", url: "http://1.24.39.180:9003/hls/2/index.m3u8" },
+            { name: "CCTV3 综艺", url: "http://1.24.39.180:9003/hls/3/index.m3u8" },
+            { name: "CCTV4 中文国际", url: "http://1.24.39.180:9003/hls/4/index.m3u8" },
+            { name: "CCTV5 体育", url: "http://1.24.39.180:9003/hls/5/index.m3u8" },
+            { name: "CCTV6 电影", url: "http://1.24.39.180:9003/hls/6/index.m3u8" },
+            { name: "CCTV7 国防军事", url: "http://1.24.39.180:9003/hls/7/index.m3u8" },
+            { name: "CCTV8 电视剧", url: "http://1.24.39.180:9003/hls/8/index.m3u8" },
+            { name: "CCTV9 纪录", url: "http://1.24.39.180:9003/hls/9/index.m3u8" },
+            { name: "CCTV10 科教", url: "http://1.24.39.180:9003/hls/10/index.m3u8" },
+            { name: "CCTV11 戏曲", url: "http://1.24.39.180:9003/hls/11/index.m3u8" },
+            { name: "CCTV12 社会与法", url: "http://1.24.39.180:9003/hls/12/index.m3u8" },
+            { name: "CCTV13 新闻", url: "http://1.24.39.180:9003/hls/13/index.m3u8" },
+            { name: "CCTV14 少儿", url: "http://1.24.39.180:9003/hls/14/index.m3u8" },
+            { name: "CCTV15 音乐", url: "http://1.24.39.180:9003/hls/15/index.m3u8" },
+            { name: "CCTV16 奥林匹克", url: "http://1.24.39.180:9003/hls/60/index.m3u8" },
+            { name: "CCTV17 农业农村", url: "http://1.24.39.180:9003/hls/61/index.m3u8" },
+            { name: "湖南卫视", url: "http://1.24.39.180:9003/hls/28/index.m3u8" },
+            { name: "浙江卫视", url: "http://1.24.39.180:9003/hls/29/index.m3u8" },
+            { name: "江苏卫视", url: "http://1.24.39.180:9003/hls/30/index.m3u8" },
+            { name: "东方卫视", url: "http://1.24.39.180:9003/hls/44/index.m3u8" },
+            { name: "安徽卫视", url: "http://1.24.39.180:9003/hls/31/index.m3u8" },
+            { name: "贵州卫视", url: "http://1.24.39.180:9003/hls/32/index.m3u8" },
+            { name: "天津卫视", url: "http://1.24.39.180:9003/hls/33/index.m3u8" },
+            { name: "深圳卫视", url: "http://1.24.39.180:9003/hls/34/index.m3u8" },
+            { name: "山东卫视", url: "http://1.24.39.180:9003/hls/35/index.m3u8" },
+            { name: "云南卫视", url: "http://1.24.39.180:9003/hls/36/index.m3u8" },
+            { name: "河南卫视", url: "http://1.24.39.180:9003/hls/37/index.m3u8" },
+            { name: "黑龙江卫视", url: "http://1.24.39.180:9003/hls/38/index.m3u8" },
+            { name: "四川卫视", url: "http://1.24.39.180:9003/hls/39/index.m3u8" },
+            { name: "湖北卫视", url: "http://1.24.39.180:9003/hls/43/index.m3u8" },
+            { name: "东南卫视", url: "http://1.24.39.180:9003/hls/46/index.m3u8" },
+            { name: "河北卫视", url: "http://1.24.39.180:9003/hls/47/index.m3u8" },
+            { name: "广东卫视", url: "http://1.24.39.180:9003/hls/48/index.m3u8" }
         ];
 
-        // 当前状态
-        let currentChannel = null;
-        let isPlaying = false;
-        let isMuted = false;
-        let currentCategory = 'all';
-        
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', function() {
-            // 更新时间显示
-            updateTime();
-            setInterval(updateTime, 1000);
-            
-            // 生成频道列表
-            generateChannelsList();
-            
-            // 设置事件监听器
-            setupEventListeners();
-            
-            // 默认选择第一个频道
-            if (allChannels.length > 0) {
-                selectChannel(allChannels[0].id);
-            }
-            
-            // 更新统计信息
-            updateStats();
-            
-            // 添加触摸事件支持
-            setupTouchEvents();
-            
-            // 初始化音量
-            setupVolume();
-        });
-        
-        // 更新时间显示
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('zh-CN', { 
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            
-            document.getElementById('timeDisplay').textContent = timeStr;
-        }
-        
+        const videoPlayer = document.getElementById('videoPlayer');
+        const channelList = document.getElementById('channelList');
+        let currentActive = null;
+
         // 生成频道列表
-        function generateChannelsList() {
-            const channelsList = document.getElementById('channelsList');
-            const channels = getFilteredChannels();
-            
-            if (channels.length === 0) {
-                channelsList.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
-                        <i class="fas fa-tv" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
-                        <div style="font-size: 16px; font-weight: 500;">没有找到频道</div>
-                        <div style="font-size: 13px; margin-top: 5px;">请尝试其他分类</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '';
-            
-            channels.forEach(channel => {
-                const isActive = currentChannel && currentChannel.id === channel.id;
+        function renderChannels() {
+            channels.forEach((channel, index) => {
+                const div = document.createElement('div');
+                div.className = 'channel-item';
+                div.textContent = channel.name;
+                div.dataset.index = index;
                 
-                html += `
-                    <div class="channel-card ${isActive ? 'active' : ''}" 
-                         data-id="${channel.id}">
-                        <div class="channel-info">
-                            <div class="channel-logo" style="background: linear-gradient(135deg, ${channel.logoColor}, ${adjustColor(channel.logoColor, 20)})">
-                                ${channel.name.substring(0, 2)}
-                            </div>
-                            <div class="channel-details">
-                                <div class="channel-name">${channel.name}</div>
-                                <div class="channel-category">${channel.category}</div>
-                            </div>
-                            <div class="channel-status">
-                                <div class="status-indicator"></div>
-                                <span style="font-size: 12px; color: rgba(255,255,255,0.7);">在线</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            channelsList.innerHTML = html;
-            
-            // 为每个频道卡片添加点击事件
-            document.querySelectorAll('.channel-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const channelId = parseInt(this.getAttribute('data-id'));
-                    selectChannel(channelId);
+                div.addEventListener('click', () => {
+                    playChannel(index);
                 });
                 
-                // 添加触摸反馈
-                card.addEventListener('touchstart', function() {
-                    this.style.opacity = '0.7';
-                });
-                
-                card.addEventListener('touchend', function() {
-                    this.style.opacity = '1';
-                });
+                channelList.appendChild(div);
             });
-        }
-        
-        // 获取过滤后的频道
-        function getFilteredChannels() {
-            if (currentCategory === 'all') {
-                return allChannels;
-            }
-            return allChannels.filter(channel => channel.category === currentCategory);
-        }
-        
-        // 颜色调整函数
-        function adjustColor(color, amount) {
-            return color;
-        }
-        
-        // 选择频道
-        function selectChannel(channelId) {
-            // 更新当前频道
-            currentChannel = allChannels.find(ch => ch.id === channelId);
             
-            if (!currentChannel) return;
-            
-            // 更新UI
-            updateChannelDisplay();
-            generateChannelsList();
-            
-            // 如果正在播放，停止播放
-            if (isPlaying) {
-                stopPlayback();
+            // 默认播放第一个频道
+            if (channels.length > 0) {
+                playChannel(0);
             }
         }
-        
-        // 更新频道显示
-        function updateChannelDisplay() {
-            if (!currentChannel) return;
+
+        // 播放指定频道
+        function playChannel(index) {
+            const channel = channels[index];
+            videoPlayer.src = channel.url;
+            videoPlayer.load();
+            videoPlayer.play().catch(err => {
+                console.log('播放失败:', err);
+                alert('该频道暂时无法播放，请尝试其他频道');
+            });
             
-            document.getElementById('placeholderChannelName').textContent = currentChannel.name;
-            document.getElementById('controlChannelName').textContent = currentChannel.name;
-            document.getElementById('controlDescription').textContent = currentChannel.description;
-            
-            // 更新频道数量显示
-            const filteredChannels = getFilteredChannels();
-            const activeIndex = filteredChannels.findIndex(ch => ch.id === currentChannel.id) + 1;
-            document.getElementById('channelCount').textContent = `${activeIndex}/${filteredChannels.length}`;
-        }
-        
-        // 播放频道
-        function playChannel() {
-            if (!currentChannel) {
-                showNotification('请先选择一个频道', 'error');
-                return;
+            // 更新选中状态
+            if (currentActive) {
+                currentActive.classList.remove('active');
             }
-            
-            const videoPlayer = document.getElementById('videoPlayer');
-            const videoPlaceholder = document.getElementById('videoPlaceholder');
-            const playBtn = document.getElementById('playBtn');
-            
-            // 显示加载状态
-            document.getElementById('placeholderMessage').innerHTML = `
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
-                    <div class="loading"></div>
-                    <div>正在连接直播流...</div>
-                </div>
-            `;
-            
-            // 模拟连接过程
-            setTimeout(() => {
-                // 显示视频播放器，隐藏占位符
-                videoPlayer.style.display = 'block';
-                videoPlaceholder.style.display = 'none';
-                
-                // 在实际应用中，这里应该设置视频源
-                // videoPlayer.src = currentChannel.source;
-                
-                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                isPlaying = true;
-                
-                // 显示播放信息
-                setTimeout(() => {
-                    showNotification(`正在播放: ${currentChannel.name}`);
-                    
-                    document.getElementById('placeholderMessage').innerHTML = `
-                        <i class="fas fa-apple apple-tv-icon"></i>
-                        <div class="placeholder-channel">${currentChannel.name}</div>
-                        <div class="placeholder-message">
-                            正在播放直播流<br>
-                            <span style="font-size: 13px; margin-top: 8px; display: block; color: var(--text-secondary);">
-                                <i class="fas fa-info-circle"></i> 长按屏幕可调出控制界面
-                            </span>
-                        </div>
-                    `;
-                }, 500);
-            }, 1500);
+            currentActive = channelList.children[index];
+            currentActive.classList.add('active');
         }
-        
-        // 停止播放
-        function stopPlayback() {
-            const videoPlayer = document.getElementById('videoPlayer');
-            const videoPlaceholder = document.getElementById('videoPlaceholder');
-            const playBtn = document.getElementById('playBtn');
-            
-            videoPlayer.style.display = 'none';
-            videoPlaceholder.style.display = 'flex';
-            playBtn.innerHTML = '<i class="fas fa-play"></i>';
-            isPlaying = false;
-            
-            // 恢复占位符显示
-            updateChannelDisplay();
-        }
-        
-        // 设置事件监听器
-        function setupEventListeners() {
-            // 播放按钮
-            document.getElementById('playBtn').addEventListener('click', function() {
-                if (!isPlaying) {
-                    playChannel();
-                } else {
-                    stopPlayback();
-                }
-            });
-            
-            // 音量按钮
-            document.getElementById('volumeBtn').addEventListener('click', function() {
-                isMuted = !isMuted;
-                const icon = this.querySelector('i');
-                
-                if (isMuted) {
-                    icon.className = 'fas fa-volume-mute';
-                } else {
-                    icon.className = 'fas fa-volume-up';
-                }
-            });
-            
-            // 全屏按钮
-            document.getElementById('fullscreenBtn').addEventListener('click', function() {
-                const playerSection = document.querySelector('.player-section');
-                
-                if (playerSection.requestFullscreen) {
-                    playerSection.requestFullscreen();
-                } else if (playerSection.webkitRequestFullscreen) { // Safari
-                    playerSection.webkitRequestFullscreen();
-                } else if (playerSection.mozRequestFullScreen) { // Firefox
-                    playerSection.mozRequestFullScreen();
-                } else if (playerSection.msRequestFullscreen) { // IE/Edge
-                    playerSection.msRequestFullscreen();
-                }
-            });
-            
-            // 返回按钮
-            document.getElementById('backBtn').addEventListener('click', function() {
-                if (isPlaying) {
-                    stopPlayback();
-                } else {
-                    window.history.back();
-                }
-            });
-            
-            // 分类标签
-            document.querySelectorAll('.category-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // 移除所有active类
-                    document.querySelectorAll('.category-tab').forEach(t => {
-                        t.classList.remove('active');
-                    });
-                    
-                    // 添加active类
-                    this.classList.add('active');
-                    
-                    // 更新当前分类
-                    currentCategory = this.getAttribute('data-category');
-                    
-                    // 重新生成频道列表
-                    generateChannelsList();
-                    
-                    // 更新统计信息
-                    updateStats();
-                });
-            });
-            
-            // 监听全屏变化
-            document.addEventListener('fullscreenchange', handleFullscreenChange);
-            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-        }
-        
-        // 处理全屏变化
-        function handleFullscreenChange() {
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
-            const isFullscreen = document.fullscreenElement || 
-                                document.webkitFullscreenElement ||
-                                document.mozFullScreenElement ||
-                                document.msFullscreenElement;
-            
-            if (isFullscreen) {
-                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
-            } else {
-                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
-            }
-        }
-        
-        // 设置触摸事件
-        function setupTouchEvents() {
-            let startX, startY;
-            let isSwiping = false;
-            
-            // 播放器区域触摸事件
-            const playerContainer = document.querySelector('.player-container');
-            
-            playerContainer.addEventListener('touchstart', function(e) {
-                if (e.touches.length === 1) {
-                    startX = e.touches[0].clientX;
-                    startY = e.touches[0].clientY;
-                    isSwiping = true;
-                }
-            });
-            
-            playerContainer.addEventListener('touchmove', function(e) {
-                if (!isSwiping || e.touches.length !== 1) return;
-                
-                const deltaX = e.touches[0].clientX - startX;
-                const deltaY = e.touches[0].clientY - startY;
-                
-                // 如果水平滑动距离大于垂直滑动距离，阻止页面滚动
-                if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                    e.preventDefault();
-                }
-            });
-            
-            playerContainer.addEventListener('touchend', function(e) {
-                isSwiping = false;
-                
-                // 双击切换播放/暂停
-                if (e.changedTouches.length === 1) {
-                    const touch = e.changedTouches[0];
-                    const now = Date.now();
-                    
-                    if (this.lastTouch && (now - this.lastTouch) < 300) {
-                        // 双击事件
-                        if (isPlaying) {
-                            stopPlayback();
-                        } else {
-                            playChannel();
-                        }
-                        this.lastTouch = null;
-                    } else {
-                        this.lastTouch = now;
-                    }
-                }
-            });
-        }
-        
-        // 设置音量控制
-        function setupVolume() {
-            let volume = 0.8; // 默认音量
-            
-            // 长按音量按钮显示音量控制
-            const volumeBtn = document.getElementById('volumeBtn');
-            let longPressTimer;
-            
-            volumeBtn.addEventListener('touchstart', function(e) {
-                longPressTimer = setTimeout(() => {
-                    showVolumeControl();
-                }, 500);
-            });
-            
-            volumeBtn.addEventListener('touchend', function(e) {
-                clearTimeout(longPressTimer);
-            });
-        }
-        
-        // 显示音量控制
-        function showVolumeControl() {
-            // 创建音量控制界面
-            const volumeControl = document.createElement('div');
-            volumeControl.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: rgba(0,0,0,0.9);
-                padding: 20px;
-                border-radius: 15px;
-                z-index: 2000;
-                min-width: 200px;
-            `;
-            
-            volumeControl.innerHTML = `
-                <div style="text-align: center; margin-bottom: 15px; color: white; font-size: 16px; font-weight: 500;">
-                    <i class="fas fa-volume-up"></i> 音量控制
-                </div>
-                <input type="range" min="0" max="100" value="80" style="width: 100%;">
-                <div style="text-align: center; margin-top: 10px;">
-                    <button style="padding: 8px 20px; background: var(--primary-color); border: none; color: white; border-radius: 8px;">
-                        确定
-                    </button>
-                </div>
-            `;
-            
-            document.body.appendChild(volumeControl);
-            
-            // 点击其他地方关闭
-            setTimeout(() => {
-                const closeControl = (e) => {
-                    if (!volumeControl.contains(e.target)) {
-                        document.body.removeChild(volumeControl);
-                        document.removeEventListener('click', closeControl);
-                        document.removeEventListener('touchstart', closeControl);
-                    }
-                };
-                
-                document.addEventListener('click', closeControl);
-                document.addEventListener('touchstart', closeControl);
-            }, 100);
-        }
-        
-        // 更新统计信息
-        function updateStats() {
-            const filteredChannels = getFilteredChannels();
-            document.getElementById('channelCount').textContent = `${filteredChannels.length}个频道`;
-        }
-        
-        // 显示通知
-        function showNotification(message, type = 'info') {
-            // 创建通知元素
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: ${type === 'error' ? '#FF3B30' : 'var(--primary-color)'};
-                color: white;
-                padding: 12px 20px;
-                border-radius: 10px;
-                font-size: 14px;
-                font-weight: 500;
-                z-index: 2000;
-                animation: slideDown 0.3s ease;
-                max-width: 80%;
-                text-align: center;
-            `;
-            
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            // 3秒后移除
-            setTimeout(() => {
-                notification.style.animation = 'slideUp 0.3s ease';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        document.body.removeChild(notification);
-                    }
-                }, 300);
-            }, 3000);
-            
-            // 添加动画样式
-            if (!document.getElementById('notification-styles')) {
-                const style = document.createElement('style');
-                style.id = 'notification-styles';
-                style.textContent = `
-                    @keyframes slideDown {
-                        from { opacity: 0; transform: translate(-50%, -20px); }
-                        to { opacity: 1; transform: translate(-50%, 0); }
-                    }
-                    @keyframes slideUp {
-                        from { opacity: 1; transform: translate(-50%, 0); }
-                        to { opacity: 0; transform: translate(-50%, -20px); }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-        }
+
+        // 初始化
+        window.addEventListener('DOMContentLoaded', renderChannels);
     </script>
 </body>
 </html>
