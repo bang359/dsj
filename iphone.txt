@@ -35,13 +35,10 @@ CCTV17,http://1.24.39.180:9003/hls/61/index.m3u8
 河南卫视,http://1.24.39.180:9003/hls/37/index.m3u8
 黑龙江卫视,http://1.24.39.180:9003/hls/38/index.m3u8
 四川卫视,http://1.24.39.180:9003/hls/39/index.m3u8
-江西卫视, 
 湖北卫视,http://1.24.39.180:9003/hls/43/index.m3u8
-重庆卫视, 
 东南卫视,http://1.24.39.180:9003/hls/46/index.m3u8
 河北卫视,http://1.24.39.180:9003/hls/47/index.m3u8
 广东卫视,http://1.24.39.180:9003/hls/48/index.m3u8
-
 内蒙古蒙语卫视,http://1.24.39.180:9003/hls/16/index.m3u8
 内蒙古汉语卫视,http://1.24.39.180:9003/hls/17/index.m3u8
 内蒙古蒙语文化,http://1.24.39.180:9003/hls/18/index.m3u8
@@ -72,4 +69,4 @@ MIDE-832 学生时期曾经的女友 神宫寺奈绪,https://t33.cdn2020.com/vid
 SONE-525 一千万两天一夜 有栖花绯,https://t30.cdn2020.com/video/m3u8/2025/01/30/3b85faa5/index.m3u8
 PPPE-135 讨厌的上司命令我深夜在办公室加班 佐野佑真 中字,https://surrit.com/9d55f5c4-c317-47e9-a0f3-9f7fa6bccfed/playlist.m3u8
 PPPE-135 讨厌的上司命令我深夜在办公室加班 佐野佑真 无码,https://surrit.com/6e68ae88-a6b4-4495-876b-e9d75ab1723b/playlist.m3u8
-Japan HDV,http://213.226.69.130/iptv/QNKP368YM8HMHKUU6G9EDBSL/6225/index.m3u
+Japan HDV,http://213.226.69.130/iptv/QNKP368YM8HMHKUU6G9EDBSL/6225/index.m3u8
