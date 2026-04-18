@@ -6,8 +6,9 @@
 ❤️请打赏观看,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
 中天新闻,https://v.iill.top/api/Cti-I/index.m3u8
 凤凰卫视,https://play-flive.ifeng.com/flive/FLIVE_TX_NR_0ISLU7FN4LC.m3u8
-镜新闻,https://d36dgdk71xuzzg.cloudfront.net/v1/manifest/3a2ac8e6b6c76471996ebf627393d9c9417a60b6/linetv-6-627778910172-MediaTailor-production/c9b2313d-efdd-4777-9fae-573be8a86755/0.m3u8
+镜新闻,http://rihou.cc:555/tv/镜新闻
 NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
+http://rihou.cc:555/tv/民视新闻
 CHC动作电影
 CHC影迷电影
 CHC家庭电影
