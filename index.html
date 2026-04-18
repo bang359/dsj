@@ -6,37 +6,59 @@
     <title>万能格式直播播放器</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
     <style>
-        body {
-            background: #0b0b0b;
+        * {
             margin: 0;
-            padding: 20px;
-            color: #fff;
+            padding: 0;
+            box-sizing: border-box;
             font-family: Arial;
         }
-        #dplayer {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            border-radius: 10px;
+        body {
+            background: #0b0b0b;
+            color: #fff;
+            display: flex;
+            height: 100vh;
             overflow: hidden;
+        }
+        /* 左侧频道列表 占 1/5 */
+        #channelList {
+            width: 20%;
+            background: #141414;
+            border-right: 1px solid #333;
+            padding: 10px;
+            overflow-y: auto;
         }
         .channel {
             padding: 12px 16px;
             background: #1f1f1f;
-            margin: 8px auto;
-            max-width: 1180px;
+            margin: 8px 0;
             border-radius: 8px;
             cursor: pointer;
         }
         .channel:hover {
             background: #007bff;
         }
+        /* 右侧播放器 占 4/5 */
+        #dplayer {
+            width: 80%;
+            height: 100vh;
+        }
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
 
+<!-- 左侧频道列表 -->
+<div id="channelList"></div>
+
+<!-- 右侧播放界面 -->
 <div id="dplayer"></div>
-<div id="channelList" style="max-width:1200px;margin:20px auto;"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
