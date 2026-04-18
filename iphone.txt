@@ -1,4 +1,6 @@
 频道测试,http://rihou.cc:555/tv/频道测试
+🌈澎湃景区,https://play-a2.quklive.com/live/1765245429980053.m3u8
+🎵网络热曲,https://188sp.711888.xyz/188/video.php
 ❤️永久维护,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
 ❤️觉得好用,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
 ❤️请打赏观看,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
@@ -31,7 +33,7 @@ CCTV-4K超高清,http://107.150.60.122/live/cctv4k.m3u8
 CCTV-8K超高清,http://107.150.60.122/live/cctv8k.m3u8
 湖南卫视,http://107.150.60.122/live/hnwshd.m3u8
 东方卫视,http://107.150.60.122/live/dfwshd.m3u8
-浙江卫视,http://107.150.60.122/live/zjwshd.m3u8
+浙江卫视,https://ali-xwl.cztv.com/live/channel011080Pnew.m3u8
 江苏卫视,http://107.150.60.122/live/jswshd.m3u8
 深圳卫视,http://107.150.60.122/live/szwshd.m3u8
 北京卫视,http://107.150.60.122/live/bjwshd.m3u8
@@ -44,6 +46,8 @@ CCTV-8K超高清,http://107.150.60.122/live/cctv8k.m3u8
 天津卫视,http://107.150.60.122/live/tjwshd.m3u8
 陕西卫视,http://107.150.60.122/live/snwshd.m3u8
 广东卫视,http://107.150.60.122/live/gdwshd.m3u8
+河北卫视,http://107.150.60.122/live/hbwshd.m3u8
+黑龙江卫视,http://107.150.60.122/live/hljwshd.m3u8
 CCTV-央视文化,http://107.150.60.122/live/ysjp.m3u8
 CCTV-卫生健康,http://107.150.60.122/live/wsjk.m3u8
 中央新影-发现之旅,http://107.150.60.122/live/fxzl.m3u8
@@ -55,7 +59,13 @@ CCTV-卫生健康,http://107.150.60.122/live/wsjk.m3u8
 广东体育,http://107.150.60.122/live/gdty.m3u8
 青海卫视,http://107.150.60.122/live/qhws.m3u8
 西藏卫视,http://107.150.60.122/live/xzws.m3u8
+江苏新闻,https://zhibo-hls.jstv.com/litchi/zhibo-jsgg.m3u8
 卡酷少儿,http://107.150.60.122/live/btvkk.m3u8
+浙江少儿,http://ali-xwl.cztv.com/live/channel081080Plxw.m3u8
+Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
+pigoo,https://nl.utako.moe/pigoo/index.m3u8
+Neco Channel,https://nl.utako.moe/neco/index.m3u8
+🎵亚洲经典,https://lhttp.qingting.fm/live/5021912/64k.mp3
 DLDSS-300 两天一夜露营约会 美乃雀,https://t33.cdn2020.com/video/m3u8/2024/06/30/476f3b69/index.m3u8
 HDKA-290 裸体芭蕾讲师 北山忧,https://t26.cdn2020.com/video/m3u8/2024/01/12/54fc6edd/index.m3u8
 JUL-761 母亲的友人 天河水无濑,https://t26.cdn2020.com/video/m3u8/2021/11/17/5819885c/index.m3u8
