@@ -6,12 +6,12 @@
 ❤️请打赏观看,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
 中天新闻,https://v.iill.top/api/Cti-I/index.m3u8
 凤凰卫视,https://play-flive.ifeng.com/flive/FLIVE_TX_NR_0ISLU7FN4LC.m3u8
+凤凰中文,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/test1_4000.m3u8
+凤凰资讯,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/test2_4000.m3u8
 镜新闻,http://rihou.cc:555/tv/镜新闻
 NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
 民视新闻,http://rihou.cc:555/tv/民视新闻
 TVB plus,https://vdm6-hw.nbgdsygs.com/live/h6-2.flv
-凤凰中文,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/test1_4000.m3u8
-凤凰资讯,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/test2_4000.m3u8
 CHC影迷电影,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/lnwsCHC-HDH265_4000.m3u8
 CHC动作电影,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/wqCHCdzdyH265_4000.m3u8
 CHC家庭影院,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/jbtygqCHCjtyyH265_4000.m3u8
@@ -32,7 +32,7 @@ CCTV-9纪录,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCT
 CCTV-10科教,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-10H265_4000.m3u8
 CCTV-11戏曲,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-11-H265_4000.m3u8
 CCTV-12社会与法,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-12H265_4000.m3u8
-CCTV-13新闻,http://cfss.cc/cdn/dy/cctv_video.flv 
+CCTV-13新闻,http://cfss.cc/cdn/dy/1606137427.flv
 CCTV-14少儿,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-14H265_4000.m3u8
 CCTV-15音乐,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-15-yyH265_4000.m3u8
 CCTV-16奥林匹克,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-16_4000.m3u8
@@ -138,8 +138,6 @@ CETV4,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CETV-4H264
 三沙卫视,http://192.151.150.154/live/ssws.m3u8
 CCTV-央视文化,http://107.150.60.122/live/ysjp.m3u8
 CCTV-卫生健康,http://107.150.60.122/live/wsjk.m3u8
-中央新影-发现之旅,http://107.150.60.122/live/fxzl.m3u8
-中央新影-老故事,http://107.150.60.122/live/lgs.m3u8
 大湾区卫视,http://8.138.7.223/tv/dwq.m3u8 
 广东珠江,http://8.138.7.223/tv/gdzj.m3u8
 广东体育,http://107.150.60.122/live/gdty.m3u8
@@ -156,6 +154,11 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 🎵亚洲经典,https://lhttp.qingting.fm/live/5021912/64k.mp3
 pigoo,https://nl.utako.moe/pigoo/index.m3u8
 Neco Channel,https://nl.utako.moe/neco/index.m3u8
+惊艳,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/85.ts
+潘朵啦,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/86.ts
+松1,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/88.ts
+松2,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/89.ts
+松3,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/90.ts
 DLDSS-300 两天一夜露营约会 美乃雀,https://t33.cdn2020.com/video/m3u8/2024/06/30/476f3b69/index.m3u8
 HDKA-290 裸体芭蕾讲师 北山忧,https://t26.cdn2020.com/video/m3u8/2024/01/12/54fc6edd/index.m3u8
 JUL-761 母亲的友人 天河水无濑,https://t26.cdn2020.com/video/m3u8/2021/11/17/5819885c/index.m3u8
@@ -170,6 +173,4 @@ DLDSS-007 健身教练的汗水性爱 七海蒂娜,https://t33.cdn2020.com/video
 STARS-136 健身美女的性爱体操 七海蒂娜,https://t33.cdn2020.com/video/m3u8/2022/09/23/c576921c/index.m3u8
 MIDE-832 学生时期曾经的女友 神宫寺奈绪,https://t33.cdn2020.com/video/m3u8/2020/10/09/543287aa/index.m3u8
 SONE-525 一千万两天一夜 有栖花绯,https://t30.cdn2020.com/video/m3u8/2025/01/30/3b85faa5/index.m3u8
-PPPE-135 讨厌的上司命令我深夜在办公室加班 佐野佑真 中字,https://surrit.com/9d55f5c4-c317-47e9-a0f3-9f7fa6bccfed/playlist.m3u8
-PPPE-135 讨厌的上司命令我深夜在办公室加班 佐野佑真 无码,https://surrit.com/6e68ae88-a6b4-4495-876b-e9d75ab1723b/playlist.m3u8
 Japan HDV,http://213.226.69.130/iptv/QNKP368YM8HMHKUU6G9EDBSL/6225/index.m3u8
