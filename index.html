@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>万能格式直播播放器</title>
+    <title>网络电视直播</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
         }
         body {
             background: #0b0b0b;
@@ -19,27 +19,48 @@
             height: 100vh;
             overflow: hidden;
         }
-        /* 左侧频道列表 占 1/5 */
+        /* ———— 左侧频道列表 宽度22% 更舒服 ———— */
         #channelList {
-            width: 20%;
-            background: #141414;
-            border-right: 1px solid #333;
-            padding: 10px;
+            width: 22%;
+            background: #121212;
+            border-right: 1px solid #2a2a2a;
+            padding: 12px;
             overflow-y: auto;
         }
+        /* 频道标题 */
+        .channel-title {
+            padding: 14px 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ddd;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        /* 频道按钮 美化 */
         .channel {
-            padding: 12px 16px;
-            background: #1f1f1f;
-            margin: 8px 0;
-            border-radius: 8px;
+            padding: 14px 16px;
+            background: #1e1e1e;
+            margin-bottom: 8px;
+            border-radius: 10px;
             cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            border: 1px solid transparent;
         }
+        /* hover 效果 */
         .channel:hover {
-            background: #007bff;
+            background: #0066cc;
+            transform: translateX(4px);
         }
-        /* 右侧播放器 占 4/5 */
+        /* 选中高亮 */
+        .channel.active {
+            background: #0056b3;
+            border-color: #0088ff;
+            font-weight: bold;
+        }
+        /* 右侧播放器 宽度78% */
         #dplayer {
-            width: 80%;
+            width: 78%;
             height: 100vh;
         }
         /* 滚动条美化 */
@@ -48,14 +69,19 @@
         }
         ::-webkit-scrollbar-thumb {
             background: #555;
-            border-radius: 3px;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
         }
     </style>
 </head>
 <body>
 
 <!-- 左侧频道列表 -->
-<div id="channelList"></div>
+<div id="channelList">
+    <div class="channel-title">📺 频道列表</div>
+</div>
 
 <!-- 右侧播放界面 -->
 <div id="dplayer"></div>
@@ -66,6 +92,7 @@
 
 <script>
 let dp;
+let currentActive = null;
 
 // 初始化播放器
 function initPlayer(url) {
@@ -78,12 +105,18 @@ function initPlayer(url) {
     });
 }
 
-// 切换频道
-function play(url) {
+// 切换频道 + 高亮选中
+function play(url, div) {
     initPlayer(url);
+    
+    // 取消之前高亮
+    if(currentActive) currentActive.classList.remove("active");
+    // 高亮当前
+    div.classList.add("active");
+    currentActive = div;
 }
 
-// 加载你的直播源（完全不修改，原样使用）
+// 加载直播源
 const sourceURL = "https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt";
 fetch(sourceURL)
    .then(res => res.text())
@@ -91,23 +124,30 @@ fetch(sourceURL)
        const list = document.getElementById("channelList");
        const lines = text.split("\n").map(i=>i.trim()).filter(Boolean);
        let firstURL = "";
+       let firstDiv = null;
        
        lines.forEach(line => {
            if(line.includes(",")){
                const [name, url] = line.split(",", 2);
                if(name && url && url.startsWith("http")){
-                   if(!firstURL) firstURL = url;
+                   if(!firstURL) {
+                       firstURL = url;
+                   }
                    const div = document.createElement("div");
                    div.className = "channel";
                    div.innerText = name;
-                   div.onclick = () => play(url);
+                   div.onclick = () => play(url, div);
+                   
+                   if(!firstDiv) firstDiv = div;
                    list.appendChild(div);
                }
            }
        });
 
-       // 默认播放第一个频道
-       if(firstURL) initPlayer(firstURL);
+       // 默认播放第一个
+       if(firstURL && firstDiv) {
+           play(firstURL, firstDiv);
+       }
    })
    .catch(err => console.log("加载失败", err));
 </script>
