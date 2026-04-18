@@ -2,481 +2,93 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>网页电视直播</title>
-    
-    <!-- Video.js 播放器样式 -->
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
-    <!-- HLS.js 支持 -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.10/dist/hls.min.js"></script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万能格式直播播放器</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Microsoft YaHei', Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
-            min-height: 100vh;
+            background: #0b0b0b;
+            margin: 0;
             padding: 20px;
+            color: #fff;
+            font-family: Arial;
         }
-        
-        .container {
+        #dplayer {
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .header {
-            background: linear-gradient(90deg, #0f3460 0%, #1a1a2e 100%);
-            padding: 20px 30px;
-            text-align: center;
-            border-bottom: 2px solid #e94560;
-        }
-        
-        .header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #e94560, #ff9a3c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .header p {
-            color: #b8b8b8;
-            font-size: 0.9rem;
-        }
-        
-        .tv-container {
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-        
-        @media (min-width: 768px) {
-            .tv-container {
-                flex-direction: row;
-            }
-        }
-        
-        .player-section {
-            flex: 3;
-            margin-bottom: 20px;
-        }
-        
-        @media (min-width: 768px) {
-            .player-section {
-                margin-bottom: 0;
-                margin-right: 20px;
-            }
-        }
-        
-        .tv-screen {
-            background: #000;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            position: relative;
         }
-        
-        .tv-screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.7) 100%);
-            pointer-events: none;
-        }
-        
-        #myPlayer {
-            width: 100%;
-            height: 400px;
-            border-radius: 10px;
-        }
-        
-        .channels-section {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 15px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        
-        .channels-section h3 {
-            color: #e94560;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .channel-list {
-            list-style: none;
-        }
-        
-        .channel-item {
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            background: rgba(255, 255, 255, 0.05);
+        .channel {
+            padding: 12px 16px;
+            background: #1f1f1f;
+            margin: 8px auto;
+            max-width: 1180px;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
         }
-        
-        .channel-item:hover {
-            background: rgba(233, 69, 96, 0.1);
-            border-left-color: #e94560;
-            transform: translateX(5px);
-        }
-        
-        .channel-item.active {
-            background: rgba(233, 69, 96, 0.2);
-            border-left-color: #e94560;
-            color: #ff9a3c;
-        }
-        
-        .channel-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .channel-type {
-            font-size: 0.8rem;
-            color: #888;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-        
-        .control-btn {
-            padding: 10px 20px;
-            background: linear-gradient(45deg, #0f3460, #1a1a2e);
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-        
-        .control-btn:hover {
-            background: linear-gradient(45deg, #e94560, #ff9a3c);
-            transform: translateY(-2px);
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #888;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* 移动端优化 */
-        @media (max-width: 767px) {
-            #myPlayer {
-                height: 300px;
-            }
-            
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .controls {
-                flex-wrap: wrap;
-            }
-        }
-        
-        /* 滚动条样式 */
-        .channels-section::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .channels-section::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 3px;
-        }
-        
-        .channels-section::-webkit-scrollbar-thumb {
-            background: #e94560;
-            border-radius: 3px;
+        .channel:hover {
+            background: #007bff;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📺 网页电视直播</h1>
-            <p>支持多种流媒体格式 | 响应式设计 | 高清流畅播放</p>
-        </div>
-        
-        <div class="tv-container">
-            <div class="player-section">
-                <div class="tv-screen">
-                    <!-- Video.js 播放器 -->
-                    <video 
-                        id="myPlayer" 
-                        class="video-js vjs-default-skin vjs-big-play-centered"
-                        controls 
-                        preload="auto"
-                        playsinline
-                        webkit-playsinline
-                        x5-playsinline
-                        x5-video-player-type="h5"
-                        x5-video-player-fullscreen="true"
-                        x5-video-orientation="portrait"
-                    >
-                        <p class="vjs-no-js">
-                            请启用JavaScript，或升级到支持HTML5视频的浏览器
-                        </p>
-                    </video>
-                </div>
-                
-                <div class="controls">
-                    <button class="control-btn" onclick="playPause()">⏯️ 播放/暂停</button>
-                    <button class="control-btn" onclick="toggleFullscreen()">🔲 全屏</button>
-                    <button class="control-btn" onclick="volumeUp()">🔊 音量+</button>
-                    <button class="control-btn" onclick="volumeDown()">🔉 音量-</button>
-                </div>
-            </div>
-            
-            <div class="channels-section">
-                <h3>📡 电视频道列表</h3>
-                <ul class="channel-list" id="channelList">
-                    <!-- 频道将通过JavaScript动态加载 -->
-                    <li class="channel-item active" onclick="changeChannel(0)">
-                        <div class="channel-name">CCTV-1 综合</div>
-                        <div class="channel-type">HLS直播</div>
-                    </li>
-                    <li class="channel-item" onclick="changeChannel(1)">
-                        <div class="channel-name">CCTV-5 体育</div>
-                        <div class="channel-type">HLS直播</div>
-                    </li>
-                    <li class="channel-item" onclick="changeChannel(2)">
-                        <div class="channel-name">湖南卫视</div>
-                        <div class="channel-type">HLS直播</div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>© 2025 网页电视直播系统 | 基于HTML5 Video.js & HLS.js技术构建</p>
-            <p>提示：部分频道可能需要网络支持，如无法播放请尝试切换频道</p>
-        </div>
-    </div>
 
-    <!-- Video.js 核心库 -->
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    
-    <script>
-        // 初始化播放器
-        const player = videojs('myPlayer', {
-            controls: true,
-            autoplay: false,
-            preload: 'auto',
-            fluid: true,
-            html5: {
-                hls: {
-                    enableLowInitialPlaylist: true,
-                    smoothQualityChange: true,
-                    overrideNative: true
-                }
-            }
-        });
-        
-        // 频道数据（示例频道，可替换为实际直播源）
-        const channels = [
-            {
-                name: "凤凰卫视",
-                type: "HLS直播",
-                url: "https://play-flive.ifeng.com/flive/FLIVE_TX_NR_0ISLU7FN4LC.m3u8"
-            },
-            {
-                name: "中天新闻",
-                type: "HLS直播", 
-                url: "https://v.iill.top/api/Cti-I/index.m3u8"
-            },
-            {
-                name: "NTD",
-                type: "HLS直播",
-                url: "https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8"
-            },
-            {
-                name: "CCTV1",
-                type: "HLS直播",
-                url: "http://74.91.26.218:82/live/cctv1hd.m3u8"
-            },
-            {
-                name: "18+",
-                type: "HLS直播",
-                url: "https://t33.cdn2020.com/video/m3u8/2024/06/30/476f3b69/index.m3u8"
-            },
-            {
-                name: "三沙卫视",
-                type: "HLS直播",
-                url: "https://livessws.hnntv.cn/live/ssws_260111hnntv.m3u8"
-            },
-            {
-                name: "江苏卫视",
-                type: "HLS直播",
-                url: "https://jiangsu.chinamcache.com/tv/e5i5i5i5i5i5i5i5i5i5i5i5i5i5i5/jiangsu.m3u8"
-            },
-            {
-                name: "广东卫视",
-                type: "HLS直播",
-                url: "https://guangdong.chinamcache.com/tv/f6j6j6j6j6j6j6j6j6j6j6j6j6j6j6/guangdong.m3u8"
-            }
-        ];
-        
-        // 当前播放的频道索引
-        let currentChannelIndex = 0;
-        
-        // 初始化频道列表
-        function initChannelList() {
-            const channelList = document.getElementById('channelList');
-            channelList.innerHTML = '';
-            
-            channels.forEach((channel, index) => {
-                const li = document.createElement('li');
-                li.className = `channel-item ${index === currentChannelIndex ? 'active' : ''}`;
-                li.onclick = () => changeChannel(index);
-                
-                li.innerHTML = `
-                    <div class="channel-name">${channel.name}</div>
-                    <div class="channel-type">${channel.type}</div>
-                `;
-                
-                channelList.appendChild(li);
-            });
-        }
-        
-        // 切换频道
-        function changeChannel(index) {
-            if (index === currentChannelIndex) return;
-            
-            // 更新UI
-            document.querySelectorAll('.channel-item').forEach((item, i) => {
-                item.classList.toggle('active', i === index);
-            });
-            
-            currentChannelIndex = index;
-            const channel = channels[index];
-            
-            // 显示加载状态
-            player.pause();
-            player.src({ type: 'application/x-mpegURL', src: channel.url });
-            player.load();
-            player.play().catch(e => console.log('自动播放被阻止:', e));
-            
-            // 更新播放器标题
-            player.title(channel.name);
-        }
-        
-        // 播放/暂停控制
-        function playPause() {
-            if (player.paused()) {
-                player.play();
-            } else {
-                player.pause();
-            }
-        }
-        
-        // 全屏切换
-        function toggleFullscreen() {
-            if (player.isFullscreen()) {
-                player.exitFullscreen();
-            } else {
-                player.requestFullscreen();
-            }
-        }
-        
-        // 音量增加
-        function volumeUp() {
-            const currentVolume = player.volume();
-            player.volume(Math.min(currentVolume + 0.1, 1));
-        }
-        
-        // 音量减少
-        function volumeDown() {
-            const currentVolume = player.volume();
-            player.volume(Math.max(currentVolume - 0.1, 0));
-        }
-        
-        // 检测HLS支持
-        function checkHlsSupport() {
-            if (Hls.isSupported()) {
-                console.log('HLS.js 支持已启用');
-            } else if (player.canPlayType('application/vnd.apple.mpegurl')) {
-                console.log('浏览器原生支持HLS');
-            } else {
-                console.warn('当前浏览器不支持HLS播放');
-                alert('提示：您的浏览器可能不支持直播流播放，请使用Chrome、Firefox或Safari等现代浏览器。');
-            }
-        }
-        
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            initChannelList();
-            checkHlsSupport();
-            
-            // 播放第一个频道
-            changeChannel(0);
-            
-            // 添加键盘快捷键
-            document.addEventListener('keydown', function(e) {
-                switch(e.key) {
-                    case ' ':
-                        e.preventDefault();
-                        playPause();
-                        break;
-                    case 'f':
-                    case 'F':
-                        toggleFullscreen();
-                        break;
-                    case 'ArrowUp':
-                        volumeUp();
-                        break;
-                    case 'ArrowDown':
-                        volumeDown();
-                        break;
-                    case 'ArrowRight':
-                        changeChannel((currentChannelIndex + 1) % channels.length);
-                        break;
-                    case 'ArrowLeft':
-                        changeChannel((currentChannelIndex - 1 + channels.length) % channels.length);
-                        break;
-                }
-            });
-        });
-        
-        // 错误处理
-        player.on('error', function() {
-            console.error('播放错误:', player.error());
-            alert('播放失败，请尝试切换其他频道或检查网络连接。');
-        });
-        
-        // 添加播放状态监听
-        player.on('playing', function() {
-            console.log('正在播放:', channels[currentChannelIndex].name);
-        });
-    </script>
+<div id="dplayer"></div>
+<div id="channelList" style="max-width:1200px;margin:20px auto;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+
+<script>
+let dp;
+
+// 初始化播放器
+function initPlayer(url) {
+    if (dp) dp.destroy();
+    dp = new DPlayer({
+        container: document.getElementById('dplayer'),
+        autoplay: false,
+        theme: '#007bff',
+        video: { url: url }
+    });
+}
+
+// 切换频道
+function play(url) {
+    initPlayer(url);
+}
+
+// 加载你的直播源（完全不修改，原样使用）
+const sourceURL = "https://github.com/bang359/dsj/raw/main/iphone.txt";
+fetch(sourceURL)
+   .then(res => res.text())
+   .then(text => {
+       const list = document.getElementById("channelList");
+       const lines = text.split("\n").map(i=>i.trim()).filter(Boolean);
+       let firstURL = "";
+       
+       lines.forEach(line => {
+           if(line.includes(",")){
+               const [name, url] = line.split(",", 2);
+               if(name && url && url.startsWith("http")){
+                   if(!firstURL) firstURL = url;
+                   const div = document.createElement("div");
+                   div.className = "channel";
+                   div.innerText = name;
+                   div.onclick = () => play(url);
+                   list.appendChild(div);
+               }
+           }
+       });
+
+       // 默认播放第一个频道
+       if(firstURL) initPlayer(firstURL);
+   })
+   .catch(err => console.log("加载失败", err));
+</script>
+
 </body>
 </html>
