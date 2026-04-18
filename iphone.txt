@@ -12,6 +12,7 @@ NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
 CHC动作电影
 CHC影迷电影
 CHC家庭电影
+
 CCTV-1综合,http://107.150.60.122/live/cctv1hd.m3u8
 CCTV-2财经,http://107.150.60.122/live/cctv2hd.m3u8
 CCTV-3综艺,http://107.150.60.122/live/cctv3hd.m3u8
@@ -42,6 +43,9 @@ CCTV-8K超高清,http://107.150.60.122/live/cctv8k.m3u8
 东南卫视,http://107.150.60.122/live/dnwshd.m3u8
 广西卫视,http://107.150.60.122/live/gxwshd.m3u8
 湖北卫视,http://107.150.60.122/live/hbwshd.m3u8
+湖北经视,http://192.151.150.154/live/hbjs.m3u8
+湖北公共,http://192.151.150.154/live/hbgg.m3u8
+湖北综合,http://192.151.150.154/live/hbzh.m3u8
 辽宁卫视,http://107.150.60.122/live/lnwshd.m3u8
 山东卫视,http://107.150.60.122/live/sdwshd.m3u8
 天津卫视,http://107.150.60.122/live/tjwshd.m3u8
@@ -49,6 +53,14 @@ CCTV-8K超高清,http://107.150.60.122/live/cctv8k.m3u8
 广东卫视,http://107.150.60.122/live/gdwshd.m3u8
 河北卫视,http://107.150.60.122/live/hbwshd.m3u8
 黑龙江卫视,http://107.150.60.122/live/hljwshd.m3u8
+山东卫视,http://192.151.150.154/live/sdws.m3u8
+天津卫视,http://192.151.150.154/live/tjws.m3u8
+四川卫视,http://192.151.150.154/live/scws.m3u8
+山西卫视,http://192.151.150.154/live/sxws.m3u8
+宁夏卫视,http://192.151.150.154/live/nxws.m3u8
+内蒙古卫视,http://192.151.150.154/live/nmgws.m3u8
+新疆卫视,http://192.151.150.154/live/xjws.m3u8
+三沙卫视,http://192.151.150.154/live/ssws.m3u8
 CCTV-央视文化,http://107.150.60.122/live/ysjp.m3u8
 CCTV-卫生健康,http://107.150.60.122/live/wsjk.m3u8
 中央新影-发现之旅,http://107.150.60.122/live/fxzl.m3u8
@@ -66,6 +78,10 @@ CCTV-卫生健康,http://107.150.60.122/live/wsjk.m3u8
 Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 pigoo,https://nl.utako.moe/pigoo/index.m3u8
 Neco Channel,https://nl.utako.moe/neco/index.m3u8
+邵氏电影,http://192.151.150.154/live/lbssdy.m3u8
+邵氏武侠,http://192.151.150.154/live/lbsswx.m3u8
+邵氏动作,http://192.151.150.154/live/lbssdz.m3u8
+邵氏喜剧,http://192.151.150.154/live/lbssxj.m3u8
 🎵亚洲经典,https://lhttp.qingting.fm/live/5021912/64k.mp3
 DLDSS-300 两天一夜露营约会 美乃雀,https://t33.cdn2020.com/video/m3u8/2024/06/30/476f3b69/index.m3u8
 HDKA-290 裸体芭蕾讲师 北山忧,https://t26.cdn2020.com/video/m3u8/2024/01/12/54fc6edd/index.m3u8
