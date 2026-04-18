@@ -11,24 +11,25 @@ NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
 民视新闻,http://rihou.cc:555/tv/民视新闻
 湖南卫视4K,http://rihou.cc:555/tv/湖南卫视
 浙江卫视4K,http://rihou.cc:555/tv/浙江卫视4K
+TVB plus,https://vdm6-hw.nbgdsygs.com/live/h6-2.flv
 CCTV-1综合,http://107.150.60.122/live/cctv1hd.m3u8
-CCTV-2财经,http://107.150.60.122/live/cctv2hd.m3u8
+CCTV-2财经,http://cfss.cc/cdn/dy/nuanxinnengl.flv#http://107.150.60.122/live/cctv2hd.m3u8
 CCTV-3综艺,http://107.150.60.122/live/cctv3hd.m3u8
-CCTV-4中文国际,http://107.150.60.122/live/cctv4hd.m3u8
+CCTV-4中文国际,http://cfss.cc/cdn/dy/CCTV4...flv#http://107.150.60.122/live/cctv4hd.m3u8
 CCTV-5体育,http://107.150.60.122/live/cctv5hd.m3u8
 CCTV-5+体育赛事,http://107.150.60.122/live/cctv5p.m3u8
-CCTV-6电影,http://107.150.60.122/live/cctv6hd.m3u8
+CCTV-6电影,http://cfss.cc/cdn/dy/cctv6media..flv#http://107.150.60.122/live/cctv6hd.m3u8
 CCTV-7国防军事,http://107.150.60.122/live/cctv7hd.m3u8
 CCTV-8电视剧,http://107.150.60.122/live/cctv8hd.m3u8
 CCTV-9纪录,http://107.150.60.122/live/cctv9hd.m3u8
 CCTV-10科教,http://107.150.60.122/live/cctv10hd.m3u8
 CCTV-11戏曲,http://107.150.60.122/live/cctv11hd.m3u8
 CCTV-12社会与法,http://107.150.60.122/live/cctv12hd.m3u8
-CCTV-13新闻,http://107.150.60.122/live/cctv13hd.m3u8
+CCTV-13新闻,http://cfss.cc/cdn/dy/cctv_video.flv#http://107.150.60.122/live/cctv13hd.m3u8
 CCTV-14少儿,http://107.150.60.122/live/cctv14hd.m3u8
 CCTV-15音乐,http://107.150.60.122/live/cctv15hd.m3u8
 CCTV-16奥林匹克,http://107.150.60.122/live/cctv16hd.m3u8
-CCTV-17 农业农村,http://107.150.60.122/live/cctv17hd.m3u8
+CCTV-17 农业农村,http://cfss.cc/cdn/dy/letus17.flv#http://107.150.60.122/live/cctv17hd.m3u8
 CCTV-4K超高清,http://107.150.60.122/live/cctv4k.m3u8
 CCTV-8K超高清,http://107.150.60.122/live/cctv8k.m3u8
 湖南卫视,http://107.150.60.122/live/hnwshd.m3u8
