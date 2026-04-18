@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            font-family: system-ui, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
         }
         body {
             background: #0b0b0b;
@@ -21,7 +20,7 @@
             height: 100vh;
             overflow: hidden;
         }
-        /* 左侧频道列表 —— 手机超级好点 */
+        /* 左侧频道列表 */
         #channelList {
             width: 28%;
             background: #121212;
@@ -32,7 +31,6 @@
             flex-direction: column;
             gap: 8px;
         }
-        /* 频道标题 */
         .channel-title {
             padding: 14px 0;
             font-size: 16px;
@@ -40,7 +38,6 @@
             color: #ddd;
             text-align: center;
         }
-        /* 手机超大按钮 */
         .channel {
             padding: 16px 12px;
             background: #1e1e1e;
@@ -51,12 +48,10 @@
             transition: 0.2s;
             user-select: none;
         }
-        /* 点击反馈 */
         .channel:active {
             background: #0077ff;
             transform: scale(0.96);
         }
-        /* 选中高亮 */
         .channel.active {
             background: #0056b3;
             font-weight: bold;
@@ -67,7 +62,7 @@
             width: 72%;
             height: 100vh;
         }
-        /* 滚动条美化 */
+        /* 滚动条 */
         ::-webkit-scrollbar {
             width: 5px;
         }
@@ -77,12 +72,12 @@
         }
     </style>
 </head>
-<body>
 
-<div id="channelList">
-    <div class="channel-title">📺 频道</div>
-</div>
-<div id="dplayer"></div>
+<body>
+    <div id="channelList">
+        <div class="channel-title">📺 频道</div>
+    </div>
+    <div id="dplayer"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
@@ -92,18 +87,18 @@
 let dp;
 let currentActive = null;
 
-// 播放器
+// 初始化播放器 + 自动播放
 function initPlayer(url) {
     if (dp) dp.destroy();
     dp = new DPlayer({
         container: document.getElementById('dplayer'),
-        autoplay: false,
+        autoplay: true,      // ✅ 自动播放
         theme: '#007bff',
         video: { url: url }
     });
 }
 
-// 播放 + 高亮
+// 切换频道 + 高亮 + 自动播放
 function play(url, el) {
     initPlayer(url);
     if (currentActive) currentActive.classList.remove("active");
@@ -112,7 +107,7 @@ function play(url, el) {
 }
 
 // 加载直播源
-const sourceURL = "https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt";
+const sourceURL = "https://mirror.ghproxy.com/https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt";
 fetch(sourceURL)
    .then(res => res.text())
    .then(text => {
@@ -137,7 +132,10 @@ fetch(sourceURL)
 
        if(firstURL) play(firstURL, firstDiv);
    })
-   .catch(err => console.log("加载失败", err));
+   .catch(err => {
+       console.error("加载失败", err);
+       alert("直播源加载失败，请刷新重试");
+   });
 </script>
 </body>
 </html>
