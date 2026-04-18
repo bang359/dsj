@@ -9,10 +9,8 @@
 镜新闻,http://rihou.cc:555/tv/镜新闻
 NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
 民视新闻,http://rihou.cc:555/tv/民视新闻
-CHC动作电影
-CHC影迷电影
-CHC家庭电影
 湖南卫视4K,http://rihou.cc:555/tv/湖南卫视
+浙江卫视4K,http://rihou.cc:555/tv/浙江卫视4K
 CCTV-1综合,http://107.150.60.122/live/cctv1hd.m3u8
 CCTV-2财经,http://107.150.60.122/live/cctv2hd.m3u8
 CCTV-3综艺,http://107.150.60.122/live/cctv3hd.m3u8
