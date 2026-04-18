@@ -12,7 +12,7 @@ NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
 湖南卫视4K,http://rihou.cc:555/tv/湖南卫视
 浙江卫视4K,http://rihou.cc:555/tv/浙江卫视4K
 TVB plus,https://vdm6-hw.nbgdsygs.com/live/h6-2.flv
-CCTV-1综合,http://107.150.60.122/live/cctv1hd.m3u8
+CCTV-1综合,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-1H265_4000.m3u8#http://107.150.60.122/live/cctv1hd.m3u8
 CCTV-2财经,http://cfss.cc/cdn/dy/nuanxinnengl.flv#http://107.150.60.122/live/cctv2hd.m3u8
 CCTV-3综艺,http://107.150.60.122/live/cctv3hd.m3u8
 CCTV-4中文国际,http://cfss.cc/cdn/dy/CCTV4...flv#http://107.150.60.122/live/cctv4hd.m3u8
@@ -64,7 +64,8 @@ CCTV-卫生健康,http://107.150.60.122/live/wsjk.m3u8
 中国教育3,http://107.150.60.122/live/cetv3.m3u8
 重庆卫视,http://107.150.60.122/live/cqwshd.m3u8
 东南卫视,http://107.150.60.122/live/dnwshd.m3u8
-大湾区卫视,http://107.150.60.122/live/nfws.m3u8
+大湾区卫视,http://8.138.7.223/tv/dwq.m3u8#http://107.150.60.122/live/nfws.m3u8
+广东珠江,http://8.138.7.223/tv/gdzj.m3u8
 广东体育,http://107.150.60.122/live/gdty.m3u8
 青海卫视,http://107.150.60.122/live/qhws.m3u8
 西藏卫视,http://107.150.60.122/live/xzws.m3u8
