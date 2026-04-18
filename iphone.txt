@@ -22,10 +22,10 @@ CHC家庭影院,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/
 CCTV-1综合,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-1H265_4000.m3u8 
 CCTV-2财经,http://cfss.cc/cdn/dy/nuanxinnengl.flv 
 CCTV-3综艺,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-3H265_4000.m3u8
-CCTV-4中文国际,http://cfss.cc/cdn/dy/CCTV4...flv 
-CCTV-5体育,http://107.150.60.122/live/cctv5hd.m3u8
+CCTV-4中文国际,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-4H265_4000.m3u8
+CCTV-5体育,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-5H265_4000.m3u8
 CCTV-5+体育赛事,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-5H265_4000.m3u8
-CCTV-6电影,http://cfss.cc/cdn/dy/cctv6media..flv 
+CCTV-6电影,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-6H265_4000.m3u8
 CCTV-7国防军事,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-7H265_4000.m3u8
 CCTV-8电视剧,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-8H265_4000.m3u8
 CCTV-9纪录,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-9H265_4000.m3u8
@@ -37,7 +37,7 @@ CCTV-14少儿,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CC
 CCTV-15音乐,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-15-yyH265_4000.m3u8
 CCTV-16奥林匹克,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-16_4000.m3u8
 CCTV-16（4k）,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-16-4K_8000.m3u8
-CCTV-17 农业农村,http://cfss.cc/cdn/dy/letus17.flv 
+CCTV-17 农业农村,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-17_4000.m3u8
 CCTV-4K超高清,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/ys4Kcq_2000.m3u8#http://107.150.60.122/live/cctv4k.m3u8
 CCTV-8K超高清,http://107.150.60.122/live/cctv8k.m3u8
 湖南卫视,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/hnwsH265_4000.m3u8
@@ -100,7 +100,6 @@ CETV2,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CETV-2_400
 CETV3,http://107.150.60.122/live/cetv3.m3u8
 CETV4,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CETV-4H264_2000.m3u8
 四海钓鱼,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/shdy_4000.m3u8
-车迷,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/cmpdH264_2000.m3u8
 证劵服务,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/jz_2000.m3u8
 聚鲨环球精选,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/hqgw_4000.m3u8
 动漫秀场,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/yybb-dmxc-H265_4000.m3u8
@@ -108,17 +107,14 @@ CETV4,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CETV-4H264
 法治天地,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/fztx_4000.m3u8
 欢笑剧场,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/hxjc-4k_8000.m3u8
 乐游,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/qjs-HDH265_4000.m3u8
-魅力足球,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/mlyy_4000.m3u8
 生活时尚,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/shssH265_4000.m3u8
 新视觉,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/ycxsjH265_4000.m3u8
 汽摩,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/qmpdH264_2000.m3u8
 家有购物,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/jygw_4000.m3u8
-家庭理财,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/jtlc_4000.m3u8
 优购物,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/ygw_4000.m3u8
 梨园频道,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/ly_4000.m3u8
 武术世界,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/wssj_4000.m3u8
 文物宝库,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/wwbk_4000.m3u8
-茶频道,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/cpd_4000.m3u8
 金鹰纪实,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/jyjsHDH265_4000.m3u8
 北京纪实科教,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/bjjs_2000.m3u8
 快乐垂钓,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/fyzqklcdHDH265_4000.m3u8
