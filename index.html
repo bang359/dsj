@@ -4,52 +4,130 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="网络电视">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>网络电视</title>
+<meta name="apple-mobile-web-app-title" content="全能电视">
+<title>全能电视</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!-- 天气图标库 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/weather-icons@1.3.2/css/weather-icons.min.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
-html,body{height:100%;background:#000;color:#fff;overflow:hidden}
-.container{display:flex;flex-direction:column;height:100vh}
-.video-area{width:100%;height:40vh;background:#000;position:relative}
-video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
-.loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#007aff;font-size:18px}
-.channel-area{flex:1;background:#121212;padding:12px;overflow-y:auto}
-.channel-title{font-size:17px;margin:12px 0 8px;color:#007aff}
-.channel-item{display:block;width:100%;padding:16px;background:#1e1e1e;border:none;border-radius:12px;color:#fff;margin-bottom:8px;font-size:16px;text-align:left;cursor:pointer}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+html,body{height:100%;background:#050505;color:#fff;overflow:hidden}
+/* 顶部状态栏与天气 */
+.status-bar{position:absolute;top:0;left:0;right:0;padding:12px 15px;background:rgba(0,0,0,0.8);display:flex;justify-content:space-between;align-items:center;z-index:20}
+.weather{display:flex;align-items:center;gap:8px}
+.weather i{font-size:20px;color:#007aff}
+.weather span{font-size:14px}
+.time{font-size:14px;color:#ccc}
+/* 主容器 */
+.container{padding-top:50px;display:flex;height:100vh}
+/* 视频区域 */
+.video-area{flex:1;position:relative;background:#000}
+video{width:100%;height:100%;object-fit:contain;display:block}
+.loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px;color:#007aff}
+/* 侧边频道栏 */
+.channel-sidebar{width:320px;height:100%;background:#111;padding:15px;border-left:1px solid #333;overflow-y:auto}
+.channel-title{font-size:18px;margin-bottom:15px;color:#007aff;font-weight:bold}
+.channel-item{display:block;width:100%;padding:12px 15px;margin-bottom:10px;background:#222;border:none;border-radius:12px;color:#fff;text-align:left;font-size:16px;cursor:pointer}
 .channel-item.active{background:#007aff}
-.channel-item:active{background:#0066cc}
+.channel-item:hover{background:#2a2a2a}
+/* 暗黑模式开关 */
+.theme-switch{position:absolute;bottom:20px;left:20px;padding:10px;border-radius:50%;background:#222;border:none;color:#fff;font-size:20px;cursor:pointer}
 </style>
 </head>
-<body>
+<body id="app">
+<!-- 顶部天气与时间 -->
+<div class="status-bar">
+    <div class="weather">
+        <i class="wi wi-day-sunny"></i>
+        <span id="weatherInfo">加载中...</span>
+    </div>
+    <div class="time" id="time"></div>
+</div>
 
 <div class="container">
     <div class="video-area">
         <video id="video" playsinline webkit-playsinline></video>
         <div class="loading" id="loading">加载中...</div>
     </div>
-    <div class="channel-area" id="channelList"></div>
+
+    <div class="channel-sidebar">
+        <div class="channel-title">📺 央视卫视</div>
+        <div id="channelList">
+            <!-- 央视卫视 -->
+            <button class="channel-item active" data-url="https://t.freetv.fun/live/cctv1-4.m3u8">CCTV1</button>
+            <button class="channel-item" data-url="https://t.freetv.fun/live/cctv2-8m1080-3.m3u8">CCTV2</button>
+            <button class="channel-item" data-url="http://rihou.cc:555/tv/频道测试">频道测试</button>
+            <button class="channel-item" data-url="https://v-cdn.zjol.com.cn/280455774463258240.m3u8">湖南卫视</button>
+            <button class="channel-item" data-url="https://v-cdn.zjol.com.cn/280455834463848384.m3u8">东方卫视</button>
+            <button class="channel-item" data-url="https://v-cdn.zjol.com.cn/280455894464438528.m3u8">江苏卫视</button>
+        </div>
+
+        <div class="channel-title" style="margin-top:20px">🌏 港澳台</div>
+        <div id="hkChannels">
+            <!-- 港澳台 -->
+            <button class="channel-item" data-url="https://live-h.ettoday.net/ettoday_news_hd.m3u8">ETtoday 东森新闻</button>
+            <button class="channel-item" data-url="https://live-h.ettoday.net/ettoday_taiwan_hd.m3u8">ETtoday 台湾新闻</button>
+            <button class="channel-item" data-url="https://lbryvetv2-lh.akamaized.net/etv1/etv1_1_0.m3u8">民视第一台</button>
+            <button class="channel-item" data-url="https://lbryvetv2-lh.akamaized.net/etv1/etv1_2_0.m3u8">民视台湾台</button>
+        </div>
+
+        <div class="channel-title" style="margin-top:20px">🌥️ 湖北地方</div>
+        <div id="hubeiChannels">
+            <!-- 湖北地方 -->
+            <button class="channel-item" data-url="https://v.hubeitv.com.cn/live/hubei_1.m3u8">湖北卫视</button>
+            <button class="channel-item" data-url="https://v.hubeitv.com.cn/live/hubei_22.m3u8">湖北经视</button>
+            <button class="channel-item" data-url="https://v.hubeitv.com.cn/live/hubei_23.m3u8">湖北综合</button>
+            <button class="channel-item" data-url="https://v.hubeitv.com.cn/live/hubei_24.m3u8">武汉电视台</button>
+        </div>
+    </div>
 </div>
+
+<button class="theme-switch" id="themeSwitch">🌙</button>
 
 <script>
 const video = document.getElementById('video');
 const loading = document.getElementById('loading');
 const channelList = document.getElementById('channelList');
+const app = document.getElementById('app');
+const themeSwitch = document.getElementById('themeSwitch');
+const weatherInfo = document.getElementById('weatherInfo');
+const timeEl = document.getElementById('time');
+
 let hls = null;
+let isDarkMode = true;
 
-// 加载你 GitHub 上的直播源
-const sourceURL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+// --- 功能：初始化 ---
+function init(){
+    updateTime();
+    setInterval(updateTime, 1000);
+    fetchWeather();
+    setInterval(fetchWeather, 300000); // 5分钟更新一次天气
+    loadChannel();
+    initTheme();
+}
 
-// 显示/隐藏加载
-function showLoading(){ loading.style.display = 'block'; }
-function hideLoading(){ loading.style.display = 'none'; }
+// --- 功能：加载频道 ---
+function loadChannel(){
+    document.querySelectorAll('.channel-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.channel-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            playVideo(item.getAttribute('data-url'));
+        });
+    });
+    // 默认播放第一个
+    playDocument(channelList.querySelector('.channel-item'));
+}
 
-// 自动播放视频
+function playDocument(el){
+    playVideo(el.getAttribute('data-url'));
+}
+
+// --- 功能：播放视频 ---
 function playVideo(url){
     showLoading();
-    if(hls) hls.destroy();
-    
+    stopVideo();
+
     if(Hls.isSupported() && url.includes('.m3u8')){
         hls = new Hls();
         hls.loadSource(url);
@@ -57,45 +135,71 @@ function playVideo(url){
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
             video.play().then(hideLoading).catch(hideLoading);
         });
-        hls.on(Hls.Events.ERROR, hideLoading);
-    }else{
+        hls.on(Hls.Events.ERROR, (e, d) => {
+            console.error("HLS Error:", d);
+            hideLoading();
+            alert("播放失败，请检查网络或源地址");
+        });
+    } else {
         video.src = url;
         video.play().then(hideLoading).catch(hideLoading);
     }
-
-    // 高亮频道
-    document.querySelectorAll('.channel-item').forEach(i => i.classList.remove('active'));
-    event.target.classList.add('active');
 }
 
-// 加载频道列表
-fetch(sourceURL)
-.then(res => res.text())
-.then(text => {
-    let firstUrl = '';
-    text.split('\n').forEach(line => {
-        if(line.includes(',')){
-            const [name, url] = line.split(',', 2);
-            if(name && url && url.startsWith('http')){
-                const btn = document.createElement('button');
-                btn.className = 'channel-item';
-                btn.innerText = name;
-                btn.onclick = () => playVideo(url);
-                channelList.appendChild(btn);
-                
-                if(!firstUrl){
-                    firstUrl = url;
-                    btn.classList.add('active');
-                }
-            }
-        }
-    });
-    if(firstUrl) playVideo(firstUrl);
-})
-.catch(() => {
-    channelList.innerHTML = '<div class="channel-item">加载失败，请刷新</div>';
-    hideLoading();
-});
+function stopVideo(){
+    if(hls) hls.destroy();
+    video.pause();
+    video.src = '';
+    hls = null;
+}
+
+// --- 辅助：加载状态 ---
+function showLoading(){ loading.style.display = 'block'; }
+function hideLoading(){ loading.style.display = 'none'; }
+
+// --- 功能：主题切换 ---
+function initTheme(){
+    if(isDarkMode) app.classList.add('dark');
+    themeSwitch.addEventListener('click', toggleTheme);
+}
+
+function toggleTheme(){
+    isDarkMode = !isDarkMode;
+    if(isDarkMode) app.classList.add('dark');
+    else app.classList.remove('dark');
+    themeSwitch.textContent = isDarkMode ? '🌙' : '☀️';
+}
+
+// --- 功能：时间更新 ---
+function updateTime(){
+    const now = new Date();
+    timeEl.textContent = now.toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit'});
+}
+
+// --- 功能：天气获取（简易IP定位） ---
+async function fetchWeather(){
+    try {
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        const temp = Math.round(data.temperature);
+        const desc = getWeatherIcon(data.weather);
+        weatherInfo.innerHTML = `<i class="wi ${desc}"></i> ${temp}°C ${data.city}`;
+    } catch (e) {
+        weatherInfo.textContent = "天气加载失败";
+    }
+}
+
+function getWeatherIcon(weather){
+    const w = weather.toLowerCase();
+    if(w.includes('sun')) return 'wi-day-sunny';
+    if(w.includes('cloud')) return 'wi-cloud';
+    if(w.includes('rain')) return 'wi-rain';
+    if(w.includes('snow')) return 'wi-snow';
+    return 'wi-day-sunny'; // 默认晴天
+}
+
+// 启动
+init();
 </script>
 </body>
 </html>
