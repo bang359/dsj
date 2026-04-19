@@ -12,15 +12,15 @@
 NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
 民视新闻,http://rihou.cc:555/tv/民视新闻
 TVB plus,https://vdm6-hw.nbgdsygs.com/live/h6-2.flv
-CHC影迷电影,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/lnwsCHC-HDH265_4000.m3u8
 CHC动作电影,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/wqCHCdzdyH265_4000.m3u8
+CHC影迷电影,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/lnwsCHC-HDH265_4000.m3u8
 CHC家庭影院,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/jbtygqCHCjtyyH265_4000.m3u8
 峨嵋电影,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/emdygqH265_4000.m3u8
 峨眉电影4K,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/emdy4k_8000.m3u8
 湖南卫视4K,http://rihou.cc:555/tv/湖南卫视
 浙江卫视4K,https://ali-xwl.cztv.com/live/channel4k2160p.m3u8
 CCTV-1综合,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-1H265_4000.m3u8 
-CCTV-2财经,http://cfss.cc/cdn/dy/nuanxinnengl.flv 
+CCTV-2财经,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-2H265_4000.m3u8
 CCTV-3综艺,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-3H265_4000.m3u8
 CCTV-4中文国际,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-4H265_4000.m3u8
 CCTV-5体育,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-5H265_4000.m3u8
@@ -32,7 +32,7 @@ CCTV-9纪录,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCT
 CCTV-10科教,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-10H265_4000.m3u8
 CCTV-11戏曲,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-11-H265_4000.m3u8
 CCTV-12社会与法,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-12H265_4000.m3u8
-CCTV-13新闻,http://cfss.cc/cdn/dy/1606137427.flv
+CCTV-13新闻,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-xw_4000.m3u8
 CCTV-14少儿,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-14H265_4000.m3u8
 CCTV-15音乐,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-15-yyH265_4000.m3u8
 CCTV-16奥林匹克,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-16_4000.m3u8
@@ -140,7 +140,6 @@ CCTV-央视文化,http://107.150.60.122/live/ysjp.m3u8
 CCTV-卫生健康,http://107.150.60.122/live/wsjk.m3u8
 大湾区卫视,http://8.138.7.223/tv/dwq.m3u8 
 广东珠江,http://8.138.7.223/tv/gdzj.m3u8
-广东体育,http://107.150.60.122/live/gdty.m3u8
 青海卫视,http://107.150.60.122/live/qhws.m3u8
 西藏卫视,http://107.150.60.122/live/xzws.m3u8
 江苏新闻,https://zhibo-hls.jstv.com/litchi/zhibo-jsgg.m3u8
