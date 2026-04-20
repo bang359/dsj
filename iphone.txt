@@ -1,9 +1,7 @@
 频道测试,http://rihou.cc:555/tv/频道测试
-🌈澎湃景区,https://play-a2.quklive.com/live/1765245429980053.m3u8
-🎵网络热曲,https://188sp.711888.xyz/188/video.php
-❤️永久维护,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
-❤️觉得好用,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
-❤️请打赏观看,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
+🌈澎湃景区-2026/4/20上线,https://play-a2.quklive.com/live/1765245429980053.m3u8
+🎵网络热曲（默认自动播放-注意流量使用情况),https://188sp.711888.xyz/188/video.php
+❤️永久维护-觉得好用-请打赏观看,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
 中天新闻,http://rihou.cc:555/tv/中天新闻
 凤凰卫视,https://play-flive.ifeng.com/flive/FLIVE_TX_NR_0ISLU7FN4LC.m3u8
 凤凰中文,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/test1_4000.m3u8
