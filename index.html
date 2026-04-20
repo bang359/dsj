@@ -9,6 +9,65 @@
 <title>网络电视</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
+/* 底部打赏留言 */
+.donate-footer {
+  background: #111;
+  padding: 25px;
+  margin-top: 30px;
+  border-radius: 15px;
+  text-align: center;
+  color: #fff;
+}
+.donate-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 10px;
+  margin: 10px auto;
+}
+.donate-desc {
+  color: #ccc;
+  margin-bottom: 20px;
+}
+.msg-box {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: left;
+}
+.form-item {
+  margin-bottom: 10px;
+}
+.form-item input, .form-item textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #222;
+  color: #fff;
+  outline: none;
+}
+.send-btn {
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.msg-list {
+  margin-top: 20px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.msg-item {
+  background: #222;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.msg-name { color: #ffdf00; font-weight: bold; }
+.msg-content { color: #fff; margin: 5px 0; }
+.msg-time { color: #888; font-size: 12px; text-align: right; }
     *{
         margin:0;
         padding:0;
@@ -166,6 +225,24 @@ fetch(sourceURL)
     hideLoading();
 });
 </script>
+<!-- 底部打赏 + 留言 -->
+<div class="donate-footer">
+  <h3>💝 赞赏支持</h3>
+  <img src="https://github.com/bang359/dsj/raw/main/wx.png" class="donate-img">
+  <div class="donate-desc">您的支持是持续更新的动力 🥰</div>
+
+  <div class="msg-box">
+    <div class="form-item">
+      <input id="name" placeholder="输入昵称">
+    </div>
+    <div class="form-item">
+      <textarea id="msg" placeholder="说点什么..."></textarea>
+    </div>
+    <button class="send-btn" onclick="sendMsg()">发送留言</button>
+
+    <div class="msg-list" id="msgList"></div>
+  </div>
+</div>
 <!-- 底部打赏 + 留言 -->
 <div class="donate-footer">
   <h3>💝 赞赏支持</h3>
