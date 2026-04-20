@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页电视</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background: #0b0b0b;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title {
+            text-align: center;
+            padding: 15px 0;
+            font-size: 22px;
+            color: #ffdf00;
+        }
+
+        /* 播放器 */
+        .player-box {
+            width: 100%;
+            height: 65vh;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .player-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+
+        /* 频道列表 */
+        .channel-container {
+            margin-top: 15px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .channel-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 8px;
+        }
+
+        .channel {
+            background: #1f1f1f;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .channel:hover {
+            background: #ff4444;
+        }
+
+        .channel.active {
+            background: #ff6b6b;
+            font-weight: bold;
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 3px;
+        }
+
+        /* 赞赏留言 */
+        .donate-box {
+            background: #121212;
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .donate-title {
+            color: #ff6b6b;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .donate-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .donate-desc {
+            color: #ccc;
+            margin-bottom: 25px;
+        }
+
+        /* 留言表单 */
+        .msg-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-item {
+            margin-bottom: 10px;
+        }
+
+        .form-item input,
+        .form-item textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: #222;
+            color: #fff;
+            outline: none;
+        }
+
+        .form-item textarea {
+            height: 80px;
+            resize: none;
+        }
+
+        .send-btn {
+            background: #ff6b6b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .send-btn:hover {
+            background: #ff4444;
+        }
+
+        /* 留言列表 */
+        .msg-list {
+            margin-top: 20px;
+            max-height: 280px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .msg-item {
+            background: #222;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .msg-name {
+            color: #ffdf00;
+            font-weight: bold;
+        }
+
+        .msg-content {
+            color: #eee;
+            margin: 4px 0;
+        }
+
+        .msg-time {
+            font-size: 12px;
+            color: #888;
+            text-align: right;
+        }
+
+        .empty {
+            color: #777;
+            padding: 20px;
+            text-align: center;
+        }
+
+        @media (max-width:768px) {
+            .player-box {
+                height: 42vh;
+            }
+
+            .channel-list {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">📺 网页电视</div>
+
+        <!-- 播放器 -->
+        <div class="player-box">
+            <video id="videoPlayer" controls autoplay></video>
+        </div>
+
+        <!-- 频道列表 -->
+        <div class="channel-container">
+            <div class="channel-list" id="channelList"></div>
+        </div>
+
+        <!-- 赞赏 + 留言 -->
+        <div class="donate-box">
+            <div class="donate-title">💝 赞赏支持</div>
+            <img src="https://github.com/bang359/dsj/raw/main/wx.png" class="donate-img" alt="赞赏码">
+            <div class="donate-desc">您的支持是持续更新的动力 🥰</div>
+
+            <div class="msg-form">
+                <div class="form-item">
+                    <input type="text" id="userName" placeholder="输入昵称" maxlength="16">
+                </div>
+                <div class="form-item">
+                    <textarea id="userMsg" placeholder="留下你的鼓励..." maxlength="150"></textarea>
+                </div>
+                <button class="send-btn" onclick="sendMsg()">发送留言</button>
+            </div>
+
+            <div class="msg-list" id="msgList"></div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('videoPlayer');
+        const channelList = document.getElementById('channelList');
+        let currentActive = null;
+
+        // 加载你的直播源（不修改、不筛选）
+        window.onload = async function () {
+            loadMessages();
+            try {
+                const res = await fetch('https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt');
+                const text = await res.text();
+                const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+                let channels = [];
+
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].includes(',')) {
+                        const [name, url] = lines[i].split(',');
+                        if (url && (url.startsWith('http') || url.startsWith('m3u'))) {
+                            channels.push({ name: name.trim(), url: url.trim() });
+                        }
+                    }
+                }
+
+                renderChannels(channels);
+                if (channels.length) playChannel(channels[0].name, channels[0].url);
+            } catch (e) {
+                alert('直播源加载失败');
+            }
+        };
+
+        // 渲染频道
+        function renderChannels(channels) {
+            channels.forEach(c => {
+                const div = document.createElement('div');
+                div.className = 'channel';
+                div.textContent = c.name;
+                div.onclick = () => playChannel(c.name, c.url);
+                channelList.appendChild(div);
+            });
+        }
+
+        // 播放频道
+        function playChannel(name, url) {
+            video.src = url;
+            video.load();
+            video.play();
+
+            if (currentActive) currentActive.classList.remove('active');
+            const items = document.querySelectorAll('.channel');
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].textContent === name) {
+                    items[i].classList.add('active');
+                    currentActive = items[i];
+                    break;
+                }
+            }
+        }
+
+        // 留言功能
+        function sendMsg() {
+            const name = document.getElementById('userName').value.trim();
+            const content = document.getElementById('userMsg').value.trim();
+            if (!name || !content) {
+                alert('请填写昵称和留言');
+                return;
+            }
+
+            const msg = {
+                name: name,
+                content: content,
+                time: new Date().toLocaleString()
+            };
+
+            let msgs = JSON.parse(localStorage.getItem('tvMsgs')) || [];
+            msgs.unshift(msg);
+            localStorage.setItem('tvMsgs', JSON.stringify(msgs));
+
+            document.getElementById('userName').value = '';
+            document.getElementById('userMsg').value = '';
+            loadMessages();
+        }
+
+        function loadMessages() {
+            const msgs = JSON.parse(localStorage.getItem('tvMsgs')) || [];
+            const list = document.getElementById('msgList');
+
+            if (msgs.length === 0) {
+                list.innerHTML = '<div class="empty">暂无留言</div>';
+                return;
+            }
+
+            let html = '';
+            msgs.forEach(m => {
+                html += `
+                <div class="msg-item">
+                    <div class="msg-name">${esc(m.name)}</div>
+                    <div class="msg-content">${esc(m.content)}</div>
+                    <div class="msg-time">${m.time}</div>
+                </div>`;
+            });
+            list.innerHTML = html;
+        }
+
+        function esc(str) {
+            return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+    </script>
+</body>
+  </html>
