@@ -165,54 +165,5 @@ fetch(sourceURL)
     channelList.innerHTML = '<div class="channel-item">直播源加载失败，请刷新重试</div>';
     hideLoading();
 });
-<!-- ====================== 留言板功能 ====================== -->
-<div style="background:#111; padding:25px; margin-top:30px; border-radius:15px; text-align:center; color:white;">
-  <h3>💝 赞赏支持</h3>
-  <img src="https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/wx.png" style="width:160px; height:160px; border-radius:10px; margin:10px 0;">
-  <div style="color:#ccc; margin-bottom:20px;">您的支持是持续更新的动力 🥰</div>
-
-  <div style="max-width:500px; margin:0 auto; text-align:left;">
-    <input type="text" id="name" placeholder="输入昵称" style="width:100%; padding:10px; border-radius:8px; border:none; background:#222; color:white; margin-bottom:10px; outline:none;"><br>
-    <textarea id="content" rows="3" placeholder="说点什么..." style="width:100%; padding:10px; border-radius:8px; border:none; background:#222; color:white; margin-bottom:10px; outline:none;"></textarea><br>
-    <button onclick="sendMsg()" style="width:100%; padding:10px; border-radius:30px; border:none; background:#ff6b6b; color:white; font-weight:bold;">发送留言</button>
-
-    <div id="msgList" style="margin-top:20px; max-height:300px; overflow-y:auto;"></div>
-  </div>
-</div>
-<script>
-// 发送留言
-function sendMsg(){
-  let n = document.getElementById("name").value.trim();
-  let c = document.getElementById("content").value.trim();
-  if(!n||!c){alert("请填写昵称和留言");return;}
-  
-  let msgs = JSON.parse(localStorage.getItem("msgs"))||[];
-  msgs.unshift({name:n, content:c, time:new Date().toLocaleString()});
-  localStorage.setItem("msgs",JSON.stringify(msgs));
-  
-  document.getElementById("name").value="";
-  document.getElementById("content").value="";
-  showMsg();
-}
-
-// 显示留言
-function showMsg(){
-  let msgs = JSON.parse(localStorage.getItem("msgs"))||[];
-  let html = "";
-  msgs.forEach(m=>{
-    html+=`
-    <div style="background:#222; padding:10px; border-radius:8px; margin-bottom:8px;">
-      <div style="color:#ffdf00; font-weight:bold;">${m.name}</div>
-      <div style="color:white; margin:5px 0;">${m.content}</div>
-      <div style="color:#888; font-size:12px; text-align:right;">${m.time}</div>
-    </div>`;
-  });
-  document.getElementById("msgList").innerHTML = html || '<div style="color:#777; text-align:center;">暂无留言</div>';
-}
-
-// 页面加载显示
-window.onload = showMsg;
-</script>
-<!-- ====================== 留言板结束 ====================== -->
 </body>
 </html>
