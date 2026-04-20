@@ -1,6 +1,6 @@
 频道测试,http://rihou.cc:555/tv/频道测试
-🌈澎湃景区-2026/4/20上线,https://play-a2.quklive.com/live/1765245429980053.m3u8
-🎵网络热曲（默认自动播放-注意流量使用情况),https://188sp.711888.xyz/188/video.php
+🌈澎湃景区(2026/4/20上线),https://play-a2.quklive.com/live/1765245429980053.m3u8
+🎵网络热曲（默认自动播放-注意流量),https://188sp.711888.xyz/188/video.php
 ❤️永久维护-觉得好用-请打赏观看,https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/refs/heads/main/dashang.mp4
 中天新闻,http://rihou.cc:555/tv/中天新闻
 凤凰卫视,https://play-flive.ifeng.com/flive/FLIVE_TX_NR_0ISLU7FN4LC.m3u8
