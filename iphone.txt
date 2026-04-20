@@ -17,8 +17,7 @@ CHC影迷电影,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/
 CHC家庭影院,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/jbtygqCHCjtyyH265_4000.m3u8
 峨嵋电影,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/emdygqH265_4000.m3u8
 峨眉电影4K,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/emdy4k_8000.m3u8
-湖南卫视4K,http://rihou.cc:555/tv/湖南卫视
-浙江卫视4K,https://ali-xwl.cztv.com/live/channel4k2160p.m3u8
+浙江卫视,https://ali-xwl.cztv.com/live/channel011080Plxw.m3u8
 CCTV-1综合,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-1H265_4000.m3u8 
 CCTV-2财经,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-2H265_4000.m3u8
 CCTV-3综艺,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-3H265_4000.m3u8
@@ -122,7 +121,6 @@ CETV4,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/CETV-4H264
 财富天下,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/cftx_4000.m3u8
 天元围棋,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/tywq_2000.m3u8
 精品导视,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/jpdsH265_4000.m3u8
-精品导视2,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/jpdsgq-hkkp_4000.m3u8
 川网导视,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/cwdsHDH264_4000.m3u8
 东方财经,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/dfcj_4000.m3u8
 山东教育,http://124.236.93.22:2380/hw1live.rxip.sc96655.com.huan.tv/live/sdjy_4000.m3u8
@@ -153,11 +151,7 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 🎵亚洲经典,https://lhttp.qingting.fm/live/5021912/64k.mp3
 pigoo,https://nl.utako.moe/pigoo/index.m3u8
 Neco Channel,https://nl.utako.moe/neco/index.m3u8
-惊艳,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/85.ts
-潘朵啦,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/86.ts
-松1,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/88.ts
-松2,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/89.ts
-松3,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/90.ts
+Japan HDV,http://213.226.69.130/iptv/QNKP368YM8HMHKUU6G9EDBSL/6225/index.m3u8
 DLDSS-300 两天一夜露营约会 美乃雀,https://t33.cdn2020.com/video/m3u8/2024/06/30/476f3b69/index.m3u8
 HDKA-290 裸体芭蕾讲师 北山忧,https://t26.cdn2020.com/video/m3u8/2024/01/12/54fc6edd/index.m3u8
 JUL-761 母亲的友人 天河水无濑,https://t26.cdn2020.com/video/m3u8/2021/11/17/5819885c/index.m3u8
@@ -172,4 +166,3 @@ DLDSS-007 健身教练的汗水性爱 七海蒂娜,https://t33.cdn2020.com/video
 STARS-136 健身美女的性爱体操 七海蒂娜,https://t33.cdn2020.com/video/m3u8/2022/09/23/c576921c/index.m3u8
 MIDE-832 学生时期曾经的女友 神宫寺奈绪,https://t33.cdn2020.com/video/m3u8/2020/10/09/543287aa/index.m3u8
 SONE-525 一千万两天一夜 有栖花绯,https://t30.cdn2020.com/video/m3u8/2025/01/30/3b85faa5/index.m3u8
-Japan HDV,http://213.226.69.130/iptv/QNKP368YM8HMHKUU6G9EDBSL/6225/index.m3u8
