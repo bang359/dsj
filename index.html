@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -16,8 +17,6 @@
     .loading{position:absolute;color:#00cc66;font-size:16px;display:none;text-align:center;padding:10px;z-index:10;background:rgba(0,0,0,0.7);border-radius:8px;max-width:90%}
     .loading.show{display:block}
     .error-msg{color:#ff6b6b;font-size:12px;margin-top:5px}
-    .tap-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,204,102,0.9);color:#fff;padding:20px 40px;border-radius:10px;font-size:16px;cursor:pointer;z-index:100;display:none}
-    .tap-hint.show{display:block}
     .toolbar{height:50px;background:linear-gradient(180deg,#2d2d2d,#1a1a1a);border-top:2px solid #00cc66;display:flex;align-items:center;padding:0 15px;gap:15px}
     .toolbar-title{flex:1;text-align:center;color:#00cc66;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .channel-box{width:320px;background:#0d0d0d;border-left:3px solid #00cc66;display:flex;flex-direction:column}
@@ -43,7 +42,6 @@
         .weather-bar{padding:5px 10px}
         .weather-info{font-size:11px}
         .online-info,.reward-mini{font-size:11px;padding:3px 8px}
-        .tap-hint{font-size:14px;padding:15px 30px}
     }
 </style>
 </head>
@@ -52,7 +50,6 @@
     <div class="main-area">
         <div class="video-box">
             <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
-            <div class="tap-hint" id="tapHint">👆 点击播放</div>
             <div class="loading" id="loading">
                 <div id="loadingText">加载中...</div>
                 <div class="error-msg" id="errorMsg"></div>
@@ -91,14 +88,11 @@ const errorMsg=document.getElementById('errorMsg');
 const channelList=document.getElementById('channelList');
 const onlineNumber=document.getElementById('onlineNumber');
 const currentChannel=document.getElementById('currentChannel');
-const tapHint=document.getElementById('tapHint');
 let hls=null;
 let dashPlayer=null;
 let currentActive=null;
 let channelArray=[];
 let currentIndex=-1;
-let isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-let pendingPlayUrl=null;
 const channelUrl='https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt';
 const corsProxies=[
     u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
@@ -107,14 +101,11 @@ const corsProxies=[
     u=>`https://yacdn.org/proxy/${u}`
 ];
 let proxyIdx=0;
-let directPlay=true;
 function getProxy(u){return corsProxies[proxyIdx%corsProxies.length](u);}
 function nextProxy(){proxyIdx++;console.log('切换代理:',proxyIdx%corsProxies.length);}
 function showLoading(msg){loading.classList.add('show');loadingText.textContent=msg||'加载中...';errorMsg.textContent='';}
 function showError(msg){errorMsg.textContent=msg;}
 function hideLoading(){loading.classList.remove('show');}
-function hideTapHint(){tapHint.classList.remove('show');}
-function showTapHint(){if(isMobile)tapHint.classList.add('show');}
 function cleanup(){if(hls){hls.destroy();hls=null;}if(dashPlayer){dashPlayer.reset();dashPlayer=null;}video.pause();video.src='';video.load();}
 function fixUrl(url){if(!url||typeof url!=='string')return'';url=url.trim();if(url.includes('github.com')&&!url.includes('raw.githubusercontent.com')){return url.replace('github.com','raw.githubusercontent.com').replace('/blob/','/');}return url;}
 function detectFormat(url){const u=url.toLowerCase();if(u.includes('.m3u8')||u.includes('m3u8'))return'hls';if(u.includes('.mpd')||u.includes('mpd'))return'dash';if(u.includes('.flv')||u.includes('flv'))return'flv';if(u.startsWith('rtmp://'))return'rtmp';if(u.includes('.ts')&&!u.includes('m3u8'))return'ts';if(/\.(mp4|mov|m4v)$/i.test(u))return'mp4';if(/\.(webm|ogg|ogv)$/i.test(u))return'webm';return'other';}
@@ -123,19 +114,16 @@ function playHLS(url,useProxy){
     console.log('HLS播放:',useProxy?'代理':'直连',playUrl);
     if(typeof Hls==='undefined'){showError('HLS.js未加载');return false;}
     if(!Hls.isSupported()){
-        if(video.canPlayType('application/vnd.apple.mpegurl')){
-            video.src=playUrl;video.muted=false;
-            video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});
-            return true;
-        }
+        if(video.canPlayType('application/vnd.apple.mpegurl')){video.src=playUrl;video.muted=false;video.play().catch(()=>{});return true;}
         return false;
     }
     if(hls){hls.destroy();}
-    hls=new Hls({enableWorker:true,backBufferLength:60,maxBufferLength:30,startLevel:-1,maxLoadingRetryDelay:5000,manifestLoadingTimeOut:20000,manifestLoadingMaxRetry:2});
+    hls=new Hls({enableWorker:true,backBufferLength:60,maxBufferLength:60,startLevel:-1,maxLoadingRetryDelay:10000,manifestLoadingTimeOut:30000,manifestLoadingMaxRetry:4,levelLoadingTimeOut:30000,levelLoadingMaxRetry:4});
     hls.loadSource(playUrl);
     hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED,()=>{video.muted=false;video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});});
-    hls.on(Hls.Events.ERROR,(e,data)=>{console.error('HLS错误:',data.type,data.details);if(data.fatal){hideLoading();if(useProxy&&proxyIdx<corsProxies.length*2){nextProxy();playHLS(url,true);}else{showError('播放失败，请尝试其他频道');hls=null;}}});
+    hls.on(Hls.Events.MANIFEST_PARSED,(e,data)=>{console.log('HLS清单解析完成,等级:',data.levels.length);video.muted=false;video.play().catch(()=>{});});
+    hls.on(Hls.Events.LEVEL_SWITCHED,(e,data)=>{console.log('切换到等级:',data.level);});
+    hls.on(Hls.Events.ERROR,(e,data)=>{console.error('HLS错误:',data.type,data.details);if(data.fatal){hideLoading();switch(data.type){case'networkError':if(useProxy){nextProxy();playHLS(url,true);}else{playHLS(url,true);}break;case'manifestLoadError':case'tokenError':if(useProxy){nextProxy();playHLS(url,true);}else{playHLS(url,true);}break;default:if(proxyIdx<corsProxies.length*3){nextProxy();playHLS(url,true);}else{showError('播放失败，请尝试其他频道');hls=null;}}}});
     return true;
 }
 function playDASH(url,useProxy){
@@ -144,8 +132,8 @@ function playDASH(url,useProxy){
     if(typeof dashjs==='undefined'){showError('DASH.js未加载');return false;}
     try{if(dashPlayer){dashPlayer.reset();}
     dashPlayer=dashjs.MediaPlayer().create();dashPlayer.initialize(video,playUrl,true);
-    dashPlayer.on('streamInitialized',()=>{video.muted=false;video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});});
-    dashPlayer.on('error',()=>{hideLoading();if(useProxy&&proxyIdx<corsProxies.length*2){nextProxy();playDASH(url,true);}else{showError('DASH播放失败');}});
+    dashPlayer.on('streamInitialized',()=>{video.muted=false;video.play().catch(()=>{});});
+    dashPlayer.on('error',()=>{hideLoading();if(useProxy&&proxyIdx<corsProxies.length*3){nextProxy();playDASH(url,true);}else{showError('DASH播放失败');}});
     return true;}catch(e){console.error('DASH错误:',e);return false;}
 }
 function play(url){
@@ -154,31 +142,30 @@ function play(url){
     const finalUrl=fixUrl(url);
     console.log('播放:',finalUrl,'格式:',format);
     showLoading('正在加载...');
-    pendingPlayUrl=finalUrl;
     if(format==='hls'){
-        if(directPlay&&playHLS(finalUrl,false))return;
+        if(playHLS(finalUrl,false))return;
         if(playHLS(finalUrl,true))return;
     }
     if(format==='dash'){
-        if(directPlay&&playDASH(finalUrl,false))return;
+        if(playDASH(finalUrl,false))return;
         if(playDASH(finalUrl,true))return;
     }
     if(format==='mp4'||format==='webm'){
         video.src=finalUrl;video.muted=false;
         video.oncanplay=()=>{hideLoading();video.oncanplay=null;};
         video.onerror=()=>{hideLoading();showError('视频播放失败');video.onerror=null;};
-        video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});
+        video.play().catch(()=>{});
         return;
     }
     video.src=finalUrl;video.muted=false;
     video.oncanplay=()=>{hideLoading();video.oncanplay=null;};
     video.onerror=()=>{hideLoading();showError('播放失败');video.onerror=null;};
-    video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});
+    video.play().catch(()=>{});
 }
 function playByIndex(idx){
     if(idx<0||idx>=channelArray.length)return;
     const item=channelArray[idx];
-    cleanup();hideTapHint();
+    cleanup();
     if(currentActive)currentActive.classList.remove('active');
     currentActive=channelList.children[idx];
     if(currentActive)currentActive.classList.add('active');
@@ -187,11 +174,11 @@ function playByIndex(idx){
     video.volume=0.5;video.muted=false;
     play(item.url);
 }
-video.onplaying=()=>{hideLoading();hideTapHint();};
+video.onplaying=()=>{hideLoading();};
 video.onpause=()=>{};
+video.onwaiting=()=>{showLoading('缓冲中...');};
+video.oncanplay=()=>{hideLoading();};
 video.onerror=(e)=>{console.error('视频错误:',e);hideLoading();showError('播放错误');};
-video.onclick=()=>{if(pendingPlayUrl&&tapHint.classList.contains('show')){hideTapHint();play(pendingPlayUrl);}};
-tapHint.onclick=()=>{if(pendingPlayUrl){hideTapHint();play(pendingPlayUrl);}};
 async function loadChannels(){
     channelList.innerHTML='<div style="color:#00cc66;text-align:center;padding:20px">加载频道中...</div>';
     try{
