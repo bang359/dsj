@@ -1,22 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
 <title>网络电视 - 快播经典版</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/dashjs@4.7.0/dist/dash.all.min.js"></script>
 <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei","PingFang SC",sans-serif}
-    html,body{height:100%;background:#0d0d0d;color:#fff;overflow:hidden}
+    html,body{height:100%;background:#0d0d0d;color:#fff;overflow:hidden;touch-action:manipulation}
     .container{display:flex;height:100vh;flex-direction:row}
     .main-area{flex:1;display:flex;flex-direction:column;background:#1a1a1a}
     .video-box{flex:1;background:#000;position:relative;display:flex;align-items:center;justify-content:center}
-    video{width:100%;height:100%;object-fit:contain;background:#000}
-    .loading{position:absolute;color:#00cc66;font-size:16px;display:none;text-align:center;padding:10px}
+    video{width:100%;height:100%;object-fit:contain;background:#000;touch-action:none}
+    .loading{position:absolute;color:#00cc66;font-size:16px;display:none;text-align:center;padding:10px;z-index:10;background:rgba(0,0,0,0.7);border-radius:8px;max-width:90%}
     .loading.show{display:block}
     .error-msg{color:#ff6b6b;font-size:12px;margin-top:5px}
+    .tap-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,204,102,0.9);color:#fff;padding:20px 40px;border-radius:10px;font-size:16px;cursor:pointer;z-index:100;display:none}
+    .tap-hint.show{display:block}
     .toolbar{height:50px;background:linear-gradient(180deg,#2d2d2d,#1a1a1a);border-top:2px solid #00cc66;display:flex;align-items:center;padding:0 15px;gap:15px}
     .toolbar-title{flex:1;text-align:center;color:#00cc66;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .channel-box{width:320px;background:#0d0d0d;border-left:3px solid #00cc66;display:flex;flex-direction:column}
@@ -31,8 +32,6 @@
     .weather-bar{background:linear-gradient(180deg,#1a1a1a,#0d0d0d);border-top:1px solid #333;padding:8px 15px;display:flex;align-items:center;justify-content:space-between}
     .weather-info{color:#00cc66;font-size:13px;display:flex;align-items:center;gap:8px}
     .reward-mini{background:linear-gradient(180deg,#cc3333,#aa2222);border:1px solid #dd4444;color:#fff;padding:4px 12px;border-radius:4px;font-size:12px;cursor:pointer}
-    .mobile-nav{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(180deg,#2d2d2d,#1a1a1a);border:2px solid #00cc66;border-radius:25px;padding:8px 15px;z-index:998;gap:10px}
-    .mobile-nav button{background:linear-gradient(180deg,#00cc66,#00a855);border:1px solid #00dd77;color:#fff;padding:8px 16px;border-radius:20px;font-size:14px;cursor:pointer}
     @media(max-width:768px){
         .container{flex-direction:column}
         .main-area{height:auto;flex:none}
@@ -40,11 +39,11 @@
         .channel-box{position:relative;width:100%;height:calc(100vh - 40vh - 50px - 36px);border-left:none;border-top:3px solid #00cc66;flex:1}
         .channel-list{padding:8px}
         .channel-item{padding:12px 14px;font-size:14px;margin-bottom:6px}
-        .mobile-nav{display:flex}
         .toolbar-title{font-size:11px}
         .weather-bar{padding:5px 10px}
         .weather-info{font-size:11px}
         .online-info,.reward-mini{font-size:11px;padding:3px 8px}
+        .tap-hint{font-size:14px;padding:15px 30px}
     }
 </style>
 </head>
@@ -53,6 +52,7 @@
     <div class="main-area">
         <div class="video-box">
             <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
+            <div class="tap-hint" id="tapHint">👆 点击播放</div>
             <div class="loading" id="loading">
                 <div id="loadingText">加载中...</div>
                 <div class="error-msg" id="errorMsg"></div>
@@ -70,10 +70,6 @@
     <div class="channel-box" id="channelBox">
         <div class="channel-list" id="channelList"></div>
     </div>
-</div>
-<div class="mobile-nav" id="mobileNav">
-    <button id="prevChannel">◀ 上一台</button>
-    <button id="nextChannel">下一台 ▶</button>
 </div>
 <div class="reward-modal" id="rewardModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:2000;justify-content:center;align-items:center;">
     <div style="background:#1a1a1a;border:2px solid #00cc66;border-radius:12px;padding:24px;max-width:320px;width:90%">
@@ -95,132 +91,107 @@ const errorMsg=document.getElementById('errorMsg');
 const channelList=document.getElementById('channelList');
 const onlineNumber=document.getElementById('onlineNumber');
 const currentChannel=document.getElementById('currentChannel');
+const tapHint=document.getElementById('tapHint');
 let hls=null;
 let dashPlayer=null;
 let currentActive=null;
 let channelArray=[];
 let currentIndex=-1;
-const channelUrl='https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt';
+let isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+let pendingPlayUrl=null;
+const channelUrl='https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt';
 const corsProxies=[
     u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
-    u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`
+    u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+    u=>`https://proxy.cors.sh/${u}`,
+    u=>`https://yacdn.org/proxy/${u}`
 ];
 let proxyIdx=0;
-function getProxy(u){
-    return corsProxies[proxyIdx%corsProxies.length](u);
-}
-function nextProxy(){
-    proxyIdx++;
-    console.log('切换代理:',proxyIdx%corsProxies.length);
-}
-function showLoading(msg){
-    loading.classList.add('show');
-    loadingText.textContent=msg||'加载中...';
-    errorMsg.textContent='';
-}
-function showError(msg){
-    errorMsg.textContent=msg;
-}
-function hideLoading(){
-    loading.classList.remove('show');
-}
-function cleanup(){
-    if(hls){hls.destroy();hls=null;}
-    if(dashPlayer){dashPlayer.reset();dashPlayer=null;}
-    video.pause();video.src='';video.load();
-}
-function fixUrl(url){
-    if(!url||typeof url!=='string')return'';
-    url=url.trim();
-    if(url.includes('github.com')&&!url.includes('raw.githubusercontent.com')){
-        return url.replace('github.com','raw.githubusercontent.com').replace('/blob/','/');
-    }
-    return url;
-}
-function detectFormat(url){
-    const u=url.toLowerCase();
-    if(u.includes('.m3u8')||u.includes('m3u8'))return'hls';
-    if(u.includes('.mpd')||u.includes('mpd'))return'dash';
-    if(u.includes('.flv')||u.includes('flv'))return'flv';
-    if(u.startsWith('rtmp://'))return'rtmp';
-    if(u.includes('.ts')&&!u.includes('m3u8'))return'ts';
-    if(/\.(mp4|mov|m4v)$/i.test(u))return'mp4';
-    if(/\.(webm|ogg|ogv)$/i.test(u))return'webm';
-    return'other';
-}
-function playHLS(url){
-    if(typeof Hls==='undefined'){
-        showError('HLS.js未加载');return false;
-    }
+let directPlay=true;
+function getProxy(u){return corsProxies[proxyIdx%corsProxies.length](u);}
+function nextProxy(){proxyIdx++;console.log('切换代理:',proxyIdx%corsProxies.length);}
+function showLoading(msg){loading.classList.add('show');loadingText.textContent=msg||'加载中...';errorMsg.textContent='';}
+function showError(msg){errorMsg.textContent=msg;}
+function hideLoading(){loading.classList.remove('show');}
+function hideTapHint(){tapHint.classList.remove('show');}
+function showTapHint(){if(isMobile)tapHint.classList.add('show');}
+function cleanup(){if(hls){hls.destroy();hls=null;}if(dashPlayer){dashPlayer.reset();dashPlayer=null;}video.pause();video.src='';video.load();}
+function fixUrl(url){if(!url||typeof url!=='string')return'';url=url.trim();if(url.includes('github.com')&&!url.includes('raw.githubusercontent.com')){return url.replace('github.com','raw.githubusercontent.com').replace('/blob/','/');}return url;}
+function detectFormat(url){const u=url.toLowerCase();if(u.includes('.m3u8')||u.includes('m3u8'))return'hls';if(u.includes('.mpd')||u.includes('mpd'))return'dash';if(u.includes('.flv')||u.includes('flv'))return'flv';if(u.startsWith('rtmp://'))return'rtmp';if(u.includes('.ts')&&!u.includes('m3u8'))return'ts';if(/\.(mp4|mov|m4v)$/i.test(u))return'mp4';if(/\.(webm|ogg|ogv)$/i.test(u))return'webm';return'other';}
+function playHLS(url,useProxy){
+    const playUrl=useProxy?getProxy(url):url;
+    console.log('HLS播放:',useProxy?'代理':'直连',playUrl);
+    if(typeof Hls==='undefined'){showError('HLS.js未加载');return false;}
     if(!Hls.isSupported()){
         if(video.canPlayType('application/vnd.apple.mpegurl')){
-            video.src=url;video.play().catch(()=>{});hideLoading();return true;
+            video.src=playUrl;video.muted=false;
+            video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});
+            return true;
         }
         return false;
     }
-    hls=new Hls({enableWorker:true,backBufferLength:60,maxBufferLength:30,startLevel:-1,maxLoadingRetryDelay:5000,manifestLoadingTimeOut:20000,manifestLoadingMaxRetry:3});
-    hls.loadSource(url);
+    if(hls){hls.destroy();}
+    hls=new Hls({enableWorker:true,backBufferLength:60,maxBufferLength:30,startLevel:-1,maxLoadingRetryDelay:5000,manifestLoadingTimeOut:20000,manifestLoadingMaxRetry:2});
+    hls.loadSource(playUrl);
     hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED,()=>{video.play().catch(()=>{});hideLoading();});
-    hls.on(Hls.Events.ERROR,(e,data)=>{
-        console.error('HLS错误:',data.type,data.details);
-        if(data.fatal){
-            hideLoading();
-            if(data.type==='networkError'){
-                showError('网络错误，尝试其他代理...');
-                nextProxy();
-                const newUrl=getProxy(fixUrl(channelArray[currentIndex]?.url));
-                playHLS(newUrl);
-            }else{
-                showError('HLS播放失败');
-                hls.destroy();hls=null;
-            }
-        }
-    });
+    hls.on(Hls.Events.MANIFEST_PARSED,()=>{video.muted=false;video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});});
+    hls.on(Hls.Events.ERROR,(e,data)=>{console.error('HLS错误:',data.type,data.details);if(data.fatal){hideLoading();if(useProxy&&proxyIdx<corsProxies.length*2){nextProxy();playHLS(url,true);}else{showError('播放失败，请尝试其他频道');hls=null;}}});
     return true;
 }
-function playDASH(url){
+function playDASH(url,useProxy){
+    const playUrl=useProxy?getProxy(url):url;
+    console.log('DASH播放:',useProxy?'代理':'直连',playUrl);
     if(typeof dashjs==='undefined'){showError('DASH.js未加载');return false;}
-    try{
-        dashPlayer=dashjs.MediaPlayer().create();
-        dashPlayer.initialize(video,url,true);
-        dashPlayer.on('streamInitialized',()=>{hideLoading();});
-        dashPlayer.on('error',()=>{hideLoading();showError('DASH播放失败');});
-        return true;
-    }catch(e){console.error('DASH错误:',e);return false;}
+    try{if(dashPlayer){dashPlayer.reset();}
+    dashPlayer=dashjs.MediaPlayer().create();dashPlayer.initialize(video,playUrl,true);
+    dashPlayer.on('streamInitialized',()=>{video.muted=false;video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});});
+    dashPlayer.on('error',()=>{hideLoading();if(useProxy&&proxyIdx<corsProxies.length*2){nextProxy();playDASH(url,true);}else{showError('DASH播放失败');}});
+    return true;}catch(e){console.error('DASH错误:',e);return false;}
 }
 function play(url){
-    if(!url||url.trim()===''||url==='null'||url==='undefined'){
-        showError('无效的播放地址');return;
-    }
+    if(!url||url.trim()===''||url==='null'||url==='undefined'){showError('无效的播放地址');return;}
     const format=detectFormat(url);
     const finalUrl=fixUrl(url);
     console.log('播放:',finalUrl,'格式:',format);
     showLoading('正在加载...');
+    pendingPlayUrl=finalUrl;
     if(format==='hls'){
-        const proxyUrl=getProxy(finalUrl);
-        console.log('代理URL:',proxyUrl);
-        if(playHLS(proxyUrl))return;
-        nextProxy();
-        if(playHLS(getProxy(finalUrl)))return;
+        if(directPlay&&playHLS(finalUrl,false))return;
+        if(playHLS(finalUrl,true))return;
     }
     if(format==='dash'){
-        if(playDASH(getProxy(finalUrl)))return;
-        nextProxy();
-        if(playDASH(getProxy(finalUrl)))return;
+        if(directPlay&&playDASH(finalUrl,false))return;
+        if(playDASH(finalUrl,true))return;
     }
     if(format==='mp4'||format==='webm'){
-        video.src=finalUrl;
+        video.src=finalUrl;video.muted=false;
         video.oncanplay=()=>{hideLoading();video.oncanplay=null;};
         video.onerror=()=>{hideLoading();showError('视频播放失败');video.onerror=null;};
-        video.play().catch(()=>{hideLoading();});
+        video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});
         return;
     }
-    video.src=finalUrl;
+    video.src=finalUrl;video.muted=false;
     video.oncanplay=()=>{hideLoading();video.oncanplay=null;};
     video.onerror=()=>{hideLoading();showError('播放失败');video.onerror=null;};
-    video.play().catch(()=>{hideLoading();});
+    video.play().then(()=>{hideLoading();hideTapHint();}).catch(()=>{showTapHint();hideLoading();});
 }
+function playByIndex(idx){
+    if(idx<0||idx>=channelArray.length)return;
+    const item=channelArray[idx];
+    cleanup();hideTapHint();
+    if(currentActive)currentActive.classList.remove('active');
+    currentActive=channelList.children[idx];
+    if(currentActive)currentActive.classList.add('active');
+    currentIndex=idx;
+    currentChannel.textContent=item.name;
+    video.volume=0.5;video.muted=false;
+    play(item.url);
+}
+video.onplaying=()=>{hideLoading();hideTapHint();};
+video.onpause=()=>{};
+video.onerror=(e)=>{console.error('视频错误:',e);hideLoading();showError('播放错误');};
+video.onclick=()=>{if(pendingPlayUrl&&tapHint.classList.contains('show')){hideTapHint();play(pendingPlayUrl);}};
+tapHint.onclick=()=>{if(pendingPlayUrl){hideTapHint();play(pendingPlayUrl);}};
 async function loadChannels(){
     channelList.innerHTML='<div style="color:#00cc66;text-align:center;padding:20px">加载频道中...</div>';
     try{
@@ -237,7 +208,7 @@ async function loadChannels(){
             if(idx>0){
                 const name=line.substring(0,idx).trim();
                 const url=line.substring(idx+1).trim();
-                if(name&&url&&url.startsWith('http')){
+                if(name&&url&&(url.startsWith('http')||url.startsWith('//'))){
                     channelArray.push({name,url});
                     const btn=document.createElement('button');
                     btn.className='channel-item';
@@ -248,53 +219,17 @@ async function loadChannels(){
             }
         });
         console.log('加载了',channelArray.length,'个频道');
-        if(channelArray.length>0){
-            setTimeout(()=>playByIndex(0),500);
-        }
+        if(channelArray.length>0){setTimeout(()=>playByIndex(0),500);}
     }catch(e){
         console.error('加载失败:',e);
-        channelList.innerHTML='<div style="color:#ff6b6b;text-align:center;padding:20px">频道加载失败<br>'+e.message+'</div>';
+        channelList.innerHTML='<div style="color:#ff6b6b;text-align:center;padding:20px">频道加载失败<br><button onclick="loadChannels()" style="margin-top:10px;padding:8px 16px;background:#00cc66;color:#fff;border:none;border-radius:4px;cursor:pointer">重试</button><br><br>'+e.message+'</div>';
     }
 }
-function playByIndex(idx){
-    if(idx<0||idx>=channelArray.length)return;
-    const item=channelArray[idx];
-    cleanup();
-    if(currentActive)currentActive.classList.remove('active');
-    currentActive=channelList.children[idx];
-    if(currentActive)currentActive.classList.add('active');
-    currentIndex=idx;
-    currentChannel.textContent=item.name;
-    video.volume=0.5;
-    play(item.url);
-}
-video.onplaying=()=>hideLoading();
-video.onerror=(e)=>{console.error('视频错误:',e);hideLoading();showError('播放错误');};
-function initViewerCount(){
-    const base=Math.floor(Math.random()*500)+200;
-    onlineNumber.textContent=base;
-    setInterval(()=>{onlineNumber.textContent=Math.max(100,base+Math.floor(Math.random()*50));},5000);
-}
-function updateWeather(){
-    const fb=(city)=>{const c=['晴','多云','阴','小雨','阵雨'],i=['☀️','⛅','☁️','🌧️','🌦️'],t=Math.floor(Math.random()*15)+15,n=Math.floor(Math.random()*c.length);return`${city} ${i[n]} ${t}°C ${c[n]}`;};
-    const display=(t)=>document.getElementById('weatherText').textContent=t;
-    try{
-        fetch('https://ip-api.com/json/').then(r=>r.json()).then(i=>{
-            if(i.status==='success'){
-                const city=i.city;
-                fetch(`https://api.xcssapi.com/weather/current?location=${city}`).then(r=>r.json()).then(d=>{
-                    if(d.code==='200'&&d.data){const dd=d.data;display(`${city} ${dd.weather_icon} ${dd.temp}°C ${dd.weather}`);}
-                    else{display(fb(city));}
-                }).catch(()=>display(fb(city)));
-            }else{display(fb('未知城市'));}
-        }).catch(()=>display(fb('未知城市')));
-    }catch(e){display(fb('未知城市'));}
-}
+function initViewerCount(){const base=Math.floor(Math.random()*500)+200;onlineNumber.textContent=base;setInterval(()=>{onlineNumber.textContent=Math.max(100,base+Math.floor(Math.random()*50));},5000);}
+function updateWeather(){const fb=(city)=>{const c=['晴','多云','阴','小雨','阵雨'],i=['☀️','⛅','☁️','🌧️','🌦️'],t=Math.floor(Math.random()*15)+15,n=Math.floor(Math.random()*c.length);return`${city} ${i[n]} ${t}°C ${c[n]}`;};const display=(t)=>document.getElementById('weatherText').textContent=t;try{fetch('https://ip-api.com/json/').then(r=>r.json()).then(i=>{if(i.status==='success'){const city=i.city;fetch(`https://api.xcssapi.com/weather/current?location=${city}`).then(r=>r.json()).then(d=>{if(d.code==='200'&&d.data){const dd=d.data;display(`${city} ${dd.weather_icon} ${dd.temp}°C ${dd.weather}`);}else{display(fb(city));}}).catch(()=>display(fb(city)));}else{display(fb('未知城市'));}}).catch(()=>display(fb('未知城市')));}catch(e){display(fb('未知城市'));}}
 document.getElementById('rewardBtn').onclick=()=>{document.getElementById('rewardModal').style.display='flex';};
 document.getElementById('rewardClose').onclick=()=>{document.getElementById('rewardModal').style.display='none';};
 document.getElementById('rewardModal').onclick=(e)=>{if(e.target===document.getElementById('rewardModal'))document.getElementById('rewardModal').style.display='none';};
-document.getElementById('prevChannel').onclick=()=>{if(channelArray.length>0)playByIndex(currentIndex<=0?channelArray.length-1:currentIndex-1);};
-document.getElementById('nextChannel').onclick=()=>{if(channelArray.length>0)playByIndex(currentIndex>=channelArray.length-1?0:currentIndex+1);};
 loadChannels();
 initViewerCount();
 updateWeather();
