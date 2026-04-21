@@ -514,7 +514,7 @@
 
     <div class="video-box">
 
-        <video id="video" playsinline webkit-playsinline></video>
+        <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
 
         <div class="loading" id="loading">加载中...</div>
 
@@ -542,7 +542,7 @@
 
         <div class="reward-header">
 
-            <h3>   ❤️扫码支持 长期维护</h3>
+            <h3>❤️ 支持一下</h3>
 
             <button class="reward-close" id="rewardClose">×</button>
 
@@ -613,29 +613,193 @@ function playVideo(url, btn) {
     currentActive = btn;
 
 
-    // 播放逻辑
+    // 增强的格式检测和处理
 
-    if(Hls.isSupported() && url.includes('.m3u8')){
+    try {
 
-        hls = new Hls();
+        // 1. HLS 格式 (.m3u8)
 
-        hls.loadSource(url);
+        if (Hls.isSupported() && (url.includes('.m3u8') || url.includes('hls'))) {
 
-        hls.attachMedia(video);
+            hls = new Hls();
 
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            hls.loadSource(url);
+
+            hls.attachMedia(video);
+
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+
+                video.play().catch(() => {}).finally(hideLoading);
+
+            });
+
+            hls.on(Hls.Events.ERROR, () => {
+
+                console.error('HLS播放错误');
+
+                hideLoading();
+
+            });
+
+        }
+
+        // 2. 普通视频格式
+
+        else if (url.match(/\.(mp4|webm|ogg|mov|avi)$/i)) {
+
+            video.src = url;
 
             video.play().catch(() => {}).finally(hideLoading);
 
-        });
+        }
 
-        hls.on(Hls.Events.ERROR, () => hideLoading());
+        // 3. 可能的流格式（尝试多种播放策略）
 
-    }else{
+        else if (url.startsWith('http')) {
 
-        video.src = url;
+            // 策略1: 直接播放
 
-        video.play().catch(() => {}).finally(hideLoading);
+            function tryDirectPlay() {
+
+                console.log('尝试直接播放:', url);
+
+                video.src = url;
+
+                video.play().then(() => {
+
+                    console.log('直接播放成功');
+
+                    hideLoading();
+
+                }).catch(() => {
+
+                    console.log('直接播放失败，尝试策略2');
+
+                    tryCorsPlay();
+
+                });
+
+            }
+
+            // 策略2: CORS模式播放
+
+            function tryCorsPlay() {
+
+                console.log('尝试CORS播放:', url);
+
+                fetch(url, {
+
+                    mode: 'cors',
+
+                    credentials: 'include'
+
+                })
+
+                .then(response => {
+
+                    if (!response.ok) throw new Error('网络错误');
+
+                    return response.blob();
+
+                })
+
+                .then(blob => {
+
+                    const blobUrl = URL.createObjectURL(blob);
+
+                    video.src = blobUrl;
+
+                    return video.play().then(() => {
+
+                        console.log('CORS播放成功');
+
+                        hideLoading();
+
+                    });
+
+                })
+
+                .catch(() => {
+
+                    console.log('CORS播放失败，尝试策略3');
+
+                    tryNoCorsPlay();
+
+                });
+
+            }
+
+            // 策略3: No-CORS模式播放
+
+            function tryNoCorsPlay() {
+
+                console.log('尝试No-CORS播放:', url);
+
+                fetch(url, {
+
+                    mode: 'no-cors'
+
+                })
+
+                .then(response => {
+
+                    if (!response.ok) throw new Error('网络错误');
+
+                    return response.blob();
+
+                })
+
+                .then(blob => {
+
+                    const blobUrl = URL.createObjectURL(blob);
+
+                    video.src = blobUrl;
+
+                    return video.play();
+
+                })
+
+                .catch(err => {
+
+                    console.error('所有播放策略失败:', err);
+
+                    alert('无法播放此直播源，请尝试其他频道');
+
+                    hideLoading();
+
+                });
+
+            }
+
+            // 开始尝试播放
+
+            tryDirectPlay();
+
+        }
+
+        // 4. 其他格式
+
+        else {
+
+            console.warn('未知格式:', url);
+
+            video.src = url;
+
+            video.play().catch(() => {
+
+                alert('无法播放此直播源，请尝试其他频道');
+
+            }).finally(hideLoading);
+
+        }
+
+    } catch (error) {
+
+        console.error('播放初始化错误:', error);
+
+        alert('播放初始化失败，请尝试其他频道');
+
+        hideLoading();
 
     }
 
