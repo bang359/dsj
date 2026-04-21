@@ -265,7 +265,7 @@
 <div class="container">
     <div class="main-area">
         <div class="video-box">
-            <video id="video" playsinline webkit-playsinline crossorigin="anonymous" autoplay muted></video>
+            <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
             <div class="loading" id="loading">加载中，请稍候...</div>
         </div>
         <div class="toolbar">
@@ -379,6 +379,7 @@ function playChannelByIndex(index){
     }
     video.pause();
     video.src = '';
+    video.volume = 0.5;
     video.load();
     if(currentActive) currentActive.classList.remove('active');
     currentActive = channelList.children[index];
@@ -421,6 +422,7 @@ function playChannel(url, btn){
     }
     video.pause();
     video.src = '';
+    video.volume = 0.5;
     video.load();
     if(currentActive) currentActive.classList.remove('active');
     btn.classList.add('active');
@@ -518,7 +520,11 @@ document.getElementById('nextChannel').onclick = () => {
         playChannelByIndex(newIndex);
     }
 };
-loadChannels();
+loadChannels().then(() => {
+    if(channelArray.length > 0){
+        playChannelByIndex(0);
+    }
+});
 initViewerCount();
 updateWeather();
 setInterval(updateWeather, 300000);
