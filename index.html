@@ -1,170 +1,824 @@
+
 <!DOCTYPE html>
+
 <html lang="zh-CN">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
 <meta name="apple-mobile-web-app-capable" content="yes">
+
 <meta name="apple-mobile-web-app-title" content="网络电视">
+
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <title>网络电视</title>
+
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+
 <style>
+
     *{
+
         margin:0;
+
         padding:0;
+
         box-sizing:border-box;
+
         font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+
         -webkit-tap-highlight-color: transparent;
+
     }
+
     html,body{
+
         height:100%;
+
         background:#000;
+
         color:#fff;
+
         overflow:hidden;
+
     }
+
     .container{
+
         display:flex;
+
         flex-direction:column;
+
         height:100vh;
+
     }
+
     /* 视频播放区域 */
+
     .video-box{
+
         width:100%;
+
         height:42vh;
+
         background:#000;
+
         position:relative;
+
     }
+
+    /* 响应式设计 */
+
+    @media (min-width: 768px) {
+
+        /* 电脑端布局 */
+
+        .container{
+
+            flex-direction:row;
+
+        }
+
+        .video-box{
+
+            width:70%;
+
+            height:100vh;
+
+        }
+
+        .channel-box{
+
+            width:30%;
+
+            max-width:400px;
+
+        }
+
+    }
+
+    @media (max-width: 767px) {
+
+        /* 手机端布局 */
+
+        .video-box{
+
+            height:40vh;
+
+        }
+
+        .channel-item{
+
+            padding:14px 12px;
+
+            font-size:14px;
+
+        }
+
+    }
+
     video{
+
         width:100%;
+
         height:100%;
+
         object-fit:contain;
+
         background:#000;
+
     }
+
+    /* 增强响应式体验 */
+
+    @media (min-width: 1024px) {
+
+        .channel-item{
+
+            padding:20px 18px;
+
+            font-size:16px;
+
+        }
+
+    }
+
+    @media (max-width: 480px) {
+
+        .channel-item{
+
+            padding:12px 10px;
+
+            font-size:13px;
+
+        }
+
+        .channel-box{
+
+            padding:8px;
+
+        }
+
+    }
+
     .loading{
+
         position:absolute;
+
         top:50%;
+
         left:50%;
+
         transform:translate(-50%,-50%);
+
         color:#007aff;
+
         font-size:18px;
+
     }
+
     /* 频道列表区域 */
+
     .channel-box{
+
         flex:1;
+
         background:#121212;
+
         padding:10px;
+
         overflow-y:auto;
+
     }
+
     .channel-item{
+
         width:100%;
+
         padding:18px 16px;
+
         background:#1e1e1e;
+
         border:none;
+
         border-radius:14px;
+
         color:#fff;
+
         font-size:16px;
+
         text-align:left;
+
         margin-bottom:10px;
+
         cursor:pointer;
+
         transition:0.2s;
+
     }
+
     .channel-item:active{
+
         background:#0066cc;
+
         transform:scale(0.98);
+
     }
+
     .channel-item.active{
+
         background:#007aff;
+
         font-weight:500;
+
     }
+
     /* 滚动条隐藏 */
+
     ::-webkit-scrollbar{
+
         width:0;
+
     }
+
+    /* 在线人数显示 */
+
+    .online-count{
+
+        position:absolute;
+
+        top:10px;
+
+        right:10px;
+
+        background:rgba(0,0,0,0.7);
+
+        padding:6px 12px;
+
+        border-radius:20px;
+
+        font-size:14px;
+
+        display:flex;
+
+        align-items:center;
+
+        gap:5px;
+
+        z-index:10;
+
+    }
+
+    .online-icon{
+
+        font-size:16px;
+
+    }
+
+    /* 响应式调整 */
+
+    @media (max-width: 767px) {
+
+        .online-count{
+
+            padding:4px 8px;
+
+            font-size:12px;
+
+        }
+
+        .online-icon{
+
+            font-size:14px;
+
+        }
+
+        .loading{
+
+            font-size:16px;
+
+        }
+
+    }
+
+    /* 打赏按钮 */
+
+    .reward-btn{
+
+        position:absolute;
+
+        bottom:10px;
+
+        right:10px;
+
+        background:linear-gradient(135deg, #ff6b6b, #ee5a5a);
+
+        padding:6px 14px;
+
+        border-radius:20px;
+
+        font-size:13px;
+
+        color:#fff;
+
+        cursor:pointer;
+
+        z-index:10;
+
+        transition:all 0.3s ease;
+
+        box-shadow:0 2px 8px rgba(255,107,107,0.3);
+
+    }
+
+    .reward-btn:hover{
+
+        transform:scale(1.05);
+
+        box-shadow:0 4px 12px rgba(255,107,107,0.4);
+
+    }
+
+    /* 打赏模态框 */
+
+    .reward-modal{
+
+        display:none;
+
+        position:fixed;
+
+        top:0;
+
+        left:0;
+
+        width:100%;
+
+        height:100%;
+
+        background:rgba(0,0,0,0.8);
+
+        z-index:1000;
+
+        justify-content:center;
+
+        align-items:center;
+
+    }
+
+    .reward-modal.show{
+
+        display:flex;
+
+    }
+
+    .reward-content{
+
+        background:#1e1e1e;
+
+        border-radius:16px;
+
+        padding:24px;
+
+        max-width:320px;
+
+        width:90%;
+
+        box-shadow:0 10px 40px rgba(0,0,0,0.5);
+
+    }
+
+    .reward-header{
+
+        display:flex;
+
+        justify-content:space-between;
+
+        align-items:center;
+
+        margin-bottom:20px;
+
+    }
+
+    .reward-header h3{
+
+        font-size:18px;
+
+        color:#fff;
+
+        margin:0;
+
+    }
+
+    .reward-close{
+
+        background:none;
+
+        border:none;
+
+        color:#888;
+
+        font-size:28px;
+
+        cursor:pointer;
+
+        padding:0;
+
+        line-height:1;
+
+    }
+
+    .reward-close:hover{
+
+        color:#fff;
+
+    }
+
+    .reward-body{
+
+        text-align:center;
+
+    }
+
+    .reward-qrcode{
+
+        width:200px;
+
+        height:200px;
+
+        border-radius:8px;
+
+        margin-bottom:16px;
+
+    }
+
+    .reward-tip{
+
+        color:#aaa;
+
+        font-size:14px;
+
+        margin:0;
+
+    }
+
+    /* 响应式打赏 */
+
+    @media (max-width: 767px) {
+
+        .reward-btn{
+
+            padding:5px 12px;
+
+            font-size:12px;
+
+        }
+
+        .reward-content{
+
+            padding:20px;
+
+        }
+
+        .reward-qrcode{
+
+            width:180px;
+
+            height:180px;
+
+        }
+
+    }
+
 </style>
+
 </head>
+
 <body>
 
+
 <div class="container">
+
     <div class="video-box">
+
         <video id="video" playsinline webkit-playsinline></video>
+
         <div class="loading" id="loading">加载中...</div>
+
+        <div class="online-count">
+
+            <span class="online-icon">👁️</span>
+
+            <span id="onlineNumber">0</span>
+
+        </div>
+
+        <div class="reward-btn" id="rewardBtn">❤️ 打赏</div>
+
     </div>
+
     <div class="channel-box" id="channelList"></div>
+
 </div>
-<div class="right-sidebar">
+
+<!-- 打赏模态框 -->
+
+<div class="reward-modal" id="rewardModal">
+
+    <div class="reward-content">
+
+        <div class="reward-header">
+
+            <h3>❤️扫码支持 长期维护</h3>
+
+            <button class="reward-close" id="rewardClose">×</button>
+
+        </div>
+
+        <div class="reward-body">
+
+            <img src="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" alt="打赏二维码" class="reward-qrcode">
+
+            <p class="reward-tip">微信扫一扫打赏</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
+
 const video = document.getElementById('video');
+
 const loading = document.getElementById('loading');
+
 const channelList = document.getElementById('channelList');
+
+const onlineNumber = document.getElementById('onlineNumber');
+
 let hls = null;
+
 let currentActive = null;
 
+let onlineCount = 0;
+
+
 // 你指定的官方源，不做任何修改
+
 const sourceURL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
 
+
 // 加载状态
+
 function showLoading(){ loading.style.display = 'block'; }
+
 function hideLoading(){ loading.style.display = 'none'; }
 
+
 // 播放函数（自动播放）
+
 function playVideo(url, btn) {
+
     showLoading();
+
     
+
     // 销毁之前的播放
+
     if(hls) hls.destroy();
+
     
+
     // 高亮当前频道
+
     if(currentActive) currentActive.classList.remove('active');
+
     btn.classList.add('active');
+
     currentActive = btn;
 
+
     // 播放逻辑
+
     if(Hls.isSupported() && url.includes('.m3u8')){
+
         hls = new Hls();
+
         hls.loadSource(url);
+
         hls.attachMedia(video);
+
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
+
             video.play().catch(() => {}).finally(hideLoading);
+
         });
+
         hls.on(Hls.Events.ERROR, () => hideLoading());
+
     }else{
+
         video.src = url;
+
         video.play().catch(() => {}).finally(hideLoading);
+
     }
+
 }
 
+
 // 加载频道列表
+
 fetch(sourceURL)
+
 .then(res => res.text())
+
 .then(text => {
+
     let firstUrl = '';
+
     let firstBtn = null;
 
+
     text.split('\n').forEach(line => {
+
         if(line.includes(',')){
+
             const [name, url] = line.split(',', 2);
+
             if(name && url && url.startsWith('http')){
+
                 const btn = document.createElement('button');
+
                 btn.className = 'channel-item';
+
                 btn.innerText = name.trim();
+
                 btn.onclick = () => playVideo(url.trim(), btn);
+
                 channelList.appendChild(btn);
 
+
                 if(!firstUrl){
+
                     firstUrl = url.trim();
+
                     firstBtn = btn;
+
                 }
+
             }
+
         }
+
     });
 
+
     // 自动播放第一个频道
+
     if(firstUrl) playVideo(firstUrl, firstBtn);
+
 })
+
 .catch(err => {
+
     channelList.innerHTML = '<div class="channel-item">直播源加载失败，请刷新重试</div>';
+
     hideLoading();
+
 });
+
+
+// 打赏功能
+
+const rewardBtn = document.getElementById('rewardBtn');
+
+const rewardModal = document.getElementById('rewardModal');
+
+const rewardClose = document.getElementById('rewardClose');
+
+
+rewardBtn.addEventListener('click', () => {
+
+    rewardModal.classList.add('show');
+
+});
+
+
+rewardClose.addEventListener('click', () => {
+
+    rewardModal.classList.remove('show');
+
+});
+
+
+rewardModal.addEventListener('click', (e) => {
+
+    if (e.target === rewardModal) {
+
+        rewardModal.classList.remove('show');
+
+    }
+
+});
+
+
+// Firebase配置
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyDq1k5Xp1eJ7c9V7K6rX7X7X7X7X7X7X7",
+
+    authDomain: "web-tv-online-counter.firebaseapp.com",
+
+    databaseURL: "https://web-tv-online-counter-default-rtdb.firebaseio.com",
+
+    projectId: "web-tv-online-counter",
+
+    storageBucket: "web-tv-online-counter.appspot.com",
+
+    messagingSenderId: "123456789012",
+
+    appId: "1:123456789012:web:1234567890123456789012"
+
+};
+
+
+// 初始化Firebase
+
+firebase.initializeApp(firebaseConfig);
+
+const database = firebase.database();
+
+const onlineRef = database.ref('onlineUsers');
+
+let userRef = null;
+
+
+// 实时在线人数统计
+
+function initRealTimeViewerCount() {
+
+    // 生成唯一用户ID
+
+    const userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+    // 创建用户引用
+
+    userRef = onlineRef.child(userId);
+
+    // 设置用户在线状态
+
+    userRef.set({
+
+        online: true,
+
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+
+    });
+
+    // 当用户关闭页面时移除用户
+
+    window.addEventListener('beforeunload', () => {
+
+        if (userRef) {
+
+            userRef.remove();
+
+        }
+
+    });
+
+    // 监听在线用户数量变化
+
+    onlineRef.on('value', (snapshot) => {
+
+        const count = snapshot.numChildren();
+
+        onlineNumber.textContent = count;
+
+        console.log('当前在线人数:', count);
+
+    });
+
+}
+
+
+// 页面加载完成后初始化
+
+initRealTimeViewerCount();
+
 </script>
+
 </body>
+
 </html>
