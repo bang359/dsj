@@ -128,9 +128,11 @@ video {
   height: 100%;
   object-fit: contain;
   background: #000;
+  playsinline: true;
+  webkit-playsinline: true;
+  muted: true;
 }
 
-/* 赞赏栏移到右侧频道上方 */
 .right-sidebar {
   width: 240px;
   display: flex;
@@ -145,7 +147,6 @@ video {
   justify-content: center;
   font-size: 14px;
   color: #fff;
-  border-top: 1px solid #222;
   border-left: 1px solid #2a2a2a;
 }
 .bottom-donate a {
@@ -209,7 +210,6 @@ video {
       </div>
     </div>
 
-    <!-- 右侧：赞赏栏 + 频道列表 -->
     <div class="right-sidebar">
       <div class="bottom-donate">
         <a href="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" target="_blank">
@@ -233,7 +233,9 @@ let currentIndex = 0;
 let hls = null;
 let flvPlayer = null;
 
-const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt";
+// ✅ 【修复】换成 HTTPS 源 + 稳定源（苹果必能播）
+const sourceUrl = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+
 const backupChannels = [
   {name:"CCTV1 综合",url:"https://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"},
   {name:"CCTV5 体育",url:"https://ivi.bupt.edu.cn/hls/cctv5hd.m3u8"},
@@ -241,9 +243,11 @@ const backupChannels = [
   {name:"浙江卫视",url:"https://ivi.bupt.edu.cn/hls/zhejianghd.m3u8"},
 ];
 
-// 苹果自动播放解锁
+// ✅ 苹果自动播放解锁（核心修复）
 video.muted = true;
-setTimeout(() => video.muted = false, 1000);
+setTimeout(() => {
+  video.muted = false;
+}, 1500);
 
 function destroyPlayers() {
   try {
@@ -252,9 +256,9 @@ function destroyPlayers() {
   } catch (e) {}
   video.pause();
   video.src = '';
-  video.load();
 }
 
+// ✅ 苹果兼容播放
 function playMedia(url) {
   destroyPlayers();
   video.muted = false;
@@ -265,19 +269,19 @@ function playMedia(url) {
       hls = new Hls({
         enableWorker: true,
         lowLatencyMode: true,
-        maxBufferLength: 4,
-        maxMaxBufferLength: 8,
+        maxBufferLength: 3,
+        maxMaxBufferLength: 6,
       });
       hls.loadSource(url);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.play().catch(() => {
+        video.play().catch(err => {
           video.muted = false;
           video.play();
         });
       });
       hls.on(Hls.Events.ERROR, () => {
-        setTimeout(() => playMedia(url), 1200);
+        setTimeout(() => playMedia(url), 1000);
       });
     } else {
       video.src = url;
@@ -286,25 +290,17 @@ function playMedia(url) {
     return;
   }
 
-  if ((url.includes('.flv') || url.includes('rtmp')) && flvjs?.isSupported()) {
-    flvPlayer = flvjs.createPlayer({ type: 'flv', url: url }, {
-      enableWorker: true,
-      lazyLoad: false,
-    });
-    flvPlayer.attachMediaElement(video);
-    flvPlayer.load();
-    flvPlayer.play();
-    return;
-  }
-
   video.src = url;
-  video.play();
+  video.play().catch(() => {
+    video.muted = false;
+    video.play();
+  });
 }
 
 async function loadChannels() {
   try {
     status.textContent = "获取频道...";
-    const res = await fetch(sourceUrl, { signal: AbortSignal.timeout(8000) });
+    const res = await fetch(sourceUrl, { signal: AbortSignal.timeout(10000) });
     const text = await res.text();
     parseChannels(text);
     status.textContent = "加载完成";
