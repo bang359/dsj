@@ -7,6 +7,7 @@
 <title>网络电视 - 快播经典版</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/dashjs@4.7.0/dist/dash.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
 <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei","PingFang SC",sans-serif}
     html,body{height:100%;background:#0d0d0d;color:#fff;overflow:hidden;touch-action:manipulation}
@@ -88,8 +89,9 @@ const errorMsg=document.getElementById('errorMsg');
 const channelList=document.getElementById('channelList');
 const onlineNumber=document.getElementById('onlineNumber');
 const currentChannel=document.getElementById('currentChannel');
-let hls=null;
+let hlsPlayer=null;
 let dashPlayer=null;
+let flvPlayer=null;
 let currentActive=null;
 let channelArray=[];
 let currentIndex=-1;
@@ -106,35 +108,147 @@ function nextProxy(){proxyIdx++;console.log('切换代理:',proxyIdx%corsProxies
 function showLoading(msg){loading.classList.add('show');loadingText.textContent=msg||'加载中...';errorMsg.textContent='';}
 function showError(msg){errorMsg.textContent=msg;}
 function hideLoading(){loading.classList.remove('show');}
-function cleanup(){if(hls){hls.destroy();hls=null;}if(dashPlayer){dashPlayer.reset();dashPlayer=null;}video.pause();video.src='';video.load();}
-function fixUrl(url){if(!url||typeof url!=='string')return'';url=url.trim();if(url.includes('github.com')&&!url.includes('raw.githubusercontent.com')){return url.replace('github.com','raw.githubusercontent.com').replace('/blob/','/');}return url;}
-function detectFormat(url){const u=url.toLowerCase();if(u.includes('.m3u8')||u.includes('m3u8'))return'hls';if(u.includes('.mpd')||u.includes('mpd'))return'dash';if(u.includes('.flv')||u.includes('flv'))return'flv';if(u.startsWith('rtmp://'))return'rtmp';if(u.includes('.ts')&&!u.includes('m3u8'))return'ts';if(/\.(mp4|mov|m4v)$/i.test(u))return'mp4';if(/\.(webm|ogg|ogv)$/i.test(u))return'webm';return'other';}
+function cleanup(){
+    if(hlsPlayer){hlsPlayer.destroy();hlsPlayer=null;}
+    if(dashPlayer){dashPlayer.reset();dashPlayer=null;}
+    if(flvPlayer){flvPlayer.unload();flvPlayer=null;}
+    video.pause();video.src='';video.load();
+}
+function fixUrl(url){
+    if(!url||typeof url!=='string')return'';
+    url=url.trim();
+    if(url.startsWith('//'))return location.protocol+url;
+    if(url.includes('github.com')&&!url.includes('raw.githubusercontent.com')){
+        return url.replace('github.com','raw.githubusercontent.com').replace('/blob/','/');
+    }
+    return url;
+}
+function detectFormat(url){
+    const u=url.toLowerCase();
+    if(u.includes('.m3u8')||u.includes('m3u8')||u.includes('type=m3u8'))return'hls';
+    if(u.includes('.mpd')||u.includes('mpd'))return'dash';
+    if(u.includes('.flv')||u.includes('flv')||u.includes('type=flv'))return'flv';
+    if(u.startsWith('rtmp://'))return'rtmp';
+    if(u.includes('.ts')&&!u.includes('m3u8'))return'ts';
+    if(/\.(mp4|mov|m4v)$/i.test(u))return'mp4';
+    if(/\.(webm|ogg|ogv)$/i.test(u))return'webm';
+    if(u.includes('manifest')||u.includes('dash'))return'dash';
+    return'other';
+}
 function playHLS(url,useProxy){
+    if(typeof Hls==='undefined')return false;
     const playUrl=useProxy?getProxy(url):url;
     console.log('HLS播放:',useProxy?'代理':'直连',playUrl);
-    if(typeof Hls==='undefined'){showError('HLS.js未加载');return false;}
     if(!Hls.isSupported()){
-        if(video.canPlayType('application/vnd.apple.mpegurl')){video.src=playUrl;video.muted=false;video.play().catch(()=>{});return true;}
+        if(video.canPlayType('application/vnd.apple.mpegurl')){
+            video.src=playUrl;
+            video.muted=false;
+            video.play().catch(()=>{});
+            return true;
+        }
         return false;
     }
-    if(hls){hls.destroy();}
-    hls=new Hls({enableWorker:true,backBufferLength:60,maxBufferLength:60,startLevel:-1,maxLoadingRetryDelay:10000,manifestLoadingTimeOut:30000,manifestLoadingMaxRetry:4,levelLoadingTimeOut:30000,levelLoadingMaxRetry:4});
-    hls.loadSource(playUrl);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED,(e,data)=>{console.log('HLS清单解析完成,等级:',data.levels.length);video.muted=false;video.play().catch(()=>{});});
-    hls.on(Hls.Events.LEVEL_SWITCHED,(e,data)=>{console.log('切换到等级:',data.level);});
-    hls.on(Hls.Events.ERROR,(e,data)=>{console.error('HLS错误:',data.type,data.details);if(data.fatal){hideLoading();switch(data.type){case'networkError':if(useProxy){nextProxy();playHLS(url,true);}else{playHLS(url,true);}break;case'manifestLoadError':case'tokenError':if(useProxy){nextProxy();playHLS(url,true);}else{playHLS(url,true);}break;default:if(proxyIdx<corsProxies.length*3){nextProxy();playHLS(url,true);}else{showError('播放失败，请尝试其他频道');hls=null;}}}});
+    if(hlsPlayer)hlsPlayer.destroy();
+    hlsPlayer=new Hls({
+        enableWorker:true,
+        lowLatencyMode:true,
+        backBufferLength:60,
+        maxBufferLength:120,
+        maxBufferSize:60*1024*1024,
+        startLevel:-1,
+        maxLoadingRetryDelay:10000,
+        manifestLoadingTimeOut:30000,
+        manifestLoadingMaxRetry:4,
+        levelLoadingTimeOut:30000,
+        levelLoadingMaxRetry:4
+    });
+    hlsPlayer.loadSource(playUrl);
+    hlsPlayer.attachMedia(video);
+    hlsPlayer.on(Hls.Events.MANIFEST_PARSED,(e,data)=>{
+        console.log('HLS清单解析完成,等级:',data.levels.length);
+        video.muted=false;
+        video.play().catch(()=>{});
+    });
+    hlsPlayer.on(Hls.Events.LEVEL_SWITCHED,(e,data)=>{console.log('切换到等级:',data.level);});
+    hlsPlayer.on(Hls.Events.ERROR,(e,data)=>{
+        console.error('HLS错误:',data.type,data.details);
+        if(data.fatal){
+            hideLoading();
+            if(proxyIdx<corsProxies.length*3){
+                nextProxy();
+                playHLS(url,true);
+            }else{
+                showError('播放失败，请尝试其他频道');
+                hlsPlayer=null;
+            }
+        }
+    });
     return true;
 }
 function playDASH(url,useProxy){
+    if(typeof dashjs==='undefined')return false;
     const playUrl=useProxy?getProxy(url):url;
     console.log('DASH播放:',useProxy?'代理':'直连',playUrl);
-    if(typeof dashjs==='undefined'){showError('DASH.js未加载');return false;}
-    try{if(dashPlayer){dashPlayer.reset();}
-    dashPlayer=dashjs.MediaPlayer().create();dashPlayer.initialize(video,playUrl,true);
-    dashPlayer.on('streamInitialized',()=>{video.muted=false;video.play().catch(()=>{});});
-    dashPlayer.on('error',()=>{hideLoading();if(useProxy&&proxyIdx<corsProxies.length*3){nextProxy();playDASH(url,true);}else{showError('DASH播放失败');}});
-    return true;}catch(e){console.error('DASH错误:',e);return false;}
+    try{
+        if(dashPlayer)dashPlayer.reset();
+        dashPlayer=dashjs.MediaPlayer().create();
+        dashPlayer.initialize(video,playUrl,true);
+        dashPlayer.on('streamInitialized',()=>{
+            video.muted=false;
+            video.play().catch(()=>{});
+        });
+        dashPlayer.on('error',()=>{
+            hideLoading();
+            if(proxyIdx<corsProxies.length*3){
+                nextProxy();
+                playDASH(url,true);
+            }else{
+                showError('DASH播放失败');
+            }
+        });
+        return true;
+    }catch(e){console.error('DASH错误:',e);return false;}
+}
+function playFLV(url,useProxy){
+    if(typeof flvjs==='undefined'||!flvjs.isSupported())return false;
+    const playUrl=useProxy?getProxy(url):url;
+    console.log('FLV播放:',useProxy?'代理':'直连',playUrl);
+    if(flvPlayer)flvPlayer.unload();
+    flvPlayer=flvjs.createPlayer({
+        type:'flv',
+        url:playUrl,
+        hasAudio:true,
+        hasVideo:true,
+        isLive:true
+    },{
+        enableWorker:true,
+        enableStashBuffer:false,
+        stashInitialSize:128
+    });
+    flvPlayer.attachMediaElement(video);
+    flvPlayer.load();
+    video.muted=false;
+    video.play().catch(()=>{});
+    flvPlayer.on(flvjs.Events.ERROR,(e,data)=>{
+        console.error('FLV错误:',data);
+        hideLoading();
+        if(proxyIdx<corsProxies.length*3){
+            nextProxy();
+            playFLV(url,true);
+        }else{
+            showError('FLV播放失败');
+            flvPlayer=null;
+        }
+    });
+    return true;
+}
+function playDirect(url){
+    console.log('直接播放:',url);
+    video.src=url;
+    video.muted=false;
+    video.oncanplay=()=>{hideLoading();video.oncanplay=null;};
+    video.onerror=()=>{hideLoading();showError('播放失败');video.onerror=null;};
+    video.play().catch(()=>{});
 }
 function play(url){
     if(!url||url.trim()===''||url==='null'||url==='undefined'){showError('无效的播放地址');return;}
@@ -150,17 +264,20 @@ function play(url){
         if(playDASH(finalUrl,false))return;
         if(playDASH(finalUrl,true))return;
     }
+    if(format==='flv'){
+        if(playFLV(finalUrl,false))return;
+        if(playFLV(finalUrl,true))return;
+    }
     if(format==='mp4'||format==='webm'){
-        video.src=finalUrl;video.muted=false;
-        video.oncanplay=()=>{hideLoading();video.oncanplay=null;};
-        video.onerror=()=>{hideLoading();showError('视频播放失败');video.onerror=null;};
-        video.play().catch(()=>{});
+        playDirect(finalUrl);
         return;
     }
-    video.src=finalUrl;video.muted=false;
-    video.oncanplay=()=>{hideLoading();video.oncanplay=null;};
-    video.onerror=()=>{hideLoading();showError('播放失败');video.onerror=null;};
-    video.play().catch(()=>{});
+    if(format==='rtmp'){
+        showError('RTMP格式需要特殊播放器');
+        if(playHLS(finalUrl,false))return;
+        if(playHLS(finalUrl,true))return;
+    }
+    playDirect(finalUrl);
 }
 function playByIndex(idx){
     if(idx<0||idx>=channelArray.length)return;
