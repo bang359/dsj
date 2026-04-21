@@ -182,21 +182,81 @@
     .reward-mini:hover{
         background:linear-gradient(180deg, #dd4444 0%, #cc3333 100%);
     }
+    .mobile-nav{
+        display:none;
+        position:fixed;
+        bottom:20px;
+        left:50%;
+        transform:translateX(-50%);
+        background:linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+        border:2px solid #00cc66;
+        border-radius:25px;
+        padding:8px 15px;
+        z-index:998;
+        gap:10px;
+    }
+    .mobile-nav button{
+        background:linear-gradient(180deg, #00cc66 0%, #00a855 100%);
+        border:1px solid #00dd77;
+        color:#fff;
+        padding:8px 16px;
+        border-radius:20px;
+        font-size:14px;
+        cursor:pointer;
+    }
     @media (max-width: 768px){
         .container{
             flex-direction:column;
         }
-        .channel-box{
+        .main-area{
+            height:auto;
+            flex:none;
+        }
+        .video-box{
             width:100%;
             height:40vh;
+            min-height:180px;
+            flex:none;
+        }
+        .channel-box{
+            position:relative;
+            width:100%;
+            height:calc(100vh - 40vh - 50px - 36px);
             border-left:none;
             border-top:3px solid #00cc66;
+            flex:1;
         }
-        .main-area{
-            height:60vh;
+        .channel-header{
+            padding:10px 12px;
+            font-size:14px;
+        }
+        .channel-list{
+            padding:8px;
+        }
+        .channel-item{
+            padding:12px 14px;
+            font-size:14px;
+            margin-bottom:6px;
+        }
+        .mobile-nav{
+            display:flex;
         }
         .toolbar-title{
-            font-size:12px;
+            font-size:11px;
+        }
+        .weather-bar{
+            padding:5px 10px;
+        }
+        .weather-info{
+            font-size:11px;
+        }
+        .online-info{
+            font-size:11px;
+            padding:3px 8px;
+        }
+        .reward-mini{
+            font-size:11px;
+            padding:3px 8px;
         }
     }
 </style>
@@ -224,12 +284,18 @@
             </div>
         </div>
     </div>
-    <div class="channel-box">
-        <div class="channel-header">📺 频道列表</div>
+    <div class="channel-box" id="channelBox">
+        <div class="channel-header">
+            <span>📺 频道列表</span>
+        </div>
         <div class="channel-list" id="channelList"></div>
     </div>
 </div>
-<div class="reward-modal" id="rewardModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:1000;justify-content:center;align-items:center;">
+<div class="mobile-nav" id="mobileNav">
+    <button id="prevChannel">◀ 上一台</button>
+    <button id="nextChannel">下一台 ▶</button>
+</div>
+<div class="reward-modal" id="rewardModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:2000;justify-content:center;align-items:center;">
     <div style="background:#1a1a1a;border:2px solid #00cc66;border-radius:12px;padding:24px;max-width:320px;width:90%;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
             <h3 style="color:#00cc66;font-size:18px;">❤️ 支持一下</h3>
@@ -250,6 +316,8 @@ const currentChannel = document.getElementById('currentChannel');
 let hls = null;
 let dashPlayer = null;
 let currentActive = null;
+let channelArray = [];
+let currentIndex = -1;
 const channelUrls = [
     "https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt"
 ];
@@ -260,6 +328,7 @@ async function loadChannels(){
         const text = await response.text();
         const lines = text.split('\n');
         channelList.innerHTML = '';
+        channelArray = [];
         let currentCategory = '';
         lines.forEach(line => {
             line = line.trim();
@@ -277,10 +346,11 @@ async function loadChannels(){
                 if(parts.length >= 2){
                     const name = parts[0].trim();
                     const url = parts[1].trim();
+                    channelArray.push({name, url});
                     const btn = document.createElement('button');
                     btn.className = 'channel-item';
                     btn.textContent = name;
-                    btn.onclick = () => playChannel(url, btn);
+                    btn.onclick = () => playChannelByIndex(channelArray.length - 1);
                     channelList.appendChild(btn);
                 }
             }
@@ -294,6 +364,50 @@ function showLoading(){
 }
 function hideLoading(){
     loading.classList.remove('show');
+}
+function playChannelByIndex(index){
+    if(index < 0 || index >= channelArray.length) return;
+    const item = channelArray[index];
+    showLoading();
+    if(hls){
+        hls.destroy();
+        hls = null;
+    }
+    if(dashPlayer){
+        dashPlayer.reset();
+        dashPlayer = null;
+    }
+    video.pause();
+    video.src = '';
+    video.load();
+    if(currentActive) currentActive.classList.remove('active');
+    currentActive = channelList.children[index];
+    if(currentActive) currentActive.classList.add('active');
+    currentIndex = index;
+    currentChannel.textContent = item.name;
+    const finalUrl = item.url.includes('github.com') && !item.url.includes('raw.githubusercontent.com') ? item.url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/') : item.url;
+    if(finalUrl.includes('.m3u8')){
+        if(hls.isSupported()){
+            hls = new Hls();
+            hls.loadSource(finalUrl);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => { video.play().catch(()=>{}); hideLoading(); });
+            hls.on(Hls.Events.ERROR, (event, data) => { if(data.fatal){ hideLoading(); } });
+        } else if(video.canPlayType('application/vnd.apple.mpegurl')){
+            video.src = finalUrl;
+            video.play().catch(()=>{});
+            hideLoading();
+        }
+    } else if(finalUrl.includes('.mpd')){
+        dashPlayer = dashjs.MediaPlayer().create();
+        dashPlayer.initialize(video, finalUrl, true);
+        dashPlayer.on('streamInitialized', () => { hideLoading(); });
+    } else {
+        video.src = finalUrl;
+        video.oncanplay = () => { hideLoading(); };
+        video.onerror = () => { hideLoading(); };
+        video.play().catch(()=>{});
+    }
 }
 function playChannel(url, btn){
     showLoading();
@@ -390,6 +504,18 @@ document.getElementById('rewardClose').onclick = () => {
 document.getElementById('rewardModal').onclick = (e) => {
     if(e.target === document.getElementById('rewardModal')){
         document.getElementById('rewardModal').style.display = 'none';
+    }
+};
+document.getElementById('prevChannel').onclick = () => {
+    if(channelArray.length > 0){
+        const newIndex = currentIndex <= 0 ? channelArray.length - 1 : currentIndex - 1;
+        playChannelByIndex(newIndex);
+    }
+};
+document.getElementById('nextChannel').onclick = () => {
+    if(channelArray.length > 0){
+        const newIndex = currentIndex >= channelArray.length - 1 ? 0 : currentIndex + 1;
+        playChannelByIndex(newIndex);
     }
 };
 loadChannels();
