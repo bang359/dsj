@@ -11,11 +11,11 @@
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-<meta name="apple-mobile-web-app-title" content="网络电视">
+<meta name="apple-mobile-web-app-title" content="网络电视1">
 
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<title>网络电视</title>
+<title>网络电视1</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
@@ -516,7 +516,7 @@
 
     <div class="video-box">
 
-        <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
+        <video id="video" playsinline webkit-playsinline crossorigin="anonymous" autoplay muted></video>
 
         <div class="loading" id="loading">加载中...</div>
 
@@ -575,6 +575,8 @@ const onlineNumber = document.getElementById('onlineNumber');
 
 let hls = null;
 
+let dashPlayer = null;
+
 let currentActive = null;
 
 let onlineCount = 0;
@@ -602,9 +604,29 @@ function playVideo(url, btn) {
 
     // 销毁之前的播放
 
-    if(hls) hls.destroy();
+    if(hls) {
 
-    
+        hls.destroy();
+
+        hls = null;
+
+    }
+
+    if(dashPlayer) {
+
+        dashPlayer.reset();
+
+        dashPlayer = null;
+
+    }
+
+    // 重置视频元素
+
+    video.pause();
+
+    video.src = '';
+
+    video.load();
 
     // 高亮当前频道
 
@@ -633,13 +655,19 @@ function playVideo(url, btn) {
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
 
-                video.play().catch(() => {}).finally(hideLoading);
+                console.log('HLS清单解析成功');
+
+                video.play().catch((error) => {
+
+                    console.error('HLS播放失败:', error);
+
+                }).finally(hideLoading);
 
             });
 
-            hls.on(Hls.Events.ERROR, () => {
+            hls.on(Hls.Events.ERROR, (event, data) => {
 
-                console.error('HLS播放错误');
+                console.error('HLS播放错误:', data);
 
                 hideLoading();
 
@@ -659,19 +687,27 @@ function playVideo(url, btn) {
 
                     // 使用dash.js播放DASH格式
 
-                    var player = dashjs.MediaPlayer().create();
+                    dashPlayer = dashjs.MediaPlayer().create();
 
-                    player.initialize(video, url, true);
+                    dashPlayer.initialize(video, url, true);
 
-                    player.on(dashjs.MediaPlayer.events.PLAYBACK_ENDED, hideLoading);
+                    dashPlayer.on(dashjs.MediaPlayer.events.PLAYBACK_ENDED, hideLoading);
 
-                    player.on(dashjs.MediaPlayer.events.ERROR, () => {
+                    dashPlayer.on(dashjs.MediaPlayer.events.ERROR, () => {
 
                         console.error('DASH播放错误');
 
                         hideLoading();
 
                     });
+
+                    // 手动触发播放
+
+                    setTimeout(() => {
+
+                        video.play().catch(() => {});
+
+                    }, 500);
 
                 } else {
 
@@ -681,9 +717,7 @@ function playVideo(url, btn) {
 
                     video.play().catch(() => {
 
-                        console.log('DASH直接播放失败，尝试作为普通流播放');
-
-                        video.src = url;
+                        console.log('DASH直接播放失败');
 
                     }).finally(hideLoading);
 
@@ -703,73 +737,51 @@ function playVideo(url, btn) {
 
         }
 
-        // 3. 普通视频格式
-
-        else if (url.match(/\.(mp4|webm|ogg|mov|avi|wmv|flv|mkv|ts|m4v)$/i)) {
-
-            console.log('检测到普通视频格式:', url);
-
-            video.src = url;
-
-            video.play().catch(() => {}).finally(hideLoading);
-
-        }
-
-        // 4. 音频格式
-
-        else if (url.match(/\.(mp3|aac|wav|flac|ogg)$/i)) {
-
-            console.log('检测到音频格式:', url);
-
-            video.src = url;
-
-            video.play().catch(() => {}).finally(hideLoading);
-
-        }
-
-        // 5. 可能的流格式（尝试多种播放策略）
-
-        else if (url.startsWith('http')) {
-
-            console.log('检测到HTTP流格式:', url);
-
-            // 尝试直接播放
-
-            video.src = url;
-
-            video.play().then(() => {
-
-                console.log('直接播放成功');
-
-                hideLoading();
-
-            }).catch(() => {
-
-                console.log('直接播放失败，尝试作为视频源播放');
-
-                // 尝试设置为视频源
-
-                video.src = url;
-
-                hideLoading();
-
-            });
-
-        }
-
-        // 6. 其他格式
+        // 3. 普通视频格式和其他格式
 
         else {
 
-            console.warn('未知格式:', url);
+            console.log('尝试播放:', url);
+
+            // 直接设置视频源
 
             video.src = url;
 
-            video.play().catch(() => {
+            // 监听加载事件
 
-                // 不显示错误提示
+            video.onloadedmetadata = function() {
 
-            }).finally(hideLoading);
+                console.log('视频元数据加载成功');
+
+                video.play().catch((error) => {
+
+                    console.error('视频播放失败:', error);
+
+                }).finally(hideLoading);
+
+            };
+
+            // 监听错误事件
+
+            video.onerror = function(error) {
+
+                console.error('视频加载错误:', error);
+
+                hideLoading();
+
+            };
+
+            // 监听可以播放事件
+
+            video.oncanplay = function() {
+
+                console.log('视频可以播放了');
+
+            };
+
+            // 手动触发加载
+
+            video.load();
 
         }
 
@@ -971,4 +983,4 @@ initRealTimeViewerCount();
 
 </body>
 
-</html>
+   </html>
