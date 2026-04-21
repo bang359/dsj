@@ -19,6 +19,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/dashjs@latest/dist/dash.all.min.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
@@ -619,7 +621,9 @@ function playVideo(url, btn) {
 
         // 1. HLS 格式 (.m3u8)
 
-        if (Hls.isSupported() && (url.includes('.m3u8') || url.includes('hls'))) {
+        if (Hls.isSupported() && (url.includes('.m3u8') || url.includes('hls') || url.includes('playlist'))) {
+
+            console.log('检测到HLS格式:', url);
 
             hls = new Hls();
 
@@ -643,9 +647,67 @@ function playVideo(url, btn) {
 
         }
 
-        // 2. 普通视频格式
+        // 2. DASH 格式 (.mpd)
 
-        else if (url.match(/\.(mp4|webm|ogg|mov|avi)$/i)) {
+        else if (url.includes('.mpd') || url.includes('dash')) {
+
+            console.log('检测到DASH格式:', url);
+
+            try {
+
+                if (typeof dashjs !== 'undefined') {
+
+                    // 使用dash.js播放DASH格式
+
+                    var player = dashjs.MediaPlayer().create();
+
+                    player.initialize(video, url, true);
+
+                    player.on(dashjs.MediaPlayer.events.PLAYBACK_ENDED, hideLoading);
+
+                    player.on(dashjs.MediaPlayer.events.ERROR, () => {
+
+                        console.error('DASH播放错误');
+
+                        hideLoading();
+
+                    });
+
+                } else {
+
+                    // 没有dash.js时尝试直接播放
+
+                    video.src = url;
+
+                    video.play().catch(() => {
+
+                        console.log('DASH直接播放失败，尝试作为普通流播放');
+
+                        video.src = url;
+
+                    }).finally(hideLoading);
+
+                }
+
+            } catch (e) {
+
+                console.error('DASH播放初始化错误:', e);
+
+                // 失败时作为普通流播放
+
+                video.src = url;
+
+                hideLoading();
+
+            }
+
+        }
+
+        // 3. 普通视频格式
+
+        else if (url.match(/\.(mp4|webm|ogg|mov|avi|wmv|flv|mkv|ts|m4v)$/i)) {
+
+            console.log('检测到普通视频格式:', url);
 
             video.src = url;
 
@@ -653,131 +715,49 @@ function playVideo(url, btn) {
 
         }
 
-        // 3. 可能的流格式（尝试多种播放策略）
+        // 4. 音频格式
 
-        else if (url.startsWith('http')) {
+        else if (url.match(/\.(mp3|aac|wav|flac|ogg)$/i)) {
 
-            // 策略1: 直接播放
+            console.log('检测到音频格式:', url);
 
-            function tryDirectPlay() {
+            video.src = url;
 
-                console.log('尝试直接播放:', url);
-
-                video.src = url;
-
-                video.play().then(() => {
-
-                    console.log('直接播放成功');
-
-                    hideLoading();
-
-                }).catch(() => {
-
-                    console.log('直接播放失败，尝试策略2');
-
-                    tryCorsPlay();
-
-                });
-
-            }
-
-            // 策略2: CORS模式播放
-
-            function tryCorsPlay() {
-
-                console.log('尝试CORS播放:', url);
-
-                fetch(url, {
-
-                    mode: 'cors',
-
-                    credentials: 'include'
-
-                })
-
-                .then(response => {
-
-                    if (!response.ok) throw new Error('网络错误');
-
-                    return response.blob();
-
-                })
-
-                .then(blob => {
-
-                    const blobUrl = URL.createObjectURL(blob);
-
-                    video.src = blobUrl;
-
-                    return video.play().then(() => {
-
-                        console.log('CORS播放成功');
-
-                        hideLoading();
-
-                    });
-
-                })
-
-                .catch(() => {
-
-                    console.log('CORS播放失败，尝试策略3');
-
-                    tryNoCorsPlay();
-
-                });
-
-            }
-
-            // 策略3: No-CORS模式播放
-
-            function tryNoCorsPlay() {
-
-                console.log('尝试No-CORS播放:', url);
-
-                fetch(url, {
-
-                    mode: 'no-cors'
-
-                })
-
-                .then(response => {
-
-                    if (!response.ok) throw new Error('网络错误');
-
-                    return response.blob();
-
-                })
-
-                .then(blob => {
-
-                    const blobUrl = URL.createObjectURL(blob);
-
-                    video.src = blobUrl;
-
-                    return video.play();
-
-                })
-
-                .catch(err => {
-
-                    console.error('所有播放策略失败:', err);
-
-                    alert('无法播放此直播源，请尝试其他频道');
-
-                    hideLoading();
-
-                });
-
-            }
-
-            // 开始尝试播放
-
-            tryDirectPlay();
+            video.play().catch(() => {}).finally(hideLoading);
 
         }
 
-        // 4. 其他格式
+        // 5. 可能的流格式（尝试多种播放策略）
+
+        else if (url.startsWith('http')) {
+
+            console.log('检测到HTTP流格式:', url);
+
+            // 尝试直接播放
+
+            video.src = url;
+
+            video.play().then(() => {
+
+                console.log('直接播放成功');
+
+                hideLoading();
+
+            }).catch(() => {
+
+                console.log('直接播放失败，尝试作为视频源播放');
+
+                // 尝试设置为视频源
+
+                video.src = url;
+
+                hideLoading();
+
+            });
+
+        }
+
+        // 6. 其他格式
 
         else {
 
@@ -787,7 +767,7 @@ function playVideo(url, btn) {
 
             video.play().catch(() => {
 
-                alert('无法播放此直播源，请尝试其他频道');
+                // 不显示错误提示
 
             }).finally(hideLoading);
 
@@ -797,7 +777,7 @@ function playVideo(url, btn) {
 
         console.error('播放初始化错误:', error);
 
-        alert('播放初始化失败，请尝试其他频道');
+        // 不显示错误提示
 
         hideLoading();
 
