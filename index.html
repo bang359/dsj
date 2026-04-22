@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>电视家重生网页版</title>
+<title>快播直播 - 全能解码版</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
@@ -59,16 +59,6 @@ html,body{height:100%;background:#000;color:#ccc;font-family:Microsoft YaHei,san
 </div>
 
 <script>
-// 防控制台抓取 / 简单反爬
-Object.defineProperty(window, 'console', { value: {} });
-window.fetch = new Proxy(window.fetch, {
-  apply(t, o, args){
-    if(args[0].includes('iphone.txt') && !window.allowFetch) return Promise.reject();
-    return Reflect.apply(t, o, args);
-  }
-});
-
-// 播放器
 const dp = new DPlayer({
   container: document.getElementById('dplayer'),
   autoplay: true,
@@ -77,41 +67,30 @@ const dp = new DPlayer({
   video: { url: '' }
 });
 
-// 加密加载源
-const list = document.getElementById('list');
-const count = document.getElementById('count');
+let list = document.getElementById('list');
+let count = document.getElementById('count');
 let channels = [];
-const key = 'a1B2c3D4';
+let current = 0;
 
-// 解密函数（外部无法直接调用）
-function decode(str){
-  try{
-    return atob(str.split('').reverse().join(''));
-  }catch(e){return ''}
-}
+const SRC = "https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt";
 
-// 真实统计
-async function loadCount(){
-  try{
-    let r = await fetch("https://api.countapi.xyz/hit/bang359/live",{cache:"no-store"});
+async function loadCount() {
+  try {
+    let r = await fetch("https://api.countapi.xyz/hit/bang359/live", {cache:"no-store"});
     let d = await r.json();
     count.innerText = `累计观看：${d.value} 次`;
-  }catch(e){}
+  } catch(e){}
 }
 loadCount();
 setInterval(loadCount, 30000);
 
-// 播放
-function play(u){
-  dp.switchVideo({ url: u });
+function play(url) {
+  dp.switchVideo({ url: url });
   dp.play();
 }
 
-// 加载并加密解析源
-window.allowFetch = 1;
-fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
-.then(r=>r.text())
-.then(txt=>{
+async function load() {
+  let txt = await fetch(SRC).then(r=>r.text());
   txt.split('\n').forEach(line=>{
     line = line.trim();
     if(!line)return;
@@ -127,22 +106,29 @@ fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
     let arr = line.split(',');
     if(arr.length>=2 && arr[1].startsWith('http')){
       let name = arr[0];
-      // 地址加密存储
-      let urlEnc = btoa(arr[1]).split('').reverse().join('');
+      let url = arr[1];
+      channels.push({name,url});
 
       let item = document.createElement('div');
       item.className='channel';
       item.textContent=name;
       item.onclick=()=>{
-        play(decode(urlEnc));
+        play(url);
+        current=channels.length-1;
         document.querySelectorAll('.channel').forEach(i=>i.classList.remove('active'));
         item.classList.add('active');
       };
       list.appendChild(item);
     }
   });
-})
-.finally(()=>{ window.allowFetch = 0 });
+
+  if(channels.length){
+    play(channels[0].url);
+    document.querySelector('.channel').classList.add('active');
+  }
+}
+
+load();
 </script>
 </body>
 </html>
