@@ -1,974 +1,638 @@
 
 <!DOCTYPE html>
-
 <html lang="zh-CN">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
 <meta name="apple-mobile-web-app-capable" content="yes">
-
-<meta name="apple-mobile-web-app-title" content="网络电视">
-
+<meta name="apple-mobile-web-app-title" content="快播网络电视">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<title>网络电视</title>
-
+<title>快播网络电视</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/dashjs@latest/dist/dash.all.min.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
-
 <style>
-
     *{
-
         margin:0;
-
         padding:0;
-
         box-sizing:border-box;
-
-        font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-
+        font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;
         -webkit-tap-highlight-color: transparent;
-
     }
-
     html,body{
-
         height:100%;
-
-        background:#000;
-
+        background:#0d0d0d;
         color:#fff;
-
         overflow:hidden;
-
     }
-
     .container{
-
         display:flex;
-
         flex-direction:column;
-
         height:100vh;
-
     }
-
+    /* 顶部标题栏 */
+    .header{
+        height:44px;
+        background:linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+        border-bottom:2px solid #00cc66;
+        display:flex;
+        align-items:center;
+        padding:0 12px;
+        gap:10px;
+        z-index:100;
+    }
+    .logo{
+        color:#00cc66;
+        font-size:18px;
+        font-weight:bold;
+        text-shadow:0 0 10px rgba(0,204,102,0.5);
+    }
+    .sub{
+        color:#666;
+        font-size:11px;
+    }
     /* 视频播放区域 */
-
     .video-box{
-
-        width:100%;
-
-        height:42vh;
-
-        background:#000;
-
-        position:relative;
-
-    }
-
-    /* 响应式设计 */
-
-    @media (min-width: 768px) {
-
-        /* 电脑端布局 */
-
-        .container{
-
-            flex-direction:row;
-
-        }
-
-        .video-box{
-
-            width:70%;
-
-            height:100vh;
-
-        }
-
-        .channel-box{
-
-            width:30%;
-
-            max-width:400px;
-
-        }
-
-    }
-
-    @media (max-width: 767px) {
-
-        /* 手机端布局 */
-
-        .video-box{
-
-            height:40vh;
-
-        }
-
-        .channel-item{
-
-            padding:14px 12px;
-
-            font-size:14px;
-
-        }
-
-    }
-
-    video{
-
-        width:100%;
-
-        height:100%;
-
-        object-fit:contain;
-
-        background:#000;
-
-    }
-
-    /* 增强响应式体验 */
-
-    @media (min-width: 1024px) {
-
-        .channel-item{
-
-            padding:20px 18px;
-
-            font-size:16px;
-
-        }
-
-    }
-
-    @media (max-width: 480px) {
-
-        .channel-item{
-
-            padding:12px 10px;
-
-            font-size:13px;
-
-        }
-
-        .channel-box{
-
-            padding:8px;
-
-        }
-
-    }
-
-    .loading{
-
-        position:absolute;
-
-        top:50%;
-
-        left:50%;
-
-        transform:translate(-50%,-50%);
-
-        color:#007aff;
-
-        font-size:18px;
-
-    }
-
-    /* 频道列表区域 */
-
-    .channel-box{
-
         flex:1;
-
-        background:#121212;
-
-        padding:10px;
-
-        overflow-y:auto;
-
+        background:#000;
+        position:relative;
+        min-height:0;
     }
-
-    .channel-item{
-
-        width:100%;
-
-        padding:18px 16px;
-
-        background:#1e1e1e;
-
-        border:none;
-
-        border-radius:14px;
-
-        color:#fff;
-
-        font-size:16px;
-
-        text-align:left;
-
-        margin-bottom:10px;
-
-        cursor:pointer;
-
-        transition:0.2s;
-
-    }
-
-    .channel-item:active{
-
-        background:#0066cc;
-
-        transform:scale(0.98);
-
-    }
-
-    .channel-item.active{
-
-        background:#007aff;
-
-        font-weight:500;
-
-    }
-
-    /* 滚动条隐藏 */
-
-    ::-webkit-scrollbar{
-
-        width:0;
-
-    }
-
-    /* 在线人数显示 */
-
-    .online-count{
-
-        position:absolute;
-
-        top:10px;
-
-        right:10px;
-
-        background:rgba(0,0,0,0.7);
-
-        padding:6px 12px;
-
-        border-radius:20px;
-
-        font-size:14px;
-
-        display:flex;
-
-        align-items:center;
-
-        gap:5px;
-
-        z-index:10;
-
-    }
-
-    .online-icon{
-
-        font-size:16px;
-
-    }
-
-    /* 响应式调整 */
-
-    @media (max-width: 767px) {
-
-        .online-count{
-
-            padding:4px 8px;
-
-            font-size:12px;
-
+    /* 响应式设计 */
+    @media (min-width: 768px) {
+        /* 电脑端布局 */
+        .container{
+            flex-direction:row;
         }
-
-        .online-icon{
-
+        .main-content{
+            flex:1;
+            display:flex;
+            flex-direction:column;
+        }
+        .video-box{
+            flex:1;
+            min-height:0;
+        }
+        .channel-box{
+            width:320px;
+            height:100vh;
+        }
+    }
+    @media (max-width: 767px) {
+        /* 手机端布局 */
+        .video-box{
+            height:45vh;
+            min-height:200px;
+        }
+        .channel-item{
+            padding:12px 14px;
             font-size:14px;
-
         }
-
-        .loading{
-
-            font-size:16px;
-
-        }
-
     }
-
-    /* 打赏按钮 */
-
-    .reward-btn{
-
-        position:absolute;
-
-        bottom:10px;
-
-        right:10px;
-
-        background:linear-gradient(135deg, #ff6b6b, #ee5a5a);
-
-        padding:6px 14px;
-
-        border-radius:20px;
-
-        font-size:13px;
-
-        color:#fff;
-
-        cursor:pointer;
-
-        z-index:10;
-
-        transition:all 0.3s ease;
-
-        box-shadow:0 2px 8px rgba(255,107,107,0.3);
-
-    }
-
-    .reward-btn:hover{
-
-        transform:scale(1.05);
-
-        box-shadow:0 4px 12px rgba(255,107,107,0.4);
-
-    }
-
-    /* 打赏模态框 */
-
-    .reward-modal{
-
-        display:none;
-
-        position:fixed;
-
-        top:0;
-
-        left:0;
-
+    video{
         width:100%;
-
         height:100%;
-
+        object-fit:contain;
+        background:#000;
+    }
+    /* 增强响应式体验 */
+    @media (min-width: 1024px) {
+        .channel-item{
+            padding:14px 16px;
+            font-size:15px;
+        }
+    }
+    @media (max-width: 480px) {
+        .channel-item{
+            padding:10px 12px;
+            font-size:13px;
+        }
+        .channel-box{
+            padding:8px;
+        }
+    }
+    .loading{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        color:#00cc66;
+        font-size:16px;
         background:rgba(0,0,0,0.8);
-
-        z-index:1000;
-
-        justify-content:center;
-
-        align-items:center;
-
-    }
-
-    .reward-modal.show{
-
-        display:flex;
-
-    }
-
-    .reward-content{
-
-        background:#1e1e1e;
-
-        border-radius:16px;
-
-        padding:24px;
-
-        max-width:320px;
-
-        width:90%;
-
-        box-shadow:0 10px 40px rgba(0,0,0,0.5);
-
-    }
-
-    .reward-header{
-
-        display:flex;
-
-        justify-content:space-between;
-
-        align-items:center;
-
-        margin-bottom:20px;
-
-    }
-
-    .reward-header h3{
-
-        font-size:18px;
-
-        color:#fff;
-
-        margin:0;
-
-    }
-
-    .reward-close{
-
-        background:none;
-
-        border:none;
-
-        color:#888;
-
-        font-size:28px;
-
-        cursor:pointer;
-
-        padding:0;
-
-        line-height:1;
-
-    }
-
-    .reward-close:hover{
-
-        color:#fff;
-
-    }
-
-    .reward-body{
-
-        text-align:center;
-
-    }
-
-    .reward-qrcode{
-
-        width:200px;
-
-        height:200px;
-
+        padding:15px 25px;
         border-radius:8px;
-
-        margin-bottom:16px;
-
+        border:1px solid #00cc66;
     }
-
-    .reward-tip{
-
-        color:#aaa;
-
+    /* 频道列表区域 */
+    .channel-box{
+        background:#0d0d0d;
+        border-left:2px solid #00cc66;
+        padding:8px;
+        overflow-y:auto;
+    }
+    .channel-header{
+        height:36px;
+        background:#1a1a1a;
+        border-bottom:1px solid #333;
+        display:flex;
+        align-items:center;
+        padding:0 12px;
+        color:#00cc66;
+        font-size:13px;
+        margin-bottom:10px;
+    }
+    .channel-item{
+        width:100%;
+        padding:12px 14px;
+        background:#1a1a1a;
+        border:1px solid #333;
+        border-radius:4px;
+        color:#ccc;
         font-size:14px;
-
-        margin:0;
-
+        text-align:left;
+        margin-bottom:6px;
+        cursor:pointer;
+        transition:all 0.15s;
     }
-
-    /* 响应式打赏 */
-
+    .channel-item:hover{
+        background:#2a2a2a;
+        border-color:#00cc66;
+    }
+    .channel-item:active{
+        background:#333;
+    }
+    .channel-item.active{
+        background:#00cc66;
+        border-color:#00cc66;
+        color:#fff;
+        font-weight:500;
+    }
+    /* 滚动条隐藏 */
+    ::-webkit-scrollbar{
+        width:0;
+    }
+    /* 在线人数显示 */
+    .online-count{
+        position:absolute;
+        top:10px;
+        right:10px;
+        background:rgba(0,0,0,0.7);
+        padding:6px 12px;
+        border-radius:20px;
+        font-size:14px;
+        display:flex;
+        align-items:center;
+        gap:5px;
+        z-index:10;
+    }
+    .online-icon{
+        font-size:16px;
+    }
+    /* 响应式调整 */
     @media (max-width: 767px) {
-
-        .reward-btn{
-
-            position:absolute;
-
-            bottom:10px;
-
-            right:10px;
-
-            padding:5px 12px;
-
+        .online-count{
+            padding:4px 8px;
             font-size:12px;
-
         }
-
-        .reward-content{
-
-            padding:20px;
-
+        .online-icon{
+            font-size:14px;
         }
-
-        .reward-qrcode{
-
-            width:180px;
-
-            height:180px;
-
+        .loading{
+            font-size:14px;
+            padding:12px 20px;
         }
-
     }
-
+    /* 打赏按钮 */
+    .reward-btn{
+        background:linear-gradient(135deg, #ff6b6b, #ee5a5a);
+        padding:4px 12px;
+        border-radius:20px;
+        font-size:12px;
+        color:#fff;
+        cursor:pointer;
+        transition:all 0.3s ease;
+        box-shadow:0 2px 8px rgba(255,107,107,0.3);
+    }
+    .reward-btn:hover{
+        transform:scale(1.05);
+        box-shadow:0 4px 12px rgba(255,107,107,0.4);
+    }
+    /* 打赏模态框 */
+    .reward-modal{
+        display:none;
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.8);
+        z-index:1000;
+        justify-content:center;
+        align-items:center;
+    }
+    .reward-modal.show{
+        display:flex;
+    }
+    .reward-content{
+        background:#1e1e1e;
+        border-radius:16px;
+        padding:24px;
+        max-width:320px;
+        width:90%;
+        box-shadow:0 10px 40px rgba(0,0,0,0.5);
+    }
+    .reward-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:20px;
+    }
+    .reward-header h3{
+        font-size:18px;
+        color:#00cc66;
+        margin:0;
+    }
+    .reward-close{
+        background:none;
+        border:none;
+        color:#888;
+        font-size:28px;
+        cursor:pointer;
+        padding:0;
+        line-height:1;
+    }
+    .reward-close:hover{
+        color:#fff;
+    }
+    .reward-body{
+        text-align:center;
+    }
+    .reward-qrcode{
+        width:200px;
+        height:200px;
+        border-radius:8px;
+        margin-bottom:16px;
+    }
+    .reward-tip{
+        color:#aaa;
+        font-size:14px;
+        margin:0;
+    }
+    /* 响应式打赏 */
+    @media (max-width: 767px) {
+        .reward-btn{
+            position:absolute;
+            bottom:10px;
+            right:10px;
+            padding:5px 12px;
+            font-size:12px;
+        }
+        .reward-content{
+            padding:20px;
+        }
+        .reward-qrcode{
+            width:180px;
+            height:180px;
+        }
+    }
+    /* 底部状态栏 */
+    .footer{
+        height:40px;
+        background:#0d0d0d;
+        border-top:1px solid #333;
+        display:flex;
+        align-items:center;
+        gap:12px;
+        padding:0 12px;
+        font-size:12px;
+        color:#00cc66;
+    }
+    .footer-info{
+        flex:1;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+    .footer-btns{
+        display:flex;
+        gap:8px;
+    }
+    .footer-btn{
+        padding:4px 12px;
+        background:#1a1a1a;
+        border:1px solid #00cc66;
+        color:#00cc66;
+        border-radius:4px;
+        font-size:12px;
+        cursor:pointer;
+    }
+    .footer-btn:active{
+        background:#00cc66;
+        color:#fff;
+    }
 </style>
-
 </head>
-
 <body>
-
-
 <div class="container">
-
-    <div class="video-box">
-
-        <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
-
-        <div class="loading" id="loading">加载中...</div>
-
-        <div class="online-count">
-
-            <span class="online-icon">👁️</span>
-
-            <span id="onlineNumber">0</span>
-
+    <div class="main-content">
+        <div class="header">
+            <span class="logo">▶ 快播网络电视</span>
+            <span class="sub">在线观看</span>
         </div>
-
-        <div class="reward-btn" id="rewardBtn">❤️ 打赏</div>
-
+        <div class="video-box">
+            <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
+            <div class="loading" id="loading">加载中...</div>
+            <div class="online-count">
+                <span class="online-icon">👁️</span>
+                <span id="onlineNumber">0</span>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-info" id="footerInfo">准备就绪</div>
+            <div class="reward-btn" id="rewardBtn">❤️ 打赏</div>
+            <div class="footer-btns">
+                <button class="footer-btn" onclick="location.reload()">刷新</button>
+            </div>
+        </div>
     </div>
-
-    <div class="channel-box" id="channelList"></div>
-
+    <div class="channel-box">
+        <div class="channel-header">📺 频道列表</div>
+        <div id="channelList"></div>
+    </div>
 </div>
-
 <!-- 打赏模态框 -->
-
 <div class="reward-modal" id="rewardModal">
-
     <div class="reward-content">
-
         <div class="reward-header">
-
             <h3>❤️ 支持一下</h3>
-
             <button class="reward-close" id="rewardClose">×</button>
-
         </div>
-
         <div class="reward-body">
-
             <img src="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" alt="打赏二维码" class="reward-qrcode">
-
             <p class="reward-tip">微信扫一扫打赏</p>
-
         </div>
-
     </div>
-
 </div>
-
-
 <script>
-
 const video = document.getElementById('video');
-
 const loading = document.getElementById('loading');
-
 const channelList = document.getElementById('channelList');
-
 const onlineNumber = document.getElementById('onlineNumber');
-
+const footerInfo = document.getElementById('footerInfo');
 let hls = null;
-
 let currentActive = null;
-
 let onlineCount = 0;
 
-
 // 你指定的官方源，不做任何修改
-
 const sourceURL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
 
-
 // 加载状态
-
 function showLoading(){ loading.style.display = 'block'; }
-
 function hideLoading(){ loading.style.display = 'none'; }
 
-
 // 播放函数（自动播放）
-
 function playVideo(url, btn) {
-
     showLoading();
-
+    footerInfo.textContent = '正在播放...';
     
-
     // 销毁之前的播放
-
     if(hls) hls.destroy();
-
     
-
     // 高亮当前频道
-
     if(currentActive) currentActive.classList.remove('active');
-
     btn.classList.add('active');
-
     currentActive = btn;
 
-
     // 增强的格式检测和处理
-
     try {
-
         // 1. HLS 格式 (.m3u8)
-
         if (Hls.isSupported() && (url.includes('.m3u8') || url.includes('hls') || url.includes('playlist'))) {
-
             console.log('检测到HLS格式:', url);
-
+            footerInfo.textContent = '正在加载HLS流...';
             hls = new Hls();
-
             hls.loadSource(url);
-
             hls.attachMedia(video);
-
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-
-                video.play().catch(() => {}).finally(hideLoading);
-
+                video.play().catch(() => {}).finally(() => {
+                    hideLoading();
+                    footerInfo.textContent = '播放中';
+                });
             });
-
             hls.on(Hls.Events.ERROR, () => {
-
                 console.error('HLS播放错误');
-
                 hideLoading();
-
+                footerInfo.textContent = '播放失败';
             });
-
         }
 
         // 2. DASH 格式 (.mpd)
-
         else if (url.includes('.mpd') || url.includes('dash')) {
-
             console.log('检测到DASH格式:', url);
-
+            footerInfo.textContent = '正在加载DASH流...';
             try {
-
                 if (typeof dashjs !== 'undefined') {
-
                     // 使用dash.js播放DASH格式
-
                     var player = dashjs.MediaPlayer().create();
-
                     player.initialize(video, url, true);
-
-                    player.on(dashjs.MediaPlayer.events.PLAYBACK_ENDED, hideLoading);
-
-                    player.on(dashjs.MediaPlayer.events.ERROR, () => {
-
-                        console.error('DASH播放错误');
-
+                    player.on(dashjs.MediaPlayer.events.PLAYBACK_ENDED, () => {
                         hideLoading();
-
+                        footerInfo.textContent = '播放中';
                     });
-
+                    player.on(dashjs.MediaPlayer.events.ERROR, () => {
+                        console.error('DASH播放错误');
+                        hideLoading();
+                        footerInfo.textContent = '播放失败';
+                    });
                 } else {
-
                     // 没有dash.js时尝试直接播放
-
                     video.src = url;
-
                     video.play().catch(() => {
-
                         console.log('DASH直接播放失败，尝试作为普通流播放');
-
                         video.src = url;
-
-                    }).finally(hideLoading);
-
+                    }).finally(() => {
+                        hideLoading();
+                        footerInfo.textContent = '播放中';
+                    });
                 }
-
             } catch (e) {
-
                 console.error('DASH播放初始化错误:', e);
-
                 // 失败时作为普通流播放
-
                 video.src = url;
-
                 hideLoading();
-
+                footerInfo.textContent = '播放中';
             }
-
         }
 
         // 3. 普通视频格式
-
         else if (url.match(/\.(mp4|webm|ogg|mov|avi|wmv|flv|mkv|ts|m4v)$/i)) {
-
             console.log('检测到普通视频格式:', url);
-
+            footerInfo.textContent = '正在加载视频...';
             video.src = url;
-
-            video.play().catch(() => {}).finally(hideLoading);
-
+            video.play().catch(() => {}).finally(() => {
+                hideLoading();
+                footerInfo.textContent = '播放中';
+            });
         }
 
         // 4. 音频格式
-
         else if (url.match(/\.(mp3|aac|wav|flac|ogg)$/i)) {
-
             console.log('检测到音频格式:', url);
-
+            footerInfo.textContent = '正在加载音频...';
             video.src = url;
-
-            video.play().catch(() => {}).finally(hideLoading);
-
+            video.play().catch(() => {}).finally(() => {
+                hideLoading();
+                footerInfo.textContent = '播放中';
+            });
         }
 
         // 5. 可能的流格式（尝试多种播放策略）
-
         else if (url.startsWith('http')) {
-
             console.log('检测到HTTP流格式:', url);
-
+            footerInfo.textContent = '正在加载流...';
             // 尝试直接播放
-
             video.src = url;
-
             video.play().then(() => {
-
                 console.log('直接播放成功');
-
                 hideLoading();
-
+                footerInfo.textContent = '播放中';
             }).catch(() => {
-
                 console.log('直接播放失败，尝试作为视频源播放');
-
                 // 尝试设置为视频源
-
                 video.src = url;
-
                 hideLoading();
-
+                footerInfo.textContent = '播放中';
             });
-
         }
 
         // 6. 其他格式
-
         else {
-
             console.warn('未知格式:', url);
-
+            footerInfo.textContent = '正在加载...';
             video.src = url;
-
             video.play().catch(() => {
-
                 // 不显示错误提示
-
-            }).finally(hideLoading);
-
+            }).finally(() => {
+                hideLoading();
+                footerInfo.textContent = '播放中';
+            });
         }
 
     } catch (error) {
-
         console.error('播放初始化错误:', error);
-
         // 不显示错误提示
-
         hideLoading();
-
+        footerInfo.textContent = '播放失败';
     }
-
 }
 
-
 // 加载频道列表
-
 fetch(sourceURL)
-
 .then(res => res.text())
-
 .then(text => {
-
     let firstUrl = '';
-
     let firstBtn = null;
 
-
     text.split('\n').forEach(line => {
-
         if(line.includes(',')){
-
             const [name, url] = line.split(',', 2);
-
             if(name && url && url.startsWith('http')){
-
                 const btn = document.createElement('button');
-
                 btn.className = 'channel-item';
-
                 btn.innerText = name.trim();
-
                 btn.onclick = () => playVideo(url.trim(), btn);
-
                 channelList.appendChild(btn);
 
-
                 if(!firstUrl){
-
                     firstUrl = url.trim();
-
                     firstBtn = btn;
-
                 }
-
             }
-
         }
-
     });
 
-
     // 自动播放第一个频道
-
-    if(firstUrl) playVideo(firstUrl, firstBtn);
-
+    if(firstUrl) {
+        footerInfo.textContent = '加载频道完成';
+        playVideo(firstUrl, firstBtn);
+    } else {
+        footerInfo.textContent = '无可用频道';
+        hideLoading();
+    }
 })
-
 .catch(err => {
-
-    channelList.innerHTML = '<div class="channel-item">直播源加载失败，请刷新重试</div>';
-
+    channelList.innerHTML = '<div class="channel-item" style="text-align:center;color:#ff6b6b;">直播源加载失败，请刷新重试</div>';
+    footerInfo.textContent = '加载失败: ' + err.message;
     hideLoading();
-
 });
-
 
 // 打赏功能
-
 const rewardBtn = document.getElementById('rewardBtn');
-
 const rewardModal = document.getElementById('rewardModal');
-
 const rewardClose = document.getElementById('rewardClose');
 
-
 rewardBtn.addEventListener('click', () => {
-
     rewardModal.classList.add('show');
-
 });
-
 
 rewardClose.addEventListener('click', () => {
-
     rewardModal.classList.remove('show');
-
 });
-
 
 rewardModal.addEventListener('click', (e) => {
-
     if (e.target === rewardModal) {
-
         rewardModal.classList.remove('show');
-
     }
-
 });
 
-
 // Firebase配置
-
 const firebaseConfig = {
-
     apiKey: "AIzaSyDq1k5Xp1eJ7c9V7K6rX7X7X7X7X7X7X7",
-
     authDomain: "web-tv-online-counter.firebaseapp.com",
-
     databaseURL: "https://web-tv-online-counter-default-rtdb.firebaseio.com",
-
     projectId: "web-tv-online-counter",
-
     storageBucket: "web-tv-online-counter.appspot.com",
-
     messagingSenderId: "123456789012",
-
     appId: "1:123456789012:web:1234567890123456789012"
-
 };
 
-
 // 初始化Firebase
-
 firebase.initializeApp(firebaseConfig);
-
 const database = firebase.database();
-
 const onlineRef = database.ref('onlineUsers');
-
 let userRef = null;
 
-
 // 实时在线人数统计
-
 function initRealTimeViewerCount() {
-
     // 生成唯一用户ID
-
     const userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 
     // 创建用户引用
-
     userRef = onlineRef.child(userId);
 
     // 设置用户在线状态
-
     userRef.set({
-
         online: true,
-
         timestamp: firebase.database.ServerValue.TIMESTAMP
-
     });
 
     // 当用户关闭页面时移除用户
-
     window.addEventListener('beforeunload', () => {
-
         if (userRef) {
-
             userRef.remove();
-
         }
-
     });
 
     // 监听在线用户数量变化
-
     onlineRef.on('value', (snapshot) => {
-
         const count = snapshot.numChildren();
-
         onlineNumber.textContent = count;
-
         console.log('当前在线人数:', count);
-
     });
-
 }
 
-
 // 页面加载完成后初始化
-
 initRealTimeViewerCount();
-
 </script>
-
 </body>
-
 </html>
