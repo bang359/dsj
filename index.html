@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="快播网络电视">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>快播网络电视</title>
@@ -70,7 +72,7 @@
     .video-container video{
         width:100%;
         height:100%;
-        object-fit:contain;
+        object-fit:cover;
         background:#000;
     }
     .video-container .loading{
@@ -338,11 +340,17 @@
         border-top:1px solid #333;
         display:flex;
         align-items:center;
-        gap:15px;
         padding:0 12px;
         font-size:12px;
         color:#00cc66;
         z-index:10;
+    }
+    .footer-logo{
+        font-size:14px;
+        font-weight:bold;
+        color:#00cc66;
+        margin-right:20px;
+        text-shadow:0 0 8px rgba(0,204,102,0.3);
     }
     .footer-info{
         flex:1;
@@ -433,28 +441,14 @@
 <body>
 <div class="container">
     <div class="main-content">
-        <div class="header">
-            <span class="logo">▶ 快播网络电视</span>
-            <span class="sub">在线观看</span>
-        </div>
         <div class="video-box">
             <div class="video-container">
                 <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
-                <div class="loading" id="loading">加载中...</div>
             </div>
         </div>
         <div class="footer">
+            <div class="footer-logo">快播网络电视</div>
             <div class="footer-info" id="footerInfo">准备就绪</div>
-            <div class="footer-controls">
-                <button class="footer-btn" id="playPauseBtn">⏸️</button>
-                <div class="volume-control">
-                    <span class="volume-icon">🔉</span>
-                    <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
-                </div>
-            </div>
-            <div class="footer-btns">
-                <button class="footer-btn" onclick="location.reload()">刷新</button>
-            </div>
         </div>
     </div>
     <div class="channel-box">
@@ -480,7 +474,6 @@
 </div>
 <script>
 const video = document.getElementById('video');
-const loading = document.getElementById('loading');
 const channelList = document.getElementById('channelList');
 const footerInfo = document.getElementById('footerInfo');
 let hls = null;
@@ -489,367 +482,189 @@ let currentActive = null;
 // 你指定的官方源，不做任何修改
 const sourceURL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
 
-// 加载状态
-function showLoading(){ loading.style.display = 'block'; }
-function hideLoading(){ loading.style.display = 'none'; }
+// CORS代理
+const corsProxy = 'https://corsproxy.io/?';
 
-// 播放函数（自动播放）
-function playVideo(url, btn) {
-    showLoading();
-    footerInfo.textContent = '正在播放...';
+// TVBox风格解码器配置
+const decoderConfig = {
+    hls: {
+        enableWorker: true,
+        enableHardwareAcceleratedVideoDecoder: true,
+        backBufferLength: 30,
+        maxBufferLength: 60
+    },
+    flv: {
+        enableWorker: true,
+        enableStashBuffer: false,
+        stashInitialSize: 128,
+        autoCleanupSourceBuffer: true
+    }
+};
+
+// 智能格式检测
+function detectStreamFormat(url, content) {
+    // 常见视频格式
+    if (url.includes('.m3u8') || url.includes('hls') || url.includes('playlist')) return 'hls';
+    if (url.includes('.mpd') || url.includes('dash')) return 'dash';
+    if (url.includes('.flv')) return 'flv';
+    if (url.includes('.ts')) return 'ts';
+    if (url.includes('.mkv') || url.includes('.avi') || url.includes('.wmv') || url.includes('.rmvb')) return 'video';
+    if (url.includes('.mp4') || url.includes('.webm') || url.includes('.mov') || url.includes('.m4v')) return 'video';
+    if (url.includes('.m3u') || url.includes('.pls')) return 'playlist';
     
-    // 销毁之前的播放
-    if(hls) hls.destroy();
+    // 内容检测
+    if (content) {
+        if (content.includes('#EXTM3U') || content.includes('.m3u8')) return 'hls';
+        if (content.includes('FLV') || content.includes('.flv')) return 'flv';
+        if (content.includes('<MPD')) return 'dash';
+    }
     
-    // 高亮当前频道
-    if(currentActive) currentActive.classList.remove('active');
-    btn.classList.add('active');
-    currentActive = btn;
+    // 域名和端口特征
+    if (url.includes('rihou.cc') || url.includes(':555') || url.includes(':8080') || url.includes(':8888')) return 'hls';
+    if (url.includes('188sp.711888.xyz')) return 'flv';
+    if (url.includes(':1935')) return 'rtmp';
     
-    // URL编码处理，自动处理包含中文字符的URL
-    try {
-        // 解析URL，只对路径部分进行编码
-        const urlObj = new URL(url);
-        const pathname = urlObj.pathname;
-        const encodedPathname = pathname.split('/').map(part => {
-            try {
-                // 尝试解码，如果解码失败说明已经是编码的
-                decodeURIComponent(part);
-                return part;
-            } catch {
-                // 对包含非ASCII字符的部分进行编码
-                return encodeURIComponent(part);
-            }
-        }).join('/');
-        urlObj.pathname = encodedPathname;
-        url = urlObj.toString();
-        console.log('编码后的URL:', url);
-    } catch (e) {
-        console.error('URL编码失败:', e);
-        // 如果URL解析失败，尝试直接编码整个URL
-        try {
-            url = encodeURI(url);
-            console.log('直接编码后的URL:', url);
-        } catch (e2) {
-            console.error('直接编码失败:', e2);
+    // 其他特征
+    if (url.includes('live') || url.includes('stream')) return 'hls';
+    if (url.includes('.php') || url.includes('.aspx') || url.includes('.jsp')) return 'video';
+    
+    return 'video';
+}
+
+// 创建HLS播放器 - 直接访问不代理
+function createHlsPlayer(url) {
+    if (!Hls.isSupported()) {
+        video.src = url;
+        video.play().catch(() => {});
+        return;
+    }
+    if (hls) hls.destroy();
+    hls = new Hls(decoderConfig.hls);
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(() => {});
+    });
+    hls.on(Hls.Events.ERROR, (e, data) => {
+        if (data.fatal) {
+            if (data.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
+            else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+            else { video.src = url; video.play().catch(() => {}); }
         }
+    });
+}
+
+// 创建FLV播放器（使用代理）
+function createFlvPlayer(url) {
+    const proxyUrl = corsProxy + encodeURIComponent(url);
+    if (typeof flvjs === 'undefined' || !flvjs.isSupported()) {
+        video.src = proxyUrl;
+        video.play().catch(() => {});
+        return;
+    }
+    if (window.flvPlayer) window.flvPlayer.destroy();
+    window.flvPlayer = flvjs.createPlayer({type: 'flv', url: proxyUrl}, decoderConfig.flv);
+    window.flvPlayer.attachMediaElement(video);
+    window.flvPlayer.load();
+    window.flvPlayer.play().catch(() => {});
+}
+
+// 创建DASH播放器
+function createDashPlayer(url) {
+    const proxyUrl = corsProxy + encodeURIComponent(url);
+    if (typeof dashjs === 'undefined') {
+        video.src = proxyUrl;
+        video.play().catch(() => {});
+        return;
+    }
+    const player = dashjs.MediaPlayer().create();
+    player.initialize(video, proxyUrl, true);
+    player.setBufferStrategy('abr');
+}
+
+// 加载状态 - 始终隐藏
+
+
+// 播放函数（TVBox风格）
+function playVideo(url, btn) {
+    // 销毁之前的播放器
+    if (hls) {
+        hls.destroy();
+        hls = null;
+    }
+    if (window.flvPlayer) {
+        window.flvPlayer.destroy();
+        window.flvPlayer = null;
     }
 
-    // 增强的格式检测和处理
-    try {
-        // 保存当前音量设置
-        const savedVolume = currentVolume;
-        
-        // 1. HLS 格式 (.m3u8)
-        if (Hls.isSupported() && (url.includes('.m3u8') || url.includes('hls') || url.includes('playlist'))) {
-            console.log('检测到HLS格式:', url);
-            footerInfo.textContent = '正在加载HLS流...';
-            hls = new Hls({enableWorker:true,backBufferLength:30,maxBufferLength:60});
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play().catch(() => {
-                    console.log('HLS自动播放失败，等待用户交互');
-                }).finally(() => {
-                    hideLoading();
-                    footerInfo.textContent = '播放中';
-                    // 恢复音量设置
-                    video.volume = savedVolume;
-                });
-            });
-            hls.on(Hls.Events.ERROR, (event, data) => {
-                console.error('HLS播放错误:', data);
-                if (data.fatal) {
-                    switch(data.type) {
-                        case Hls.ErrorTypes.NETWORK_ERROR:
-                            console.error('网络错误，尝试重新加载');
-                            hls.startLoad();
-                            break;
-                        case Hls.ErrorTypes.MEDIA_ERROR:
-                            console.error('媒体错误，尝试恢复');
-                            hls.recoverMediaError();
-                            break;
-                        default:
-                            hideLoading();
-                            footerInfo.textContent = '播放失败';
-                            break;
-                    }
-                }
-            });
-        }
+    // 高亮当前频道
+    if (currentActive) currentActive.classList.remove('active');
+    btn.classList.add('active');
+    currentActive = btn;
 
-        // 2. DASH 格式 (.mpd)
-        else if (url.includes('.mpd') || url.includes('dash')) {
-            console.log('检测到DASH格式:', url);
-            footerInfo.textContent = '正在加载DASH流...';
-            try {
-                if (typeof dashjs !== 'undefined') {
-                    // 使用dash.js播放DASH格式
-                    var player = dashjs.MediaPlayer().create();
-                    player.initialize(video, url, true);
-                    player.on(dashjs.MediaPlayer.events.PLAYBACK_ENDED, () => {
-                        hideLoading();
-                        footerInfo.textContent = '播放中';
-                        // 恢复音量设置
-                        video.volume = savedVolume;
-                    });
-                    player.on(dashjs.MediaPlayer.events.ERROR, (e) => {
-                        console.error('DASH播放错误:', e);
-                        hideLoading();
-                        footerInfo.textContent = '播放失败';
-                    });
-                    // 给播放器一些时间初始化
-                    setTimeout(() => {
-                        hideLoading();
-                        footerInfo.textContent = '播放中';
-                        video.volume = savedVolume;
-                    }, 3000);
-                } else {
-                    // 没有dash.js时尝试直接播放
-                    video.src = url;
-                    video.play().catch(() => {
-                        console.log('DASH直接播放失败，尝试作为普通流播放');
-                        video.src = url;
-                    }).finally(() => {
-                        hideLoading();
-                        footerInfo.textContent = '播放中';
-                        // 恢复音量设置
-                        video.volume = savedVolume;
-                    });
-                }
-            } catch (e) {
-                console.error('DASH播放初始化错误:', e);
-                // 失败时作为普通流播放
-                video.src = url;
-                hideLoading();
-                footerInfo.textContent = '播放中';
-                video.volume = savedVolume;
-            }
-        }
+    // 静默切换
+    footerInfo.textContent = '';
 
-        // 3. FLV格式特别处理（使用flv.js）
-        else if (url.includes('.flv') || url.includes('flv') || (typeof flvjs !== 'undefined' && flvjs.isSupported())) {
-            console.log('检测到FLV格式:', url);
-            footerInfo.textContent = '正在加载FLV流...';
-            
-            if (typeof flvjs !== 'undefined' && flvjs.isSupported()) {
-                // 销毁之前的flv播放器
-                if (window.flvPlayer) {
-                    window.flvPlayer.destroy();
-                }
-                
-                window.flvPlayer = flvjs.createPlayer({
-                    type: 'flv',
-                    url: url,
-                    hasAudio: true,
-                    hasVideo: true,
-                    cors: true
-                }, {
-                    enableWorker: true,
-                    enableStashBuffer: false,
-                    stashInitialSize: 128
-                });
-                
-                window.flvPlayer.attachMediaElement(video);
-                window.flvPlayer.load();
-                window.flvPlayer.play().then(() => {
-                    console.log('FLV播放成功');
-                    hideLoading();
-                    footerInfo.textContent = '播放中';
-                    video.volume = savedVolume;
-                }).catch((err) => {
-                    console.error('FLV播放失败:', err);
-                    hideLoading();
-                    footerInfo.textContent = '播放中';
-                    video.volume = savedVolume;
-                });
-                
-                window.flvPlayer.on(flvjs.Events.ERROR, (errType, errDetail) => {
-                    console.error('FLV错误:', errType, errDetail);
-                    if (window.flvPlayer) {
-                        window.flvPlayer.destroy();
-                        window.flvPlayer = null;
-                    }
-                });
-            } else {
-                // flv.js不支持时尝试直接播放
-                video.src = url;
-                video.play().catch(() => {
-                    console.log('FLV自动播放失败，等待用户交互');
-                }).finally(() => {
-                    hideLoading();
-                    footerInfo.textContent = '播放中';
-                    video.volume = savedVolume;
-                });
-            }
-        }
+    // 检测流格式
+    const format = detectStreamFormat(url);
 
-        // 4. 普通视频格式
-        else if (url.match(/\.(mp4|webm|ogg|mov|avi|wmv|mkv|ts|m4v)$/i)) {
-            console.log('检测到普通视频格式:', url);
-            footerInfo.textContent = '正在加载视频...';
-            video.src = url;
-            video.play().catch(() => {
-                console.log('视频自动播放失败，等待用户交互');
-            }).finally(() => {
-                hideLoading();
-                footerInfo.textContent = '播放中';
-                // 恢复音量设置
-                video.volume = savedVolume;
-            });
-        }
+    // 为所有情况创建代理URL
+    const proxyUrl = corsProxy + encodeURIComponent(url);
 
-        // 5. 音频格式
-        else if (url.match(/\.(mp3|aac|wav|flac|ogg)$/i)) {
-            console.log('检测到音频格式:', url);
-            footerInfo.textContent = '正在加载音频...';
-            video.src = url;
-            video.play().catch(() => {
-                console.log('音频自动播放失败，等待用户交互');
-            }).finally(() => {
-                hideLoading();
-                footerInfo.textContent = '播放中';
-                // 恢复音量设置
-                video.volume = savedVolume;
-            });
-        }
-
-        // 6. HTTP流格式（包括无扩展名的流，尝试检测并使用最佳播放器）
-        else if (url.startsWith('http')) {
-            console.log('检测到HTTP流格式:', url);
-            footerInfo.textContent = '正在检测流格式...';
-            
-            // 首先尝试fetch获取内容，检测是否是M3U8播放列表
+    // 根据格式选择解码器
+    switch(format) {
+        case 'hls':
+            createHlsPlayer(url);
+            break;
+        case 'dash':
+            createDashPlayer(url);
+            break;
+        case 'flv':
+            createFlvPlayer(url);
+            break;
+        case 'rtmp':
+            video.src = proxyUrl;
+            video.play().catch(() => {});
+            break;
+        case 'ts':
+            video.src = proxyUrl;
+            video.play().catch(() => {});
+            break;
+        case 'playlist':
+            // 尝试解析播放列表
             fetch(url)
-                .then(response => response.text())
-                .then(content => {
-                    console.log('获取到内容，长度:', content.length);
-                    console.log('前200字符:', content.substring(0, 200));
-                    
-                    // 检测是否是M3U8播放列表
-                    if (content.includes('#EXTM3U') || content.includes('.m3u8')) {
-                        console.log('检测到M3U8播放列表内容');
-                        
-                        // 如果内容是相对路径，需要拼接完整URL
-                        let fullUrl = url;
-                        if (content.includes('.m3u8')) {
-                            const baseUrl = url.substring(0, url.lastIndexOf('/') + 1);
-                            const lines = content.split('\n');
-                            for (let line of lines) {
-                                if (line.includes('.m3u8') && !line.startsWith('#')) {
-                                    // 找到相对路径，拼接完整URL
-                                    if (line.startsWith('http')) {
-                                        fullUrl = line;
-                                    } else if (line.startsWith('/')) {
-                                        const urlObj = new URL(url);
-                                        fullUrl = urlObj.origin + line;
-                                    } else {
-                                        fullUrl = baseUrl + line;
-                                    }
-                                    console.log('拼接后的完整URL:', fullUrl);
-                                    break;
-                                }
-                            }
+                .then(r => r.text())
+                .then(playlist => {
+                    const lines = playlist.split('\n');
+                    for (const line of lines) {
+                        const trimmed = line.trim();
+                        if (trimmed && !trimmed.startsWith('#')) {
+                            const playlistUrl = trimmed.includes('http') ? trimmed : new URL(trimmed, url).href;
+                            playVideo(playlistUrl, btn);
+                            return;
                         }
-                        
-                        // 使用完整URL播放
-                        if (Hls.isSupported()) {
-                            if (hls) hls.destroy();
-                            hls = new Hls({enableWorker:true,backBufferLength:30,maxBufferLength:60});
-                            hls.loadSource(fullUrl);
-                            hls.attachMedia(video);
-                            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                                video.play().catch(() => {}).finally(() => {
-                                    hideLoading();
-                                    footerInfo.textContent = '播放中';
-                                    video.volume = savedVolume;
-                                });
-                            });
-                            hls.on(Hls.Events.ERROR, (event, data) => {
-                                console.error('HLS播放错误:', data);
-                                if (data.fatal) {
-                                    switch(data.type) {
-                                        case Hls.ErrorTypes.NETWORK_ERROR:
-                                            hls.startLoad();
-                                            break;
-                                        case Hls.ErrorTypes.MEDIA_ERROR:
-                                            hls.recoverMediaError();
-                                            break;
-                                        default:
-                                            hideLoading();
-                                            footerInfo.textContent = '播放失败';
-                                            break;
-                                    }
-                                }
-                            });
-                        } else {
-                            video.src = fullUrl;
-                            video.play().catch(() => {}).finally(() => {
-                                hideLoading();
-                                footerInfo.textContent = '播放中';
-                                video.volume = savedVolume;
-                            });
-                        }
-                    } else {
-                        // 不是M3U8，直接播放
-                        video.src = url;
-                        video.onloadedmetadata = function() {
-                            video.play().then(() => {
-                                hideLoading();
-                                footerInfo.textContent = '播放中';
-                                video.volume = savedVolume;
-                            }).catch((err) => {
-                                hideLoading();
-                                footerInfo.textContent = '播放中';
-                                video.volume = savedVolume;
-                            });
-                        };
                     }
+                    // 如果没有找到有效链接，尝试直接播放
+                    video.src = proxyUrl;
+                    video.play().catch(() => {});
                 })
-                .catch(err => {
-                    console.error('获取内容失败:', err);
-                    // fallback: 直接尝试作为视频源播放
-                    video.src = url;
-                    video.onloadedmetadata = function() {
-                        video.play().catch(() => {}).finally(() => {
-                            hideLoading();
-                            footerInfo.textContent = '播放中';
-                            video.volume = savedVolume;
-                        });
-                    };
+                .catch(() => {
+                    video.src = proxyUrl;
+                    video.play().catch(() => {});
                 });
-            
-            // 超时处理
-            setTimeout(() => {
-                if (loading.style.display === 'block') {
-                    console.log('流加载超时');
-                    hideLoading();
-                    footerInfo.textContent = '播放中';
-                    video.volume = savedVolume;
-                }
-            }, 10000);
-        }
-
-        // 7. 其他格式
-        else {
-            console.warn('未知格式:', url);
-            footerInfo.textContent = '正在加载...';
-            video.src = url;
+            break;
+        case 'video':
+        default:
+            // 尝试直接播放
+            video.src = proxyUrl;
             video.play().catch(() => {
-                console.log('未知格式自动播放失败，等待用户交互');
-            }).finally(() => {
-                hideLoading();
-                footerInfo.textContent = '播放中';
-                // 恢复音量设置
-                video.volume = savedVolume;
+                // 播放失败时尝试使用代理
+                if (proxyUrl !== url) {
+                    video.src = url;
+                    video.play().catch(() => {});
+                }
             });
-        }
-
-    } catch (error) {
-        console.error('播放初始化错误:', error);
-        // 不显示错误提示
-        hideLoading();
-        footerInfo.textContent = '播放失败';
+            break;
     }
 }
 
@@ -890,18 +705,11 @@ fetch(sourceURL)
     console.log('频道加载完成，共加载', channelCount, '个频道');
     // 自动播放第一个频道
     if(firstUrl) {
-        footerInfo.textContent = '加载频道完成，共' + channelCount + '个频道';
         playVideo(firstUrl, firstBtn);
-    } else {
-        footerInfo.textContent = '无可用频道';
-        hideLoading();
     }
 })
 .catch(err => {
-    console.error('加载频道失败:', err);
-    channelList.innerHTML = '<div class="channel-item" style="text-align:center;color:#ff6b6b;">直播源加载失败，请刷新重试</div>';
-    footerInfo.textContent = '加载失败: ' + err.message;
-    hideLoading();
+    channelList.innerHTML = '<div class="channel-item" style="text-align:center;color:#ff6b6b;">加载失败</div>';
 });
 
 // 打赏功能
@@ -926,56 +734,8 @@ rewardModal.addEventListener('click', (e) => {
 
 
 // 播放控制功能
-const playPauseBtn = document.getElementById('playPauseBtn');
-const volumeSlider = document.getElementById('volumeSlider');
-const volumeIcon = document.querySelector('.volume-icon');
-
-// 播放/暂停控制
-playPauseBtn.addEventListener('click', function() {
-    if (video.paused) {
-        video.play().then(() => {
-            console.log('播放成功');
-            playPauseBtn.textContent = '⏸️';
-        }).catch((error) => {
-            console.error('播放失败:', error);
-            footerInfo.textContent = '播放失败: ' + error.message;
-        });
-    } else {
-        video.pause();
-        playPauseBtn.textContent = '▶️';
-        footerInfo.textContent = '已暂停';
-    }
-});
-
-// 保存当前音量
-let currentVolume = 0.5;
-
-// 音量控制
-volumeSlider.addEventListener('input', function() {
-    currentVolume = parseFloat(this.value);
-    video.volume = currentVolume;
-    // 更新音量图标
-    if (currentVolume === 0) {
-        volumeIcon.textContent = '🔇';
-    } else if (currentVolume < 0.5) {
-        volumeIcon.textContent = '🔉';
-    } else {
-        volumeIcon.textContent = '🔊';
-    }
-});
-
-// 初始化音量
-video.volume = currentVolume;
-volumeSlider.value = currentVolume;
-
-// 视频状态监听
-video.addEventListener('play', function() {
-    playPauseBtn.textContent = '⏸️';
-});
-
-video.addEventListener('pause', function() {
-    playPauseBtn.textContent = '▶️';
-});
+// 初始化音量50%
+video.volume = 0.5;
 </script>
 </body>
 </html>
