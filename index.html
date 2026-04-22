@@ -4,154 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>快播直播</title>
+<title>极速直播</title>
 
+<!-- 极速播放器内核 -->
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.css">
 
 <style>
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#000;overflow:hidden}
+.main{display:flex;width:100vw;height:100vh}
 
-html,body {
-  height:100%;
-  background:#000;
-  overflow:hidden;
-}
+/* 播放器区域 */
+.player-box{position:relative;background:#000;display:flex;align-items:center;justify-content:center}
+#dplayer{width:100%!important;height:100%!important}
+.dplayer-video{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;background:#000}
 
-.main {
-  display:flex;
-  width:100vw;
-  height:100vh;
-}
+/* 彻底删除所有按钮图标 */
+.dplayer-play-icon,.dplayer-pause-icon,.dplayer-mask,.dplayer-icons,.dplayer-controls,.dplayer-controller,.dplayer-loading{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important}
 
-.player-box {
-  position:relative;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+/* 极简加载 */
+.loading-spinner{position:absolute;top:50%;left:50%;width:30px;height:30px;border:2px solid rgba(255,255,255,.1);border-top:2px solid #fff;border-radius:50%;animation:spin .5s linear infinite;z-index:10;display:none;transform:translate(-50%,-50%)}
+@keyframes spin{100%{transform:translate(-50%,-50%) rotate(360deg)}}
 
-#dplayer {
-  width:100%!important;
-  height:100%!important;
-}
+/* 频道界面 */
+.channel-box{background:#121212;display:flex;flex-direction:column}
+.top-bar{height:38px;background:#1c1c1c;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#fff}
+.donate a{color:#ff6b6b;text-decoration:none}
+.channel-list{flex:1;overflow-y:auto;padding:6px}
+.channel{padding:10px;margin:4px;background:#1a1a1a;color:#ddd;border-radius:6px}
+.channel.active{background:#ff6b6b;color:#fff}
+.genre{padding:8px 14px;color:#888;font-size:12px}
 
-.dplayer-video {
-  display:block!important;
-  width:100%!important;
-  height:100%!important;
-  object-fit:contain!important;
-  background:#000!important;
-}
-
-/* 彻底删除所有播放暂停按钮图标 */
-.dplayer-play-icon,
-.dplayer-pause-icon,
-.dplayer-mask,
-.dplayer-icons,
-.dplayer-controls,
-.dplayer-controller,
-.dplayer-bar-wrap,
-.dplayer-loading {
-  display:none!important;
-  opacity:0!important;
-  visibility:hidden!important;
-  width:0!important;
-  height:0!important;
-}
-
-/* 加载动画 */
-.loading-spinner {
-  position:absolute;
-  top:50%;left:50%;
-  width:36px;height:36px;
-  border:2px solid rgba(255,255,255,0.15);
-  border-top:2px solid #fff;
-  border-radius:50%;
-  animation:spin 0.6s linear infinite;
-  z-index:10;
-  display:none;
-  transform:translate(-50%,-50%);
-}
-
-@keyframes spin {
-  100% { transform:translate(-50%,-50%) rotate(360deg); }
-}
-
-.channel-box {
-  background:#121212;
-  display:flex;
-  flex-direction:column;
-}
-
-.top-bar {
-  height:38px;
-  background:#1c1c1c;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 14px;
-  color:#fff;
-  font-size:14px;
-}
-
-.donate a {
-  color:#ff6b6b;
-  text-decoration:none;
-}
-
-.channel-list {
-  flex:1;
-  overflow-y:auto;
-  padding:6px 8px;
-}
-
-.channel {
-  padding:11px 14px;
-  margin:4px;
-  background:#1a1a1a;
-  color:#e0e0e0;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.channel.active {
-  background:#ff6b6b;
-  color:#fff;
-}
-
-.genre {
-  padding:8px 14px;
-  color:#888;
-  font-size:12px;
-}
-
-/* 电脑 */
-@media (min-width:769px) {
-  .main { flex-direction:row; }
-  .player-box { width:75%; height:100%; }
-  .channel-box { width:25%; height:100%; }
-}
-
-/* 手机 */
-@media (max-width:768px) {
-  .main { flex-direction:column; }
-  .player-box { width:100%; height:46vh; }
-  .channel-box { width:100%; height:54vh; }
-}
+/* 布局适配 */
+@media(min-width:769px){.main{flex-direction:row}.player-box{width:75%;height:100%}.channel-box{width:25%;height:100%}}
+@media(max-width:768px){.main{flex-direction:column}.player-box{width:100%;height:46vh}.channel-box{width:100%;height:54vh}}
 </style>
 </head>
 
 <body>
-
 <div class="main">
   <div class="player-box">
     <div id="dplayer"></div>
@@ -160,7 +53,7 @@ html,body {
 
   <div class="channel-box">
     <div class="top-bar">
-      <div>📺 快播直播</div>
+      <div>📺 极速直播</div>
       <div class="donate"><a href="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" target="_blank">打赏支持</a></div>
     </div>
     <div class="channel-list" id="list"></div>
@@ -168,95 +61,94 @@ html,body {
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded',()=>{
   const dp = new DPlayer({
     container: document.getElementById('dplayer'),
     autoplay: true,
     volume: 0.5,
-    video: { url: '' },
     preload: 'auto',
+    video: { url: '' },
+
+    // ===============================
+    // 🔥 极速内核优化（核心加速）
+    // ===============================
     hls: {
-      maxBufferSize: 30 * 1000 * 1000,
-      maxBufferLength: 15,
-      minBufferLength: 5
+      maxBufferSize: 10*1000*1000,    // 最小缓冲
+      maxBufferLength: 5,            // 只缓冲5秒
+      minBufferLength: 1,            // 1秒就开始播放
+      enableWorker: true,            // 硬件加速
+      lowLatencyMode: true,          // 低延迟直播模式
+      fpsDropped: true,              // 自动丢帧保流畅
+      autoStartLoad: true
     },
-    notice: false,
-    mask: false,
-    logo: false
+
+    flv: {
+      enableWorker: true,
+      lazyLoad: false,              // 不延迟加载
+      maxBufferLength: 3,           // 最小缓冲
+      autoCleanupSourceBuffer: true
+    },
+
+    notice: false, mask: false, logo: false
   });
 
   const loader = document.getElementById('loader');
   const list = document.getElementById('list');
 
-  function play(url) {
-    try {
-      loader.style.display = 'block';
-      dp.pause();
+  // ===============================
+  // 🔥 极速换台（零延迟）
+  // ===============================
+  function play(url){
+    try{
+      // 立即停止上一个视频
+      if(dp.video){dp.pause();dp.video.src='';}
+      loader.style.display='block';
 
-      let type = 'normal';
-      if (url.includes('.m3u8')) type = 'hls';
-      if (url.includes('.flv')) type = 'flv';
+      let type='normal';
+      if(url.includes('.m3u8'))type='hls';
+      if(url.includes('.flv'))type='flv';
 
-      // ✅ 手机：直连（不经过代理 → 极快、不卡）
-      if (/Mobile|Android|iPhone/.test(navigator.userAgent)) {
-          // 手机直连
-      } else {
-          // 电脑才走代理
-          if (location.protocol === 'https:' && url.startsWith('http:')) {
-            url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-          }
+      // 手机直连（不卡顿）
+      if(!/Mobile|Android|iPhone/.test(navigator.userAgent)&&location.protocol==='https:'){
+        url='https://api.allorigins.win/raw?url='+encodeURIComponent(url);
       }
 
-      dp.switchVideo({ url, type });
+      dp.switchVideo({url,type});
+      dp.video.volume=0.5;
+      dp.play().catch(()=>{});
 
-      setTimeout(() => {
-        dp.video.volume = 0.5;
-        dp.play().catch(() => {});
-      }, 100);
-
-      dp.video.oncanplay = () => {
-        setTimeout(() => loader.style.display = 'none', 200);
-      };
-
-      setTimeout(() => loader.style.display = 'none', 3000);
-    } catch (e) {
-      loader.style.display = 'none';
-    }
+      dp.video.oncanplay=()=>{loader.style.display='none'};
+      setTimeout(()=>loader.style.display='none',2500);
+    }catch(e){loader.style.display='none'}
   }
 
-  fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
-  .then(r => r.text())
-  .then(txt => {
-    txt.split('\n').forEach(line => {
-      if (!line.trim()) return;
-      if (line.includes(',#genre#')) {
-        const d = document.createElement('div');
-        d.className = 'genre';
-        d.textContent = line.split(',')[0];
-        list.appendChild(d);
-        return;
+  // 加载频道
+  fetch('https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt')
+  .then(r=>r.text())
+  .then(txt=>{
+    txt.split('\n').forEach(line=>{
+      if(!line.trim())return;
+      if(line.includes(',#genre#')){
+        const d=document.createElement('div');d.className='genre';d.textContent=line.split(',')[0];list.appendChild(d);return;
       }
-      const arr = line.split(',');
-      if (arr.length >= 2 && arr[1].startsWith('http')) {
-        const item = document.createElement('div');
-        item.className = 'channel';
-        item.textContent = arr[0];
-        item.onclick = () => {
+      const arr=line.split(',');
+      if(arr.length>=2&&arr[1].startsWith('http')){
+        const item=document.createElement('div');item.className='channel';item.textContent=arr[0];
+        item.onclick=()=>{
           play(arr[1]);
-          document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
+          document.querySelectorAll('.channel').forEach(i=>i.classList.remove('active'));
           item.classList.add('active');
         };
         list.appendChild(item);
       }
     });
 
-    setTimeout(() => {
-      const first = document.querySelector('.channel');
-      if (first) first.click();
-    }, 300);
+    setTimeout(()=>{
+      const first=document.querySelector('.channel');
+      if(first)first.click();
+    },200);
   });
 });
 </script>
-
 </body>
 </html>
