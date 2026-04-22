@@ -54,7 +54,7 @@ video{width:100%;height:100%;object-fit:contain;background:#000}
     </div>
     <div class="main">
         <div class="player">
-            <video id="v" playsinline webkit-playsinline x-webkit-airplay="allow"></video>
+            <video id="v" playsinline webkit-playsinline x-webkit-airplay="allow" autoplay></video>
             <div class="status" id="st"><div class="status-text" id="stt">加载中...</div></div>
         </div>
         <div class="ch-list">
@@ -88,18 +88,30 @@ video{width:100%;height:100%;object-fit:contain;background:#000}
     function play(u){
         if(!u){sh('无效地址');return}
         log('正在播放...');
+        v.volume=0.5;
         if(hls){hls.destroy();hls=null}
-        if(Hls.isSupported()){
-            hls=new Hls({enableWorker:true,backBufferLength:30,maxBufferLength:60,loadPolicy:{maxBufferLength:30}});
-            hls.loadSource(u);
-            hls.attachMedia(v);
-            hls.on(Hls.Events.MANIFEST_PARSED,function(){
-                v.play().then(function(){hi();log('播放中');}).catch(function(){sh('点击播放');});
-            });
-            hls.on(Hls.Events.ERROR,function(e,d){
-                if(d.fatal){sh('播放失败');hls=null}
-            });
-        }else if(v.canPlayType('application/vnd.apple.mpegurl')){
+        var ext=u.toLowerCase();
+        if(ext.indexOf('.m3u8')>-1){
+            if(Hls.isSupported()){
+                hls=new Hls({enableWorker:true,backBufferLength:30,maxBufferLength:60,loadPolicy:{maxBufferLength:30}});
+                hls.loadSource(u);
+                hls.attachMedia(v);
+                hls.on(Hls.Events.MANIFEST_PARSED,function(){
+                    v.play().then(function(){hi();log('播放中');}).catch(function(){sh('点击播放');});
+                });
+                hls.on(Hls.Events.ERROR,function(e,d){
+                    if(d.fatal){sh('播放失败');hls=null}
+                });
+            }else if(v.canPlayType('application/vnd.apple.mpegurl')){
+                v.src=u;v.play().then(function(){hi()}).catch(function(){sh('点击播放')});
+            }else{
+                v.src=u;v.play().then(function(){hi()}).catch(function(){sh('点击播放')});
+            }
+        }else if(ext.indexOf('.mpd')>-1){
+            v.src=u;v.play().then(function(){hi()}).catch(function(){sh('点击播放')});
+        }else if(ext.indexOf('.flv')>-1){
+            v.src=u;v.play().then(function(){hi()}).catch(function(){sh('点击播放')});
+        }else if(ext.indexOf('.mp4')>-1 || ext.indexOf('.m4v')>-1 || ext.indexOf('.mov')>-1){
             v.src=u;v.play().then(function(){hi()}).catch(function(){sh('点击播放')});
         }else{
             v.src=u;v.play().then(function(){hi()}).catch(function(){sh('点击播放')});
@@ -153,6 +165,8 @@ video{width:100%;height:100%;object-fit:contain;background:#000}
             log(e.message);
         });
     }
+
+    v.volume=0.5;
 
     v.addEventListener('click',function(){
         if(v.paused&&cur>=0)v.play().then(function(){hi()}).catch(function(){});
