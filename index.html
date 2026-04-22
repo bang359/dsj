@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>快播直播 - 全能解码版</title>
+<title>快播直播</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
@@ -64,16 +64,15 @@ const dp = new DPlayer({
   autoplay: true,
   theme: '#ff6c00',
   lang: 'zh-cn',
-  video: { url: '' }
+  volume: 0.5,
+  video: { url: '' },
+  notice: false
 });
 
-let list = document.getElementById('list');
-let count = document.getElementById('count');
-let channels = [];
-let current = 0;
+const list = document.getElementById('list');
+const count = document.getElementById('count');
 
-const SRC = "https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt";
-
+// 统计
 async function loadCount() {
   try {
     let r = await fetch("https://api.countapi.xyz/hit/bang359/live", {cache:"no-store"});
@@ -84,16 +83,22 @@ async function loadCount() {
 loadCount();
 setInterval(loadCount, 30000);
 
+// 🔥 核心修复：GitHub 自动代理 HTTP 源
 function play(url) {
+  if (window.location.protocol === 'https:' && url.startsWith('http://')) {
+    url = `https://gh-proxy.org/${url}`;
+  }
   dp.switchVideo({ url: url });
   dp.play();
 }
 
-async function load() {
-  let txt = await fetch(SRC).then(r=>r.text());
+// 加载源
+fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
+.then(r=>r.text())
+.then(txt=>{
   txt.split('\n').forEach(line=>{
     line = line.trim();
-    if(!line)return;
+    if(!line) return;
 
     if(line.includes(',#genre#')){
       let div = document.createElement('div');
@@ -107,14 +112,12 @@ async function load() {
     if(arr.length>=2 && arr[1].startsWith('http')){
       let name = arr[0];
       let url = arr[1];
-      channels.push({name,url});
 
       let item = document.createElement('div');
       item.className='channel';
       item.textContent=name;
       item.onclick=()=>{
         play(url);
-        current=channels.length-1;
         document.querySelectorAll('.channel').forEach(i=>i.classList.remove('active'));
         item.classList.add('active');
       };
@@ -122,13 +125,11 @@ async function load() {
     }
   });
 
-  if(channels.length){
-    play(channels[0].url);
-    document.querySelector('.channel').classList.add('active');
-  }
-}
-
-load();
+  setTimeout(()=>{
+    const first = document.querySelector('.channel');
+    if(first) first.click();
+  }, 600);
+});
 </script>
 </body>
 </html>
