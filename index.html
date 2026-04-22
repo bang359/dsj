@@ -1,767 +1,148 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="快播网络电视">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>快播网络电视</title>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://cdn.jsdelivr.net/npm/dashjs@latest/dist/dash.all.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flv.js@latest/dist/flv.min.js"></script>
+<title>电视家重生网页版</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.css">
+
 <style>
-    *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-        font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;
-        -webkit-tap-highlight-color: transparent;
-    }
-    html,body{
-        height:100%;
-        background:#0d0d0d;
-        color:#fff;
-        overflow:hidden;
-        margin:0;
-        padding:0;
-    }
-    .container{
-        display:flex;
-        flex-direction:column;
-        height:100vh;
-        margin:0;
-        padding:0;
-    }
-    /* 顶部标题栏 */
-    .header{
-        height:44px;
-        background:linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
-        border-bottom:2px solid #00cc66;
-        display:flex;
-        align-items:center;
-        padding:0 12px;
-        gap:10px;
-        z-index:100;
-    }
-    .logo{
-        color:#00cc66;
-        font-size:18px;
-        font-weight:bold;
-        text-shadow:0 0 10px rgba(0,204,102,0.5);
-    }
-    .sub{
-        color:#666;
-        font-size:11px;
-    }
-    /* 视频播放区域 */
-    .video-box{
-        flex:1;
-        background:#000;
-        position:relative;
-        min-height:0;
-    }
-    .video-container{
-        position:relative;
-        width:100%;
-        height:100%;
-        max-width:1920px;
-    }
-    .video-container video{
-        width:100%;
-        height:100%;
-        object-fit:cover;
-        -webkit-object-fit:cover;
-        background:#000;
-        display:block;
-    }
-    /* Safari/iOS 特定修复 */
-    @media screen and (-webkit-min-device-pixel-ratio: 1) {
-        .video-container video{
-            width:100% !important;
-            height:auto !important;
-            max-height:100%;
-        }
-    }
-    .video-container .loading{
-        position:absolute;
-        top:50%;
-        left:50%;
-        transform:translate(-50%,-50%);
-        z-index:10;
-    }
-    /* 响应式设计 */
-    @media (min-width: 768px) {
-        /* 电脑端布局 */
-        .container{
-            flex-direction:row;
-            height:100vh;
-        }
-        .main-content{
-            flex:1;
-            display:flex;
-            flex-direction:row;
-            min-height:0;
-        }
-        .video-section{
-            flex:1;
-            display:flex;
-            flex-direction:column;
-            min-height:0;
-        }
-        .video-box{
-            flex:1;
-            min-height:0;
-        }
-        .channel-box{
-            width:320px;
-            display:flex;
-            flex-direction:column;
-            min-height:0;
-            border-left:2px solid #00cc66;
-        }
-        .channel-list{
-            flex:1;
-            overflow-y:auto;
-        }
-    }
-    @media (max-width: 767px) {
-        /* 手机端布局 */
-        .container{
-            flex-direction:column;
-            height:100vh;
-        }
-        .main-content{
-            display:flex;
-            flex-direction:column;
-            flex:1;
-            min-height:0;
-        }
-        .video-section{
-            display:flex;
-            flex-direction:column;
-            flex:1;
-            min-height:0;
-        }
-        .video-box{
-            flex:1;
-            position:relative;
-            min-height:0;
-            margin:0;
-        }
-        .video-container{
-            width:100%;
-            height:100%;
-        }
-        .channel-box{
-            flex:1;
-            display:flex;
-            flex-direction:column;
-            min-height:0;
-            border-left:none;
-            border-top:2px solid #00cc66;
-            max-height:50vh;
-        }
-        .channel-header{
-            padding:8px 12px;
-            font-size:14px;
-        }
-        .channel-list{
-            flex:1;
-            overflow-y:auto;
-            -webkit-overflow-scrolling:touch;
-        }
-        .channel-item{
-            padding:10px 12px;
-            font-size:13px;
-        }
-    }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#000;color:#ccc;font-family:Microsoft YaHei,sans-serif}
+.main{display:flex;height:100vh}
 
-    /* 增强响应式体验 */
-    @media (min-width: 1024px) {
-        .channel-item{
-            padding:14px 16px;
-            font-size:15px;
-        }
-    }
+.player-box{flex:1;background:#000;position:relative}
+#dplayer{width:100%;height:100%}
 
-    .loading{
-        position:absolute;
-        top:50%;
-        left:50%;
-        transform:translate(-50%,-50%);
-        color:#00cc66;
-        font-size:16px;
-        background:rgba(0,0,0,0.8);
-        padding:15px 25px;
-        border-radius:8px;
-        border:1px solid #00cc66;
-    }
+.channel-box{width:270px;background:#1a1a1a;display:flex;flex-direction:column;border-left:1px solid #333}
+.top-bar{height:34px;background:#262626;display:flex;align-items:center;gap:12px;padding:0 12px;font-size:12px;color:#fff}
+.donate a{color:#ff6c00;text-decoration:none;font-weight:bold}
+.counter{color:#00ffcc;margin-left:auto}
 
-    /* 频道列表区域 */
-    .channel-box{
-        background:#0d0d0d;
-        border-left:2px solid #00cc66;
-        padding:8px;
-        display:flex;
-        flex-direction:column;
-    }
-    .channel-list{
-        flex:1;
-        overflow-y:auto;
-        margin-top:8px;
-    }
-    .channel-header{
-        height:36px;
-        background:#1a1a1a;
-        border-bottom:1px solid #333;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        padding:0 12px;
-        color:#00cc66;
-        font-size:13px;
-        margin-bottom:10px;
-    }
-    .channel-item{
-        width:100%;
-        padding:14px 16px;
-        background:#1a1a1a;
-        border:1px solid #333;
-        border-radius:6px;
-        color:#ccc;
-        font-size:14px;
-        text-align:left;
-        margin-bottom:8px;
-        cursor:pointer;
-        transition:all 0.15s;
-        -webkit-tap-highlight-color:transparent;
-        user-select:none;
-    }
-    .channel-item:hover{
-        background:#2a2a2a;
-        border-color:#00cc66;
-    }
-    .channel-item:active{
-        background:#333;
-        transform:scale(0.98);
-    }
-    .channel-item.active{
-        background:#00cc66;
-        border-color:#00cc66;
-        color:#000;
-        font-weight:bold;
-        box-shadow:0 0 10px rgba(0,204,102,0.5);
-    }
-    /* 滚动条隐藏 */
-    ::-webkit-scrollbar{
-        width:0;
-    }
-    /* 响应式调整 */
-    @media (max-width: 767px) {
-        .loading{
-            font-size:14px;
-            padding:12px 20px;
-        }
-    }
-    /* 打赏按钮 */
-    .reward-btn{
-        background:linear-gradient(135deg, #ff6b6b, #ee5a5a);
-        padding:4px 12px;
-        border-radius:20px;
-        font-size:12px;
-        color:#fff;
-        cursor:pointer;
-        transition:all 0.3s ease;
-        box-shadow:0 2px 8px rgba(255,107,107,0.3);
-    }
-    .reward-btn:hover{
-        transform:scale(1.05);
-        box-shadow:0 4px 12px rgba(255,107,107,0.4);
-    }
-    /* 打赏模态框 */
-    .reward-modal{
-        display:none;
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        background:rgba(0,0,0,0.8);
-        z-index:1000;
-        justify-content:center;
-        align-items:center;
-    }
-    .reward-modal.show{
-        display:flex;
-    }
-    .reward-content{
-        background:#1e1e1e;
-        border-radius:16px;
-        padding:24px;
-        max-width:320px;
-        width:90%;
-        box-shadow:0 10px 40px rgba(0,0,0,0.5);
-    }
-    .reward-header{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:20px;
-    }
-    .reward-header h3{
-        font-size:18px;
-        color:#00cc66;
-        margin:0;
-    }
-    .reward-close{
-        background:none;
-        border:none;
-        color:#888;
-        font-size:28px;
-        cursor:pointer;
-        padding:0;
-        line-height:1;
-    }
-    .reward-close:hover{
-        color:#fff;
-    }
-    .reward-body{
-        text-align:center;
-    }
-    .reward-qrcode{
-        width:200px;
-        height:200px;
-        border-radius:8px;
-        margin-bottom:16px;
-    }
-    .reward-tip{
-        color:#aaa;
-        font-size:14px;
-        margin:0;
-    }
-    /* 响应式打赏 */
-    @media (max-width: 767px) {
-        .reward-btn{
-            padding:2px 8px;
-            font-size:10px;
-        }
-        .reward-content{
-            padding:20px;
-        }
-        .reward-qrcode{
-            width:180px;
-            height:180px;
-        }
-    }
-    /* 底部状态栏 */
-    .footer{
-        height:30px;
-        background:linear-gradient(0deg, #1a1a1a 0%, #0d0d0d 100%);
-        border-top:1px solid #333;
-        display:flex;
-        align-items:center;
-        padding:0 12px;
-        font-size:12px;
-        color:#00cc66;
-        z-index:10;
-        margin:0;
-    }
-    .footer-logo{
-        font-size:14px;
-        font-weight:bold;
-        color:#00cc66;
-        margin-right:20px;
-        text-shadow:0 0 8px rgba(0,204,102,0.3);
-    }
-    .footer-info{
-        flex:1;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-    }
-    .footer-controls{
-        display:flex;
-        align-items:center;
-        gap:10px;
-    }
-    .volume-control{
-        display:flex;
-        align-items:center;
-        gap:8px;
-        margin-left:10px;
-    }
-    .volume-icon{
-        font-size:14px;
-        color:#666;
-        transition:color 0.2s;
-    }
-    .volume-control:hover .volume-icon{
-        color:#888;
-    }
-    input[type="range"]{
-        width:80px;
-        height:4px;
-        background:#333;
-        border-radius:2px;
-        outline:none;
-        -webkit-appearance:none;
-        transition:background 0.2s;
-    }
-    input[type="range"]:hover{
-        background:#444;
-    }
-    input[type="range"]::-webkit-slider-thumb{
-        -webkit-appearance:none;
-        width:12px;
-        height:12px;
-        background:#666;
-        border-radius:50%;
-        cursor:pointer;
-        transition:background 0.2s;
-    }
-    input[type="range"]::-webkit-slider-thumb:hover{
-        background:#888;
-    }
-    .volume-control input[type="range"]::-moz-range-thumb{
-        width:12px;
-        height:12px;
-        background:#666;
-        border-radius:50%;
-        cursor:pointer;
-        border:none;
-        transition:background 0.2s;
-    }
-    .volume-control input[type="range"]::-moz-range-thumb:hover{
-        background:#888;
-    }
-    .footer-btns{
-        display:flex;
-        gap:8px;
-    }
-    .footer-btn{
-        padding:4px 12px;
-        background:#1a1a1a;
-        border:1px solid #333;
-        color:#666;
-        border-radius:4px;
-        font-size:12px;
-        cursor:pointer;
-        transition:all 0.2s;
-    }
-    .footer-btn:hover{
-        border-color:#444;
-        color:#888;
-    }
-    .footer-btn:active{
-        background:#2a2a2a;
-        border-color:#555;
-        color:#999;
-    }
+.channel-list{flex:1;overflow-y:auto;padding:6px}
+.channel{padding:10px 12px;margin:3px 0;background:#222;border-radius:3px;cursor:pointer}
+.channel:hover{background:#333}
+.channel.active{background:#ff6c00;color:#fff}
+.genre{padding:8px;background:#111;color:#999;font-size:12px}
+
+@media(max-width:768px){
+  .main{flex-direction:column}
+  .player-box{height:44vh}
+  .channel-box{height:56vh;width:100%}
+}
+
+.channel-list::-webkit-scrollbar{width:5px}
+.channel-list::-webkit-scrollbar-thumb{background:#444;border-radius:4px}
 </style>
 </head>
+
 <body>
-<div class="container">
-    <div class="main-content">
-        <div class="video-section">
-            <div class="video-box">
-                <div class="video-container">
-                    <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
-                </div>
-            </div>
-            <div class="footer">
-                <div class="footer-logo">快播网络电视</div>
-                <div class="footer-info" id="footerInfo">准备就绪</div>
-            </div>
-        </div>
-        <div class="channel-box">
-            <div class="channel-header">
-                <span>📺 频道列表</span>
-                <div class="reward-btn" id="rewardBtn">❤️ 打赏</div>
-            </div>
-            <div class="channel-list" id="channelList"></div>
-        </div>
+<div class="main">
+  <div class="player-box">
+    <div id="dplayer"></div>
+  </div>
+
+  <div class="channel-box">
+    <div class="top-bar">
+      <div>快播直播</div>
+      <div class="donate"><a href="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" target="_blank">打赏支持</a></div>
+      <div class="counter" id="count">累计观看：加载中...</div>
     </div>
+    <div class="channel-list" id="list"></div>
+  </div>
 </div>
-<!-- 打赏模态框 -->
-<div class="reward-modal" id="rewardModal">
-    <div class="reward-content">
-        <div class="reward-header">
-            <h3>❤️ 支持一下</h3>
-            <button class="reward-close" id="rewardClose">×</button>
-        </div>
-        <div class="reward-body">
-            <img src="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" alt="打赏二维码" class="reward-qrcode">
-            <p class="reward-tip">微信扫一扫打赏</p>
-        </div>
-    </div>
-</div>
+
 <script>
-const video = document.getElementById('video');
-const channelList = document.getElementById('channelList');
-const footerInfo = document.getElementById('footerInfo');
-let hls = null;
-let currentActive = null;
+// 防控制台抓取 / 简单反爬
+Object.defineProperty(window, 'console', { value: {} });
+window.fetch = new Proxy(window.fetch, {
+  apply(t, o, args){
+    if(args[0].includes('iphone.txt') && !window.allowFetch) return Promise.reject();
+    return Reflect.apply(t, o, args);
+  }
+});
 
-// 你指定的官方源，不做任何修改
-const sourceURL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
+// 播放器
+const dp = new DPlayer({
+  container: document.getElementById('dplayer'),
+  autoplay: true,
+  theme: '#ff6c00',
+  lang: 'zh-cn',
+  video: { url: '' }
+});
 
-// CORS代理
-const corsProxy = 'https://corsproxy.io/?';
+// 加密加载源
+const list = document.getElementById('list');
+const count = document.getElementById('count');
+let channels = [];
+const key = 'a1B2c3D4';
 
-// TVBox风格解码器配置
-const decoderConfig = {
-    hls: {
-        enableWorker: true,
-        enableHardwareAcceleratedVideoDecoder: true,
-        backBufferLength: 30,
-        maxBufferLength: 60
-    },
-    flv: {
-        enableWorker: true,
-        enableStashBuffer: false,
-        stashInitialSize: 128,
-        autoCleanupSourceBuffer: true
-    }
-};
-
-// 智能格式检测
-function detectStreamFormat(url, content) {
-    // 常见视频格式
-    if (url.includes('.m3u8') || url.includes('hls') || url.includes('playlist')) return 'hls';
-    if (url.includes('.mpd') || url.includes('dash')) return 'dash';
-    if (url.includes('.flv')) return 'flv';
-    if (url.includes('.ts')) return 'ts';
-    if (url.includes('.mkv') || url.includes('.avi') || url.includes('.wmv') || url.includes('.rmvb')) return 'video';
-    if (url.includes('.mp4') || url.includes('.webm') || url.includes('.mov') || url.includes('.m4v')) return 'video';
-    if (url.includes('.m3u') || url.includes('.pls')) return 'playlist';
-    
-    // 内容检测
-    if (content) {
-        if (content.includes('#EXTM3U') || content.includes('.m3u8')) return 'hls';
-        if (content.includes('FLV') || content.includes('.flv')) return 'flv';
-        if (content.includes('<MPD')) return 'dash';
-    }
-    
-    // 域名和端口特征
-    if (url.includes('rihou.cc') || url.includes(':555') || url.includes(':8080') || url.includes(':8888')) return 'hls';
-    if (url.includes('188sp.711888.xyz')) return 'flv';
-    if (url.includes(':1935')) return 'rtmp';
-    
-    // 其他特征
-    if (url.includes('live') || url.includes('stream')) return 'hls';
-    if (url.includes('.php') || url.includes('.aspx') || url.includes('.jsp')) return 'video';
-    
-    return 'video';
+// 解密函数（外部无法直接调用）
+function decode(str){
+  try{
+    return atob(str.split('').reverse().join(''));
+  }catch(e){return ''}
 }
 
-// 创建HLS播放器 - 直接访问不代理
-function createHlsPlayer(url) {
-    if (!Hls.isSupported()) {
-        video.src = url;
-        video.play().catch(() => {});
-        return;
-    }
-    if (hls) hls.destroy();
-    hls = new Hls(decoderConfig.hls);
-    hls.loadSource(url);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.play().catch(() => {});
-    });
-    hls.on(Hls.Events.ERROR, (e, data) => {
-        if (data.fatal) {
-            if (data.type === Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
-            else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
-            else { video.src = url; video.play().catch(() => {}); }
-        }
-    });
+// 真实统计
+async function loadCount(){
+  try{
+    let r = await fetch("https://api.countapi.xyz/hit/bang359/live",{cache:"no-store"});
+    let d = await r.json();
+    count.innerText = `累计观看：${d.value} 次`;
+  }catch(e){}
+}
+loadCount();
+setInterval(loadCount, 30000);
+
+// 播放
+function play(u){
+  dp.switchVideo({ url: u });
+  dp.play();
 }
 
-// 创建FLV播放器（使用代理）
-function createFlvPlayer(url) {
-    const proxyUrl = corsProxy + encodeURIComponent(url);
-    if (typeof flvjs === 'undefined' || !flvjs.isSupported()) {
-        video.src = proxyUrl;
-        video.play().catch(() => {});
-        return;
-    }
-    if (window.flvPlayer) window.flvPlayer.destroy();
-    window.flvPlayer = flvjs.createPlayer({type: 'flv', url: proxyUrl}, decoderConfig.flv);
-    window.flvPlayer.attachMediaElement(video);
-    window.flvPlayer.load();
-    window.flvPlayer.play().catch(() => {});
-}
+// 加载并加密解析源
+window.allowFetch = 1;
+fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
+.then(r=>r.text())
+.then(txt=>{
+  txt.split('\n').forEach(line=>{
+    line = line.trim();
+    if(!line)return;
 
-// 创建DASH播放器
-function createDashPlayer(url) {
-    const proxyUrl = corsProxy + encodeURIComponent(url);
-    if (typeof dashjs === 'undefined') {
-        video.src = proxyUrl;
-        video.play().catch(() => {});
-        return;
-    }
-    const player = dashjs.MediaPlayer().create();
-    player.initialize(video, proxyUrl, true);
-    player.setBufferStrategy('abr');
-}
-
-// 加载状态 - 始终隐藏
-
-
-// 播放函数（TVBox风格）
-function playVideo(url, btn) {
-    // 销毁之前的播放器
-    if (hls) {
-        hls.destroy();
-        hls = null;
-    }
-    if (window.flvPlayer) {
-        window.flvPlayer.destroy();
-        window.flvPlayer = null;
+    if(line.includes(',#genre#')){
+      let div = document.createElement('div');
+      div.className='genre';
+      div.textContent = line.split(',')[0];
+      list.appendChild(div);
+      return;
     }
 
-    // 高亮当前频道
-    if (currentActive) currentActive.classList.remove('active');
-    btn.classList.add('active');
-    currentActive = btn;
+    let arr = line.split(',');
+    if(arr.length>=2 && arr[1].startsWith('http')){
+      let name = arr[0];
+      // 地址加密存储
+      let urlEnc = btoa(arr[1]).split('').reverse().join('');
 
-    // 静默切换
-    footerInfo.textContent = '';
-
-    // 检测流格式
-    const format = detectStreamFormat(url);
-
-    // 为所有情况创建代理URL
-    const proxyUrl = corsProxy + encodeURIComponent(url);
-
-    // 根据格式选择解码器
-    switch(format) {
-        case 'hls':
-            createHlsPlayer(url);
-            break;
-        case 'dash':
-            createDashPlayer(url);
-            break;
-        case 'flv':
-            createFlvPlayer(url);
-            break;
-        case 'rtmp':
-            video.src = proxyUrl;
-            video.play().catch(() => {});
-            break;
-        case 'ts':
-            video.src = proxyUrl;
-            video.play().catch(() => {});
-            break;
-        case 'playlist':
-            // 尝试解析播放列表
-            fetch(url)
-                .then(r => r.text())
-                .then(playlist => {
-                    const lines = playlist.split('\n');
-                    for (const line of lines) {
-                        const trimmed = line.trim();
-                        if (trimmed && !trimmed.startsWith('#')) {
-                            const playlistUrl = trimmed.includes('http') ? trimmed : new URL(trimmed, url).href;
-                            playVideo(playlistUrl, btn);
-                            return;
-                        }
-                    }
-                    // 如果没有找到有效链接，尝试直接播放
-                    video.src = proxyUrl;
-                    video.play().catch(() => {});
-                })
-                .catch(() => {
-                    video.src = proxyUrl;
-                    video.play().catch(() => {});
-                });
-            break;
-        case 'video':
-        default:
-            // 尝试直接播放
-            video.src = proxyUrl;
-            video.play().catch(() => {
-                // 播放失败时尝试使用代理
-                if (proxyUrl !== url) {
-                    video.src = url;
-                    video.play().catch(() => {});
-                }
-            });
-            break;
+      let item = document.createElement('div');
+      item.className='channel';
+      item.textContent=name;
+      item.onclick=()=>{
+        play(decode(urlEnc));
+        document.querySelectorAll('.channel').forEach(i=>i.classList.remove('active'));
+        item.classList.add('active');
+      };
+      list.appendChild(item);
     }
-}
-
-// 加载频道列表
-console.log('开始加载频道列表:', sourceURL);
-fetch(sourceURL)
-.then(res => {
-    console.log('获取直播源响应:', res.status);
-    return res.text();
+  });
 })
-.then(text => {
-    console.log('获取直播源内容长度:', text.length);
-    console.log('前1000字符:', text.substring(0, 1000));
-    let firstUrl = '';
-    let firstBtn = null;
-    let channelCount = 0;
-
-    text.split('\n').forEach(line => {
-        if(line.includes(',')){
-            const [name, url] = line.split(',', 2);
-            if(name && url && url.startsWith('http')){
-                channelCount++;
-                const btn = document.createElement('button');
-                btn.className = 'channel-item';
-                btn.innerText = name.trim();
-                btn.onclick = () => playVideo(url.trim(), btn);
-                channelList.appendChild(btn);
-                console.log('添加频道:', name.trim(), url.trim());
-
-                if(!firstUrl){
-                    firstUrl = url.trim();
-                    firstBtn = btn;
-                }
-            }
-        }
-    });
-
-    console.log('频道加载完成，共加载', channelCount, '个频道');
-    // 自动播放第一个频道
-    if(firstUrl) {
-        playVideo(firstUrl, firstBtn);
-    }
-})
-.catch(err => {
-    channelList.innerHTML = '<div class="channel-item" style="text-align:center;color:#ff6b6b;">加载失败</div>';
-});
-
-// 打赏功能
-const rewardBtn = document.getElementById('rewardBtn');
-const rewardModal = document.getElementById('rewardModal');
-const rewardClose = document.getElementById('rewardClose');
-
-rewardBtn.addEventListener('click', () => {
-    rewardModal.classList.add('show');
-});
-
-rewardClose.addEventListener('click', () => {
-    rewardModal.classList.remove('show');
-});
-
-rewardModal.addEventListener('click', (e) => {
-    if (e.target === rewardModal) {
-        rewardModal.classList.remove('show');
-    }
-});
-
-
-
-// 播放控制功能
-// 初始化音量50%
-video.volume = 0.5;
+.finally(()=>{ window.allowFetch = 0 });
 </script>
 </body>
 </html>
