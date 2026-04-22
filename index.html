@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,143 +13,151 @@
 
 <style>
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-html, body {
-  height: 100%;
-  background: #000;
-  overflow: hidden;
+html,body {
+  height:100%;
+  background:#000;
+  overflow:hidden;
 }
 
 .main {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
+  display:flex;
+  width:100vw;
+  height:100vh;
 }
 
 .player-box {
-  position: relative;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position:relative;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 #dplayer {
-  width: 100% !important;
-  height: 100% !important;
+  width:100%!important;
+  height:100%!important;
 }
 
-/* 视频完整显示 + 无任何按钮 */
+/* 🔥 强制视频完整显示 */
 .dplayer-video {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  background: #000 !important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  background:#000!important;
 }
 
-/* 彻底永久删除播放、暂停、控制、图标 */
+/* ==============================================
+   🔥 彻底删除：播放按钮、暂停按钮、所有图标、控制条
+   ============================================== */
 .dplayer-play-icon,
 .dplayer-pause-icon,
 .dplayer-mask,
 .dplayer-icons,
 .dplayer-controls,
 .dplayer-controller,
+.dplayer-bar-wrap,
 .dplayer-loading,
-.dplayer-bar-wrap {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  width: 0 !important;
-  overflow: hidden !important;
+.dplayer-video-wrap::before,
+.dplayer-video-wrap::after {
+  display:none!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  width:0!important;
+  height:0!important;
+  pointer-events:none!important;
+  overflow:hidden!important;
 }
 
-/* 极简加载动画 */
+/* 加载动画（极简） */
 .loading-spinner {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 36px; height: 36px;
-  border: 2px solid rgba(255,255,255,0.15);
-  border-top: 2px solid #fff;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-  z-index: 10;
-  display: none;
-  transform: translate(-50%, -50%);
+  position:absolute;
+  top:50%;left:50%;
+  width:36px;height:36px;
+  border:2px solid rgba(255,255,255,0.15);
+  border-top:2px solid #fff;
+  border-radius:50%;
+  animation:spin 0.6s linear infinite;
+  z-index:10;
+  display:none;
+  transform:translate(-50%,-50%);
 }
 
 @keyframes spin {
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  100% { transform:translate(-50%,-50%) rotate(360deg); }
 }
 
 .channel-box {
-  background: #121212;
-  display: flex;
-  flex-direction: column;
+  background:#121212;
+  display:flex;
+  flex-direction:column;
 }
 
 .top-bar {
-  height: 38px;
-  background: #1c1c1c;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 14px;
-  color: #fff;
-  font-size: 14px;
+  height:38px;
+  background:#1c1c1c;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 14px;
+  color:#fff;
+  font-size:14px;
 }
 
 .donate a {
-  color: #ff6b6b;
-  text-decoration: none;
+  color:#ff6b6b;
+  text-decoration:none;
 }
 
 .channel-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 6px 8px;
+  flex:1;
+  overflow-y:auto;
+  padding:6px 8px;
 }
 
 .channel {
-  padding: 11px 14px;
-  margin: 4px;
-  background: #1a1a1a;
-  color: #e0e0e0;
-  border-radius: 6px;
-  cursor: pointer;
+  padding:11px 14px;
+  margin:4px;
+  background:#1a1a1a;
+  color:#e0e0e0;
+  border-radius:6px;
+  cursor:pointer;
 }
 
 .channel.active {
-  background: #ff6b6b;
-  color: #fff;
+  background:#ff6b6b;
+  color:#fff;
 }
 
 .genre {
-  padding: 8px 14px;
-  color: #888;
-  font-size: 12px;
+  padding:8px 14px;
+  color:#888;
+  font-size:12px;
 }
 
 /* 电脑布局 */
-@media (min-width: 769px) {
-  .main { flex-direction: row; }
-  .player-box { width: 75%; height: 100%; }
-  .channel-box { width: 25%; height: 100%; }
+@media (min-width:769px) {
+  .main { flex-direction:row; }
+  .player-box { width:75%; height:100%; }
+  .channel-box { width:25%; height:100%; }
 }
 
 /* 手机布局 */
-@media (max-width: 768px) {
-  .main { flex-direction: column; }
-  .player-box { width: 100%; height: 46vh; }
-  .channel-box { width: 100%; height: 54vh; }
+@media (max-width:768px) {
+  .main { flex-direction:column; }
+  .player-box { width:100%; height:46vh; }
+  .channel-box { width:100%; height:54vh; }
 }
 </style>
+</head>
+
+<body>
 
 <div class="main">
   <div class="player-box">
@@ -166,77 +175,89 @@ html, body {
 </div>
 
 <script>
-const dp = new DPlayer({
-  container: document.getElementById('dplayer'),
-  autoplay: true,        // 统一自动播放
-  volume: 0.5,           // 统一50%音量
-  video: { url: '' },
-  notice: false,
-  mask: false,
-  logo: false
-});
-
-const loader = document.getElementById('loader');
-const list = document.getElementById('list');
-
-// 统一播放逻辑：自动、无声、无图标
-function play(url) {
-  try {
-    loader.style.display = 'block';
-    dp.pause();
-
-    let type = 'normal';
-    if (url.includes('.m3u8')) type = 'hls';
-    if (url.includes('.flv')) type = 'flv';
-
-    if (!/Mobile|Android|iPhone/.test(navigator.userAgent) && location.protocol === 'https:') {
-      url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-    }
-
-    dp.switchVideo({ url, type });
-    dp.video.volume = 0.5;
-    dp.play();
-
-    dp.video.oncanplay = () => {
-      setTimeout(() => loader.style.display = 'none', 200);
-    };
-    setTimeout(() => loader.style.display = 'none', 3000);
-  } catch (e) {
-    loader.style.display = 'none';
-  }
-}
-
-// 加载频道
-fetch("https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt")
-.then(r => r.text())
-.then(txt => {
-  txt.split('\n').forEach(line => {
-    if (!line.trim()) return;
-    if (line.includes(',#genre#')) {
-      const d = document.createElement('div');
-      d.className = 'genre';
-      d.textContent = line.split(',')[0];
-      list.appendChild(d);
-      return;
-    }
-    const arr = line.split(',');
-    if (arr.length >= 2 && arr[1].startsWith('http')) {
-      const item = document.createElement('div');
-      item.className = 'channel';
-      item.textContent = arr[0];
-      item.onclick = () => {
-        play(arr[1]);
-        document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-      };
-      list.appendChild(item);
-    }
+document.addEventListener('DOMContentLoaded', function() {
+  const dp = new DPlayer({
+    container: document.getElementById('dplayer'),
+    autoplay: true,      // 🔥 默认自动播放
+    volume: 0.5,         // 50%音量
+    video: { url: '' },
+    preload: 'auto',
+    notice: false,
+    mask: false,
+    logo: false
   });
 
-  setTimeout(() => {
-    const first = document.querySelector('.channel');
-    if (first) first.click();
-  }, 260);
+  const loader = document.getElementById('loader');
+  const list = document.getElementById('list');
+
+  // 播放函数（无任何按钮）
+  function play(url) {
+    try {
+      loader.style.display = 'block';
+      dp.pause();
+
+      let type = 'normal';
+      if (url.includes('.m3u8')) type = 'hls';
+      if (url.includes('.flv')) type = 'flv';
+
+      // 自动兼容 HTTP/HTTPS 跨域
+      if (location.protocol === 'https:' && url.startsWith('http:')) {
+        url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+      }
+
+      dp.switchVideo({ url, type });
+
+      // 全浏览器强制自动播放 + 固定音量
+      setTimeout(() => {
+        dp.video.volume = 0.5;
+        dp.play().catch(err => {});
+      }, 100);
+
+      dp.video.oncanplay = () => {
+        setTimeout(() => loader.style.display = 'none', 200);
+      };
+
+      setTimeout(() => loader.style.display = 'none', 3500);
+    } catch (e) {
+      loader.style.display = 'none';
+    }
+  }
+
+  // 加载频道
+  fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
+  .then(r => r.text())
+  .then(txt => {
+    txt.split('\n').forEach(line => {
+      if (!line.trim()) return;
+      if (line.includes(',#genre#')) {
+        const d = document.createElement('div');
+        d.className = 'genre';
+        d.textContent = line.split(',')[0];
+        list.appendChild(d);
+        return;
+      }
+      const arr = line.split(',');
+      if (arr.length >= 2 && arr[1].startsWith('http')) {
+        const item = document.createElement('div');
+        item.className = 'channel';
+        item.textContent = arr[0];
+        item.onclick = () => {
+          play(arr[1]);
+          document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+        };
+        list.appendChild(item);
+      }
+    });
+
+    // 自动播放第一个频道
+    setTimeout(() => {
+      const first = document.querySelector('.channel');
+      if (first) first.click();
+    }, 300);
+  });
 });
 </script>
+
+</body>
 </html>
