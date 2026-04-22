@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -10,6 +9,7 @@
 <title>快播网络电视</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/dashjs@latest/dist/dash.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js@latest/dist/flv.min.js"></script>
 <style>
     *{
         margin:0;
@@ -56,17 +56,42 @@
         background:#000;
         position:relative;
         min-height:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+    .video-container{
+        position:relative;
+        width:100%;
+        height:100%;
+        max-width:1920px;
+        max-height:90vh;
+    }
+    .video-container video{
+        width:100%;
+        height:100%;
+        object-fit:contain;
+        background:#000;
+    }
+    .video-container .loading{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        z-index:10;
     }
     /* 响应式设计 */
     @media (min-width: 768px) {
         /* 电脑端布局 */
         .container{
             flex-direction:row;
+            height:100vh;
         }
         .main-content{
             flex:1;
             display:flex;
             flex-direction:column;
+            min-height:0;
         }
         .video-box{
             flex:1;
@@ -74,14 +99,45 @@
         }
         .channel-box{
             width:320px;
-            height:100vh;
+            display:flex;
+            flex-direction:column;
+            min-height:0;
+        }
+        .channel-list{
+            flex:1;
+            overflow-y:auto;
         }
     }
     @media (max-width: 767px) {
         /* 手机端布局 */
+        .container{
+            flex-direction:column;
+        }
+        .main-content{
+            display:flex;
+            flex-direction:column;
+            flex:1;
+            min-height:0;
+        }
         .video-box{
-            height:45vh;
-            min-height:200px;
+            width:100%;
+            flex-shrink:0;
+        }
+        .video-container{
+            max-width:100%;
+        }
+        .channel-box{
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            min-height:0;
+            border-left:none;
+            border-top:2px solid #00cc66;
+        }
+        .channel-list{
+            flex:1;
+            overflow-y:auto;
+            -webkit-overflow-scrolling:touch;
         }
         .channel-item{
             padding:12px 14px;
@@ -128,7 +184,13 @@
         background:#0d0d0d;
         border-left:2px solid #00cc66;
         padding:8px;
+        display:flex;
+        flex-direction:column;
+    }
+    .channel-list{
+        flex:1;
         overflow-y:auto;
+        margin-top:8px;
     }
     .channel-header{
         height:36px;
@@ -136,6 +198,7 @@
         border-bottom:1px solid #333;
         display:flex;
         align-items:center;
+        justify-content:space-between;
         padding:0 12px;
         color:#00cc66;
         font-size:13px;
@@ -171,32 +234,8 @@
     ::-webkit-scrollbar{
         width:0;
     }
-    /* 在线人数显示 */
-    .online-count{
-        position:absolute;
-        top:10px;
-        right:10px;
-        background:rgba(0,0,0,0.7);
-        padding:6px 12px;
-        border-radius:20px;
-        font-size:14px;
-        display:flex;
-        align-items:center;
-        gap:5px;
-        z-index:10;
-    }
-    .online-icon{
-        font-size:16px;
-    }
     /* 响应式调整 */
     @media (max-width: 767px) {
-        .online-count{
-            padding:4px 8px;
-            font-size:12px;
-        }
-        .online-icon{
-            font-size:14px;
-        }
         .loading{
             font-size:14px;
             padding:12px 20px;
@@ -281,11 +320,8 @@
     /* 响应式打赏 */
     @media (max-width: 767px) {
         .reward-btn{
-            position:absolute;
-            bottom:10px;
-            right:10px;
-            padding:5px 12px;
-            font-size:12px;
+            padding:2px 8px;
+            font-size:10px;
         }
         .reward-content{
             padding:20px;
@@ -297,15 +333,16 @@
     }
     /* 底部状态栏 */
     .footer{
-        height:40px;
-        background:#0d0d0d;
+        height:50px;
+        background:linear-gradient(0deg, #1a1a1a 0%, #0d0d0d 100%);
         border-top:1px solid #333;
         display:flex;
         align-items:center;
-        gap:12px;
+        gap:15px;
         padding:0 12px;
         font-size:12px;
         color:#00cc66;
+        z-index:10;
     }
     .footer-info{
         flex:1;
@@ -321,36 +358,52 @@
     .volume-control{
         display:flex;
         align-items:center;
-        gap:6px;
+        gap:8px;
+        margin-left:10px;
     }
     .volume-icon{
         font-size:14px;
-        color:#00cc66;
+        color:#666;
+        transition:color 0.2s;
     }
-    .volume-control input[type="range"]{
+    .volume-control:hover .volume-icon{
+        color:#888;
+    }
+    input[type="range"]{
         width:80px;
         height:4px;
         background:#333;
         border-radius:2px;
         outline:none;
         -webkit-appearance:none;
+        transition:background 0.2s;
     }
-    .volume-control input[type="range"]::-webkit-slider-thumb{
+    input[type="range"]:hover{
+        background:#444;
+    }
+    input[type="range"]::-webkit-slider-thumb{
         -webkit-appearance:none;
-        appearance:none;
         width:12px;
         height:12px;
-        background:#00cc66;
+        background:#666;
         border-radius:50%;
         cursor:pointer;
+        transition:background 0.2s;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover{
+        background:#888;
     }
     .volume-control input[type="range"]::-moz-range-thumb{
         width:12px;
         height:12px;
-        background:#00cc66;
+        background:#666;
         border-radius:50%;
         cursor:pointer;
         border:none;
+        transition:background 0.2s;
+    }
+    .volume-control input[type="range"]::-moz-range-thumb:hover{
+        background:#888;
     }
     .footer-btns{
         display:flex;
@@ -359,15 +412,21 @@
     .footer-btn{
         padding:4px 12px;
         background:#1a1a1a;
-        border:1px solid #00cc66;
-        color:#00cc66;
+        border:1px solid #333;
+        color:#666;
         border-radius:4px;
         font-size:12px;
         cursor:pointer;
+        transition:all 0.2s;
+    }
+    .footer-btn:hover{
+        border-color:#444;
+        color:#888;
     }
     .footer-btn:active{
-        background:#00cc66;
-        color:#fff;
+        background:#2a2a2a;
+        border-color:#555;
+        color:#999;
     }
 </style>
 </head>
@@ -379,11 +438,9 @@
             <span class="sub">在线观看</span>
         </div>
         <div class="video-box">
-            <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
-            <div class="loading" id="loading">加载中...</div>
-            <div class="online-count">
-                <span class="online-icon">👁️</span>
-                <span id="onlineNumber">0</span>
+            <div class="video-container">
+                <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
+                <div class="loading" id="loading">加载中...</div>
             </div>
         </div>
         <div class="footer">
@@ -395,16 +452,18 @@
                     <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
                 </div>
             </div>
-            <div class="reward-btn" id="rewardBtn">❤️ 打赏</div>
             <div class="footer-btns">
                 <button class="footer-btn" onclick="location.reload()">刷新</button>
             </div>
         </div>
     </div>
     <div class="channel-box">
-        <div class="channel-header">📺 频道列表</div>
-        <div id="channelList"></div>
-    </div>
+            <div class="channel-header">
+                <span>📺 频道列表</span>
+                <div class="reward-btn" id="rewardBtn">❤️ 打赏</div>
+            </div>
+            <div class="channel-list" id="channelList"></div>
+        </div>
 </div>
 <!-- 打赏模态框 -->
 <div class="reward-modal" id="rewardModal">
@@ -423,11 +482,9 @@
 const video = document.getElementById('video');
 const loading = document.getElementById('loading');
 const channelList = document.getElementById('channelList');
-const onlineNumber = document.getElementById('onlineNumber');
 const footerInfo = document.getElementById('footerInfo');
 let hls = null;
 let currentActive = null;
-let onlineCount = 0;
 
 // 你指定的官方源，不做任何修改
 const sourceURL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
@@ -448,6 +505,35 @@ function playVideo(url, btn) {
     if(currentActive) currentActive.classList.remove('active');
     btn.classList.add('active');
     currentActive = btn;
+    
+    // URL编码处理，自动处理包含中文字符的URL
+    try {
+        // 解析URL，只对路径部分进行编码
+        const urlObj = new URL(url);
+        const pathname = urlObj.pathname;
+        const encodedPathname = pathname.split('/').map(part => {
+            try {
+                // 尝试解码，如果解码失败说明已经是编码的
+                decodeURIComponent(part);
+                return part;
+            } catch {
+                // 对包含非ASCII字符的部分进行编码
+                return encodeURIComponent(part);
+            }
+        }).join('/');
+        urlObj.pathname = encodedPathname;
+        url = urlObj.toString();
+        console.log('编码后的URL:', url);
+    } catch (e) {
+        console.error('URL编码失败:', e);
+        // 如果URL解析失败，尝试直接编码整个URL
+        try {
+            url = encodeURI(url);
+            console.log('直接编码后的URL:', url);
+        } catch (e2) {
+            console.error('直接编码失败:', e2);
+        }
+    }
 
     // 增强的格式检测和处理
     try {
@@ -541,20 +627,61 @@ function playVideo(url, btn) {
             }
         }
 
-        // 3. FLV格式特别处理
-        else if (url.includes('.flv') || url.includes('flv')) {
+        // 3. FLV格式特别处理（使用flv.js）
+        else if (url.includes('.flv') || url.includes('flv') || (typeof flvjs !== 'undefined' && flvjs.isSupported())) {
             console.log('检测到FLV格式:', url);
             footerInfo.textContent = '正在加载FLV流...';
-            // 尝试直接播放FLV
-            video.src = url;
-            video.play().catch(() => {
-                console.log('FLV自动播放失败，等待用户交互');
-            }).finally(() => {
-                hideLoading();
-                footerInfo.textContent = '播放中';
-                // 恢复音量设置
-                video.volume = savedVolume;
-            });
+            
+            if (typeof flvjs !== 'undefined' && flvjs.isSupported()) {
+                // 销毁之前的flv播放器
+                if (window.flvPlayer) {
+                    window.flvPlayer.destroy();
+                }
+                
+                window.flvPlayer = flvjs.createPlayer({
+                    type: 'flv',
+                    url: url,
+                    hasAudio: true,
+                    hasVideo: true,
+                    cors: true
+                }, {
+                    enableWorker: true,
+                    enableStashBuffer: false,
+                    stashInitialSize: 128
+                });
+                
+                window.flvPlayer.attachMediaElement(video);
+                window.flvPlayer.load();
+                window.flvPlayer.play().then(() => {
+                    console.log('FLV播放成功');
+                    hideLoading();
+                    footerInfo.textContent = '播放中';
+                    video.volume = savedVolume;
+                }).catch((err) => {
+                    console.error('FLV播放失败:', err);
+                    hideLoading();
+                    footerInfo.textContent = '播放中';
+                    video.volume = savedVolume;
+                });
+                
+                window.flvPlayer.on(flvjs.Events.ERROR, (errType, errDetail) => {
+                    console.error('FLV错误:', errType, errDetail);
+                    if (window.flvPlayer) {
+                        window.flvPlayer.destroy();
+                        window.flvPlayer = null;
+                    }
+                });
+            } else {
+                // flv.js不支持时尝试直接播放
+                video.src = url;
+                video.play().catch(() => {
+                    console.log('FLV自动播放失败，等待用户交互');
+                }).finally(() => {
+                    hideLoading();
+                    footerInfo.textContent = '播放中';
+                    video.volume = savedVolume;
+                });
+            }
         }
 
         // 4. 普通视频格式
@@ -587,37 +714,120 @@ function playVideo(url, btn) {
             });
         }
 
-        // 6. HTTP流格式（包括无扩展名的流）
+        // 6. HTTP流格式（包括无扩展名的流，尝试检测并使用最佳播放器）
         else if (url.startsWith('http')) {
             console.log('检测到HTTP流格式:', url);
-            footerInfo.textContent = '正在加载流...';
+            footerInfo.textContent = '正在检测流格式...';
             
-            // 尝试多种播放策略
-            // 策略1: 直接设置为视频源
-            video.src = url;
-            
-            // 策略2: 等待视频加载完成后播放
-            video.onloadedmetadata = function() {
-                console.log('视频元数据加载完成');
-                video.play().catch(() => {
-                    console.log('流自动播放失败，等待用户交互');
-                }).finally(() => {
-                    hideLoading();
-                    footerInfo.textContent = '播放中';
-                    // 恢复音量设置
-                    video.volume = savedVolume;
+            // 首先尝试fetch获取内容，检测是否是M3U8播放列表
+            fetch(url)
+                .then(response => response.text())
+                .then(content => {
+                    console.log('获取到内容，长度:', content.length);
+                    console.log('前200字符:', content.substring(0, 200));
+                    
+                    // 检测是否是M3U8播放列表
+                    if (content.includes('#EXTM3U') || content.includes('.m3u8')) {
+                        console.log('检测到M3U8播放列表内容');
+                        
+                        // 如果内容是相对路径，需要拼接完整URL
+                        let fullUrl = url;
+                        if (content.includes('.m3u8')) {
+                            const baseUrl = url.substring(0, url.lastIndexOf('/') + 1);
+                            const lines = content.split('\n');
+                            for (let line of lines) {
+                                if (line.includes('.m3u8') && !line.startsWith('#')) {
+                                    // 找到相对路径，拼接完整URL
+                                    if (line.startsWith('http')) {
+                                        fullUrl = line;
+                                    } else if (line.startsWith('/')) {
+                                        const urlObj = new URL(url);
+                                        fullUrl = urlObj.origin + line;
+                                    } else {
+                                        fullUrl = baseUrl + line;
+                                    }
+                                    console.log('拼接后的完整URL:', fullUrl);
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        // 使用完整URL播放
+                        if (Hls.isSupported()) {
+                            if (hls) hls.destroy();
+                            hls = new Hls({enableWorker:true,backBufferLength:30,maxBufferLength:60});
+                            hls.loadSource(fullUrl);
+                            hls.attachMedia(video);
+                            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                                video.play().catch(() => {}).finally(() => {
+                                    hideLoading();
+                                    footerInfo.textContent = '播放中';
+                                    video.volume = savedVolume;
+                                });
+                            });
+                            hls.on(Hls.Events.ERROR, (event, data) => {
+                                console.error('HLS播放错误:', data);
+                                if (data.fatal) {
+                                    switch(data.type) {
+                                        case Hls.ErrorTypes.NETWORK_ERROR:
+                                            hls.startLoad();
+                                            break;
+                                        case Hls.ErrorTypes.MEDIA_ERROR:
+                                            hls.recoverMediaError();
+                                            break;
+                                        default:
+                                            hideLoading();
+                                            footerInfo.textContent = '播放失败';
+                                            break;
+                                    }
+                                }
+                            });
+                        } else {
+                            video.src = fullUrl;
+                            video.play().catch(() => {}).finally(() => {
+                                hideLoading();
+                                footerInfo.textContent = '播放中';
+                                video.volume = savedVolume;
+                            });
+                        }
+                    } else {
+                        // 不是M3U8，直接播放
+                        video.src = url;
+                        video.onloadedmetadata = function() {
+                            video.play().then(() => {
+                                hideLoading();
+                                footerInfo.textContent = '播放中';
+                                video.volume = savedVolume;
+                            }).catch((err) => {
+                                hideLoading();
+                                footerInfo.textContent = '播放中';
+                                video.volume = savedVolume;
+                            });
+                        };
+                    }
+                })
+                .catch(err => {
+                    console.error('获取内容失败:', err);
+                    // fallback: 直接尝试作为视频源播放
+                    video.src = url;
+                    video.onloadedmetadata = function() {
+                        video.play().catch(() => {}).finally(() => {
+                            hideLoading();
+                            footerInfo.textContent = '播放中';
+                            video.volume = savedVolume;
+                        });
+                    };
                 });
-            };
             
-            // 策略3: 超时处理
+            // 超时处理
             setTimeout(() => {
                 if (loading.style.display === 'block') {
-                    console.log('流加载超时，尝试作为普通视频播放');
+                    console.log('流加载超时');
                     hideLoading();
                     footerInfo.textContent = '播放中';
                     video.volume = savedVolume;
                 }
-            }, 5000);
+            }, 10000);
         }
 
         // 7. 其他格式
@@ -713,25 +923,7 @@ rewardModal.addEventListener('click', (e) => {
     }
 });
 
-// 本地在线人数统计（无需Firebase）
-function initLocalViewerCount() {
-    // 模拟在线人数（基于随机数，实际项目中可使用真实的统计服务）
-    function updateViewerCount() {
-        // 模拟1-50之间的在线人数
-        onlineCount = Math.floor(Math.random() * 50) + 1;
-        onlineNumber.textContent = onlineCount;
-        console.log('当前在线人数:', onlineCount);
-    }
-    
-    // 初始值
-    updateViewerCount();
-    
-    // 每5秒更新一次
-    setInterval(updateViewerCount, 5000);
-}
 
-// 页面加载完成后初始化
-initLocalViewerCount();
 
 // 播放控制功能
 const playPauseBtn = document.getElementById('playPauseBtn');
