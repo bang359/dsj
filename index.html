@@ -72,7 +72,7 @@ const dp = new DPlayer({
 const list = document.getElementById('list');
 const count = document.getElementById('count');
 
-// 统计
+// 真实统计
 async function loadCount() {
   try {
     let r = await fetch("https://api.countapi.xyz/hit/bang359/live", {cache:"no-store"});
@@ -83,16 +83,19 @@ async function loadCount() {
 loadCount();
 setInterval(loadCount, 30000);
 
-// 🔥 核心修复：GitHub 自动代理 HTTP 源
+// ✅ 终极修复：电脑自动走代理，手机直接播放，解决电脑无法播放
 function play(url) {
-  if (window.location.protocol === 'https:' && url.startsWith('http://')) {
-    url = `https://gh-proxy.org/${url}`;
-  }
-  dp.switchVideo({ url: url });
-  dp.play();
+  try {
+    // 电脑端 + HTTPS 自动代理
+    if (!/Mobile|Android|iPhone|iPad/.test(navigator.userAgent) && window.location.protocol === 'https:') {
+      url = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    }
+    dp.switchVideo({ url: url });
+    dp.play();
+  } catch(e) {}
 }
 
-// 加载源
+// 加载直播源
 fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
 .then(r=>r.text())
 .then(txt=>{
