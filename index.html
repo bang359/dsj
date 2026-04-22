@@ -20,10 +20,19 @@ html,body{height:100%;background:#000;color:#ccc;font-family:Microsoft YaHei,san
 .player-box{flex:1;background:#000;position:relative}
 #dplayer{width:100%;height:100%}
 
+.dplayer-mask,
+.dplayer-icons,
+.dplayer-loading,
+.dplayer-play-icon,
+.dplayer-pause-icon{
+  display:none !important;
+  opacity:0 !important;
+  visibility:hidden !important
+}
+
 .channel-box{width:270px;background:#1a1a1a;display:flex;flex-direction:column;border-left:1px solid #333}
 .top-bar{height:34px;background:#262626;display:flex;align-items:center;gap:12px;padding:0 12px;font-size:12px;color:#fff}
 .donate a{color:#ff6c00;text-decoration:none;font-weight:bold}
-.counter{color:#00ffcc;margin-left:auto}
 
 .channel-list{flex:1;overflow-y:auto;padding:6px}
 .channel{padding:10px 12px;margin:3px 0;background:#222;border-radius:3px;cursor:pointer}
@@ -52,7 +61,6 @@ html,body{height:100%;background:#000;color:#ccc;font-family:Microsoft YaHei,san
     <div class="top-bar">
       <div>快播直播</div>
       <div class="donate"><a href="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" target="_blank">打赏支持</a></div>
-      <div class="counter" id="count">累计观看：加载中...</div>
     </div>
     <div class="channel-list" id="list"></div>
   </div>
@@ -66,36 +74,41 @@ const dp = new DPlayer({
   lang: 'zh-cn',
   volume: 0.5,
   video: { url: '' },
-  notice: false
+  notice: false,
+  mask: false,
+  logo: false
 });
 
 const list = document.getElementById('list');
-const count = document.getElementById('count');
 
-// 真实统计
-async function loadCount() {
-  try {
-    let r = await fetch("https://api.countapi.xyz/hit/bang359/live", {cache:"no-store"});
-    let d = await r.json();
-    count.innerText = `累计观看：${d.value} 次`;
-  } catch(e){}
-}
-loadCount();
-setInterval(loadCount, 30000);
-
-// ✅ 终极修复：电脑自动走代理，手机直接播放，解决电脑无法播放
+// ==============================================
+// 极速换台核心（秒切加速）
+// ==============================================
 function play(url) {
   try {
-    // 电脑端 + HTTPS 自动代理
+    // 立即销毁之前的播放 → 提速关键
+    if (dp.video) {
+      dp.pause();
+      dp.video.src = "";
+      dp.video.load();
+    }
+
+    let type = 'normal';
+    if (url.includes('.m3u8')) type = 'hls';
+    if (url.includes('.flv')) type = 'flv';
+
+    // 电脑端代理
     if (!/Mobile|Android|iPhone|iPad/.test(navigator.userAgent) && window.location.protocol === 'https:') {
       url = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
     }
-    dp.switchVideo({ url: url });
+
+    // 极速切换
+    dp.switchVideo({ url, type });
     dp.play();
-  } catch(e) {}
+  } catch (e) {}
 }
 
-// 加载直播源
+// 加载源
 fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
 .then(r=>r.text())
 .then(txt=>{
@@ -113,14 +126,11 @@ fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
 
     let arr = line.split(',');
     if(arr.length>=2 && arr[1].startsWith('http')){
-      let name = arr[0];
-      let url = arr[1];
-
       let item = document.createElement('div');
       item.className='channel';
-      item.textContent=name;
+      item.textContent=arr[0];
       item.onclick=()=>{
-        play(url);
+        play(arr[1]);
         document.querySelectorAll('.channel').forEach(i=>i.classList.remove('active'));
         item.classList.add('active');
       };
@@ -131,7 +141,7 @@ fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
   setTimeout(()=>{
     const first = document.querySelector('.channel');
     if(first) first.click();
-  }, 600);
+  }, 400);
 });
 </script>
 </body>
