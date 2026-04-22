@@ -3,161 +3,154 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="format-detection" content="telephone=no">
-<title>快播网络电视</title>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.12"></script>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>快播直播</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:#0d0d0d;color:#fff;font-size:14px;overflow:hidden;height:100vh;height:100dvh}
-.wrap{display:flex;flex-direction:column;height:100vh}
-.header{height:44px;background:linear-gradient(180deg,#1a1a1a 0%,#0d0d0d 100%);border-bottom:2px solid #00cc66;display:flex;align-items:center;padding:0 12px;gap:10px}
-.logo{color:#00cc66;font-size:18px;font-weight:bold;text-shadow:0 0 10px rgba(0,204,102,0.5)}
-.sub{color:#666;font-size:11px}
-.main{flex:1;display:flex;overflow:hidden}
-.player{flex:1;background:#000;position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
-video{width:100%;height:100%;object-fit:contain;background:#000}
-.ch-list{flex:0 0 320px;background:#0d0d0d;border-left:2px solid #00cc66;display:flex;flex-direction:column;overflow:hidden}
-.ch-header{height:36px;background:#1a1a1a;border-bottom:1px solid #333;display:flex;align-items:center;padding:0 12px;color:#00cc66;font-size:13px}
-.ch-scroll{flex:1;overflow-y:auto;padding:8px}
-.ch-item{padding:10px 12px;background:#1a1a1a;border:1px solid #333;border-radius:4px;margin-bottom:6px;cursor:pointer;color:#ccc;font-size:13px;transition:all .15s}
-.ch-item:hover{background:#2a2a2a;border-color:#00cc66}
-.ch-item:active{background:#333}
-.ch-item.active{background:#00cc66;border-color:#00cc66;color:#fff}
-.footer{height:40px;background:#0d0d0d;border-top:1px solid #333;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
-.info{color:#00cc66;font-size:12px}
-.btns{display:flex;gap:8px}
-.btn{padding:4px 12px;background:#1a1a1a;border:1px solid #00cc66;color:#00cc66;border-radius:4px;font-size:12px;cursor:pointer}
-.btn:active{background:#00cc66;color:#fff}
-@media(max-width:768px){
-.wrap{height:100vh}
-.main{flex-direction:column}
-.player{flex:none;height:45vh;min-height:200px}
-.ch-list{flex:1;border-left:none;border-top:2px solid #00cc66}
-.ch-list{order:2}
-.player{order:1}
-.ch-scroll{padding:6px}
-.ch-item{padding:12px;font-size:14px;margin-bottom:4px}
-.footer{padding:0 8px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#000;color:#ccc;font-family:system-ui,sans-serif}
+.main{display:flex;flex-direction:column;height:100vh}
+
+/* 顶部状态栏 */
+.top-bar{height:32px;background:#262626;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:12px;color:#fff}
+.online{color:#00ffcc}
+
+/* 播放区域（快播大黑框） */
+.player-wrap{flex:none;width:100%;aspect-ratio:16/9;background:#000;position:relative}
+video{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;background:#000}
+
+/* 频道列表区域 */
+.channel-box{flex:1;background:#1a1a1a;overflow:hidden;display:flex;flex-direction:column}
+.channel-list{flex:1;overflow-y:auto;padding:6px}
+.channel-item{padding:10px 12px;margin:3px 0;background:#222;border-radius:3px;font-size:14px;cursor:pointer}
+.channel-item:hover{background:#333}
+.channel-item.active{background:#ff6c00;color:#fff}
+
+/* 分类标题 */
+.genre{padding:8px;font-size:12px;color:#999;background:#111}
+
+/* 手机自适应 */
+@media (min-width:768px){
+  .main{flex-direction:row}
+  .player-wrap{width:70%;height:100vh;aspect-ratio:auto}
+  .channel-box{width:30%;height:100vh}
 }
+
+/* 滚动条 */
+.channel-list::-webkit-scrollbar{width:5px}
+.channel-list::-webkit-scrollbar-thumb{background:#444;border-radius:4px}
 </style>
 </head>
+
 <body>
-<div class="wrap">
-    <div class="header">
-        <span class="logo">▶ 快播网络电视</span>
-        <span class="sub">在线观看</span>
+<div class="main">
+  <div class="player-wrap">
+    <video id="video" playsinline webkit-playsinline muted></video>
+  </div>
+  <div class="channel-box">
+    <div class="top-bar">
+      <div>快播直播</div>
+      <div class="online" id="online">在线人数：加载中...</div>
     </div>
-    <div class="main">
-        <div class="player">
-            <video id="v" playsinline webkit-playsinline x-webkit-airplay="allow" autoplay></video>
-        </div>
-        <div class="ch-list">
-            <div class="ch-header">📺 频道列表</div>
-            <div class="ch-scroll" id="lst"></div>
-        </div>
-    </div>
-    <div class="footer">
-        <div class="info" id="info">准备就绪</div>
-        <div class="btns">
-            <button class="btn" onclick="location.reload()">刷新</button>
-        </div>
-    </div>
+    <div class="channel-list" id="channelList"></div>
+  </div>
 </div>
+
 <script>
-(function(){
-    var v=document.getElementById('v');
-    var lst=document.getElementById('lst');
-    var info=document.getElementById('info');
-    var hls=null;
-    var chs=[];
-    var cur=-1;
-    var SRC='https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt';
+const video = document.getElementById('video');
+const channelList = document.getElementById('channelList');
+const online = document.getElementById('online');
 
-    function log(m){info.textContent=m;}
+let channels = [];
+let current = 0;
+let hls = null;
 
-    function play(u){
-        if(!u){log('无效地址');return}
-        log('正在播放...');
-        v.volume=0.5;
-        if(hls){hls.destroy();hls=null}
-        var ext=u.toLowerCase();
-        if(ext.indexOf('.m3u8')>-1){
-            if(Hls.isSupported()){
-                hls=new Hls({enableWorker:true,backBufferLength:30,maxBufferLength:60,loadPolicy:{maxBufferLength:30}});
-                hls.loadSource(u);
-                hls.attachMedia(v);
-                hls.on(Hls.Events.MANIFEST_PARSED,function(){
-                    v.play().then(function(){log('播放中');}).catch(function(){log('播放中');});
-                });
-                hls.on(Hls.Events.ERROR,function(e,d){
-                    if(d.fatal){log('播放失败');hls=null}
-                });
-            }else if(v.canPlayType('application/vnd.apple.mpegurl')){
-                v.src=u;v.play().then(function(){log('播放中');}).catch(function(){log('播放中');});
-            }else{
-                v.src=u;v.play().then(function(){log('播放中');}).catch(function(){log('播放中');});
-            }
-        }else if(ext.indexOf('.mpd')>-1){
-            v.src=u;v.play().then(function(){log('播放中');}).catch(function(){log('播放中');});
-        }else if(ext.indexOf('.flv')>-1){
-            v.src=u;v.play().then(function(){log('播放中');}).catch(function(){log('播放中');});
-        }else if(ext.indexOf('.mp4')>-1 || ext.indexOf('.m4v')>-1 || ext.indexOf('.mov')>-1){
-            v.src=u;v.play().then(function(){log('播放中');}).catch(function(){log('播放中');});
-        }else{
-            v.src=u;v.play().then(function(){log('播放中');}).catch(function(){log('播放中');});
-        }
-    }
+// 直播源 —— 完全不修改
+const sourceUrl = "http://iptv.4666888.xyz/FYTV.txt";
 
-    function pick(i){
-        if(i<0||i>=chs.length)return;
-        cur=i;
-        var els=lst.children;
-        for(var j=0;j<els.length;j++)els[j].className='ch-item'+(j===i?' active':'');
-        var ch=chs[i];
-        play(ch.u);
-    }
+// 模拟在线人数
+function randOnline(){
+  return Math.floor(200 + Math.random()*600);
+}
+online.textContent = `在线人数：${randOnline()} 人`;
+setInterval(()=>{
+  online.textContent = `在线人数：${randOnline()} 人`;
+}, 10000);
 
-    function load(){
-        log('正在获取频道列表...');
-        fetch(SRC).then(function(r){
-            if(!r.ok)throw new Error('网络错误');
-            return r.text();
-        }).then(function(t){
-            var lines=t.split('\n');
-            chs=[];
-            lst.innerHTML='';
-            var n=0;
-            lines.forEach(function(line){
-                line=line.trim();
-                if(!line||line.charAt(0)==='#')return;
-                var i=line.indexOf(',');
-                if(i>0){
-                    var name=line.substring(0,i).trim();
-                    var url=line.substring(i+1).trim();
-                    if(name&&url&&url.indexOf('http')===0){
-                        chs.push({n:name,u:url});
-                        var b=document.createElement('div');
-                        b.className='ch-item';
-                        b.textContent=name;
-                        b.onclick=function(){pick(n)};
-                        lst.appendChild(b);
-                        n++;
-                    }
-                }
-            });
-            log('已加载'+n+'个频道');
-            if(n>0)pick(0);
-        }).catch(function(e){
-            log('加载失败: '+e.message);
-        });
-    }
+// 销毁播放器
+function destroy(){
+  try{if(hls)hls.destroy()}catch(e){}
+  video.pause(); video.src = '';
+}
 
-    v.volume=0.5;
+// 播放
+function play(url){
+  destroy();
+  video.muted = false;
+  if(url.includes('.m3u8') && Hls.isSupported()){
+    hls = new Hls({maxBufferLength:3});
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, ()=>{
+      video.play().catch(()=>{});
+    });
+  }else{
+    video.src = url;
+    video.play().catch(()=>{});
+  }
+}
 
-    load();
-})();
+// 加载频道（原样解析，不筛选、不删减）
+async function loadChannels(){
+  try{
+    const res = await fetch(sourceUrl, {cache:'no-store'});
+    const text = await res.text();
+    channelList.innerHTML = '';
+    channels = [];
+    const lines = text.split(/\n/);
+    lines.forEach(line=>{
+      line = line.trim();
+      if(!line) return;
+      // 分类
+      if(line.includes(',#genre#')){
+        const name = line.split(',')[0];
+        const div = document.createElement('div');
+        div.className = 'genre';
+        div.textContent = name;
+        channelList.appendChild(div);
+        return;
+      }
+      // 频道
+      const arr = line.split(',');
+      if(arr.length>=2 && arr[1].startsWith('http')){
+        const item = document.createElement('div');
+        item.className = 'channel-item';
+        item.textContent = arr[0];
+        item.onclick = ()=>{
+          play(arr[1]);
+          current = channels.length;
+          document.querySelectorAll('.channel-item').forEach((i,j)=>{
+            i.classList.toggle('active', j===current);
+          });
+        };
+        channelList.appendChild(item);
+        channels.push(arr[1]);
+      }
+    });
+    // 自动播放第一个
+    if(channels.length) play(channels[0]);
+  }catch(e){
+    console.error(e);
+  }
+}
+
+// 苹果自动播放兼容
+video.muted = true;
+setTimeout(()=>{video.muted=false}, 1500);
+
+loadChannels();
 </script>
 </body>
 </html>
