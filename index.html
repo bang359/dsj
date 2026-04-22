@@ -25,11 +25,15 @@
         background:#0d0d0d;
         color:#fff;
         overflow:hidden;
+        margin:0;
+        padding:0;
     }
     .container{
         display:flex;
         flex-direction:column;
         height:100vh;
+        margin:0;
+        padding:0;
     }
     /* 顶部标题栏 */
     .header{
@@ -58,27 +62,19 @@
         background:#000;
         position:relative;
         min-height:0;
-        display:flex;
-        align-items:center;
-        justify-content:center;
     }
     .video-container{
         position:relative;
         width:100%;
         height:100%;
         max-width:1920px;
-        max-height:90vh;
     }
     .video-container video{
         width:100%;
         height:100%;
-        object-fit:contain;
-        -webkit-object-fit:contain;
+        object-fit:cover;
+        -webkit-object-fit:cover;
         background:#000;
-        max-width:100%;
-        max-height:100%;
-        -webkit-transform:translateZ(0);
-        transform:translateZ(0);
         display:block;
     }
     /* Safari/iOS 特定修复 */
@@ -106,6 +102,12 @@
         .main-content{
             flex:1;
             display:flex;
+            flex-direction:row;
+            min-height:0;
+        }
+        .video-section{
+            flex:1;
+            display:flex;
             flex-direction:column;
             min-height:0;
         }
@@ -118,6 +120,7 @@
             display:flex;
             flex-direction:column;
             min-height:0;
+            border-left:2px solid #00cc66;
         }
         .channel-list{
             flex:1;
@@ -136,19 +139,21 @@
             flex:1;
             min-height:0;
         }
+        .video-section{
+            display:flex;
+            flex-direction:column;
+            flex:1;
+            min-height:0;
+        }
         .video-box{
+            flex:1;
             position:relative;
-            width:100%;
-            padding-top:56.25%; /* 16:9 比例 */
-            flex-shrink:0;
+            min-height:0;
+            margin:0;
         }
         .video-container{
-            position:absolute;
-            top:0;
-            left:0;
             width:100%;
             height:100%;
-            max-height:none;
         }
         .channel-box{
             flex:1;
@@ -157,7 +162,7 @@
             min-height:0;
             border-left:none;
             border-top:2px solid #00cc66;
-            max-height:35vh;
+            max-height:50vh;
         }
         .channel-header{
             padding:8px 12px;
@@ -173,12 +178,7 @@
             font-size:13px;
         }
     }
-    video{
-        width:100%;
-        height:100%;
-        object-fit:contain;
-        background:#000;
-    }
+
     /* 增强响应式体验 */
     @media (min-width: 1024px) {
         .channel-item{
@@ -227,16 +227,18 @@
     }
     .channel-item{
         width:100%;
-        padding:12px 14px;
+        padding:14px 16px;
         background:#1a1a1a;
         border:1px solid #333;
-        border-radius:4px;
+        border-radius:6px;
         color:#ccc;
         font-size:14px;
         text-align:left;
-        margin-bottom:6px;
+        margin-bottom:8px;
         cursor:pointer;
         transition:all 0.15s;
+        -webkit-tap-highlight-color:transparent;
+        user-select:none;
     }
     .channel-item:hover{
         background:#2a2a2a;
@@ -244,12 +246,14 @@
     }
     .channel-item:active{
         background:#333;
+        transform:scale(0.98);
     }
     .channel-item.active{
         background:#00cc66;
         border-color:#00cc66;
-        color:#fff;
-        font-weight:500;
+        color:#000;
+        font-weight:bold;
+        box-shadow:0 0 10px rgba(0,204,102,0.5);
     }
     /* 滚动条隐藏 */
     ::-webkit-scrollbar{
@@ -354,7 +358,7 @@
     }
     /* 底部状态栏 */
     .footer{
-        height:50px;
+        height:30px;
         background:linear-gradient(0deg, #1a1a1a 0%, #0d0d0d 100%);
         border-top:1px solid #333;
         display:flex;
@@ -363,6 +367,7 @@
         font-size:12px;
         color:#00cc66;
         z-index:10;
+        margin:0;
     }
     .footer-logo{
         font-size:14px;
@@ -460,23 +465,25 @@
 <body>
 <div class="container">
     <div class="main-content">
-        <div class="video-box">
-            <div class="video-container">
-                <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
+        <div class="video-section">
+            <div class="video-box">
+                <div class="video-container">
+                    <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="footer-logo">快播网络电视</div>
+                <div class="footer-info" id="footerInfo">准备就绪</div>
             </div>
         </div>
-        <div class="footer">
-            <div class="footer-logo">快播网络电视</div>
-            <div class="footer-info" id="footerInfo">准备就绪</div>
-        </div>
-    </div>
-    <div class="channel-box">
+        <div class="channel-box">
             <div class="channel-header">
                 <span>📺 频道列表</span>
                 <div class="reward-btn" id="rewardBtn">❤️ 打赏</div>
             </div>
             <div class="channel-list" id="channelList"></div>
         </div>
+    </div>
 </div>
 <!-- 打赏模态框 -->
 <div class="reward-modal" id="rewardModal">
