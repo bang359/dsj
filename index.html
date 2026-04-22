@@ -11,60 +11,163 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.css">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:#000}
-.main{display:flex;height:100vh}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
 
-.player-box{flex:1;background:#000;position:relative}
-#dplayer{width:100%;height:100%}
+html, body {
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  font-family: system-ui, sans-serif;
+}
 
-/* 彻底屏蔽播放暂停图标 */
+.main {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* 播放器容器 —— 修复画面不全核心 */
+.player-box {
+  position: relative;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#dplayer {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 🔥 关键修复：视频完整显示、不裁切、不变形 */
+.dplayer-video {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important; /* 完整显示画面，不裁切 */
+  background: #000 !important;
+}
+
+/* 彻底隐藏所有按钮图标 */
 .dplayer-play-icon,
 .dplayer-pause-icon,
 .dplayer-mask,
 .dplayer-icons,
-.dplayer-controls{
-  display:none!important;
-  opacity:0!important;
-  visibility:hidden!important;
+.dplayer-controls,
+.dplayer-controller,
+.dplayer-loading,
+.dplayer-bar-wrap {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
 }
 
-/* 保留视频正常显示 */
-.dplayer-video{
-  display:block!important;
-  opacity:1!important;
-  visibility:visible!important;
+/* 加载动画 */
+.loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  z-index: 10;
+  display: none;
+  transform: translate(-50%, -50%);
 }
 
-/* 换台加载效果：小型、居中、不刺眼（仿影视APP） */
-.loading-spinner{
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:38px;height:38px;
-  border:2px solid rgba(255,255,255,0.15);
-  border-top:2px solid #fff;
-  border-radius:50%;
-  animation:spin 0.6s linear infinite;
-  z-index:9;
-  display:none;
-}
-@keyframes spin{
-  0%{transform:translate(-50%,-50%) rotate(0)}
-  100%{transform:translate(-50%,-50%) rotate(360deg)}
+@keyframes spin {
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-.channel-box{width:270px;background:#1a1a1a;border-left:1px solid #333}
-.top-bar{height:34px;background:#262626;display:flex;align-items:center;gap:12px;padding:0 12px;font-size:12px;color:#fff}
-.donate a{color:#ff6c00;text-decoration:none;font-weight:bold}
+.channel-box {
+  background: #121212;
+  display: flex;
+  flex-direction: column;
+}
 
-.channel-list{height:calc(100vh - 34px);overflow-y:auto;padding:6px}
-.channel{padding:10px 12px;margin:3px 0;background:#222;border-radius:3px;cursor:pointer;color:#ccc}
-.channel.active{background:#ff6c00;color:#fff}
-.genre{padding:8px;background:#111;color:#999;font-size:12px}
+.top-bar {
+  height: 38px;
+  background: #1c1c1c;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  color: #fff;
+  font-size: 14px;
+}
 
-@media(max-width:768px){
-  .main{flex-direction:column;player-box{height:44vh};channel-box{height:56vh;width:100%}}
+.donate a {
+  color: #ff6b6b;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.channel-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 8px;
+}
+
+.channel {
+  padding: 11px 14px;
+  margin: 4px;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.channel.active {
+  background: #ff6b6b;
+  color: #fff;
+}
+
+.genre {
+  padding: 8px 14px;
+  color: #888;
+  font-size: 12px;
+}
+
+/* 电脑端 */
+@media (min-width: 769px) {
+  .main {
+    flex-direction: row;
+  }
+  .player-box {
+    width: 75%;
+    height: 100%;
+  }
+  .channel-box {
+    width: 25%;
+    height: 100%;
+  }
+}
+
+/* 手机端 */
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+  }
+  .player-box {
+    width: 100%;
+    height: 46vh;
+  }
+  .channel-box {
+    width: 100%;
+    height: 54vh;
+  }
 }
 </style>
 
@@ -73,9 +176,10 @@ html,body{height:100%;background:#000}
     <div id="dplayer"></div>
     <div class="loading-spinner" id="loader"></div>
   </div>
+
   <div class="channel-box">
     <div class="top-bar">
-      <div>快播直播</div>
+      <div>📺 快播直播</div>
       <div class="donate"><a href="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" target="_blank">打赏支持</a></div>
     </div>
     <div class="channel-list" id="list"></div>
@@ -96,10 +200,8 @@ const dp = new DPlayer({
 const loader = document.getElementById('loader');
 const list = document.getElementById('list');
 
-// 仿APP：换台显示极简加载、流畅无闪烁
 function play(url) {
   try {
-    // 显示加载
     loader.style.display = 'block';
     dp.pause();
 
@@ -114,47 +216,45 @@ function play(url) {
     dp.switchVideo({ url, type });
     dp.play();
 
-    // 视频出画面后隐藏加载
     dp.video.oncanplay = () => {
-      setTimeout(()=> loader.style.display = 'none', 200);
+      setTimeout(() => loader.style.display = 'none', 200);
     };
-
-    // 加载超时隐藏
-    setTimeout(()=> loader.style.display = 'none', 3000);
-  } catch (e) { loader.style.display = 'none' }
+    setTimeout(() => loader.style.display = 'none', 3000);
+  } catch (e) {
+    loader.style.display = 'none';
+  }
 }
 
-// 加载频道
 fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
-.then(r=>r.text())
-.then(txt=>{
-  txt.split('\n').forEach(line=>{
-    if(!line.trim()) return;
-    if(line.includes(',#genre#')){
-      const div = document.createElement('div');
-      div.className='genre';
-      div.textContent = line.split(',')[0];
-      list.appendChild(div);
+.then(r => r.text())
+.then(txt => {
+  txt.split('\n').forEach(line => {
+    if (!line.trim()) return;
+    if (line.includes(',#genre#')) {
+      const d = document.createElement('div');
+      d.className = 'genre';
+      d.textContent = line.split(',')[0];
+      list.appendChild(d);
       return;
     }
     const arr = line.split(',');
-    if(arr.length>=2 && arr[1].startsWith('http')){
+    if (arr.length >= 2 && arr[1].startsWith('http')) {
       const item = document.createElement('div');
-      item.className='channel';
-      item.textContent=arr[0];
-      item.onclick=()=>{
+      item.className = 'channel';
+      item.textContent = arr[0];
+      item.onclick = () => {
         play(arr[1]);
-        document.querySelectorAll('.channel').forEach(i=>i.classList.remove('active'));
+        document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
         item.classList.add('active');
       };
       list.appendChild(item);
     }
   });
 
-  setTimeout(()=>{
+  setTimeout(() => {
     const first = document.querySelector('.channel');
-    if(first) first.click();
-  },300);
+    if (first) first.click();
+  }, 260);
 });
 </script>
 </html>
