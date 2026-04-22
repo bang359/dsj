@@ -10,8 +10,6 @@
 <title>快播网络电视</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/dashjs@latest/dist/dash.all.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
 <style>
     *{
         margin:0;
@@ -124,6 +122,7 @@
         border-radius:8px;
         border:1px solid #00cc66;
     }
+
     /* 频道列表区域 */
     .channel-box{
         background:#0d0d0d;
@@ -314,6 +313,45 @@
         text-overflow:ellipsis;
         white-space:nowrap;
     }
+    .footer-controls{
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+    .volume-control{
+        display:flex;
+        align-items:center;
+        gap:6px;
+    }
+    .volume-icon{
+        font-size:14px;
+        color:#00cc66;
+    }
+    .volume-control input[type="range"]{
+        width:80px;
+        height:4px;
+        background:#333;
+        border-radius:2px;
+        outline:none;
+        -webkit-appearance:none;
+    }
+    .volume-control input[type="range"]::-webkit-slider-thumb{
+        -webkit-appearance:none;
+        appearance:none;
+        width:12px;
+        height:12px;
+        background:#00cc66;
+        border-radius:50%;
+        cursor:pointer;
+    }
+    .volume-control input[type="range"]::-moz-range-thumb{
+        width:12px;
+        height:12px;
+        background:#00cc66;
+        border-radius:50%;
+        cursor:pointer;
+        border:none;
+    }
     .footer-btns{
         display:flex;
         gap:8px;
@@ -350,6 +388,13 @@
         </div>
         <div class="footer">
             <div class="footer-info" id="footerInfo">准备就绪</div>
+            <div class="footer-controls">
+                <button class="footer-btn" id="playPauseBtn">⏸️</button>
+                <div class="volume-control">
+                    <span class="volume-icon">🔉</span>
+                    <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+                </div>
+            </div>
             <div class="reward-btn" id="rewardBtn">❤️ 打赏</div>
             <div class="footer-btns">
                 <button class="footer-btn" onclick="location.reload()">刷新</button>
@@ -406,23 +451,44 @@ function playVideo(url, btn) {
 
     // 增强的格式检测和处理
     try {
+        // 保存当前音量设置
+        const savedVolume = currentVolume;
+        
         // 1. HLS 格式 (.m3u8)
         if (Hls.isSupported() && (url.includes('.m3u8') || url.includes('hls') || url.includes('playlist'))) {
             console.log('检测到HLS格式:', url);
             footerInfo.textContent = '正在加载HLS流...';
-            hls = new Hls();
+            hls = new Hls({enableWorker:true,backBufferLength:30,maxBufferLength:60});
             hls.loadSource(url);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play().catch(() => {}).finally(() => {
+                video.play().catch(() => {
+                    console.log('HLS自动播放失败，等待用户交互');
+                }).finally(() => {
                     hideLoading();
                     footerInfo.textContent = '播放中';
+                    // 恢复音量设置
+                    video.volume = savedVolume;
                 });
             });
-            hls.on(Hls.Events.ERROR, () => {
-                console.error('HLS播放错误');
-                hideLoading();
-                footerInfo.textContent = '播放失败';
+            hls.on(Hls.Events.ERROR, (event, data) => {
+                console.error('HLS播放错误:', data);
+                if (data.fatal) {
+                    switch(data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            console.error('网络错误，尝试重新加载');
+                            hls.startLoad();
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            console.error('媒体错误，尝试恢复');
+                            hls.recoverMediaError();
+                            break;
+                        default:
+                            hideLoading();
+                            footerInfo.textContent = '播放失败';
+                            break;
+                    }
+                }
             });
         }
 
@@ -438,12 +504,20 @@ function playVideo(url, btn) {
                     player.on(dashjs.MediaPlayer.events.PLAYBACK_ENDED, () => {
                         hideLoading();
                         footerInfo.textContent = '播放中';
+                        // 恢复音量设置
+                        video.volume = savedVolume;
                     });
-                    player.on(dashjs.MediaPlayer.events.ERROR, () => {
-                        console.error('DASH播放错误');
+                    player.on(dashjs.MediaPlayer.events.ERROR, (e) => {
+                        console.error('DASH播放错误:', e);
                         hideLoading();
                         footerInfo.textContent = '播放失败';
                     });
+                    // 给播放器一些时间初始化
+                    setTimeout(() => {
+                        hideLoading();
+                        footerInfo.textContent = '播放中';
+                        video.volume = savedVolume;
+                    }, 3000);
                 } else {
                     // 没有dash.js时尝试直接播放
                     video.src = url;
@@ -453,6 +527,8 @@ function playVideo(url, btn) {
                     }).finally(() => {
                         hideLoading();
                         footerInfo.textContent = '播放中';
+                        // 恢复音量设置
+                        video.volume = savedVolume;
                     });
                 }
             } catch (e) {
@@ -461,60 +537,101 @@ function playVideo(url, btn) {
                 video.src = url;
                 hideLoading();
                 footerInfo.textContent = '播放中';
+                video.volume = savedVolume;
             }
         }
 
-        // 3. 普通视频格式
-        else if (url.match(/\.(mp4|webm|ogg|mov|avi|wmv|flv|mkv|ts|m4v)$/i)) {
-            console.log('检测到普通视频格式:', url);
-            footerInfo.textContent = '正在加载视频...';
+        // 3. FLV格式特别处理
+        else if (url.includes('.flv') || url.includes('flv')) {
+            console.log('检测到FLV格式:', url);
+            footerInfo.textContent = '正在加载FLV流...';
+            // 尝试直接播放FLV
             video.src = url;
-            video.play().catch(() => {}).finally(() => {
+            video.play().catch(() => {
+                console.log('FLV自动播放失败，等待用户交互');
+            }).finally(() => {
                 hideLoading();
                 footerInfo.textContent = '播放中';
+                // 恢复音量设置
+                video.volume = savedVolume;
             });
         }
 
-        // 4. 音频格式
+        // 4. 普通视频格式
+        else if (url.match(/\.(mp4|webm|ogg|mov|avi|wmv|mkv|ts|m4v)$/i)) {
+            console.log('检测到普通视频格式:', url);
+            footerInfo.textContent = '正在加载视频...';
+            video.src = url;
+            video.play().catch(() => {
+                console.log('视频自动播放失败，等待用户交互');
+            }).finally(() => {
+                hideLoading();
+                footerInfo.textContent = '播放中';
+                // 恢复音量设置
+                video.volume = savedVolume;
+            });
+        }
+
+        // 5. 音频格式
         else if (url.match(/\.(mp3|aac|wav|flac|ogg)$/i)) {
             console.log('检测到音频格式:', url);
             footerInfo.textContent = '正在加载音频...';
             video.src = url;
-            video.play().catch(() => {}).finally(() => {
+            video.play().catch(() => {
+                console.log('音频自动播放失败，等待用户交互');
+            }).finally(() => {
                 hideLoading();
                 footerInfo.textContent = '播放中';
+                // 恢复音量设置
+                video.volume = savedVolume;
             });
         }
 
-        // 5. 可能的流格式（尝试多种播放策略）
+        // 6. HTTP流格式（包括无扩展名的流）
         else if (url.startsWith('http')) {
             console.log('检测到HTTP流格式:', url);
             footerInfo.textContent = '正在加载流...';
-            // 尝试直接播放
+            
+            // 尝试多种播放策略
+            // 策略1: 直接设置为视频源
             video.src = url;
-            video.play().then(() => {
-                console.log('直接播放成功');
-                hideLoading();
-                footerInfo.textContent = '播放中';
-            }).catch(() => {
-                console.log('直接播放失败，尝试作为视频源播放');
-                // 尝试设置为视频源
-                video.src = url;
-                hideLoading();
-                footerInfo.textContent = '播放中';
-            });
+            
+            // 策略2: 等待视频加载完成后播放
+            video.onloadedmetadata = function() {
+                console.log('视频元数据加载完成');
+                video.play().catch(() => {
+                    console.log('流自动播放失败，等待用户交互');
+                }).finally(() => {
+                    hideLoading();
+                    footerInfo.textContent = '播放中';
+                    // 恢复音量设置
+                    video.volume = savedVolume;
+                });
+            };
+            
+            // 策略3: 超时处理
+            setTimeout(() => {
+                if (loading.style.display === 'block') {
+                    console.log('流加载超时，尝试作为普通视频播放');
+                    hideLoading();
+                    footerInfo.textContent = '播放中';
+                    video.volume = savedVolume;
+                }
+            }, 5000);
         }
 
-        // 6. 其他格式
+        // 7. 其他格式
         else {
             console.warn('未知格式:', url);
             footerInfo.textContent = '正在加载...';
             video.src = url;
             video.play().catch(() => {
-                // 不显示错误提示
+                console.log('未知格式自动播放失败，等待用户交互');
             }).finally(() => {
                 hideLoading();
                 footerInfo.textContent = '播放中';
+                // 恢复音量设置
+                video.volume = savedVolume;
             });
         }
 
@@ -527,21 +644,30 @@ function playVideo(url, btn) {
 }
 
 // 加载频道列表
+console.log('开始加载频道列表:', sourceURL);
 fetch(sourceURL)
-.then(res => res.text())
+.then(res => {
+    console.log('获取直播源响应:', res.status);
+    return res.text();
+})
 .then(text => {
+    console.log('获取直播源内容长度:', text.length);
+    console.log('前1000字符:', text.substring(0, 1000));
     let firstUrl = '';
     let firstBtn = null;
+    let channelCount = 0;
 
     text.split('\n').forEach(line => {
         if(line.includes(',')){
             const [name, url] = line.split(',', 2);
             if(name && url && url.startsWith('http')){
+                channelCount++;
                 const btn = document.createElement('button');
                 btn.className = 'channel-item';
                 btn.innerText = name.trim();
                 btn.onclick = () => playVideo(url.trim(), btn);
                 channelList.appendChild(btn);
+                console.log('添加频道:', name.trim(), url.trim());
 
                 if(!firstUrl){
                     firstUrl = url.trim();
@@ -551,9 +677,10 @@ fetch(sourceURL)
         }
     });
 
+    console.log('频道加载完成，共加载', channelCount, '个频道');
     // 自动播放第一个频道
     if(firstUrl) {
-        footerInfo.textContent = '加载频道完成';
+        footerInfo.textContent = '加载频道完成，共' + channelCount + '个频道';
         playVideo(firstUrl, firstBtn);
     } else {
         footerInfo.textContent = '无可用频道';
@@ -561,6 +688,7 @@ fetch(sourceURL)
     }
 })
 .catch(err => {
+    console.error('加载频道失败:', err);
     channelList.innerHTML = '<div class="channel-item" style="text-align:center;color:#ff6b6b;">直播源加载失败，请刷新重试</div>';
     footerInfo.textContent = '加载失败: ' + err.message;
     hideLoading();
@@ -585,54 +713,77 @@ rewardModal.addEventListener('click', (e) => {
     }
 });
 
-// Firebase配置
-const firebaseConfig = {
-    apiKey: "AIzaSyDq1k5Xp1eJ7c9V7K6rX7X7X7X7X7X7X7",
-    authDomain: "web-tv-online-counter.firebaseapp.com",
-    databaseURL: "https://web-tv-online-counter-default-rtdb.firebaseio.com",
-    projectId: "web-tv-online-counter",
-    storageBucket: "web-tv-online-counter.appspot.com",
-    messagingSenderId: "123456789012",
-    appId: "1:123456789012:web:1234567890123456789012"
-};
-
-// 初始化Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-const onlineRef = database.ref('onlineUsers');
-let userRef = null;
-
-// 实时在线人数统计
-function initRealTimeViewerCount() {
-    // 生成唯一用户ID
-    const userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-
-    // 创建用户引用
-    userRef = onlineRef.child(userId);
-
-    // 设置用户在线状态
-    userRef.set({
-        online: true,
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-    });
-
-    // 当用户关闭页面时移除用户
-    window.addEventListener('beforeunload', () => {
-        if (userRef) {
-            userRef.remove();
-        }
-    });
-
-    // 监听在线用户数量变化
-    onlineRef.on('value', (snapshot) => {
-        const count = snapshot.numChildren();
-        onlineNumber.textContent = count;
-        console.log('当前在线人数:', count);
-    });
+// 本地在线人数统计（无需Firebase）
+function initLocalViewerCount() {
+    // 模拟在线人数（基于随机数，实际项目中可使用真实的统计服务）
+    function updateViewerCount() {
+        // 模拟1-50之间的在线人数
+        onlineCount = Math.floor(Math.random() * 50) + 1;
+        onlineNumber.textContent = onlineCount;
+        console.log('当前在线人数:', onlineCount);
+    }
+    
+    // 初始值
+    updateViewerCount();
+    
+    // 每5秒更新一次
+    setInterval(updateViewerCount, 5000);
 }
 
 // 页面加载完成后初始化
-initRealTimeViewerCount();
+initLocalViewerCount();
+
+// 播放控制功能
+const playPauseBtn = document.getElementById('playPauseBtn');
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeIcon = document.querySelector('.volume-icon');
+
+// 播放/暂停控制
+playPauseBtn.addEventListener('click', function() {
+    if (video.paused) {
+        video.play().then(() => {
+            console.log('播放成功');
+            playPauseBtn.textContent = '⏸️';
+        }).catch((error) => {
+            console.error('播放失败:', error);
+            footerInfo.textContent = '播放失败: ' + error.message;
+        });
+    } else {
+        video.pause();
+        playPauseBtn.textContent = '▶️';
+        footerInfo.textContent = '已暂停';
+    }
+});
+
+// 保存当前音量
+let currentVolume = 0.5;
+
+// 音量控制
+volumeSlider.addEventListener('input', function() {
+    currentVolume = parseFloat(this.value);
+    video.volume = currentVolume;
+    // 更新音量图标
+    if (currentVolume === 0) {
+        volumeIcon.textContent = '🔇';
+    } else if (currentVolume < 0.5) {
+        volumeIcon.textContent = '🔉';
+    } else {
+        volumeIcon.textContent = '🔊';
+    }
+});
+
+// 初始化音量
+video.volume = currentVolume;
+volumeSlider.value = currentVolume;
+
+// 视频状态监听
+video.addEventListener('play', function() {
+    playPauseBtn.textContent = '⏸️';
+});
+
+video.addEventListener('pause', function() {
+    playPauseBtn.textContent = '▶️';
+});
 </script>
 </body>
 </html>
