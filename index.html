@@ -15,27 +15,43 @@
 html,body{height:100%;background:#000}
 .main{display:flex;height:100vh}
 
-.player-box{flex:1;background:#000}
+.player-box{flex:1;background:#000;position:relative}
 #dplayer{width:100%;height:100%}
 
-/* 只隐藏图标，不隐藏视频画面！ */
+/* 彻底屏蔽播放暂停图标 */
 .dplayer-play-icon,
 .dplayer-pause-icon,
 .dplayer-mask,
-.dplayer-loading,
 .dplayer-icons,
-.dplayer-controller,
-.dplayer-controls {
-  display:none !important;
-  opacity:0 !important;
-  visibility:hidden !important;
+.dplayer-controls{
+  display:none!important;
+  opacity:0!important;
+  visibility:hidden!important;
 }
 
-/* 保留视频画面 */
-.dplayer-video {
-  display:block !important;
-  opacity:1 !important;
-  visibility:visible !important;
+/* 保留视频正常显示 */
+.dplayer-video{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+
+/* 换台加载效果：小型、居中、不刺眼（仿影视APP） */
+.loading-spinner{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:38px;height:38px;
+  border:2px solid rgba(255,255,255,0.15);
+  border-top:2px solid #fff;
+  border-radius:50%;
+  animation:spin 0.6s linear infinite;
+  z-index:9;
+  display:none;
+}
+@keyframes spin{
+  0%{transform:translate(-50%,-50%) rotate(0)}
+  100%{transform:translate(-50%,-50%) rotate(360deg)}
 }
 
 .channel-box{width:270px;background:#1a1a1a;border-left:1px solid #333}
@@ -48,15 +64,15 @@ html,body{height:100%;background:#000}
 .genre{padding:8px;background:#111;color:#999;font-size:12px}
 
 @media(max-width:768px){
-  .main{flex-direction:column}
-  .player-box{height:44vh}
-  .channel-box{height:56vh;width:100%}
-  .channel-list{height:calc(100% - 34px)}
+  .main{flex-direction:column;player-box{height:44vh};channel-box{height:56vh;width:100%}}
 }
 </style>
 
 <div class="main">
-  <div class="player-box"><div id="dplayer"></div></div>
+  <div class="player-box">
+    <div id="dplayer"></div>
+    <div class="loading-spinner" id="loader"></div>
+  </div>
   <div class="channel-box">
     <div class="top-bar">
       <div>快播直播</div>
@@ -77,11 +93,16 @@ const dp = new DPlayer({
   logo: false
 });
 
+const loader = document.getElementById('loader');
 const list = document.getElementById('list');
 
+// 仿APP：换台显示极简加载、流畅无闪烁
 function play(url) {
   try {
+    // 显示加载
+    loader.style.display = 'block';
     dp.pause();
+
     let type = 'normal';
     if (url.includes('.m3u8')) type = 'hls';
     if (url.includes('.flv')) type = 'flv';
@@ -92,9 +113,18 @@ function play(url) {
 
     dp.switchVideo({ url, type });
     dp.play();
-  } catch (e) {}
+
+    // 视频出画面后隐藏加载
+    dp.video.oncanplay = () => {
+      setTimeout(()=> loader.style.display = 'none', 200);
+    };
+
+    // 加载超时隐藏
+    setTimeout(()=> loader.style.display = 'none', 3000);
+  } catch (e) { loader.style.display = 'none' }
 }
 
+// 加载频道
 fetch("https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt")
 .then(r=>r.text())
 .then(txt=>{
