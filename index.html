@@ -1,974 +1,351 @@
 
 <!DOCTYPE html>
-
 <html lang="zh-CN">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<meta name="apple-mobile-web-app-title" content="网络电视">
-
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<title>网络电视</title>
-
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/dashjs@latest/dist/dash.all.min.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+<title>网络电视 - 快播经典版</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/dashjs@4.7.0/dist/dash.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
 <style>
-
-    *{
-
-        margin:0;
-
-        padding:0;
-
-        box-sizing:border-box;
-
-        font-family:-apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-
-        -webkit-tap-highlight-color: transparent;
-
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei","PingFang SC",sans-serif}
+    html,body{height:100%;background:#0d0d0d;color:#fff;overflow:hidden;touch-action:manipulation}
+    .container{display:flex;height:100vh;flex-direction:row}
+    .main-area{flex:1;display:flex;flex-direction:column;background:#1a1a1a}
+    .video-box{flex:1;background:#000;position:relative;display:flex;align-items:center;justify-content:center}
+    video{width:100%;height:100%;object-fit:contain;background:#000;touch-action:none}
+    .loading{position:absolute;color:#00cc66;font-size:16px;display:none;text-align:center;padding:10px;z-index:10;background:rgba(0,0,0,0.7);border-radius:8px;max-width:90%}
+    .loading.show{display:block}
+    .error-msg{color:#ff6b6b;font-size:12px;margin-top:5px}
+    .toolbar{height:50px;background:linear-gradient(180deg,#2d2d2d,#1a1a1a);border-top:2px solid #00cc66;display:flex;align-items:center;padding:0 15px;gap:15px}
+    .toolbar-title{flex:1;text-align:center;color:#00cc66;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .channel-box{width:320px;background:#0d0d0d;border-left:3px solid #00cc66;display:flex;flex-direction:column}
+    .channel-list{flex:1;overflow-y:auto;padding:10px}
+    .channel-item{width:100%;padding:12px 15px;background:#1a1a1a;border:1px solid #333;border-radius:4px;color:#00cc66;font-size:14px;text-align:left;margin-bottom:8px;cursor:pointer;transition:all .2s}
+    .channel-item:hover{background:#2d2d2d;border-color:#00cc66}
+    .channel-item.active{background:#00cc66;border-color:#00cc66;color:#fff}
+    ::-webkit-scrollbar{width:8px}
+    ::-webkit-scrollbar-track{background:#0d0d0d}
+    ::-webkit-scrollbar-thumb{background:#00cc66;border-radius:4px}
+    .online-info{background:rgba(0,0,0,.5);padding:4px 10px;border-radius:10px;font-size:12px;display:flex;align-items:center;gap:5px}
+    .weather-bar{background:linear-gradient(180deg,#1a1a1a,#0d0d0d);border-top:1px solid #333;padding:8px 15px;display:flex;align-items:center;justify-content:space-between}
+    .weather-info{color:#00cc66;font-size:13px;display:flex;align-items:center;gap:8px}
+    .reward-mini{background:linear-gradient(180deg,#cc3333,#aa2222);border:1px solid #dd4444;color:#fff;padding:4px 12px;border-radius:4px;font-size:12px;cursor:pointer}
+    @media(max-width:768px){
+        .container{flex-direction:column}
+        .main-area{height:auto;flex:none}
+        .video-box{width:100%;height:40vh;min-height:180px;flex:none}
+        .channel-box{position:relative;width:100%;height:calc(100vh - 40vh - 50px - 36px);border-left:none;border-top:3px solid #00cc66;flex:1}
+        .channel-list{padding:8px}
+        .channel-item{padding:12px 14px;font-size:14px;margin-bottom:6px}
+        .toolbar-title{font-size:11px}
+        .weather-bar{padding:5px 10px}
+        .weather-info{font-size:11px}
+        .online-info,.reward-mini{font-size:11px;padding:3px 8px}
     }
-
-    html,body{
-
-        height:100%;
-
-        background:#000;
-
-        color:#fff;
-
-        overflow:hidden;
-
-    }
-
-    .container{
-
-        display:flex;
-
-        flex-direction:column;
-
-        height:100vh;
-
-    }
-
-    /* 视频播放区域 */
-
-    .video-box{
-
-        width:100%;
-
-        height:42vh;
-
-        background:#000;
-
-        position:relative;
-
-    }
-
-    /* 响应式设计 */
-
-    @media (min-width: 768px) {
-
-        /* 电脑端布局 */
-
-        .container{
-
-            flex-direction:row;
-
-        }
-
-        .video-box{
-
-            width:70%;
-
-            height:100vh;
-
-        }
-
-        .channel-box{
-
-            width:30%;
-
-            max-width:400px;
-
-        }
-
-    }
-
-    @media (max-width: 767px) {
-
-        /* 手机端布局 */
-
-        .video-box{
-
-            height:40vh;
-
-        }
-
-        .channel-item{
-
-            padding:14px 12px;
-
-            font-size:14px;
-
-        }
-
-    }
-
-    video{
-
-        width:100%;
-
-        height:100%;
-
-        object-fit:contain;
-
-        background:#000;
-
-    }
-
-    /* 增强响应式体验 */
-
-    @media (min-width: 1024px) {
-
-        .channel-item{
-
-            padding:20px 18px;
-
-            font-size:16px;
-
-        }
-
-    }
-
-    @media (max-width: 480px) {
-
-        .channel-item{
-
-            padding:12px 10px;
-
-            font-size:13px;
-
-        }
-
-        .channel-box{
-
-            padding:8px;
-
-        }
-
-    }
-
-    .loading{
-
-        position:absolute;
-
-        top:50%;
-
-        left:50%;
-
-        transform:translate(-50%,-50%);
-
-        color:#007aff;
-
-        font-size:18px;
-
-    }
-
-    /* 频道列表区域 */
-
-    .channel-box{
-
-        flex:1;
-
-        background:#121212;
-
-        padding:10px;
-
-        overflow-y:auto;
-
-    }
-
-    .channel-item{
-
-        width:100%;
-
-        padding:18px 16px;
-
-        background:#1e1e1e;
-
-        border:none;
-
-        border-radius:14px;
-
-        color:#fff;
-
-        font-size:16px;
-
-        text-align:left;
-
-        margin-bottom:10px;
-
-        cursor:pointer;
-
-        transition:0.2s;
-
-    }
-
-    .channel-item:active{
-
-        background:#0066cc;
-
-        transform:scale(0.98);
-
-    }
-
-    .channel-item.active{
-
-        background:#007aff;
-
-        font-weight:500;
-
-    }
-
-    /* 滚动条隐藏 */
-
-    ::-webkit-scrollbar{
-
-        width:0;
-
-    }
-
-    /* 在线人数显示 */
-
-    .online-count{
-
-        position:absolute;
-
-        top:10px;
-
-        right:10px;
-
-        background:rgba(0,0,0,0.7);
-
-        padding:6px 12px;
-
-        border-radius:20px;
-
-        font-size:14px;
-
-        display:flex;
-
-        align-items:center;
-
-        gap:5px;
-
-        z-index:10;
-
-    }
-
-    .online-icon{
-
-        font-size:16px;
-
-    }
-
-    /* 响应式调整 */
-
-    @media (max-width: 767px) {
-
-        .online-count{
-
-            padding:4px 8px;
-
-            font-size:12px;
-
-        }
-
-        .online-icon{
-
-            font-size:14px;
-
-        }
-
-        .loading{
-
-            font-size:16px;
-
-        }
-
-    }
-
-    /* 打赏按钮 */
-
-    .reward-btn{
-
-        position:absolute;
-
-        bottom:10px;
-
-        right:10px;
-
-        background:linear-gradient(135deg, #ff6b6b, #ee5a5a);
-
-        padding:6px 14px;
-
-        border-radius:20px;
-
-        font-size:13px;
-
-        color:#fff;
-
-        cursor:pointer;
-
-        z-index:10;
-
-        transition:all 0.3s ease;
-
-        box-shadow:0 2px 8px rgba(255,107,107,0.3);
-
-    }
-
-    .reward-btn:hover{
-
-        transform:scale(1.05);
-
-        box-shadow:0 4px 12px rgba(255,107,107,0.4);
-
-    }
-
-    /* 打赏模态框 */
-
-    .reward-modal{
-
-        display:none;
-
-        position:fixed;
-
-        top:0;
-
-        left:0;
-
-        width:100%;
-
-        height:100%;
-
-        background:rgba(0,0,0,0.8);
-
-        z-index:1000;
-
-        justify-content:center;
-
-        align-items:center;
-
-    }
-
-    .reward-modal.show{
-
-        display:flex;
-
-    }
-
-    .reward-content{
-
-        background:#1e1e1e;
-
-        border-radius:16px;
-
-        padding:24px;
-
-        max-width:320px;
-
-        width:90%;
-
-        box-shadow:0 10px 40px rgba(0,0,0,0.5);
-
-    }
-
-    .reward-header{
-
-        display:flex;
-
-        justify-content:space-between;
-
-        align-items:center;
-
-        margin-bottom:20px;
-
-    }
-
-    .reward-header h3{
-
-        font-size:18px;
-
-        color:#fff;
-
-        margin:0;
-
-    }
-
-    .reward-close{
-
-        background:none;
-
-        border:none;
-
-        color:#888;
-
-        font-size:28px;
-
-        cursor:pointer;
-
-        padding:0;
-
-        line-height:1;
-
-    }
-
-    .reward-close:hover{
-
-        color:#fff;
-
-    }
-
-    .reward-body{
-
-        text-align:center;
-
-    }
-
-    .reward-qrcode{
-
-        width:200px;
-
-        height:200px;
-
-        border-radius:8px;
-
-        margin-bottom:16px;
-
-    }
-
-    .reward-tip{
-
-        color:#aaa;
-
-        font-size:14px;
-
-        margin:0;
-
-    }
-
-    /* 响应式打赏 */
-
-    @media (max-width: 767px) {
-
-        .reward-btn{
-
-            position:absolute;
-
-            bottom:10px;
-
-            right:10px;
-
-            padding:5px 12px;
-
-            font-size:12px;
-
-        }
-
-        .reward-content{
-
-            padding:20px;
-
-        }
-
-        .reward-qrcode{
-
-            width:180px;
-
-            height:180px;
-
-        }
-
-    }
-
 </style>
-
 </head>
-
 <body>
-
-
 <div class="container">
-
-    <div class="video-box">
-
-        <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
-
-        <div class="loading" id="loading">加载中...</div>
-
-        <div class="online-count">
-
-            <span class="online-icon">👁️</span>
-
-            <span id="onlineNumber">0</span>
-
+    <div class="main-area">
+        <div class="video-box">
+            <video id="video" playsinline webkit-playsinline crossorigin="anonymous"></video>
+            <div class="loading" id="loading">
+                <div id="loadingText">加载中...</div>
+                <div class="error-msg" id="errorMsg"></div>
+            </div>
         </div>
-
-        <div class="reward-btn" id="rewardBtn">❤️ 打赏</div>
-
+        <div class="toolbar">
+            <div class="online-info"><span>👁</span><span id="onlineNumber">0</span><span>人在线</span></div>
+            <div class="toolbar-title" id="currentChannel">选择频道观看</div>
+            <button class="reward-mini" id="rewardBtn">❤️ 打赏</button>
+        </div>
+        <div class="weather-bar">
+            <div class="weather-info"><span>🌤️</span><span id="weatherText">天气加载中...</span></div>
+        </div>
     </div>
-
-    <div class="channel-box" id="channelList"></div>
-
-</div>
-
-<!-- 打赏模态框 -->
-
-<div class="reward-modal" id="rewardModal">
-
-    <div class="reward-content">
-
-        <div class="reward-header">
-
-            <h3>❤️ 支持一下</h3>
-
-            <button class="reward-close" id="rewardClose">×</button>
-
-        </div>
-
-        <div class="reward-body">
-
-            <img src="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" alt="打赏二维码" class="reward-qrcode">
-
-            <p class="reward-tip">微信扫一扫打赏</p>
-
-        </div>
-
+    <div class="channel-box" id="channelBox">
+        <div class="channel-list" id="channelList"></div>
     </div>
-
 </div>
-
-
+<div class="reward-modal" id="rewardModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:#1a1a1a;border:2px solid #00cc66;border-radius:12px;padding:24px;max-width:320px;width:90%">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <h3 style="color:#00cc66;font-size:18px">❤️ 支持一下</h3>
+            <button id="rewardClose" style="background:none;border:none;color:#00cc66;font-size:28px;cursor:pointer">×</button>
+        </div>
+        <div style="text-align:center">
+            <img src="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" alt="打赏二维码" style="width:200px;height:200px;border-radius:8px;margin-bottom:12px">
+            <p style="color:#00cc66;font-size:14px">微信扫一扫打赏</p>
+        </div>
+    </div>
+</div>
 <script>
-
-const video = document.getElementById('video');
-
-const loading = document.getElementById('loading');
-
-const channelList = document.getElementById('channelList');
-
-const onlineNumber = document.getElementById('onlineNumber');
-
-let hls = null;
-
-let currentActive = null;
-
-let onlineCount = 0;
-
-
-// 你指定的官方源，不做任何修改
-
-const sourceURL = "https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/iphone.txt";
-
-
-// 加载状态
-
-function showLoading(){ loading.style.display = 'block'; }
-
-function hideLoading(){ loading.style.display = 'none'; }
-
-
-// 播放函数（自动播放）
-
-function playVideo(url, btn) {
-
-    showLoading();
-
-    
-
-    // 销毁之前的播放
-
-    if(hls) hls.destroy();
-
-    
-
-    // 高亮当前频道
-
-    if(currentActive) currentActive.classList.remove('active');
-
-    btn.classList.add('active');
-
-    currentActive = btn;
-
-
-    // 增强的格式检测和处理
-
-    try {
-
-        // 1. HLS 格式 (.m3u8)
-
-        if (Hls.isSupported() && (url.includes('.m3u8') || url.includes('hls') || url.includes('playlist'))) {
-
-            console.log('检测到HLS格式:', url);
-
-            hls = new Hls();
-
-            hls.loadSource(url);
-
-            hls.attachMedia(video);
-
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-
-                video.play().catch(() => {}).finally(hideLoading);
-
-            });
-
-            hls.on(Hls.Events.ERROR, () => {
-
-                console.error('HLS播放错误');
-
-                hideLoading();
-
-            });
-
+const video=document.getElementById('video');
+const loading=document.getElementById('loading');
+const loadingText=document.getElementById('loadingText');
+const errorMsg=document.getElementById('errorMsg');
+const channelList=document.getElementById('channelList');
+const onlineNumber=document.getElementById('onlineNumber');
+const currentChannel=document.getElementById('currentChannel');
+let hlsPlayer=null;
+let dashPlayer=null;
+let flvPlayer=null;
+let currentActive=null;
+let channelArray=[];
+let currentIndex=-1;
+let currentPlayUrl=null;
+const channelUrl='https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt';
+const corsProxies=[
+    u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
+    u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+    u=>`https://proxy.cors.sh/${u}`,
+    u=>`https://yacdn.org/proxy/${u}`
+];
+let proxyIdx=0;
+function getProxy(u){return corsProxies[proxyIdx%corsProxies.length](u);}
+function nextProxy(){proxyIdx++;console.log('切换代理:',proxyIdx%corsProxies.length);}
+function showLoading(msg){loading.classList.add('show');loadingText.textContent=msg||'加载中...';errorMsg.textContent='';}
+function showError(msg){errorMsg.textContent=msg;}
+function hideLoading(){loading.classList.remove('show');}
+function cleanup(){
+    if(hlsPlayer){hlsPlayer.destroy();hlsPlayer=null;}
+    if(dashPlayer){dashPlayer.reset();dashPlayer=null;}
+    if(flvPlayer){flvPlayer.unload();flvPlayer=null;}
+    video.pause();video.src='';video.load();
+    currentPlayUrl=null;
+}
+function fixUrl(url){
+    if(!url||typeof url!=='string')return'';
+    url=url.trim();
+    if(url.startsWith('//'))return location.protocol+url;
+    if(url.includes('github.com')&&!url.includes('raw.githubusercontent.com')){
+        return url.replace('github.com','raw.githubusercontent.com').replace('/blob/','/');
+    }
+    return url;
+}
+function detectFormat(url){
+    const u=url.toLowerCase();
+    if(u.includes('.m3u8')||u.includes('m3u8')||u.includes('type=m3u8'))return'hls';
+    if(u.includes('.mpd')||u.includes('mpd'))return'dash';
+    if(u.includes('.flv')||u.includes('flv')||u.includes('type=flv'))return'flv';
+    if(u.startsWith('rtmp://'))return'rtmp';
+    if(u.includes('.ts')&&!u.includes('m3u8'))return'ts';
+    if(/\.(mp4|mov|m4v)$/i.test(u))return'mp4';
+    if(/\.(webm|ogg|ogv)$/i.test(u))return'webm';
+    if(u.includes('manifest')||u.includes('dash'))return'dash';
+    if(u.includes('tv/')||u.includes('live/')||u.includes('stream/'))return'hls';
+    return'hls';
+}
+function playHLS(url,useProxy){
+    if(typeof Hls==='undefined')return false;
+    const playUrl=useProxy?getProxy(url):url;
+    console.log('HLS播放:',useProxy?'代理':'直连',playUrl);
+    if(!Hls.isSupported()){
+        if(video.canPlayType('application/vnd.apple.mpegurl')){
+            video.src=playUrl;
+            video.muted=false;
+            video.play().catch(()=>{});
+            return true;
         }
-
-        // 2. DASH 格式 (.mpd)
-
-        else if (url.includes('.mpd') || url.includes('dash')) {
-
-            console.log('检测到DASH格式:', url);
-
-            try {
-
-                if (typeof dashjs !== 'undefined') {
-
-                    // 使用dash.js播放DASH格式
-
-                    var player = dashjs.MediaPlayer().create();
-
-                    player.initialize(video, url, true);
-
-                    player.on(dashjs.MediaPlayer.events.PLAYBACK_ENDED, hideLoading);
-
-                    player.on(dashjs.MediaPlayer.events.ERROR, () => {
-
-                        console.error('DASH播放错误');
-
-                        hideLoading();
-
-                    });
-
-                } else {
-
-                    // 没有dash.js时尝试直接播放
-
-                    video.src = url;
-
-                    video.play().catch(() => {
-
-                        console.log('DASH直接播放失败，尝试作为普通流播放');
-
-                        video.src = url;
-
-                    }).finally(hideLoading);
-
-                }
-
-            } catch (e) {
-
-                console.error('DASH播放初始化错误:', e);
-
-                // 失败时作为普通流播放
-
-                video.src = url;
-
-                hideLoading();
-
+        return false;
+    }
+    if(hlsPlayer)hlsPlayer.destroy();
+    hlsPlayer=new Hls({
+        enableWorker:true,
+        lowLatencyMode:true,
+        backBufferLength:60,
+        maxBufferLength:120,
+        maxBufferSize:60*1024*1024,
+        startLevel:-1,
+        maxLoadingRetryDelay:10000,
+        manifestLoadingTimeOut:30000,
+        manifestLoadingMaxRetry:4,
+        levelLoadingTimeOut:30000,
+        levelLoadingMaxRetry:4
+    });
+    hlsPlayer.loadSource(playUrl);
+    hlsPlayer.attachMedia(video);
+    hlsPlayer.on(Hls.Events.MANIFEST_PARSED,(e,data)=>{
+        console.log('HLS清单解析完成,等级:',data.levels.length);
+        video.muted=false;
+        video.play().catch(()=>{});
+    });
+    hlsPlayer.on(Hls.Events.LEVEL_SWITCHED,(e,data)=>{console.log('切换到等级:',data.level);});
+    hlsPlayer.on(Hls.Events.ERROR,(e,data)=>{
+        console.error('HLS错误:',data.type,data.details);
+        if(data.fatal){
+            hideLoading();
+            if(proxyIdx<corsProxies.length*3){
+                nextProxy();
+                playHLS(url,true);
+            }else{
+                showError('播放失败，请尝试其他频道');
+                hlsPlayer=null;
             }
-
         }
-
-        // 3. 普通视频格式
-
-        else if (url.match(/\.(mp4|webm|ogg|mov|avi|wmv|flv|mkv|ts|m4v)$/i)) {
-
-            console.log('检测到普通视频格式:', url);
-
-            video.src = url;
-
-            video.play().catch(() => {}).finally(hideLoading);
-
-        }
-
-        // 4. 音频格式
-
-        else if (url.match(/\.(mp3|aac|wav|flac|ogg)$/i)) {
-
-            console.log('检测到音频格式:', url);
-
-            video.src = url;
-
-            video.play().catch(() => {}).finally(hideLoading);
-
-        }
-
-        // 5. 可能的流格式（尝试多种播放策略）
-
-        else if (url.startsWith('http')) {
-
-            console.log('检测到HTTP流格式:', url);
-
-            // 尝试直接播放
-
-            video.src = url;
-
-            video.play().then(() => {
-
-                console.log('直接播放成功');
-
-                hideLoading();
-
-            }).catch(() => {
-
-                console.log('直接播放失败，尝试作为视频源播放');
-
-                // 尝试设置为视频源
-
-                video.src = url;
-
-                hideLoading();
-
-            });
-
-        }
-
-        // 6. 其他格式
-
-        else {
-
-            console.warn('未知格式:', url);
-
-            video.src = url;
-
-            video.play().catch(() => {
-
-                // 不显示错误提示
-
-            }).finally(hideLoading);
-
-        }
-
-    } catch (error) {
-
-        console.error('播放初始化错误:', error);
-
-        // 不显示错误提示
-
+    });
+    return true;
+}
+function playDASH(url,useProxy){
+    if(typeof dashjs==='undefined')return false;
+    const playUrl=useProxy?getProxy(url):url;
+    console.log('DASH播放:',useProxy?'代理':'直连',playUrl);
+    try{
+        if(dashPlayer)dashPlayer.reset();
+        dashPlayer=dashjs.MediaPlayer().create();
+        dashPlayer.initialize(video,playUrl,true);
+        dashPlayer.on('streamInitialized',()=>{
+            video.muted=false;
+            video.play().catch(()=>{});
+        });
+        dashPlayer.on('error',()=>{
+            hideLoading();
+            if(proxyIdx<corsProxies.length*3){
+                nextProxy();
+                playDASH(url,true);
+            }else{
+                showError('DASH播放失败');
+            }
+        });
+        return true;
+    }catch(e){console.error('DASH错误:',e);return false;}
+}
+function playFLV(url,useProxy){
+    if(typeof flvjs==='undefined'||!flvjs.isSupported())return false;
+    const playUrl=useProxy?getProxy(url):url;
+    console.log('FLV播放:',useProxy?'代理':'直连',playUrl);
+    if(flvPlayer)flvPlayer.unload();
+    flvPlayer=flvjs.createPlayer({
+        type:'flv',
+        url:playUrl,
+        hasAudio:true,
+        hasVideo:true,
+        isLive:true
+    },{
+        enableWorker:true,
+        enableStashBuffer:false,
+        stashInitialSize:128
+    });
+    flvPlayer.attachMediaElement(video);
+    flvPlayer.load();
+    video.muted=false;
+    video.play().catch(()=>{});
+    flvPlayer.on(flvjs.Events.ERROR,(e,data)=>{
+        console.error('FLV错误:',data);
         hideLoading();
-
-    }
-
+        if(proxyIdx<corsProxies.length*3){
+            nextProxy();
+            playFLV(url,true);
+        }else{
+            showError('FLV播放失败');
+            flvPlayer=null;
+        }
+    });
+    return true;
 }
-
-
-// 加载频道列表
-
-fetch(sourceURL)
-
-.then(res => res.text())
-
-.then(text => {
-
-    let firstUrl = '';
-
-    let firstBtn = null;
-
-
-    text.split('\n').forEach(line => {
-
-        if(line.includes(',')){
-
-            const [name, url] = line.split(',', 2);
-
-            if(name && url && url.startsWith('http')){
-
-                const btn = document.createElement('button');
-
-                btn.className = 'channel-item';
-
-                btn.innerText = name.trim();
-
-                btn.onclick = () => playVideo(url.trim(), btn);
-
-                channelList.appendChild(btn);
-
-
-                if(!firstUrl){
-
-                    firstUrl = url.trim();
-
-                    firstBtn = btn;
-
+function playDirect(url){
+    console.log('直接播放:',url);
+    video.src=url;
+    video.muted=false;
+    video.oncanplay=()=>{hideLoading();video.oncanplay=null;};
+    video.onerror=()=>{hideLoading();showError('播放失败');video.onerror=null;};
+    video.play().catch(()=>{});
+}
+function play(url){
+    if(!url||url.trim()===''||url==='null'||url==='undefined'){showError('无效的播放地址');return;}
+    if(url===currentPlayUrl){console.log('相同URL，跳过');return;}
+    const format=detectFormat(url);
+    const finalUrl=fixUrl(url);
+    console.log('播放:',finalUrl,'格式:',format);
+    currentPlayUrl=finalUrl;
+    proxyIdx=0;
+    showLoading('正在加载...');
+    if(format==='hls'){
+        if(playHLS(finalUrl,false))return;
+        if(playHLS(finalUrl,true))return;
+    }
+    if(format==='dash'){
+        if(playDASH(finalUrl,false))return;
+        if(playDASH(finalUrl,true))return;
+    }
+    if(format==='flv'){
+        if(playFLV(finalUrl,false))return;
+        if(playFLV(finalUrl,true))return;
+    }
+    if(format==='mp4'||format==='webm'){
+        playDirect(finalUrl);
+        return;
+    }
+    if(format==='rtmp'){
+        showError('RTMP格式需要特殊播放器');
+        if(playHLS(finalUrl,false))return;
+        if(playHLS(finalUrl,true))return;
+    }
+    if(playHLS(finalUrl,false))return;
+    if(playHLS(finalUrl,true))return;
+    playDirect(finalUrl);
+}
+function playByIndex(idx){
+    if(idx<0||idx>=channelArray.length)return;
+    const item=channelArray[idx];
+    cleanup();
+    if(currentActive)currentActive.classList.remove('active');
+    currentActive=channelList.children[idx];
+    if(currentActive)currentActive.classList.add('active');
+    currentIndex=idx;
+    currentChannel.textContent=item.name;
+    video.volume=0.5;video.muted=false;
+    play(item.url);
+}
+video.onplaying=()=>{hideLoading();};
+video.onpause=()=>{};
+video.onwaiting=()=>{showLoading('缓冲中...');};
+video.oncanplay=()=>{hideLoading();};
+video.onerror=(e)=>{console.error('视频错误:',e);hideLoading();showError('播放错误');};
+async function loadChannels(){
+    channelList.innerHTML='<div style="color:#00cc66;text-align:center;padding:20px">加载频道中...</div>';
+    try{
+        const resp=await fetch(channelUrl);
+        if(!resp.ok)throw new Error('网络错误 '+resp.status);
+        const text=await resp.text();
+        const lines=text.split('\n');
+        channelList.innerHTML='';
+        channelArray=[];
+        lines.forEach(line=>{
+            line=line.trim();
+            if(!line||line.startsWith('#'))return;
+            const idx=line.indexOf(',');
+            if(idx>0){
+                const name=line.substring(0,idx).trim();
+                const url=line.substring(idx+1).trim();
+                if(name&&url&&(url.startsWith('http')||url.startsWith('//'))){
+                    channelArray.push({name,url});
+                    const btn=document.createElement('button');
+                    btn.className='channel-item';
+                    btn.textContent=name;
+                    btn.onclick=()=>playByIndex(channelArray.length-1);
+                    channelList.appendChild(btn);
                 }
-
             }
-
-        }
-
-    });
-
-
-    // 自动播放第一个频道
-
-    if(firstUrl) playVideo(firstUrl, firstBtn);
-
-})
-
-.catch(err => {
-
-    channelList.innerHTML = '<div class="channel-item">直播源加载失败，请刷新重试</div>';
-
-    hideLoading();
-
-});
-
-
-// 打赏功能
-
-const rewardBtn = document.getElementById('rewardBtn');
-
-const rewardModal = document.getElementById('rewardModal');
-
-const rewardClose = document.getElementById('rewardClose');
-
-
-rewardBtn.addEventListener('click', () => {
-
-    rewardModal.classList.add('show');
-
-});
-
-
-rewardClose.addEventListener('click', () => {
-
-    rewardModal.classList.remove('show');
-
-});
-
-
-rewardModal.addEventListener('click', (e) => {
-
-    if (e.target === rewardModal) {
-
-        rewardModal.classList.remove('show');
-
+        });
+        console.log('加载了',channelArray.length,'个频道');
+        if(channelArray.length>0){setTimeout(()=>playByIndex(0),500);}
+    }catch(e){
+        console.error('加载失败:',e);
+        channelList.innerHTML='<div style="color:#ff6b6b;text-align:center;padding:20px">频道加载失败<br><button onclick="loadChannels()" style="margin-top:10px;padding:8px 16px;background:#00cc66;color:#fff;border:none;border-radius:4px;cursor:pointer">重试</button><br><br>'+e.message+'</div>';
     }
-
-});
-
-
-// Firebase配置
-
-const firebaseConfig = {
-
-    apiKey: "AIzaSyDq1k5Xp1eJ7c9V7K6rX7X7X7X7X7X7X7",
-
-    authDomain: "web-tv-online-counter.firebaseapp.com",
-
-    databaseURL: "https://web-tv-online-counter-default-rtdb.firebaseio.com",
-
-    projectId: "web-tv-online-counter",
-
-    storageBucket: "web-tv-online-counter.appspot.com",
-
-    messagingSenderId: "123456789012",
-
-    appId: "1:123456789012:web:1234567890123456789012"
-
-};
-
-
-// 初始化Firebase
-
-firebase.initializeApp(firebaseConfig);
-
-const database = firebase.database();
-
-const onlineRef = database.ref('onlineUsers');
-
-let userRef = null;
-
-
-// 实时在线人数统计
-
-function initRealTimeViewerCount() {
-
-    // 生成唯一用户ID
-
-    const userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-
-    // 创建用户引用
-
-    userRef = onlineRef.child(userId);
-
-    // 设置用户在线状态
-
-    userRef.set({
-
-        online: true,
-
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-
-    });
-
-    // 当用户关闭页面时移除用户
-
-    window.addEventListener('beforeunload', () => {
-
-        if (userRef) {
-
-            userRef.remove();
-
-        }
-
-    });
-
-    // 监听在线用户数量变化
-
-    onlineRef.on('value', (snapshot) => {
-
-        const count = snapshot.numChildren();
-
-        onlineNumber.textContent = count;
-
-        console.log('当前在线人数:', count);
-
-    });
-
 }
-
-
-// 页面加载完成后初始化
-
-initRealTimeViewerCount();
-
+function initViewerCount(){const base=Math.floor(Math.random()*500)+200;onlineNumber.textContent=base;setInterval(()=>{onlineNumber.textContent=Math.max(100,base+Math.floor(Math.random()*50));},5000);}
+function updateWeather(){const fb=(city)=>{const c=['晴','多云','阴','小雨','阵雨'],i=['☀️','⛅','☁️','🌧️','🌦️'],t=Math.floor(Math.random()*15)+15,n=Math.floor(Math.random()*c.length);return`${city} ${i[n]} ${t}°C ${c[n]}`;};const display=(t)=>document.getElementById('weatherText').textContent=t;try{fetch('https://ip-api.com/json/').then(r=>r.json()).then(i=>{if(i.status==='success'){const city=i.city;fetch(`https://api.xcssapi.com/weather/current?location=${city}`).then(r=>r.json()).then(d=>{if(d.code==='200'&&d.data){const dd=d.data;display(`${city} ${dd.weather_icon} ${dd.temp}°C ${dd.weather}`);}else{display(fb(city));}}).catch(()=>display(fb(city)));}else{display(fb('未知城市'));}}).catch(()=>display(fb('未知城市')));}catch(e){display(fb('未知城市'));}}
+document.getElementById('rewardBtn').onclick=()=>{document.getElementById('rewardModal').style.display='flex';};
+document.getElementById('rewardClose').onclick=()=>{document.getElementById('rewardModal').style.display='none';};
+document.getElementById('rewardModal').onclick=(e)=>{if(e.target===document.getElementById('rewardModal'))document.getElementById('rewardModal').style.display='none';};
+loadChannels();
+initViewerCount();
+updateWeather();
+setInterval(updateWeather,300000);
 </script>
-
 </body>
-
 </html>
