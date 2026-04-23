@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -20,14 +21,88 @@ html,body{height:100%;background:#000;overflow:hidden}
 /* 播放器区域 */
 .player-box{position:relative;background:#000;display:flex;align-items:center;justify-content:center}
 #dplayer{width:100%!important;height:100%!important}
-.dplayer-video{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;background:#000}
+.dplayer-video{width:100%!important;height:100%!important;object-fit:contain!important;background:#000}
 
-/* 彻底删除所有按钮图标 */
-.dplayer-play-icon,.dplayer-pause-icon,.dplayer-mask,.dplayer-icons,.dplayer-controls,.dplayer-controller,.dplayer-loading{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important}
+/* 隐藏所有按钮图标和控制栏 */
+.dplayer-play-icon,.dplayer-pause-icon,.dplayer-mask,.dplayer-icons,.dplayer-controls,.dplayer-controller,.dplayer-loading,.dplayer-button,.dplayer-bar-wrap,.dplayer-time,.dplayer-full,.dplayer-full-in-icon,.dplayer-volume,.dplayer-volume-bar,.dplayer-subtitle,.dplayer-logo,.dplayer-controller-mask,.dplayer-controller-button,.dplayer-played,.dplayer-name,.dplayer-live-badge,.dplayer-danmakus,.dplayer-info-panel,.dplayer-tooltip,.dplayer-screenshot-icon,.dplayer-icon-play,.dplayer-icon-pause,.dplayer-icon-volume,.dplayer-icon-fullscreen,.dplayer-icon-fullscreen-exit,.dplayer-icon-subtitle,.dplayer-icon-setting,.dplayer-icon-right,.dplayer-icon-left,.dplayer-controller-mask{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
 
-/* 极简加载 */
-.loading-spinner{position:absolute;top:50%;left:50%;width:30px;height:30px;border:2px solid rgba(255,255,255,.1);border-top:2px solid #fff;border-radius:50%;animation:spin .5s linear infinite;z-index:10;display:none;transform:translate(-50%,-50%)}
-@keyframes spin{100%{transform:translate(-50%,-50%) rotate(360deg)}}
+/* 隐藏DPlayer容器内的所有非视频相关元素 */
+.dplayer > *:not(.dplayer-video-wrap){display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
+
+/* 确保视频包装器内只有视频元素可见 */
+.dplayer-video-wrap > *:not(.dplayer-video){display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
+
+/* 隐藏原生视频控件 */
+video::-webkit-media-controls{display:none!important}
+video::-webkit-media-controls-enclosure{display:none!important}
+video::-webkit-media-controls-panel{display:none!important}
+video::-webkit-media-controls-play-button{display:none!important}
+video::-webkit-media-controls-start-playback-button{display:none!important}
+
+/* 隐藏视频元素的默认播放按钮 */
+video::-webkit-media-controls-play-button{display:none!important}
+video::-webkit-media-controls-start-playback-button{display:none!important}
+video::-webkit-media-controls-overlay-play-button{display:none!important}
+video::--webkit-media-controls-play-button{display:none!important}
+video::--webkit-media-controls-start-playback-button{display:none!important}
+video::--webkit-media-controls-overlay-play-button{display:none!important}
+
+/* 确保没有其他元素干扰 */
+.dplayer-mask{display:none!important}
+.dplayer-play{display:none!important}
+.dplayer-pause{display:none!important}
+.dplayer-icon{display:none!important}
+.dplayer-control{display:none!important}
+.dplayer-controller{display:none!important}
+.dplayer-contextmenu{display:none!important}
+
+/* 隐藏任何可能的覆盖层，但保留视频元素 */
+.dplayer > div:not(.dplayer-video-wrap){display:none!important}
+.dplayer > svg{display:none!important}
+.dplayer > canvas{display:none!important}
+
+/* 确保视频元素容器和视频本身都能正常显示 */
+.dplayer-video-wrap{display:block!important;position:relative!important;width:100%!important;height:100%!important}
+.dplayer-video{display:block!important;position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;object-fit:contain!important;background:#000!important}
+
+/* 隐藏所有可能的伪元素 */
+.dplayer::before,.dplayer::after{display:none!important}
+.dplayer-video::before,.dplayer-video::after{display:none!important}
+
+/* 显示进度条相关元素 */
+.dplayer-progress,.dplayer-progress-wrap,.dplayer-progress-bar,.dplayer-progress-loaded,.dplayer-progress-played,.dplayer-progress-handle{display:block!important;opacity:1!important;visibility:visible!important;width:auto!important;height:auto!important;pointer-events:auto!important}
+
+/* 隐藏其他控制元素 */
+.dplayer-play-icon,.dplayer-pause-icon,.dplayer-mask,.dplayer-icons,.dplayer-controls,.dplayer-controller,.dplayer-loading,.dplayer-button,.dplayer-time,.dplayer-full,.dplayer-full-in-icon,.dplayer-volume,.dplayer-volume-bar,.dplayer-subtitle,.dplayer-logo,.dplayer-controller-mask,.dplayer-controller-button,.dplayer-played,.dplayer-name,.dplayer-live-badge,.dplayer-danmakus,.dplayer-info-panel,.dplayer-tooltip,.dplayer-screenshot-icon,.dplayer-icon-play,.dplayer-icon-pause,.dplayer-icon-volume,.dplayer-icon-fullscreen,.dplayer-icon-fullscreen-exit,.dplayer-icon-subtitle,.dplayer-icon-setting,.dplayer-icon-right,.dplayer-icon-left,.dplayer-control-bar,.dplayer-control-panel,.dplayer-controls-wrap,.dplayer-bottom-bar,.dplayer-top-bar{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
+
+/* 确保视频元素没有其他默认控件 */
+video::-webkit-media-controls-volume-slider{display:none!important}
+video::-webkit-media-controls-current-time-display{display:none!important}
+video::-webkit-media-controls-time-remaining-display{display:none!important}
+video::-webkit-media-controls-fullscreen-button{display:none!important}
+video::-webkit-media-controls-mute-button{display:none!important}
+video::-webkit-media-controls-toggle-closed-captions-button{display:none!important}
+
+/* 隐藏Firefox的原生控件 */
+video::-moz-media-controls-volume-slider{display:none!important}
+video::-moz-media-controls-mute-button{display:none!important}
+video::-moz-media-controls-fullscreen-button{display:none!important}
+
+/* 隐藏IE的原生控件 */
+video::-ms-media-controls-volume{display:none!important}
+video::-ms-media-controls-mute-button{display:none!important}
+video::-ms-media-controls-fullscreen-button{display:none!important}
+
+/* 确保进度条在视频上方 */
+.dplayer-progress-wrap{position:absolute!important;bottom:0!important;left:0!important;width:100%!important;height:4px!important;z-index:10!important}
+.dplayer-progress{width:100%!important;height:100%!important}
+.dplayer-progress-bar{background:rgba(255,255,255,0.3)!important}
+.dplayer-progress-loaded{background:rgba(255,255,255,0.5)!important}
+.dplayer-progress-played{background:#ff6b6b!important}
+.dplayer-progress-handle{background:#fff!important;width:12px!important;height:12px!important;border-radius:50%!important;margin-top:-4px!important}
+
+/* 隐藏任何可能的提示或通知 */
+.dplayer-notice,.dplayer-hint,.dplayer-toast{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
 
 /* 频道界面 */
 .channel-box{background:#121212;display:flex;flex-direction:column}
@@ -48,7 +123,6 @@ html,body{height:100%;background:#000;overflow:hidden}
 <div class="main">
   <div class="player-box">
     <div id="dplayer"></div>
-    <div class="loading-spinner" id="loader"></div>
   </div>
 
   <div class="channel-box">
@@ -69,46 +143,37 @@ document.addEventListener('DOMContentLoaded',()=>{
     preload: 'auto',
     video: { url: '' },
 
-    // ===============================
-    // 🔥 极速内核优化（核心加速）
-    // ===============================
     hls: {
-      maxBufferSize: 10*1000*1000,    // 最小缓冲
-      maxBufferLength: 5,            // 只缓冲5秒
-      minBufferLength: 1,            // 1秒就开始播放
-      enableWorker: true,            // 硬件加速
-      lowLatencyMode: true,          // 低延迟直播模式
-      fpsDropped: true,              // 自动丢帧保流畅
+      maxBufferSize: 10*1000*1000,
+      maxBufferLength: 5,
+      minBufferLength: 1,
+      enableWorker: true,
+      lowLatencyMode: true,
+      fpsDropped: true,
       autoStartLoad: true
     },
 
     flv: {
       enableWorker: true,
-      lazyLoad: false,              // 不延迟加载
-      maxBufferLength: 3,           // 最小缓冲
+      lazyLoad: false,
+      maxBufferLength: 3,
       autoCleanupSourceBuffer: true
     },
 
     notice: false, mask: false, logo: false
   });
 
-  const loader = document.getElementById('loader');
   const list = document.getElementById('list');
 
-  // ===============================
-  // 🔥 极速换台（零延迟）
-  // ===============================
   function play(url){
     try{
-      // 立即停止上一个视频
-      if(dp.video){dp.pause();dp.video.src='';}
-      loader.style.display='block';
+      // 移除清空视频源的操作，避免出现黑色画面
+      if(dp.video){dp.pause();}
 
       let type='normal';
       if(url.includes('.m3u8'))type='hls';
       if(url.includes('.flv'))type='flv';
 
-      // 手机直连（不卡顿）
       if(!/Mobile|Android|iPhone/.test(navigator.userAgent)&&location.protocol==='https:'){
         url='https://api.allorigins.win/raw?url='+encodeURIComponent(url);
       }
@@ -116,13 +181,9 @@ document.addEventListener('DOMContentLoaded',()=>{
       dp.switchVideo({url,type});
       dp.video.volume=0.5;
       dp.play().catch(()=>{});
-
-      dp.video.oncanplay=()=>{loader.style.display='none'};
-      setTimeout(()=>loader.style.display='none',2500);
-    }catch(e){loader.style.display='none'}
+    }catch(e){}
   }
 
-  // 加载频道
   fetch('https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt')
   .then(r=>r.text())
   .then(txt=>{
