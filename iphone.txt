@@ -33,7 +33,7 @@ CCTV9,http://183.214.23.16:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-9H265
 CCTV10,http://183.214.23.16:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-10H265_4000.m3u8
 CCTV11,http://183.214.23.16:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-11-H265_4000.m3u8
 CCTV12,http://183.214.23.16:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-12H265_4000.m3u8
-CCTV13,http://183.214.23.16:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-xw_4000.m3u8
+CCTV13,http://74.91.26.218:82/live/cctv13hd.m3u8
 CCTV14,http://183.214.23.16:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-14H265_4000.m3u8
 CCTV15,http://183.214.23.16:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-15-yyH265_4000.m3u8
 CCTV16,http://183.214.23.16:2380/hw1live.rxip.sc96655.com.huan.tv/live/CCTV-16_4000.m3u8
