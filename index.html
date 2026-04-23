@@ -19,9 +19,12 @@ html,body{height:100%;background:#000;overflow:hidden}
 .main{display:flex;width:100vw;height:100vh}
 
 /* 播放器区域 */
-.player-box{position:relative;background:#000;display:flex;align-items:center;justify-content:center}
-#dplayer{width:100%!important;height:100%!important}
-.dplayer-video{width:100%!important;height:100%!important;object-fit:contain!important;background:#000}
+.player-box{position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#dplayer{width:100%!important;height:100%!important;position:relative!important;z-index:1!important}
+
+/* 确保视频元素和容器正常显示 */
+.dplayer-video-wrap{display:block!important;position:relative!important;width:100%!important;height:100%!important;background:#000!important;z-index:2!important}
+.dplayer-video{display:block!important;position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;object-fit:contain!important;background:#000!important;z-index:3!important}
 
 /* 隐藏所有按钮图标和控制栏 */
 .dplayer-play-icon,.dplayer-pause-icon,.dplayer-mask,.dplayer-icons,.dplayer-controls,.dplayer-controller,.dplayer-loading,.dplayer-button,.dplayer-bar-wrap,.dplayer-time,.dplayer-full,.dplayer-full-in-icon,.dplayer-volume,.dplayer-volume-bar,.dplayer-subtitle,.dplayer-logo,.dplayer-controller-mask,.dplayer-controller-button,.dplayer-played,.dplayer-name,.dplayer-live-badge,.dplayer-danmakus,.dplayer-info-panel,.dplayer-tooltip,.dplayer-screenshot-icon,.dplayer-icon-play,.dplayer-icon-pause,.dplayer-icon-volume,.dplayer-icon-fullscreen,.dplayer-icon-fullscreen-exit,.dplayer-icon-subtitle,.dplayer-icon-setting,.dplayer-icon-right,.dplayer-icon-left,.dplayer-controller-mask{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
@@ -107,11 +110,14 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 /* 频道界面 */
 .channel-box{background:#121212;display:flex;flex-direction:column}
 .top-bar{height:38px;background:#1c1c1c;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#fff}
+.app-download{color:#4a90e2;text-decoration:none}
 .donate a{color:#ff6b6b;text-decoration:none}
 .channel-list{flex:1;overflow-y:auto;padding:6px}
-.channel{padding:10px;margin:4px;background:#1a1a1a;color:#ddd;border-radius:6px}
-.channel.active{background:#ff6b6b;color:#fff}
+.channel{padding:10px;margin:4px;background:#1a1a1a;color:#ddd;border-radius:6px;position:relative;display:flex;align-items:center;gap:10px;min-height:40px}
+.channel.active{background:#4a90e2;color:#fff}
 .genre{padding:8px 14px;color:#888;font-size:12px}
+.channel-error{color:#ff6b6b;font-size:12px;padding:4px 8px;background:rgba(255,107,107,0.1);border-radius:4px;display:none;white-space:nowrap;flex-shrink:0}
+.channel.active .channel-error{background:rgba(255,107,107,0.2);color:#fff}
 
 /* 布局适配 */
 @media(min-width:769px){.main{flex-direction:row}.player-box{width:75%;height:100%}.channel-box{width:25%;height:100%}}
@@ -128,7 +134,8 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
   <div class="channel-box">
     <div class="top-bar">
       <div>📺 极速直播</div>
-      <div class="donate"><a href="https://gh-proxy.org/https://raw.githubusercontent.com/bang359/dsj/main/wx.png" target="_blank">打赏支持</a></div>
+      <a href="http://rihou.cc:555/tv/uEcrg3" target="_blank" class="app-download">APP下载</a>
+      <div class="donate"><a href="http://cccimg.com/view.php/292d03a93f0210df6ae1168b6219ab95.jpg" target="_blank">打赏支持</a></div>
     </div>
     <div class="channel-list" id="list"></div>
   </div>
@@ -165,9 +172,20 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   const list = document.getElementById('list');
 
-  function play(url){
+  let currentErrorElement = null;
+
+  // 移除全局错误监听器，改为在play函数中临时绑定
+
+  function play(channel, errorElement, url){
     try{
-      // 移除清空视频源的操作，避免出现黑色画面
+      // 隐藏所有错误提示
+      document.querySelectorAll('.channel-error').forEach(el => {
+        el.style.display = 'none';
+      });
+      
+      // 设置当前错误提示元素
+      currentErrorElement = errorElement;
+      
       if(dp.video){dp.pause();}
 
       let type='normal';
@@ -178,10 +196,88 @@ document.addEventListener('DOMContentLoaded',()=>{
         url='https://api.allorigins.win/raw?url='+encodeURIComponent(url);
       }
 
+      // 重置错误状态
+      let isError = false;
+      
+      // 设置错误监听器
+      const errorHandler = () => {
+        if (!isError) {
+          isError = true;
+          if (currentErrorElement) {
+            currentErrorElement.style.display = 'block';
+          }
+        }
+      };
+      
+      // 临时绑定错误事件
+      const originalErrorHandler = dp.events['error'];
+      dp.on('error', errorHandler);
+      
+      if (dp.video) {
+        const originalVideoErrorHandler = dp.video.onerror;
+        dp.video.onerror = errorHandler;
+        
+        // 保存原始处理器以便恢复
+        dp._originalVideoErrorHandler = originalVideoErrorHandler;
+      }
+      
+      // 确保视频元素显示
+      if (dp.video) {
+        dp.video.style.display = 'block';
+        dp.video.style.opacity = '1';
+        dp.video.style.visibility = 'visible';
+      }
+      
+      // 确保视频包装器显示
+      if (dp.videoWrap) {
+        dp.videoWrap.style.display = 'block';
+        dp.videoWrap.style.opacity = '1';
+        dp.videoWrap.style.visibility = 'visible';
+      }
+      
       dp.switchVideo({url,type});
       dp.video.volume=0.5;
-      dp.play().catch(()=>{});
-    }catch(e){}
+      dp.play().catch((error) => {
+        // 只在网络错误或解码错误时显示提示
+        if (error && (error.name === 'NetworkError' || error.message.includes('decode'))) {
+          errorHandler();
+        }
+      });
+      
+      // 监听视频正常播放
+      if (dp.video) {
+        dp.video.oncanplay = () => {
+          // 视频能正常播放，清除错误状态
+          isError = false;
+          if (currentErrorElement) {
+            currentErrorElement.style.display = 'none';
+          }
+          
+          // 确保视频元素显示
+          if (dp.video) {
+            dp.video.style.display = 'block';
+            dp.video.style.opacity = '1';
+            dp.video.style.visibility = 'visible';
+          }
+        };
+        
+        // 监听视频加载
+        dp.video.onloadeddata = () => {
+          // 确保视频元素显示
+          if (dp.video) {
+            dp.video.style.display = 'block';
+            dp.video.style.opacity = '1';
+            dp.video.style.visibility = 'visible';
+          }
+        };
+      }
+      
+    }catch(e){
+      // 只有在网络错误时显示提示
+      if (e && (e.name === 'NetworkError' || e.message.includes('network'))) {
+        errorElement.style.display='block';
+      }
+    }
   }
 
   fetch('https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt')
@@ -195,11 +291,21 @@ document.addEventListener('DOMContentLoaded',()=>{
       const arr=line.split(',');
       if(arr.length>=2&&arr[1].startsWith('http')){
         const item=document.createElement('div');item.className='channel';item.textContent=arr[0];
+        
+        // 创建错误提示元素
+        const errorElement=document.createElement('div');
+        errorElement.className='channel-error';
+        errorElement.textContent='频道已失效，请等待更新';
+        
+        // 将错误提示作为频道的子元素
+        item.appendChild(errorElement);
+        
         item.onclick=()=>{
-          play(arr[1]);
+          play(item, errorElement, arr[1]);
           document.querySelectorAll('.channel').forEach(i=>i.classList.remove('active'));
           item.classList.add('active');
         };
+        
         list.appendChild(item);
       }
     });
