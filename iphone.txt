@@ -22,6 +22,9 @@ TVB plus,https://vdm6-hw.nbgdsygs.com/live/h6-2.m3u8
 CHC动作电影,http://192.151.150.154/live/chcdz.m3u8
 CHC影迷电影,http://192.151.150.154/live/chchd.m3u8
 CHC家庭影院,http://192.151.150.154/live/chcjt.m3u8
+经典老歌轮播,https://down-hls.qxiu.com/live/461450/index.m3u8
+经典短剧轮播,https://down-hls.qxiu.com/live/455246/index.m3u8
+经典电影轮播,https://down-hls.qxiu.com/live/453135/index.m3u8
 CCTV-1,http://192.151.150.154/live/cctv1hd.m3u8
 CCTV-2,http://192.151.150.154/live/cctv2hd.m3u8
 CCTV-3,http://192.151.150.154/live/cctv3hd.m3u8
