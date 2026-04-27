@@ -106,7 +106,7 @@ CCTV-卫生健康,http://192.151.150.154/live/wsjk.m3u8
 岭南戏曲,http://192.151.150.154/live/gdlnxq.m3u8
 广东4K超高清,http://192.151.150.154/live/gdtvs3.m3u8
 广东少儿,http://192.151.150.154/live/gdtvs5.m3u8
-广东体育,http://192.151.150.154/live/gdty.m3u8
+广东体育,http://111.221.137.234:44330/tsfile/live/0124_1.m3u8
 广东民生,http://192.151.150.154/live/gdgg.m3u8
 广西影视,http://192.151.150.154/live/gxys.m3u8
 广西综艺旅游,http://192.151.150.154/live/gxzy.m3u8
