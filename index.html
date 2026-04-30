@@ -112,10 +112,6 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 .app-download{color:#4a90e2;text-decoration:none}
 .donate a{color:#ff6b6b;text-decoration:none}
 .channel-list{flex:1;overflow-y:auto;padding:6px}
-.weather-box{background:#444;color:#00aaff;padding:8px 10px;border-radius:6px;margin:6px}
-.weather-info{display:flex;justify-content:center;gap:12px;font-size:14px;margin-bottom:4px}
-.date-info{display:flex;justify-content:center;gap:8px;font-size:12px;color:#888}
-.weather-info span,.date-info span{white-space:nowrap}
 .channel{padding:10px;margin:4px;background:#1a1a1a;color:#ddd;border-radius:6px;position:relative;display:flex;align-items:center;gap:10px;min-height:40px}
 .channel.active{background:#4a90e2;color:#fff}
 .genre{padding:8px 14px;color:#888;font-size:12px}
@@ -141,172 +137,11 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
       <div class="donate"><a href="http://cccimg.com/view.php/292d03a93f0210df6ae1168b6219ab95.jpg" target="_blank">打赏支持</a></div>
     </div>
     <div class="channel-list" id="list"></div>
-    <div class="weather-box" id="weatherBox">
-      <div class="weather-info">
-        <span id="netSpeed">↓0 KB/s</span>
-        <span id="weatherCity">加载中...</span>
-        <span id="weatherTemp">--°C</span>
-        <span id="weatherText">--</span>
-      </div>
-      <div class="date-info">
-        <span id="solarDate"></span>
-        <span id="lunarDate"></span>
-        <span id="weekDay"></span>
-      </div>
-    </div>
   </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
-  // 农历转换函数（更准确的算法）
-  function getLunarDate() {
-    const lunarMonth = ['正','二','三','四','五','六','七','八','九','十','冬','腊'];
-    const lunarDay = ['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
-    const now = new Date();
-    const y = now.getFullYear();
-    const m = now.getMonth() + 1;
-    const d = now.getDate();
-
-    // 基准：2026年4月30日 = 农历三月十四
-    const baseDate = new Date(2026, 3, 30);
-    const baseLunar = { month: 3, day: 14 };
-    const diff = Math.floor((now - baseDate) / 86400000);
-
-    // 估算农历月份（简化估算）
-    let lm = baseLunar.month;
-    let ld = baseLunar.day + diff;
-
-    // 处理日期溢出
-    while (ld > 30) {
-      ld -= 30;
-      lm++;
-    }
-    while (ld < 1) {
-      lm--;
-      ld += 30;
-    }
-    if (lm < 1) lm = 12;
-    if (lm > 12) lm = 1;
-
-    return { month: lunarMonth[lm-1], day: lunarDay[ld-1] };
-  }
-
-  function showDateInfo() {
-    const weekDays = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
-    const now = new Date();
-    const lunar = getLunarDate();
-    document.getElementById('solarDate').textContent = now.getFullYear() + '/' + (now.getMonth()+1) + '/' + now.getDate();
-    document.getElementById('lunarDate').textContent = '农历' + lunar.month + '月' + lunar.day;
-    document.getElementById('weekDay').textContent = weekDays[now.getDay()];
-  }
-  showDateInfo();
-
-  function getWeather() {
-    document.getElementById('weatherCity').textContent = '定位中...';
-    document.getElementById('weatherTemp').textContent = '--°C';
-    document.getElementById('weatherText').textContent = '--';
-
-    const weatherMap = {
-      'Sunny': '晴天', 'Clear': '晴', 'Partly cloudy': '多云', 'Cloudy': '阴天',
-      'Overcast': '阴', 'Mist': '薄雾', 'Fog': '雾', 'Light rain': '小雨',
-      'Moderate rain': '中雨', 'Heavy rain': '大雨', 'Rain': '雨',
-      'Light snow': '小雪', 'Moderate snow': '中雪', 'Heavy snow': '大雪', 'Snow': '雪',
-      'Thunderstorm': '雷阵雨', 'Sleet': '雨夹雪', 'Hail': '冰雹',
-      'Windy': '大风', 'Blowing sand': '扬沙', 'Dust': '沙尘',
-      'Haze': '雾霾', 'Smoke': '烟雾', 'Cloudy': '多云'
-    };
-
-    const cityMap = {
-      'Shenzhen': '深圳', 'Beijing': '北京', 'Shanghai': '上海', 'Guangzhou': '广州',
-      'Hangzhou': '杭州', 'Chengdu': '成都', 'Wuhan': '武汉', 'Nanjing': '南京',
-      'Xian': '西安', 'Chongqing': '重庆', 'Tianjin': '天津', 'Suzhou': '苏州',
-      'Dongguan': '东莞', 'Foshan': '佛山', 'Changsha': '长沙', 'Zhengzhou': '郑州',
-      'Jinan': '济南', 'Qingdao': '青岛', 'Shenyang': '沈阳', 'Harbin': '哈尔滨',
-      'Changchun': '长春', 'Dalian': '大连', 'Xiamen': '厦门', 'Fuzhou': '福州',
-      'Kunming': '昆明', 'Guiyang': '贵阳', 'Nanchang': '南昌', 'Hefei': '合肥',
-      'Taiyuan': '太原', 'Shijiazhuang': '石家庄', 'Nanning': '南宁',
-      'Urumqi': '乌鲁木齐', 'Lanzhou': '兰州', 'Yinchuan': '银川', 'Xining': '西宁',
-      'Lhasa': '拉萨', 'Hohhot': '呼和浩特', 'Macau': '澳门', 'Hong Kong': '香港',
-      'Guangxi': '广西', 'Yunnan': '云南', 'Guangdong': '广东',
-      'Jiangsu': '江苏', 'Zhejiang': '浙江', 'Fujian': '福建', 'Shandong': '山东',
-      'Henan': '河南', 'Hubei': '湖北', 'Hunan': '湖南', 'Sichuan': '四川',
-      'Guangxi Zhuang': '广西', 'Yunnan Province': '云南', 'Guangdong Province': '广东',
-      'Jiangsu Province': '江苏', 'Zhejiang Province': '浙江', 'Fujian Province': '福建', 'Shandong Province': '山东',
-      'Henan Province': '河南', 'Hubei Province': '湖北', 'Hunan Province': '湖南', 'Sichuan Province': '四川'
-    };
-
-    const provinceToCity = {
-      '湖北': '武汉', '湖南': '长沙', '河南': '郑州', '河北': '石家庄',
-      '山西': '太原', '辽宁': '沈阳', '吉林': '长春', '黑龙江': '哈尔滨',
-      '陕西': '西安', '甘肃': '兰州', '青海': '西宁', '四川': '成都',
-      '云南': '昆明', '贵州': '贵阳', '广东': '广州', '广西': '南宁',
-      '福建': '福州', '浙江': '杭州', '江苏': '南京', '安徽': '合肥',
-      '江西': '南昌', '山东': '济南', '海南': '海口', '内蒙古': '呼和浩特',
-      '宁夏': '银川', '新疆': '乌鲁木齐', '西藏': '拉萨', '台湾': '台北',
-      '香港': '香港', '澳门': '澳门'
-    };
-
-    fetch('https://wttr.in/?format=j1')
-      .then(res => res.json())
-      .then(data => {
-        let city = '未知';
-        if (data.nearest_area && data.nearest_area[0]) {
-          const area = data.nearest_area[0];
-          if (area.region && area.region[0] && area.region[0].value) {
-            city = area.region[0].value;
-          }
-          if (area.country && area.country[0] && area.country[0].value) {
-            const country = area.country[0].value;
-            if (country !== 'China') {
-              city = area.nearest_area[0].value || city;
-            }
-          }
-        }
-        city = cityMap[city] || city;
-        if (provinceToCity[city]) {
-          city = provinceToCity[city];
-        }
-        document.getElementById('weatherCity').textContent = city;
-
-        if (data.current_condition && data.current_condition[0]) {
-          const temp = data.current_condition[0].temp_C + '°C';
-          let weather = data.current_condition[0].weatherDesc[0].value;
-          weather = weatherMap[weather] || weather;
-          document.getElementById('weatherTemp').textContent = temp;
-          document.getElementById('weatherText').textContent = weather;
-        }
-      })
-      .catch(() => {
-        document.getElementById('weatherCity').textContent = '定位失败';
-      });
-  }
-  getWeather();
-
-  // 缓冲状态检测（更可靠）
-  function updateBufferStatus() {
-    try {
-      const video = dp.video;
-      if (video && video.buffered.length > 0) {
-        const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-        const currentTime = video.currentTime;
-        const buffered = bufferedEnd - currentTime;
-
-        let statusText = '↓缓冲 ' + buffered.toFixed(1) + 's';
-        if (buffered > 30) {
-          statusText = '↓缓冲充足';
-        } else if (buffered < 5) {
-          statusText = '↓缓冲不足';
-        }
-        document.getElementById('netSpeed').textContent = statusText;
-      } else if (video && video.readyState > 0) {
-        document.getElementById('netSpeed').textContent = '↓正在缓冲...';
-      }
-    } catch (e) {
-      // 静默处理
-    }
-  }
-
   const dp = new DPlayer({
     container: document.getElementById('dplayer'),
     autoplay: true,
@@ -315,28 +150,24 @@ document.addEventListener('DOMContentLoaded',()=>{
     video: { url: '' },
 
     hls: {
-      maxBufferSize: 3*1000*1000,
-      maxBufferLength: 2,
-      minBufferLength: 0.5,
+      maxBufferSize: 10*1000*1000,
+      maxBufferLength: 5,
+      minBufferLength: 1,
       enableWorker: true,
       lowLatencyMode: true,
+      fpsDropped: true,
       autoStartLoad: true
     },
 
     flv: {
       enableWorker: true,
       lazyLoad: false,
-      lazyLoadMaxDuration: 0,
-      maxBufferLength: 1,
-      maxBufferSize: 5*1000*1000,
-      autoCleanupSourceBuffer: true,
-      autoCleanupMaxBytes: 5*1000*1000
+      maxBufferLength: 3,
+      autoCleanupSourceBuffer: true
     },
 
     notice: false, mask: false, logo: false
   });
-
-  setInterval(updateBufferStatus, 1000);
 
   const list = document.getElementById('list');
 
@@ -353,24 +184,15 @@ document.addEventListener('DOMContentLoaded',()=>{
       
       // 设置当前错误提示元素
       currentErrorElement = errorElement;
+      
+      if(dp.video){dp.pause();}
 
       let type='normal';
       if(url.includes('.m3u8'))type='hls';
       if(url.includes('.flv'))type='flv';
 
-      // 判断是否需要代理（排除已知稳定的源）
-      const stableDomains = ['192.151.150.154', 'ali-xwl.cztv.com', 'rihou.cc', '221.194.141.41'];
-      const blockedDomains = ['quklive.com', 'cfss.cc', 'nbgdsygs.com'];
-      const isBlocked = blockedDomains.some(d => url.includes(d));
-      const needsProxy = (type==='flv'||type==='hls') && !stableDomains.some(d => url.includes(d)) && !isBlocked;
-
-      if(needsProxy){
-        const proxies = [
-          'https://corsproxy.io/?',
-          'https://api.allorigins.win/raw?url=',
-          'https://proxy.cors.sh/'
-        ];
-        url = proxies[0] + encodeURIComponent(url);
+      if(!/Mobile|Android|iPhone/.test(navigator.userAgent)&&location.protocol==='https:'){
+        url='https://api.allorigins.win/raw?url='+encodeURIComponent(url);
       }
 
       // 重置错误状态
@@ -389,10 +211,12 @@ document.addEventListener('DOMContentLoaded',()=>{
       // 临时绑定错误事件
       const originalErrorHandler = dp.events['error'];
       dp.on('error', errorHandler);
-
+      
       if (dp.video) {
         const originalVideoErrorHandler = dp.video.onerror;
         dp.video.onerror = errorHandler;
+        
+        // 保存原始处理器以便恢复
         dp._originalVideoErrorHandler = originalVideoErrorHandler;
       }
       
@@ -403,6 +227,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         dp.video.style.visibility = 'visible';
       }
       
+      // 确保视频包装器显示
       if (dp.videoWrap) {
         dp.videoWrap.style.display = 'block';
         dp.videoWrap.style.opacity = '1';
@@ -412,6 +237,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       dp.switchVideo({url,type});
       dp.video.volume=0.5;
       dp.play().catch((error) => {
+        // 只在网络错误或解码错误时显示提示
         if (error && (error.name === 'NetworkError' || error.message.includes('decode'))) {
           errorHandler();
         }
