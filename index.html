@@ -76,23 +76,37 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 
 .dplayer-notice,.dplayer-hint,.dplayer-toast{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
 
-.channel-box{background:#121212;display:flex;flex-direction:column}
-.top-bar{height:38px;background:#1c1c1c;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#fff}
-.app-download{color:#4a90e2;text-decoration:none}
-.donate a{color:#ff6b6b;text-decoration:none}
-.channel-list{flex:1;overflow-y:auto;padding:6px}
-.weather-box{background:#444;color:#00aaff;padding:8px 10px;border-radius:6px;margin:6px}
-.weather-info{display:flex;justify-content:center;gap:12px;font-size:14px;margin-bottom:4px}
-.date-info{display:flex;justify-content:center;gap:8px;font-size:12px;color:#888}
+.channel-box{background:#121212;display:flex;flex-direction:column;height:100%}
+.top-bar{height:38px;background:#1c1c1c;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#fff;flex-shrink:0}
+.app-download{color:#4a90e2;text-decoration:none;font-size:12px}
+.donate a{color:#ff6b6b;text-decoration:none;font-size:12px}
+.channel-list{flex:1;overflow-y:auto;padding:4px}
+.weather-box{background:#2a2a2a;color:#00aaff;padding:6px 8px;border-radius:4px;margin:4px;flex-shrink:0}
+.weather-info{display:flex;justify-content:center;gap:8px;font-size:12px;margin-bottom:2px;flex-wrap:wrap}
+.date-info{display:flex;justify-content:center;gap:6px;font-size:10px;color:#aaa;margin-top:2px;flex-wrap:wrap}
 .weather-info span,.date-info span{white-space:nowrap}
-.channel{padding:10px;margin:4px;background:#1a1a1a;color:#ddd;border-radius:6px;position:relative;display:flex;align-items:center;gap:10px;min-height:40px}
+.channel{padding:8px 10px;margin:3px;background:#1a1a1a;color:#ddd;border-radius:4px;position:relative;display:flex;align-items:center;gap:8px;min-height:36px;font-size:13px}
 .channel.active{background:#4a90e2;color:#fff}
-.genre{padding:8px 14px;color:#888;font-size:12px}
-.channel-error{color:#ff6b6b;font-size:12px;padding:4px 8px;background:rgba(255,107,107,0.1);border-radius:4px;display:none;white-space:nowrap;flex-shrink:0}
+.genre{padding:6px 12px;color:#666;font-size:11px}
+.channel-error{color:#ff6b6b;font-size:11px;padding:3px 6px;background:rgba(255,107,107,0.1);border-radius:3px;display:none;white-space:nowrap;flex-shrink:0}
 .channel.active .channel-error{background:rgba(255,107,107,0.2);color:#fff}
 
-@media(min-width:769px){.main{flex-direction:row}.player-box{width:75%;height:100%}.channel-box{width:25%;height:100%}}
-@media(max-width:768px){.main{flex-direction:column}.player-box{width:100%;height:46vh}.channel-box{width:100%;height:54vh}}
+@media(min-width:769px){
+  .main{flex-direction:row}
+  .player-box{width:75%;height:100%}
+  .channel-box{width:25%;height:100%}
+}
+@media(max-width:768px){
+  .main{flex-direction:column;height:100vh}
+  .player-box{width:100%;height:45vh}
+  .channel-box{width:100%;height:55vh;min-height:180px}
+  .top-bar{height:32px;padding:0 10px}
+  .top-bar div:first-child{font-size:12px}
+  .channel{font-size:12px;padding:6px 8px;min-height:32px}
+  .weather-box{padding:5px 6px}
+  .weather-info{font-size:11px;gap:6px}
+  .date-info{font-size:9px;gap:4px}
+}
 </style>
 </head>
 
@@ -105,7 +119,7 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
   <div class="channel-box">
     <div class="top-bar">
       <div>📺 极速直播</div>
-      <a href="http://rihou.cc:555/tv/uEcrg3" target="_blank" class="app-download">电视家重生APP下载</a>
+      <a href="http://rihou.cc:555/tv/uEcrg3" target="_blank" class="app-download">APP下载</a>
       <div class="donate"><a href="http://cccimg.com/view.php/292d03a93f0210df6ae1168b6219ab95.jpg" target="_blank">打赏支持</a></div>
     </div>
     <div class="channel-list" id="list"></div>
