@@ -18,8 +18,8 @@ html,body{height:100%;background:#000;overflow:hidden}
 .main{display:flex;width:100vw;height:100vh}
 
 /* 播放器区域 */
-.player-box{position:relative;background:#000;display:flex;flex-direction:column;height:100%}
-#dplayer{width:100%!important;flex:1!important;position:relative!important;z-index:1!important}
+.player-box{position:relative;background:#000;height:100%}
+#dplayer{width:100%!important;height:calc(100% - 40px)!important;position:absolute!important;top:0!important;left:0!important;right:0!important;z-index:1!important}
 
 /* 确保视频元素和容器正常显示 */
 .dplayer-video-wrap{display:block!important;position:relative!important;width:100%!important;height:100%!important;background:#000!important;z-index:2!important}
@@ -119,7 +119,7 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 .channel.active .channel-error{background:rgba(255,107,107,0.2);color:#fff}
 
 /* 天气和日历模块 */
-.weather-box{background:#1a1a1a;color:#00aaff;padding:4px 12px;border-top:1px solid #333;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;z-index:100}
+.weather-box{position:absolute!important;bottom:0!important;left:0!important;right:0!important;background:#000!important;color:#00aaff;padding:4px 12px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;align-items:center;z-index:1000!important;height:40px!important}
 .weather-info{display:flex;justify-content:flex-start;gap:12px;font-size:12px;flex-wrap:wrap;flex:1}
 .date-info{display:flex;justify-content:flex-end;gap:8px;font-size:11px;color:#aaa;flex-wrap:wrap;flex:1;justify-content:flex-end}
 .weather-info span,.date-info span{white-space:nowrap}
@@ -128,9 +128,10 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 /* 布局适配 */
 @media(min-width:769px){
   .main{flex-direction:row}
-  .player-box{width:75%;height:100%}
+  .player-box{width:75%;height:100%;border-right:1px solid #1a1a1a}
   .channel-box{width:25%;height:100%}
-  .weather-box{padding:6px 16px}
+  #dplayer{height:calc(100% - 44px)!important}
+  .weather-box{padding:6px 16px;height:44px!important}
   .weather-info{font-size:13px;gap:14px}
   .date-info{font-size:11px;gap:10px}
 }
@@ -138,7 +139,8 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
   .main{flex-direction:column}
   .player-box{width:100%;height:50vh;min-height:200px}
   .channel-box{width:100%;height:50vh;min-height:180px}
-  .weather-box{padding:3px 6px}
+  #dplayer{height:calc(100% - 38px)!important}
+  .weather-box{padding:3px 6px;height:38px!important}
   .weather-info{font-size:9px;gap:6px}
   .date-info{font-size:8px;gap:4px}
   .weather-divider{margin:0 4px}
