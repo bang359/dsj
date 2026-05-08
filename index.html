@@ -18,8 +18,8 @@ html,body{height:100%;background:#000;overflow:hidden}
 .main{display:flex;width:100vw;height:100vh}
 
 /* 播放器区域 */
-.player-box{position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
-#dplayer{width:100%!important;height:100%!important;position:relative!important;z-index:1!important}
+.player-box{position:relative;background:#000;display:flex;flex-direction:column;height:100%}
+#dplayer{width:100%!important;flex:1!important;position:relative!important;z-index:1!important}
 
 /* 确保视频元素和容器正常显示 */
 .dplayer-video-wrap{display:block!important;position:relative!important;width:100%!important;height:100%!important;background:#000!important;z-index:2!important}
@@ -118,9 +118,31 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 .channel-error{color:#ff6b6b;font-size:12px;padding:4px 8px;background:rgba(255,107,107,0.1);border-radius:4px;display:none;white-space:nowrap;flex-shrink:0}
 .channel.active .channel-error{background:rgba(255,107,107,0.2);color:#fff}
 
+/* 天气和日历模块 */
+.weather-box{background:#1a1a1a;color:#00aaff;padding:4px 12px;border-top:1px solid #333;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;z-index:100}
+.weather-info{display:flex;justify-content:flex-start;gap:12px;font-size:12px;flex-wrap:wrap;flex:1}
+.date-info{display:flex;justify-content:flex-end;gap:8px;font-size:11px;color:#aaa;flex-wrap:wrap;flex:1;justify-content:flex-end}
+.weather-info span,.date-info span{white-space:nowrap}
+.weather-divider{color:#444;margin:0 8px}
+
 /* 布局适配 */
-@media(min-width:769px){.main{flex-direction:row}.player-box{width:75%;height:100%}.channel-box{width:25%;height:100%}}
-@media(max-width:768px){.main{flex-direction:column}.player-box{width:100%;height:46vh}.channel-box{width:100%;height:54vh}}
+@media(min-width:769px){
+  .main{flex-direction:row}
+  .player-box{width:75%;height:100%}
+  .channel-box{width:25%;height:100%}
+  .weather-box{padding:6px 16px}
+  .weather-info{font-size:13px;gap:14px}
+  .date-info{font-size:11px;gap:10px}
+}
+@media(max-width:768px){
+  .main{flex-direction:column}
+  .player-box{width:100%;height:50vh;min-height:200px}
+  .channel-box{width:100%;height:50vh;min-height:180px}
+  .weather-box{padding:3px 6px}
+  .weather-info{font-size:9px;gap:6px}
+  .date-info{font-size:8px;gap:4px}
+  .weather-divider{margin:0 4px}
+}
 </style>
 </head>
 
@@ -128,6 +150,20 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 <div class="main">
   <div class="player-box">
     <div id="dplayer"></div>
+    <div class="weather-box" id="weatherBox">
+      <div class="weather-info">
+        <span id="netSpeed">↓0 KB/s</span>
+        <span id="weatherCity">加载中...</span>
+        <span id="weatherTemp">--°C</span>
+        <span id="weatherText">--</span>
+      </div>
+      <span class="weather-divider">|</span>
+      <div class="date-info">
+        <span id="solarDate"></span>
+        <span id="lunarDate"></span>
+        <span id="weekDay"></span>
+      </div>
+    </div>
   </div>
 
   <div class="channel-box">
@@ -172,6 +208,213 @@ document.addEventListener('DOMContentLoaded',()=>{
   const list = document.getElementById('list');
 
   let currentErrorElement = null;
+
+  // 农历数据
+  const lunarInfo = [
+    0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
+    0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
+    0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,
+    0x06566,0x0d4a0,0x0ea50,0x06e95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,
+    0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,
+    0x06ca0,0x0b550,0x15355,0x04da0,0x0a5d0,0x14573,0x052d0,0x0a9a8,0x0e950,0x06aa0,
+    0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,
+    0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b5a0,0x195a6,
+    0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,
+    0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x055c0,0x0ab60,0x096d5,0x092e0,
+    0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,
+    0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,
+    0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,
+    0x05aa0,0x076a3,0x096d0,0x04bd7,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,
+    0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0
+  ];
+  const Gan = ["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
+  const Zhi = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+  const Animals = ["鼠","牛","虎","兔","龙","蛇","马","羊","猴","鸡","狗","猪"];
+  const solarTerm = ["小寒","大寒","立春","雨水","惊蛰","春分","清明","谷雨","立夏","小满","芒种","夏至","小暑","大暑","立秋","处暑","白露","秋分","寒露","霜降","立冬","小雪","大雪","冬至"];
+  const lunarMonthNames = ["正","二","三","四","五","六","七","八","九","十","冬","腊"];
+  const lunarDayNames = ["初一","初二","初三","初四","初五","初六","初七","初八","初九","初十","十一","十二","十三","十四","十五","十六","十七","十八","十九","二十","廿一","廿二","廿三","廿四","廿五","廿六","廿七","廿八","廿九","三十"];
+
+  function getLunarDate(date) {
+    let year = date.getFullYear(), month = date.getMonth() + 1, day = date.getDate();
+    let baseDate = new Date(1900, 0, 31);
+    let offset = Math.floor((date - baseDate) / 86400000);
+    let i = 0, temp = 0;
+    for (i = 1900; i < 2050 && offset > 0; i++) {
+      temp = lYearDays(i);
+      offset -= temp;
+    }
+    if (offset < 0) { offset += temp; i--; }
+    let lunarYear = i;
+    let leap = leapMonth(i);
+    let isLeap = false;
+    for (i = 1; i < 13 && offset > 0; i++) {
+      if (leap > 0 && i == (leap + 1) && isLeap == false) { --i; isLeap = true; temp = leapDays(lunarYear); }
+      else { temp = monthDays(lunarYear, i); }
+      if (isLeap == true && i == (leap + 1)) isLeap = false;
+      offset -= temp;
+    }
+    if (offset == 0 && leap > 0 && i == leap + 1) {
+      if (isLeap) { isLeap = false; }
+      else { isLeap = true; --i; }
+    }
+    if (offset < 0) { offset += temp; --i; }
+    let lunarMonth = i;
+    let lunarDay = offset + 1;
+    return { year: lunarYear, month: lunarMonth, day: lunarDay, isLeap: isLeap };
+  }
+  function lYearDays(y) { let i, sum = 348; for (i = 0x8000; i > 0x8; i >>= 1) sum += (lunarInfo[y - 1900] & i) ? 1 : 0; return sum + leapDays(y); }
+  function leapDays(y) { if (leapMonth(y)) return (lunarInfo[y - 1900] & 0x10000) ? 30 : 29; return 0; }
+  function leapMonth(y) { return lunarInfo[y - 1900] & 0xf; }
+  function monthDays(y, m) { return (lunarInfo[y - 1900] & (0x10000 >> m)) ? 30 : 29; }
+  function toChinaString(lunar) {
+    return lunarMonthNames[lunar.month - 1] + "月" + lunarDayNames[lunar.day - 1];
+  }
+
+  function showDateInfo() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    document.getElementById('solarDate').textContent = `${year}/${month}/${day}`;
+    const lunar = getLunarDate(now);
+    document.getElementById('lunarDate').textContent = `农历${toChinaString(lunar)}`;
+    const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    document.getElementById('weekDay').textContent = weekDays[now.getDay()];
+  }
+  showDateInfo();
+
+  function getWeather() {
+    document.getElementById('weatherCity').textContent = '加载中...';
+    document.getElementById('weatherTemp').textContent = '--°C';
+    document.getElementById('weatherText').textContent = '--';
+
+    const weatherMap = {
+      'Sunny': '晴天', 'Clear': '晴', 'Partly cloudy': '多云', 'Cloudy': '阴天',
+      'Overcast': '阴', 'Mist': '薄雾', 'Fog': '雾', 'Light rain': '小雨',
+      'Moderate rain': '中雨', 'Heavy rain': '大雨', 'Rain': '雨',
+      'Light snow': '小雪', 'Moderate snow': '中雪', 'Heavy snow': '大雪', 'Snow': '雪',
+      'Thunderstorm': '雷阵雨', 'Sleet': '雨夹雪', 'Hail': '冰雹',
+      'Windy': '大风', 'Blowing sand': '扬沙', 'Dust': '沙尘',
+      'Haze': '雾霾', 'Smoke': '烟雾', 'Clear sky': '晴', 'Fair': '晴',
+      'Partly Cloudy': '多云', 'Mostly Cloudy': '多云', 'Broken clouds': '多云',
+      'Scattered clouds': '多云', 'Few clouds': '少云', 'Light intensity drizzle': '小雨',
+      'Drizzle': '小雨', 'Heavy intensity drizzle': '大雨', 'Light rain shower': '阵雨',
+      'Rain shower': '阵雨', 'Heavy rain shower': '雷阵雨', 'Thunderstorm with light rain': '雷阵雨',
+      'Thunderstorm with heavy rain': '雷阵雨', 'Thunderstorm': '雷阵雨',
+      'Light snow showers': '阵雪', 'Snow showers': '阵雪', 'Heavy snow showers': '大雪',
+      'Light sleet': '雨夹雪', 'Moderate or heavy sleet': '雨夹雪',
+      'Light rain and snow': '雨夹雪', 'Rain and snow': '雨夹雪',
+      'Mist': '雾', 'Freezing fog': '冻雾', 'Sand/dust whirls': '沙尘',
+      'Duststorm': '沙尘暴', 'Volcanic ash': '灰霾', 'Squalls': '大风',
+      'Tornado': '龙卷风', 'Hot': '炎热', 'Cold': '寒冷', 'Unknown': '未知'
+    };
+
+    const cityMap = {
+      'Shenzhen': '深圳', 'Beijing': '北京', 'Shanghai': '上海', 'Guangzhou': '广州',
+      'Hangzhou': '杭州', 'Chengdu': '成都', 'Wuhan': '武汉', 'Nanjing': '南京',
+      'Xian': '西安', 'Chongqing': '重庆', 'Tianjin': '天津', 'Suzhou': '苏州',
+      'Dongguan': '东莞', 'Foshan': '佛山', 'Changsha': '长沙', 'Zhengzhou': '郑州',
+      'Jinan': '济南', 'Qingdao': '青岛', 'Shenyang': '沈阳', 'Harbin': '哈尔滨',
+      'Changchun': '长春', 'Dalian': '大连', 'Xiamen': '厦门', 'Fuzhou': '福州',
+      'Kunming': '昆明', 'Guiyang': '贵阳', 'Nanchang': '南昌', 'Hefei': '合肥',
+      'Taiyuan': '太原', 'Shijiazhuang': '石家庄', 'Nanning': '南宁',
+      'Urumqi': '乌鲁木齐', 'Lanzhou': '兰州', 'Yinchuan': '银川', 'Xining': '西宁',
+      'Lhasa': '拉萨', 'Hohhot': '呼和浩特', 'Macau': '澳门', 'Hong Kong': '香港',
+      'Taipei': '台北', 'Kaohsiung': '高雄', 'Taichung': '台中', 'New Taipei': '新北',
+      'Guangxi': '广西', 'Yunnan': '云南', 'Guangdong': '广东',
+      'Jiangsu': '江苏', 'Zhejiang': '浙江', 'Fujian': '福建', 'Shandong': '山东',
+      'Henan': '河南', 'Hubei': '湖北', 'Hunan': '湖南', 'Sichuan': '四川'
+    };
+
+    const translateWeather = (weather) => {
+      if (weatherMap[weather]) return weatherMap[weather];
+      const lowerWeather = weather.toLowerCase();
+      if (lowerWeather.includes('sunny') || lowerWeather.includes('clear')) return '晴';
+      if (lowerWeather.includes('cloudy') || lowerWeather.includes('overcast')) return '多云';
+      if (lowerWeather.includes('rain') || lowerWeather.includes('drizzle')) {
+        if (lowerWeather.includes('heavy')) return '大雨';
+        if (lowerWeather.includes('moderate')) return '中雨';
+        return '小雨';
+      }
+      if (lowerWeather.includes('snow')) {
+        if (lowerWeather.includes('heavy')) return '大雪';
+        if (lowerWeather.includes('moderate')) return '中雪';
+        return '小雪';
+      }
+      if (lowerWeather.includes('thunder')) return '雷阵雨';
+      if (lowerWeather.includes('fog') || lowerWeather.includes('mist')) return '雾';
+      if (lowerWeather.includes('wind')) return '大风';
+      if (lowerWeather.includes('haze') || lowerWeather.includes('dust') || lowerWeather.includes('sand')) return '雾霾';
+      return weather;
+    };
+
+    const fetchWeather = () => {
+      fetch('https://wttr.in/?format=j1')
+        .then(res => res.json())
+        .then(data => {
+          let city = '未知';
+          if (data.nearest_area && data.nearest_area[0]) {
+            const area = data.nearest_area[0];
+            if (area.areaName && area.areaName[0] && area.areaName[0].value) {
+              city = area.areaName[0].value;
+            } else if (area.region && area.region[0] && area.region[0].value) {
+              city = area.region[0].value;
+            }
+          }
+          city = cityMap[city] || city;
+          document.getElementById('weatherCity').textContent = city;
+
+          if (data.current_condition && data.current_condition[0]) {
+            const temp = data.current_condition[0].temp_C + '°C';
+            const weather = data.current_condition[0].weatherDesc[0].value;
+            document.getElementById('weatherTemp').textContent = temp;
+            document.getElementById('weatherText').textContent = translateWeather(weather);
+          }
+        })
+        .catch(() => {
+          document.getElementById('weatherCity').textContent = '获取失败';
+          document.getElementById('weatherTemp').textContent = '--';
+          document.getElementById('weatherText').textContent = '请检查网络';
+        });
+    };
+
+    fetchWeather();
+    setInterval(fetchWeather, 60000);
+  }
+
+  setTimeout(() => {
+    getWeather();
+  }, 500);
+
+  function updateBufferStatus() {
+    try {
+      const video = dp.video;
+      if (!video || video.readyState < 2) {
+        document.getElementById('netSpeed').textContent = '↓缓冲中...';
+        return;
+      }
+      const buffered = video.buffered;
+      if (buffered.length > 0) {
+        const bufferedEnd = buffered.end(buffered.length - 1);
+        const currentTime = video.currentTime;
+        const bufferedAhead = bufferedEnd - currentTime;
+        if (bufferedAhead > 10) {
+          document.getElementById('netSpeed').textContent = '↓缓冲充足';
+        } else if (bufferedAhead > 5) {
+          document.getElementById('netSpeed').textContent = '↓缓冲正常';
+        } else if (bufferedAhead > 2) {
+          document.getElementById('netSpeed').textContent = '↓缓冲较少';
+        } else {
+          document.getElementById('netSpeed').textContent = '↓缓冲中...';
+        }
+      } else {
+        document.getElementById('netSpeed').textContent = '↓加载中...';
+      }
+    } catch (e) {
+      document.getElementById('netSpeed').textContent = '↓--';
+    }
+  }
+  setInterval(updateBufferStatus, 2000);
 
   // 移除全局错误监听器，改为在play函数中临时绑定
 
