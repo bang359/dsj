@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -118,12 +119,32 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 .channel-error{color:#ff6b6b;font-size:12px;padding:4px 8px;background:rgba(255,107,107,0.1);border-radius:4px;display:none;white-space:nowrap;flex-shrink:0}
 .channel.active .channel-error{background:rgba(255,107,107,0.2);color:#fff}
 
+/* 电子钟样式 - 完整数字翻页时钟 */
+.flip-clock{display:flex!important;align-items:center!important;justify-content:center!important;z-index:999!important;background:transparent!important;gap:8px}
+.flip-hours,.flip-minutes,.flip-seconds{display:flex;gap:2px}
+.flip-card{position:relative;width:22px;height:36px;perspective:400px;background:#222;border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,0.4)}
+.flip-card-inner{position:relative;width:100%;height:100%}
+.flip-card-top,.flip-card-bottom,.flip-card-back{position:absolute;left:0;width:100%;height:100%;overflow:hidden;color:#fff;font-family:'Arial Black','Helvetica Neue',sans-serif;font-size:24px;font-weight:bold;display:flex;align-items:center;justify-content:center;background:#222}
+.flip-card-top{border-radius:3px 3px 0 0;z-index:3;border-bottom:1px solid #111}
+.flip-card-bottom{border-radius:0 0 3px 3px;z-index:1;background:#1a1a1a}
+.flip-card-back{border-radius:3px;z-index:2;backface-visibility:hidden;transform:rotateX(-180deg);background:#2a2a2a}
+.flip-card.flipping{animation:flipCard 0.5s ease-in-out}
+.flip-card.flipping .flip-card-top{transform:rotateX(180deg);transition:transform 0.25s ease-in;transform-origin:bottom}
+.flip-card.flipping .flip-card-back{transform:rotateX(0deg);transition:transform 0.25s ease-out 0.25s;transform-origin:top}
+@keyframes flipCard{0%{transform:rotateX(0deg)}50%{transform:rotateX(0deg)}100%{transform:rotateX(0deg)}}
+.flip-dividers{display:flex;flex-direction:column;gap:6px;padding:0 4px}
+.flip-divider{width:6px;height:6px;border-radius:50%;background:#fff}
+.flip-divider.active{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
 /* 天气和日历模块 */
-.weather-box{position:absolute!important;bottom:0!important;left:0!important;right:0!important;background:#000!important;color:#00aaff;padding:4px 12px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;align-items:center;z-index:1000!important;height:40px!important}
-.weather-info{display:flex;justify-content:flex-start;gap:12px;font-size:12px;flex-wrap:wrap;flex:1}
-.date-info{display:flex;justify-content:flex-end;gap:8px;font-size:11px;color:#aaa;flex-wrap:wrap;flex:1;justify-content:flex-end}
+.weather-box{position:absolute!important;bottom:0!important;left:0!important;right:0!important;background:#000!important;color:#00aaff;padding:2px 12px;border-top:1px solid #1a1a1a;display:flex!important;justify-content:space-between;align-items:center;z-index:1000!important;height:50px!important;gap:8px}
+.weather-info{display:flex;justify-content:flex-start;gap:8px;font-size:12px;flex-wrap:wrap;min-width:0}
+.date-info{display:flex;justify-content:flex-end;gap:8px;font-size:11px;color:#aaa;flex-wrap:wrap;min-width:0}
+.clock-center{display:flex;align-items:center;justify-content:center;flex:1}
 .weather-info span,.date-info span{white-space:nowrap}
-.weather-divider{color:#444;margin:0 8px}
+.weather-divider{color:#444;margin:0 4px}
+.flip-container{background:transparent!important}
 
 /* 布局适配 */
 @media(min-width:769px){
@@ -141,9 +162,15 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
   .channel-box{width:100%;height:50vh;min-height:180px}
   #dplayer{height:calc(100% - 38px)!important}
   .weather-box{padding:3px 6px;height:38px!important}
-  .weather-info{font-size:9px;gap:6px}
-  .date-info{font-size:8px;gap:4px}
-  .weather-divider{margin:0 4px}
+  .weather-info{font-size:9px;gap:4px}
+  .date-info{font-size:8px;gap:3px}
+  .weather-divider{margin:0 3px}
+  .flip-card{width:14px!important;height:22px!important}
+  .flip-card-top{height:11px!important;font-size:11px!important;line-height:11px!important;top:0!important}
+  .flip-card-bottom{height:11px!important;font-size:11px!important;line-height:11px!important;top:11px!important}
+  .flip-card-back{height:11px!important;font-size:11px!important;line-height:11px!important;bottom:11px!important}
+  .flip-card-top::after{top:10px!important}
+  .flip-divider{font-size:12px!important;line-height:22px!important}
 }
 </style>
 </head>
@@ -158,6 +185,10 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
         <span id="weatherCity">加载中...</span>
         <span id="weatherTemp">--°C</span>
         <span id="weatherText">--</span>
+      </div>
+      <span class="weather-divider">|</span>
+      <div class="clock-center">
+        <div class="flip-clock" id="flipClock"></div>
       </div>
       <span class="weather-divider">|</span>
       <div class="date-info">
@@ -284,6 +315,185 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('weekDay').textContent = weekDays[now.getDay()];
   }
   showDateInfo();
+
+  // 完整数字翻页时钟
+  function initFlipClock() {
+    const flipClock = document.getElementById('flipClock');
+    flipClock.innerHTML = `
+      <div class="flip-hours">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-top">0</div>
+            <div class="flip-card-bottom">0</div>
+            <div class="flip-card-back">0</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-top">0</div>
+            <div class="flip-card-bottom">0</div>
+            <div class="flip-card-back">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-dividers">
+        <span class="flip-divider active"></span>
+        <span class="flip-divider active"></span>
+      </div>
+      <div class="flip-minutes">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-top">0</div>
+            <div class="flip-card-bottom">0</div>
+            <div class="flip-card-back">0</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-top">0</div>
+            <div class="flip-card-bottom">0</div>
+            <div class="flip-card-back">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-dividers">
+        <span class="flip-divider active"></span>
+        <span class="flip-divider active"></span>
+      </div>
+      <div class="flip-seconds">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-top">0</div>
+            <div class="flip-card-bottom">0</div>
+            <div class="flip-card-back">0</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-top">0</div>
+            <div class="flip-card-bottom">0</div>
+            <div class="flip-card-back">0</div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    updateFlipClock();
+  }
+
+  let lastHour = -1;
+
+function playBeep(duration = 300, frequency = 800) {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = frequency;
+    oscillator.type = 'sine';
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + duration / 1000);
+  } catch (e) {
+    console.log('音频播放不可用');
+  }
+}
+
+function updateFlipClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    // 整点报时
+    if (minutes === '00' && seconds === '00') {
+      const currentHour = parseInt(hours);
+      if (currentHour !== lastHour) {
+        lastHour = currentHour;
+        playHourlyChime(currentHour);
+      }
+    } else if (seconds !== '00') {
+      lastHour = -1;
+    }
+    
+    // 更新小时卡片
+    const hourCards = document.querySelectorAll('.flip-hours .flip-card');
+    for (let i = 0; i < 2; i++) {
+      const card = hourCards[i];
+      if (!card) continue;
+      const currentDigit = card.querySelector('.flip-card-bottom').textContent;
+      const newDigit = hours[i];
+      if (currentDigit !== newDigit) {
+        // 设置背面的新数字
+        card.querySelector('.flip-card-back').textContent = newDigit;
+        // 添加翻转类触发动画
+        card.classList.add('flipping');
+        // 动画完成后重置
+        setTimeout(() => {
+          card.querySelector('.flip-card-top').textContent = newDigit;
+          card.querySelector('.flip-card-bottom').textContent = newDigit;
+          card.classList.remove('flipping');
+        }, 500);
+      }
+    }
+    
+    // 更新分钟卡片
+    const minuteCards = document.querySelectorAll('.flip-minutes .flip-card');
+    for (let i = 0; i < 2; i++) {
+      const card = minuteCards[i];
+      if (!card) continue;
+      const currentDigit = card.querySelector('.flip-card-bottom').textContent;
+      const newDigit = minutes[i];
+      if (currentDigit !== newDigit) {
+        card.querySelector('.flip-card-back').textContent = newDigit;
+        card.classList.add('flipping');
+        setTimeout(() => {
+          card.querySelector('.flip-card-top').textContent = newDigit;
+          card.querySelector('.flip-card-bottom').textContent = newDigit;
+          card.classList.remove('flipping');
+        }, 500);
+      }
+    }
+    
+    // 更新秒数卡片
+    const secondCards = document.querySelectorAll('.flip-seconds .flip-card');
+    for (let i = 0; i < 2; i++) {
+      const card = secondCards[i];
+      if (!card) continue;
+      const currentDigit = card.querySelector('.flip-card-bottom').textContent;
+      const newDigit = seconds[i];
+      if (currentDigit !== newDigit) {
+        card.querySelector('.flip-card-back').textContent = newDigit;
+        card.classList.add('flipping');
+        setTimeout(() => {
+          card.querySelector('.flip-card-top').textContent = newDigit;
+          card.querySelector('.flip-card-bottom').textContent = newDigit;
+          card.classList.remove('flipping');
+        }, 500);
+      }
+    }
+  }
+
+function playHourlyChime(hour) {
+  const chimes = hour % 12 || 12;
+  let delay = 0;
+  
+  for (let i = 0; i < chimes; i++) {
+    setTimeout(() => {
+      playBeep(400, 600 + i * 50);
+    }, delay);
+    delay += 800;
+  }
+}
+
+  initFlipClock();
+  setInterval(updateFlipClock, 1000);
 
   function getWeather() {
     document.getElementById('weatherCity').textContent = '加载中...';
@@ -562,4 +772,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </body>
-</html>
+  </html>
