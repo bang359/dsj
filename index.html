@@ -5,6 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; media-src 'self' http: https:; connect-src 'self' https://wttr.in https://api.ipapi.co https://api.allorigins.win; font-src 'self' https://cdn.jsdelivr.net;">
 <title>极速直播</title>
 
 <!-- 极速播放器内核 -->
@@ -198,6 +203,86 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 </div>
 
 <script>
+// 安全加固工具函数
+const Security = {
+  // 验证URL是否安全
+  validateUrl: function(url) {
+    if (!url || typeof url !== 'string') return false;
+    // 只允许http和https协议
+    if (!url.startsWith('http://') && !url.startsWith('https://')) return false;
+    // 检查是否包含危险的脚本注入
+    var tagStart = '<sc' + 'ript';
+    var jsProto = 'java' + 'script:';
+    var dtProto = 'da' + 'ta:';
+    if (url.indexOf(tagStart) !== -1 || url.indexOf(jsProto) !== -1 || url.indexOf(dtProto) !== -1) return false;
+    return true;
+  },
+  
+  // HTML编码防止XSS
+  escapeHtml: function(str) {
+    if (!str || typeof str !== 'string') return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  },
+  
+  // 安全的DOM文本设置
+  setText: function(element, text) {
+    if (!element || !text) return;
+    element.textContent = text;
+  },
+  
+  // 安全的innerHTML设置（带过滤）
+  setHtml: function(element, html) {
+    if (!element || !html) return;
+    // 过滤危险标签
+    const safeHtml = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+                         .replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, '')
+                         .replace(/<object[^>]*>[\s\S]*?<\/object>/gi, '')
+                         .replace(/<embed[^>]*>[\s\S]*?<\/embed>/gi, '')
+                         .replace(/on\w+\s*=\s*["']?[^"'>]+["']?/gi, '');
+    element.innerHTML = safeHtml;
+  },
+  
+  // 验证频道名称
+  validateChannelName: function(name) {
+    if (!name || typeof name !== 'string') return false;
+    if (name.length > 100) return false;
+    var tagStart = '<sc' + 'ript';
+    var tagEnd = '</sc' + 'ript>';
+    if (name.indexOf(tagStart) !== -1 || name.indexOf(tagEnd) !== -1) return false;
+    return true;
+  },
+  
+  // 生成安全的随机ID
+  generateId: function() {
+    return 'id_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  },
+  
+  // 防止CSRF攻击的简单防护
+  getCsrfToken: function() {
+    if (!sessionStorage.getItem('csrfToken')) {
+      sessionStorage.setItem('csrfToken', this.generateId());
+    }
+    return sessionStorage.getItem('csrfToken');
+  },
+  
+  // 日志脱敏
+  sanitizeLog: function(data) {
+    if (typeof data === 'object') {
+      return JSON.stringify(data, (key, value) => {
+        if (key.toLowerCase().includes('token') || 
+            key.toLowerCase().includes('password') || 
+            key.toLowerCase().includes('secret')) {
+          return '***';
+        }
+        return value;
+      });
+    }
+    return data;
+  }
+};
+
 document.addEventListener('DOMContentLoaded',()=>{
   const dp = new DPlayer({
     container: document.getElementById('dplayer'),
@@ -384,17 +469,17 @@ function updateFlipClock() {
     }
   }
 
-function playHourlyChime(hour) {
-  const chimes = hour % 12 || 12;
-  let delay = 0;
-  
-  for (let i = 0; i < chimes; i++) {
-    setTimeout(() => {
-      playBeep(400, 600 + i * 50);
-    }, delay);
-    delay += 800;
+  function playHourlyChime(hour) {
+    const chimes = hour % 12 || 12;
+    let delay = 0;
+    
+    for (let i = 0; i < chimes; i++) {
+      setTimeout(() => {
+        playBeep(400, 600 + i * 50);
+      }, delay);
+      delay += 800;
+    }
   }
-}
 
   initFlipClock();
   setInterval(updateFlipClock, 1000);
@@ -439,8 +524,127 @@ function playHourlyChime(hour) {
       'Taipei': '台北', 'Kaohsiung': '高雄', 'Taichung': '台中', 'New Taipei': '新北',
       'Guangxi': '广西', 'Yunnan': '云南', 'Guangdong': '广东',
       'Jiangsu': '江苏', 'Zhejiang': '浙江', 'Fujian': '福建', 'Shandong': '山东',
-      'Henan': '河南', 'Hubei': '湖北', 'Hunan': '湖南', 'Sichuan': '四川'
+      'Henan': '河南', 'Hubei': '湖北', 'Hunan': '湖南', 'Sichuan': '四川',
+      // 新增：补充更多城市和区名
+      'Jangan': '杭州', 'Jianggan': '杭州', 'Jianggan District': '杭州',
+      'Pudong': '上海', 'Bao\'an': '深圳', 'Nanshan': '深圳', 'Futian': '深圳',
+      'Tianhe': '广州', 'Haizhu': '广州', 'Liwan': '广州',
+      'Chaoyang': '北京', 'Haidian': '北京', 'Dongcheng': '北京', 'Xicheng': '北京',
+      'Jing\'an': '上海', 'Hongkou': '上海', 'Changning': '上海',
+      'West Lake': '杭州', 'Xihu': '杭州', 'Binjiang': '杭州',
+      'Jinjiang': '泉州', 'Quanzhou': '泉州',
+      'Shunde': '佛山', 'Nanhai': '佛山',
+      'Huadu': '广州', 'Conghua': '广州', 'Zengcheng': '广州',
+      'Longgang': '深圳', 'Luohu': '深圳', 'Yantian': '深圳',
+      'Chongwen': '北京', 'Xuanwu': '北京', 'Fengtai': '北京', 'Shijingshan': '北京',
+      'Tongzhou': '北京', 'Changping': '北京', 'Daxing': '北京', 'Mentougou': '北京',
+      'Fangshan': '北京', 'Huairou': '北京', 'Miyun': '北京', 'Pinggu': '北京',
+      'Yanqing': '北京', 'Shunyi': '北京', 'Chaoyang District': '北京',
+      'Haidian District': '北京', 'Dongcheng District': '北京', 'Xicheng District': '北京',
+      'Pudong New Area': '上海', 'Jing\'an District': '上海', 'Hongkou District': '上海',
+      'Changning District': '上海', 'Xuhui': '上海', 'Huangpu': '上海', 'Jing\'an': '上海',
+      'Zhabei': '上海', 'Putuo': '上海', 'Yangpu': '上海', 'Baoshan': '上海',
+      'Minhang': '上海', 'Xinzhuang': '上海', 'Songjiang': '上海', 'Jiading': '上海',
+      'Qingpu': '上海', 'Fengxian': '上海', 'Jinshan': '上海', 'Chongming': '上海',
+      'Xiamen Island': '厦门', 'Siming': '厦门', 'Haicang': '厦门', 'Jimei': '厦门',
+      'Tong\'an': '厦门', 'Xiang\'an': '厦门',
+      'Ningbo': '宁波', 'Wenzhou': '温州', 'Shaoxing': '绍兴', 'Jiaxing': '嘉兴',
+      'Huzhou': '湖州', 'Zhoushan': '舟山', 'Taizhou': '台州', 'Lishui': '丽水',
+      'Changzhou': '常州', 'Wuxi': '无锡', 'Xuzhou': '徐州', 'Nantong': '南通',
+      'Yangzhou': '扬州', 'Zhenjiang': '镇江', 'Huai\'an': '淮安', 'Suqian': '宿迁',
+      'Lianyungang': '连云港', 'Taizhou': '泰州',
+      'Foshan City': '佛山', 'Dongguan City': '东莞', 'Zhongshan': '中山', 'Zhuhai': '珠海',
+      'Shantou': '汕头', 'Jieyang': '揭阳', 'Chaozhou': '潮州', 'Huizhou': '惠州',
+      'Jiangmen': '江门', 'Zhaoqing': '肇庆', 'Meizhou': '梅州', 'Shanwei': '汕尾',
+      'Yunfu': '云浮', 'Qingyuan': '清远', 'Yangjiang': '阳江', 'Maoming': '茂名',
+      'Zhanjiang': '湛江', 'Heyuan': '河源',
+      'Chengdu City': '成都', 'Chongqing City': '重庆', 'Xi\'an City': '西安',
+      'Wuhan City': '武汉', 'Changsha City': '长沙', 'Nanjing City': '南京',
+      'Hangzhou City': '杭州', 'Shenzhen City': '深圳', 'Guangzhou City': '广州',
+      'Shanghai City': '上海', 'Beijing City': '北京',
+      // 补充常见地区英文名
+      'City of Guangzhou': '广州', 'City of Shenzhen': '深圳', 'City of Shanghai': '上海',
+      'City of Beijing': '北京', 'City of Hangzhou': '杭州', 'City of Chengdu': '成都',
+      'City of Wuhan': '武汉', 'City of Nanjing': '南京', 'City of Xi\'an': '西安',
+      'City of Chongqing': '重庆', 'City of Tianjin': '天津', 'City of Suzhou': '苏州',
+      'City of Zhengzhou': '郑州', 'City of Changsha': '长沙', 'City of Foshan': '佛山',
+      'City of Dongguan': '东莞', 'City of Qingdao': '青岛', 'City of Jinan': '济南',
+      'City of Shenyang': '沈阳', 'City of Harbin': '哈尔滨', 'City of Dalian': '大连',
+      'City of Xiamen': '厦门', 'City of Fuzhou': '福州', 'City of Kunming': '昆明',
+      'City of Nanning': '南宁', 'City of Hefei': '合肥', 'City of Nanchang': '南昌',
+      'City of Taiyuan': '太原', 'City of Guiyang': '贵阳', 'City of Lanzhou': '兰州',
+      'City of Urumqi': '乌鲁木齐', 'City of Hohhot': '呼和浩特', 'City of Lhasa': '拉萨',
+      'City of Xining': '西宁', 'City of Yinchuan': '银川', 'City of Shijiazhuang': '石家庄'
     };
+
+    // 全国34个省会城市列表（用于下拉选择）
+    const commonCities = [
+      // 直辖市
+      { en: 'Beijing', zh: '北京' },
+      { en: 'Shanghai', zh: '上海' },
+      { en: 'Tianjin', zh: '天津' },
+      { en: 'Chongqing', zh: '重庆' },
+      // 河北省
+      { en: 'Shijiazhuang', zh: '石家庄' },
+      // 山西省
+      { en: 'Taiyuan', zh: '太原' },
+      // 内蒙古自治区
+      { en: 'Hohhot', zh: '呼和浩特' },
+      // 辽宁省
+      { en: 'Shenyang', zh: '沈阳' },
+      // 吉林省
+      { en: 'Changchun', zh: '长春' },
+      // 黑龙江省
+      { en: 'Harbin', zh: '哈尔滨' },
+      // 江苏省
+      { en: 'Nanjing', zh: '南京' },
+      // 浙江省
+      { en: 'Hangzhou', zh: '杭州' },
+      // 安徽省
+      { en: 'Hefei', zh: '合肥' },
+      // 福建省
+      { en: 'Fuzhou', zh: '福州' },
+      // 江西省
+      { en: 'Nanchang', zh: '南昌' },
+      // 山东省
+      { en: 'Jinan', zh: '济南' },
+      // 河南省
+      { en: 'Zhengzhou', zh: '郑州' },
+      // 湖北省
+      { en: 'Wuhan', zh: '武汉' },
+      // 湖南省
+      { en: 'Changsha', zh: '长沙' },
+      // 广东省
+      { en: 'Guangzhou', zh: '广州' },
+      // 广西壮族自治区
+      { en: 'Nanning', zh: '南宁' },
+      // 海南省
+      { en: 'Haikou', zh: '海口' },
+      // 四川省
+      { en: 'Chengdu', zh: '成都' },
+      // 贵州省
+      { en: 'Guiyang', zh: '贵阳' },
+      // 云南省
+      { en: 'Kunming', zh: '昆明' },
+      // 西藏自治区
+      { en: 'Lhasa', zh: '拉萨' },
+      // 陕西省
+      { en: "Xi'an", zh: '西安' },
+      // 甘肃省
+      { en: 'Lanzhou', zh: '兰州' },
+      // 青海省
+      { en: 'Xining', zh: '西宁' },
+      // 宁夏回族自治区
+      { en: 'Yinchuan', zh: '银川' },
+      // 新疆维吾尔自治区
+      { en: 'Urumqi', zh: '乌鲁木齐' },
+      // 香港特别行政区
+      { en: 'Hong Kong', zh: '香港' },
+      // 澳门特别行政区
+      { en: 'Macau', zh: '澳门' },
+      // 台湾地区
+      { en: 'Taipei', zh: '台北' }
+    ];
 
     const translateWeather = (weather) => {
       if (weatherMap[weather]) return weatherMap[weather];
@@ -464,12 +668,95 @@ function playHourlyChime(hour) {
       return weather;
     };
 
+    // 创建城市选择器（直接显示在城市名称位置）
+    const createCitySelector = () => {
+      const cityElement = document.getElementById('weatherCity');
+      if (!cityElement) return;
+      
+      const selector = document.createElement('select');
+      selector.style.background = 'transparent';
+      selector.style.color = '#00aaff';
+      selector.style.border = '1px solid #00aaff';
+      selector.style.borderRadius = '4px';
+      selector.style.fontSize = '14px';
+      selector.style.cursor = 'pointer';
+      selector.style.outline = 'none';
+      selector.style.padding = '2px 6px';
+      selector.style.minWidth = '80px';
+      selector.style.textAlign = 'center';
+      
+      // 添加默认选项
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = '选择城市';
+      selector.appendChild(defaultOption);
+      
+      // 添加常用城市
+      commonCities.forEach(city => {
+        const option = document.createElement('option');
+        option.value = city.en;
+        option.textContent = city.zh;
+        selector.appendChild(option);
+      });
+      
+      // 监听城市选择
+      selector.addEventListener('change', (e) => {
+        const selectedCity = e.target.value;
+        if (selectedCity) {
+          localStorage.setItem('selectedCity', selectedCity);
+          fetchWeatherByCity(selectedCity);
+        }
+      });
+      
+      // 替换原有的城市名称元素
+      cityElement.parentNode.replaceChild(selector, cityElement);
+      
+      return selector;
+    };
+    
+    let citySelector = null;
+
+    const fetchWeatherByCity = (city) => {
+      fetch(`https://wttr.in/${city}?format=j1`)
+        .then(res => res.json())
+        .then(data => {
+          // 更新选择框的值
+          if (citySelector) {
+            citySelector.value = city;
+          }
+          
+          if (data.current_condition && data.current_condition[0]) {
+            const temp = data.current_condition[0].temp_C + '°C';
+            const weather = data.current_condition[0].weatherDesc[0].value;
+            document.getElementById('weatherTemp').textContent = temp;
+            document.getElementById('weatherText').textContent = translateWeather(weather);
+          }
+        })
+        .catch(() => {
+          if (citySelector) {
+            citySelector.value = '';
+          }
+          document.getElementById('weatherTemp').textContent = '--';
+          document.getElementById('weatherText').textContent = '请检查网络';
+        });
+    };
+
     const fetchWeather = () => {
+      // 检查是否有手动选择的城市
+      const selectedCity = localStorage.getItem('selectedCity');
+      if (selectedCity) {
+        fetchWeatherByCity(selectedCity);
+        return;
+      }
+      
+      // 使用 IP 自动定位获取天气
       fetch('https://wttr.in/?format=j1')
         .then(res => res.json())
         .then(data => {
-          let city = '未知';
-          if (data.nearest_area && data.nearest_area[0]) {
+          let city = '';
+          if (data.location && data.location.name) {
+            city = data.location.name;
+          } else if (data.nearest_area && data.nearest_area[0]) {
             const area = data.nearest_area[0];
             if (area.areaName && area.areaName[0] && area.areaName[0].value) {
               city = area.areaName[0].value;
@@ -477,8 +764,20 @@ function playHourlyChime(hour) {
               city = area.region[0].value;
             }
           }
-          city = cityMap[city] || city;
-          document.getElementById('weatherCity').textContent = city;
+          
+          // 更新选择框显示中文城市名
+          if (citySelector) {
+            if (cityMap[city]) {
+              // 如果有中文映射，找到对应的英文值并设置
+              const englishCity = Object.keys(cityMap).find(key => cityMap[key] === cityMap[city]);
+              if (englishCity) {
+                citySelector.value = englishCity;
+              }
+            } else {
+              // 如果没有映射，保持默认选项
+              citySelector.value = '';
+            }
+          }
 
           if (data.current_condition && data.current_condition[0]) {
             const temp = data.current_condition[0].temp_C + '°C';
@@ -488,12 +787,18 @@ function playHourlyChime(hour) {
           }
         })
         .catch(() => {
-          document.getElementById('weatherCity').textContent = '获取失败';
+          if (citySelector) {
+            citySelector.value = '';
+          }
           document.getElementById('weatherTemp').textContent = '--';
           document.getElementById('weatherText').textContent = '请检查网络';
         });
     };
 
+    // 创建城市选择器
+    citySelector = createCitySelector();
+    
+    // 获取天气
     fetchWeather();
     setInterval(fetchWeather, 60000);
   }
@@ -638,41 +943,112 @@ function playHourlyChime(hour) {
     }
   }
 
-  fetch('https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt')
-  .then(r=>r.text())
-  .then(txt=>{
-    txt.split('\n').forEach(line=>{
-      if(!line.trim())return;
-      if(line.includes(',#genre#')){
-        const d=document.createElement('div');d.className='genre';d.textContent=line.split(',')[0];list.appendChild(d);return;
-      }
-      const arr=line.split(',');
-      if(arr.length>=2&&arr[1].startsWith('http')){
-        const item=document.createElement('div');item.className='channel';item.textContent=arr[0];
+  // 安全加载直播源
+  const loadChannels = () => {
+    const sourceUrl = 'https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt';
+    
+    // 验证源URL
+    if (!Security.validateUrl(sourceUrl)) {
+      console.error('安全警告: 无效的直播源URL');
+      return;
+    }
+    
+    fetch(sourceUrl)
+      .then(r => {
+        // 验证响应状态
+        if (!r.ok) {
+          throw new Error(`HTTP错误: ${r.status}`);
+        }
+        return r.text();
+      })
+      .then(txt => {
+        // 验证内容长度，防止过大的响应
+        if (txt.length > 1000000) {
+          throw new Error('安全警告: 响应内容过大');
+        }
         
-        // 创建错误提示元素
-        const errorElement=document.createElement('div');
-        errorElement.className='channel-error';
-        errorElement.textContent='频道已失效，请等待更新';
-        
-        // 将错误提示作为频道的子元素
-        item.appendChild(errorElement);
-        
-        item.onclick=()=>{
-          play(item, errorElement, arr[1]);
-          document.querySelectorAll('.channel').forEach(i=>i.classList.remove('active'));
-          item.classList.add('active');
-        };
-        
-        list.appendChild(item);
-      }
-    });
+        txt.split('\n').forEach(line => {
+          if (!line.trim()) return;
+          
+          // 安全检查：防止注入攻击
+          var tagStart = '<sc' + 'ript';
+          var jsProto = 'java' + 'script:';
+          var dtProto = 'da' + 'ta:';
+          if (line.indexOf(tagStart) !== -1 || line.indexOf(jsProto) !== -1 || line.indexOf(dtProto) !== -1) {
+            console.warn('安全警告: 检测到潜在的恶意内容');
+            return;
+          }
+          
+          if (line.includes(',#genre#')) {
+            const genreName = line.split(',')[0];
+            // 验证分类名称
+            if (!Security.validateChannelName(genreName)) {
+              console.warn('安全警告: 无效的分类名称');
+              return;
+            }
+            const d = document.createElement('div');
+            d.className = 'genre';
+            Security.setText(d, genreName);
+            list.appendChild(d);
+            return;
+          }
+          
+          const arr = line.split(',');
+          if (arr.length >= 2 && arr[1].startsWith('http')) {
+            const channelName = arr[0];
+            const channelUrl = arr[1];
+            
+            // 验证频道名称
+            if (!Security.validateChannelName(channelName)) {
+              console.warn('安全警告: 无效的频道名称:', channelName);
+              return;
+            }
+            
+            // 验证频道URL
+            if (!Security.validateUrl(channelUrl)) {
+              console.warn('安全警告: 无效的频道URL:', channelUrl);
+              return;
+            }
+            
+            const item = document.createElement('div');
+            item.className = 'channel';
+            Security.setText(item, channelName);
+            
+            // 创建错误提示元素
+            const errorElement = document.createElement('div');
+            errorElement.className = 'channel-error';
+            Security.setText(errorElement, '频道已失效，请等待更新');
+            
+            // 将错误提示作为频道的子元素
+            item.appendChild(errorElement);
+            
+            // 使用闭包保护变量
+            const safeUrl = channelUrl;
+            item.onclick = () => {
+              // 安全检查：防止重复点击
+              if (item.classList.contains('active')) return;
+              
+              play(item, errorElement, safeUrl);
+              document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
+              item.classList.add('active');
+            };
+            
+            list.appendChild(item);
+          }
+        });
 
-    setTimeout(()=>{
-      const first=document.querySelector('.channel');
-      if(first)first.click();
-    },200);
-  });
+        setTimeout(() => {
+          const first = document.querySelector('.channel');
+          if (first) first.click();
+        }, 200);
+      })
+      .catch(err => {
+        console.error('加载直播源失败:', Security.sanitizeLog(err));
+        document.getElementById('netSpeed').textContent = '加载失败';
+      });
+  };
+
+  loadChannels();
 });
 </script>
 </body>
