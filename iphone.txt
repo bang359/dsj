@@ -2,11 +2,10 @@
 🌈澎湃景区 (2026/4/20上线),https://play-a2.quklive.com/live/1765245429980053.m3u8
 🎵网络热曲（默认自动播放-注意流量),https://188sp.711888.xyz/188/video.php
 ❤️永久维护-觉得好用-请打赏观看,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
-中天新闻,http://rihou.cc:555/tv/中天新闻
+中天新闻#http://rihou.cc:555/tv/中天新闻
 凤凰卫视,http://rihou.cc:555/tv/凤凰卫视
-凤凰中文,http://221.194.141.41:2380/duanjucntv.mobaibox.com/hwcdnbacksourceflag_223.110.243.237:80/PLTV/3/224/3221228527/1.m3u8
-凤凰资讯,http://221.194.141.41:2380/duanjucntv.mobaibox.com/hwcdnbacksourceflag_223.110.243.237:80/PLTV/3/224/3221228524/1.m3u8
-凤凰香港,http://221.194.141.41:2380/duanjucntv.mobaibox.com/hwcdnbacksourceflag_223.110.243.237:80/PLTV/3/224/3221228530/1.m3u8
+凤凰中文,http://zmgd.zyrnet.com:8888/hls/110/index.m3u8
+凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8
 民视新闻,http://rihou.cc:555/tv/民视新闻
 镜新闻,http://rihou.cc:555/tv/镜新闻
 NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
@@ -110,12 +109,6 @@ CCTV-卫生健康,http://192.151.150.154/live/wsjk.m3u8
 广西都市,http://192.151.150.154/live/gxds.m3u8
 广西新闻,http://192.151.150.154/live/gxxw.m3u8
 广西国际,http://192.151.150.154/live/gxgj.m3u8
-湖北综合,http://192.151.150.154/live/hbzh.m3u8
-湖北经视,http://192.151.150.154/live/hbjs.m3u8
-湖北影视,http://192.151.150.154/live/hbys.m3u8
-湖北教育,http://192.151.150.154/live/hbjy.m3u8
-湖北垄上,http://192.151.150.154/live/hbls.m3u8
-湖北生活,http://192.151.150.154/live/hbty.m3u8
 湖南娱乐,http://192.151.150.154/live/hnyl.m3u8
 湖南教育,http://192.151.150.154/live/hnjy.m3u8
 吉林都市,http://192.151.150.154/live/jlds.m3u8
@@ -140,9 +133,6 @@ CCTV-4K超高清,http://107.150.60.122/live/cctv4k.m3u8
 CCTV-8K超高清,http://107.150.60.122/live/cctv8k.m3u8
 CETV3,http://107.150.60.122/live/cetv3.m3u8
 湖北卫视,http://107.150.60.122/live/hbwshd.m3u8
-湖北经视,http://192.151.150.154/live/hbjs.m3u8
-湖北公共,http://192.151.150.154/live/hbgg.m3u8
-湖北综合,http://192.151.150.154/live/hbzh.m3u8
 宁夏卫视,http://192.151.150.154/live/nxws.m3u8
 内蒙古卫视,http://192.151.150.154/live/nmgws.m3u8
 新疆卫视,http://192.151.150.154/live/xjws.m3u8
@@ -164,5 +154,3 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 邵氏动作,http://192.151.150.154/live/lbssdz.m3u8
 邵氏喜剧,http://192.151.150.154/live/lbssxj.m3u8
 🎵亚洲经典,https://lhttp.qingting.fm/live/5021912/64k.mp3
-pigoo,https://nl.utako.moe/pigoo/index.m3u8
-Neco Channel,https://nl.utako.moe/neco/index.m3u8
