@@ -118,7 +118,9 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 .app-download{color:#4a90e2;text-decoration:none}
 .donate a{color:#ff6b6b;text-decoration:none}
 .channel-list{flex:1;overflow-y:auto;padding:6px}
-.channel{padding:10px;margin:4px;background:#1a1a1a;color:#ddd;border-radius:6px;position:relative;display:flex;align-items:center;gap:10px;min-height:40px}
+.channel{padding:10px;margin:4px;background:#1a1a1a;color:#ddd;border-radius:6px;position:relative;display:flex;align-items:center;gap:8px;min-height:40px}
+.channel-logo{width:24px;height:24px;border-radius:4px;object-fit:contain;background:#2a2a2a;flex-shrink:0}
+.channel-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .channel.active{background:#4a90e2;color:#fff}
 .genre{padding:8px 14px;color:#888;font-size:12px}
 .channel-error{color:#ff6b6b;font-size:12px;padding:4px 8px;background:rgba(255,107,107,0.1);border-radius:4px;display:none;white-space:nowrap;flex-shrink:0}
@@ -284,6 +286,10 @@ const Security = {
 };
 
 document.addEventListener('DOMContentLoaded',()=>{
+  // 临时禁用console.log以减少DPlayer初始化日志
+  const originalLog = console.log;
+  console.log = function() {};
+  
   const dp = new DPlayer({
     container: document.getElementById('dplayer'),
     autoplay: true,
@@ -310,6 +316,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     notice: false, mask: false, logo: false
   });
+  
+  // 恢复console.log
+  console.log = originalLog;
 
   const list = document.getElementById('list');
 
@@ -703,7 +712,12 @@ function updateFlipClock() {
       selector.addEventListener('change', (e) => {
         const selectedCity = e.target.value;
         if (selectedCity) {
-          localStorage.setItem('selectedCity', selectedCity);
+          // 使用try-catch避免浏览器隐私策略阻止localStorage
+          try {
+            localStorage.setItem('selectedCity', selectedCity);
+          } catch (e) {
+            console.log('浏览器隐私策略限制，无法保存城市设置');
+          }
           fetchWeatherByCity(selectedCity);
         }
       });
@@ -742,8 +756,13 @@ function updateFlipClock() {
     };
 
     const fetchWeather = () => {
-      // 检查是否有手动选择的城市
-      const selectedCity = localStorage.getItem('selectedCity');
+      // 检查是否有手动选择的城市（使用try-catch避免浏览器隐私策略限制）
+      let selectedCity = null;
+      try {
+        selectedCity = localStorage.getItem('selectedCity');
+      } catch (e) {
+        console.log('浏览器隐私策略限制，无法读取保存的城市设置');
+      }
       if (selectedCity) {
         fetchWeatherByCity(selectedCity);
         return;
@@ -854,6 +873,10 @@ function updateFlipClock() {
       let type='normal';
       if(url.includes('.m3u8'))type='hls';
       if(url.includes('.flv'))type='flv';
+      // .ts文件单独处理，使用正常模式播放
+      if(url.includes('.ts') && !url.includes('.m3u8')){
+        type='normal';
+      }
 
       if(!/Mobile|Android|iPhone/.test(navigator.userAgent)&&location.protocol==='https:'){
         url='https://api.allorigins.win/raw?url='+encodeURIComponent(url);
@@ -943,6 +966,95 @@ function updateFlipClock() {
     }
   }
 
+  // 根据频道名称获取台标
+  const getChannelLogo = (channelName) => {
+    const logoMap = {
+      // 央视系列
+      'CCTV-1': 'https://www.cctv.com/favicon.ico',
+      'CCTV-2': 'https://www.cctv.com/favicon.ico',
+      'CCTV-3': 'https://www.cctv.com/favicon.ico',
+      'CCTV-4': 'https://www.cctv.com/favicon.ico',
+      'CCTV-5': 'https://sports.cctv.com/favicon.ico',
+      'CCTV-6': 'https://movie.cctv.com/favicon.ico',
+      'CCTV-7': 'https://www.cctv.com/favicon.ico',
+      'CCTV-8': 'https://www.cctv.com/favicon.ico',
+      'CCTV-9': 'https://news.cctv.com/favicon.ico',
+      'CCTV-10': 'https://www.cctv.com/favicon.ico',
+      'CCTV-11': 'https://www.cctv.com/favicon.ico',
+      'CCTV-12': 'https://www.cctv.com/favicon.ico',
+      'CCTV-13': 'https://news.cctv.com/favicon.ico',
+      'CCTV-14': 'https://kids.cctv.com/favicon.ico',
+      'CCTV-15': 'https://music.cctv.com/favicon.ico',
+      'CCTV-16': 'https://sports.cctv.com/favicon.ico',
+      'CCTV-17': 'https://www.cctv.com/favicon.ico',
+      // 卫视系列
+      '北京卫视': 'https://www.brtn.cn/favicon.ico',
+      '东方卫视': 'https://www.smg.cn/favicon.ico',
+      '湖南卫视': 'https://www.hunantv.com/favicon.ico',
+      '浙江卫视': 'https://www.zjstv.com/favicon.ico',
+      '江苏卫视': 'https://www.jstv.com/favicon.ico',
+      '安徽卫视': 'https://www.ahtv.cn/favicon.ico',
+      '山东卫视': 'https://www.sdtv.com.cn/favicon.ico',
+      '天津卫视': 'https://www.tjtv.com.cn/favicon.ico',
+      '四川卫视': 'https://www.sctv.com/favicon.ico',
+      '重庆卫视': 'https://www.cbg.cn/favicon.ico',
+      '湖北卫视': 'https://www.hbtv.com.cn/favicon.ico',
+      '河南卫视': 'https://www.hntv.tv/favicon.ico',
+      '广东卫视': 'https://www.gdtv.cn/favicon.ico',
+      '广西卫视': 'https://www.gxtv.cn/favicon.ico',
+      '江西卫视': 'https://www.jxntv.cn/favicon.ico',
+      '辽宁卫视': 'https://www.lntv.cn/favicon.ico',
+      '黑龙江卫视': 'https://www.hljtv.com/favicon.ico',
+      '吉林卫视': 'https://www.jltv.cn/favicon.ico',
+      '云南卫视': 'https://www.yntv.cn/favicon.ico',
+      '贵州卫视': 'https://www.gzstv.com/favicon.ico',
+      '陕西卫视': 'https://www.sxtvs.com/favicon.ico',
+      '山西卫视': 'https://www.sxrtv.com/favicon.ico',
+      '河北卫视': 'https://www.hebtv.com/favicon.ico',
+      '福建东南卫视': 'https://www.setv.com.cn/favicon.ico',
+      '深圳卫视': 'https://www.sztv.com.cn/favicon.ico',
+      '厦门卫视': 'https://www.xmtv.cn/favicon.ico',
+      // 港澳台系列
+      '凤凰卫视': 'https://www.phoenixtv.com/favicon.ico',
+      '凤凰中文': 'https://www.phoenixtv.com/favicon.ico',
+      '凤凰资讯': 'https://www.phoenixtv.com/favicon.ico',
+      '凤凰香港': 'https://www.phoenixtv.com/favicon.ico',
+      '中天新闻': 'https://www.ctitv.com.tw/favicon.ico',
+      'TVBS': 'https://www.tvbs.com.tw/favicon.ico',
+      '民视新闻': 'https://www.ftv.com.tw/favicon.ico',
+      '镜新闻': 'https://www.mirrortv.tw/favicon.ico',
+      'NTD': 'https://www.ntdtv.com/favicon.ico',
+      'TVB': 'https://www.tvb.com/favicon.ico',
+      '香港电台': 'https://www.rthk.hk/favicon.ico',
+      '澳门卫视': 'https://www.tdm.com.mo/favicon.ico',
+      // CHC系列
+      'CHC动作电影': 'https://www.chc.cn/favicon.ico',
+      'CHC影迷电影': 'https://www.chc.cn/favicon.ico',
+      'CHC家庭影院': 'https://www.chc.cn/favicon.ico',
+      // 其他
+      '中国教育3': 'https://www.cetv.cn/favicon.ico',
+      '优漫卡通': 'https://www.youmancartoon.com/favicon.ico',
+      '卡酷少儿': 'https://www.kaku.tv/favicon.ico',
+      '天元围棋': 'https://www.twyq.com/favicon.ico',
+      '国学频道': 'https://www.guoxue.tv/favicon.ico'
+    };
+    
+    // 尝试精确匹配
+    if (logoMap[channelName]) {
+      return logoMap[channelName];
+    }
+    
+    // 尝试模糊匹配
+    for (const key of Object.keys(logoMap)) {
+      if (channelName.includes(key) || key.includes(channelName)) {
+        return logoMap[key];
+      }
+    }
+    
+    // 默认返回一个通用图标
+    return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a90d9"%3E%3Cpath d="M8 5v14l11-7z"/%3E%3C/svg%3E';
+  };
+
   // 安全加载直播源
   const loadChannels = () => {
     const sourceUrl = 'https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt';
@@ -1012,7 +1124,22 @@ function updateFlipClock() {
             
             const item = document.createElement('div');
             item.className = 'channel';
-            Security.setText(item, channelName);
+            
+            // 创建台标容器
+            const logo = document.createElement('img');
+            logo.className = 'channel-logo';
+            logo.src = getChannelLogo(channelName);
+            logo.alt = '';
+            logo.onerror = () => {
+              logo.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a90d9"%3E%3Cpath d="M8 5v14l11-7z"/%3E%3C/svg%3E';
+            };
+            item.appendChild(logo);
+            
+            // 创建频道名称容器
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'channel-name';
+            Security.setText(nameSpan, channelName);
+            item.appendChild(nameSpan);
             
             // 创建错误提示元素
             const errorElement = document.createElement('div');
@@ -1052,4 +1179,4 @@ function updateFlipClock() {
 });
 </script>
 </body>
-</html>
+  </html>
