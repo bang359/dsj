@@ -6,113 +6,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
-
 <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; media-src 'self' http: https:; connect-src 'self' https://wttr.in https://api.ipapi.co https://api.allorigins.win; font-src 'self' https://cdn.jsdelivr.net;">
 <title>极速直播</title>
-
-<!-- 极速播放器内核 -->
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.css">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:#000;overflow:hidden}
 .main{display:flex;width:100vw;height:100vh}
-
-/* 播放器区域 */
 .player-box{position:relative;background:#000;height:100%}
 #dplayer{width:100%!important;height:calc(100% - 40px)!important;position:absolute!important;top:0!important;left:0!important;right:0!important;z-index:1!important}
-
-/* 确保视频元素和容器正常显示 */
 .dplayer-video-wrap{display:block!important;position:relative!important;width:100%!important;height:100%!important;background:#000!important;z-index:2!important}
 .dplayer-video{display:block!important;position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;object-fit:contain!important;background:#000!important;z-index:3!important}
-
-/* 隐藏所有按钮图标和控制栏 */
 .dplayer-play-icon,.dplayer-pause-icon,.dplayer-mask,.dplayer-icons,.dplayer-controls,.dplayer-controller,.dplayer-loading,.dplayer-button,.dplayer-bar-wrap,.dplayer-time,.dplayer-full,.dplayer-full-in-icon,.dplayer-volume,.dplayer-volume-bar,.dplayer-subtitle,.dplayer-logo,.dplayer-controller-mask,.dplayer-controller-button,.dplayer-played,.dplayer-name,.dplayer-live-badge,.dplayer-danmakus,.dplayer-info-panel,.dplayer-tooltip,.dplayer-screenshot-icon,.dplayer-icon-play,.dplayer-icon-pause,.dplayer-icon-volume,.dplayer-icon-fullscreen,.dplayer-icon-fullscreen-exit,.dplayer-icon-subtitle,.dplayer-icon-setting,.dplayer-icon-right,.dplayer-icon-left,.dplayer-controller-mask{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
-
-/* 隐藏DPlayer容器内的所有非视频相关元素 */
 .dplayer > *:not(.dplayer-video-wrap){display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
-
-/* 确保视频包装器内只有视频元素可见 */
 .dplayer-video-wrap > *:not(.dplayer-video){display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
-
-/* 隐藏原生视频控件 */
 video::-webkit-media-controls{display:none!important}
 video::-webkit-media-controls-enclosure{display:none!important}
 video::-webkit-media-controls-panel{display:none!important}
 video::-webkit-media-controls-play-button{display:none!important}
 video::-webkit-media-controls-start-playback-button{display:none!important}
-
-/* 隐藏视频元素的默认播放按钮 */
-video::-webkit-media-controls-play-button{display:none!important}
-video::-webkit-media-controls-start-playback-button{display:none!important}
 video::-webkit-media-controls-overlay-play-button{display:none!important}
-video::--webkit-media-controls-play-button{display:none!important}
-video::--webkit-media-controls-start-playback-button{display:none!important}
-video::--webkit-media-controls-overlay-play-button{display:none!important}
-
-/* 确保没有其他元素干扰 */
-.dplayer-mask{display:none!important}
-.dplayer-play{display:none!important}
-.dplayer-pause{display:none!important}
-.dplayer-icon{display:none!important}
-.dplayer-control{display:none!important}
-.dplayer-controller{display:none!important}
-.dplayer-contextmenu{display:none!important}
-
-/* 隐藏任何可能的覆盖层，但保留视频元素 */
 .dplayer > div:not(.dplayer-video-wrap){display:none!important}
 .dplayer > svg{display:none!important}
 .dplayer > canvas{display:none!important}
-
-/* 确保视频元素容器和视频本身都能正常显示 */
 .dplayer-video-wrap{display:block!important;position:relative!important;width:100%!important;height:100%!important}
 .dplayer-video{display:block!important;position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;object-fit:contain!important;background:#000!important}
-
-/* 隐藏所有可能的伪元素 */
 .dplayer::before,.dplayer::after{display:none!important}
 .dplayer-video::before,.dplayer-video::after{display:none!important}
-
-/* 显示进度条相关元素 */
 .dplayer-progress,.dplayer-progress-wrap,.dplayer-progress-bar,.dplayer-progress-loaded,.dplayer-progress-played,.dplayer-progress-handle{display:block!important;opacity:1!important;visibility:visible!important;width:auto!important;height:auto!important;pointer-events:auto!important}
-
-/* 隐藏其他控制元素 */
-.dplayer-play-icon,.dplayer-pause-icon,.dplayer-mask,.dplayer-icons,.dplayer-controls,.dplayer-controller,.dplayer-loading,.dplayer-button,.dplayer-time,.dplayer-full,.dplayer-full-in-icon,.dplayer-volume,.dplayer-volume-bar,.dplayer-subtitle,.dplayer-logo,.dplayer-controller-mask,.dplayer-controller-button,.dplayer-played,.dplayer-name,.dplayer-live-badge,.dplayer-danmakus,.dplayer-info-panel,.dplayer-tooltip,.dplayer-screenshot-icon,.dplayer-icon-play,.dplayer-icon-pause,.dplayer-icon-volume,.dplayer-icon-fullscreen,.dplayer-icon-fullscreen-exit,.dplayer-icon-subtitle,.dplayer-icon-setting,.dplayer-icon-right,.dplayer-icon-left,.dplayer-control-bar,.dplayer-control-panel,.dplayer-controls-wrap,.dplayer-bottom-bar,.dplayer-top-bar{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
-
-/* 确保视频元素没有其他默认控件 */
-video::-webkit-media-controls-volume-slider{display:none!important}
-video::-webkit-media-controls-current-time-display{display:none!important}
-video::-webkit-media-controls-time-remaining-display{display:none!important}
-video::-webkit-media-controls-fullscreen-button{display:none!important}
-video::-webkit-media-controls-mute-button{display:none!important}
-video::-webkit-media-controls-toggle-closed-captions-button{display:none!important}
-
-/* 隐藏Firefox的原生控件 */
-video::-moz-media-controls-volume-slider{display:none!important}
-video::-moz-media-controls-mute-button{display:none!important}
-video::-moz-media-controls-fullscreen-button{display:none!important}
-
-/* 隐藏IE的原生控件 */
-video::-ms-media-controls-volume{display:none!important}
-video::-ms-media-controls-mute-button{display:none!important}
-video::-ms-media-controls-fullscreen-button{display:none!important}
-
-/* 确保进度条在视频上方 */
 .dplayer-progress-wrap{position:absolute!important;bottom:0!important;left:0!important;width:100%!important;height:4px!important;z-index:10!important}
 .dplayer-progress{width:100%!important;height:100%!important}
 .dplayer-progress-bar{background:rgba(255,255,255,0.3)!important}
 .dplayer-progress-loaded{background:rgba(255,255,255,0.5)!important}
 .dplayer-progress-played{background:#ff6b6b!important}
 .dplayer-progress-handle{background:#fff!important;width:12px!important;height:12px!important;border-radius:50%!important;margin-top:-4px!important}
-
-/* 隐藏任何可能的提示或通知 */
 .dplayer-notice,.dplayer-hint,.dplayer-toast{display:none!important;opacity:0!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}
-
-/* 频道界面 */
 .channel-box{background:#121212;display:flex;flex-direction:column}
 .top-bar{height:38px;background:#1c1c1c;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#fff}
 .app-download{color:#4a90e2;text-decoration:none}
@@ -125,16 +58,12 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 .genre{padding:8px 14px;color:#888;font-size:12px}
 .channel-error{color:#ff6b6b;font-size:12px;padding:4px 8px;background:rgba(255,107,107,0.1);border-radius:4px;display:none;white-space:nowrap;flex-shrink:0}
 .channel.active .channel-error{background:rgba(255,107,107,0.2);color:#fff}
-
-/* 电子钟样式 - 静态翻页时钟 */
 .flip-clock{display:flex!important;align-items:center!important;justify-content:center!important;z-index:999!important;background:transparent!important;gap:4px}
 .flip-card{position:relative;width:44px;height:36px;background:#222;border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Arial Black','Helvetica Neue',sans-serif;font-size:24px;font-weight:bold}
 .flip-card-inner{display:none}
 .flip-card-top,.flip-card-bottom,.flip-card-back{display:none}
-.flip-dividers{display:flex;flex-direction:column;gap:14px;padding:0 2px}
-.flip-divider{width:6px;height:6px;border-radius:50%;background:#fff}
-
-/* 天气和日历模块 */
+.flip-dividers{display:none}
+.flip-colon{color:#fff;font-family:'Arial Black','Helvetica Neue',sans-serif;font-size:24px;font-weight:bold;display:flex;align-items:center;justify-content:center;padding:0 2px}
 .weather-box{position:absolute!important;bottom:0!important;left:0!important;right:0!important;background:#000!important;color:#00aaff;padding:2px 12px;border-top:1px solid #1a1a1a;display:flex!important;justify-content:space-between;align-items:center;z-index:1000!important;height:50px!important;gap:8px}
 .weather-info{display:flex;justify-content:flex-start;gap:8px;font-size:12px;flex-wrap:wrap;min-width:0}
 .date-info{display:flex;justify-content:flex-end;gap:8px;font-size:11px;color:#aaa;flex-wrap:wrap;min-width:0}
@@ -142,8 +71,6 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 .weather-info span,.date-info span{white-space:nowrap}
 .weather-divider{color:#444;margin:0 4px}
 .flip-container{background:transparent!important}
-
-/* 布局适配 */
 @media(min-width:769px){
   .main{flex-direction:row}
   .player-box{width:75%;height:100%;border-right:1px solid #1a1a1a}
@@ -169,7 +96,6 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
 }
 </style>
 </head>
-
 <body>
 <div class="main">
   <div class="player-box">
@@ -193,7 +119,6 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
       </div>
     </div>
   </div>
-
   <div class="channel-box">
     <div class="top-bar">
       <div>📺网页电视</div>
@@ -203,41 +128,29 @@ video::-ms-media-controls-fullscreen-button{display:none!important}
     <div class="channel-list" id="list"></div>
   </div>
 </div>
-
 <script>
-// 安全加固工具函数
 const Security = {
-  // 验证URL是否安全
   validateUrl: function(url) {
     if (!url || typeof url !== 'string') return false;
-    // 只允许http和https协议
     if (!url.startsWith('http://') && !url.startsWith('https://')) return false;
-    // 检查是否包含危险的脚本注入
     var tagStart = '<sc' + 'ript';
     var jsProto = 'java' + 'script:';
     var dtProto = 'da' + 'ta:';
     if (url.indexOf(tagStart) !== -1 || url.indexOf(jsProto) !== -1 || url.indexOf(dtProto) !== -1) return false;
     return true;
   },
-  
-  // HTML编码防止XSS
   escapeHtml: function(str) {
     if (!str || typeof str !== 'string') return '';
     const div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
   },
-  
-  // 安全的DOM文本设置
   setText: function(element, text) {
     if (!element || !text) return;
     element.textContent = text;
   },
-  
-  // 安全的innerHTML设置（带过滤）
   setHtml: function(element, html) {
     if (!element || !html) return;
-    // 过滤危险标签
     const safeHtml = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
                          .replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, '')
                          .replace(/<object[^>]*>[\s\S]*?<\/object>/gi, '')
@@ -245,8 +158,6 @@ const Security = {
                          .replace(/on\w+\s*=\s*["']?[^"'>]+["']?/gi, '');
     element.innerHTML = safeHtml;
   },
-  
-  // 验证频道名称
   validateChannelName: function(name) {
     if (!name || typeof name !== 'string') return false;
     if (name.length > 100) return false;
@@ -255,27 +166,19 @@ const Security = {
     if (name.indexOf(tagStart) !== -1 || name.indexOf(tagEnd) !== -1) return false;
     return true;
   },
-  
-  // 生成安全的随机ID
   generateId: function() {
     return 'id_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   },
-  
-  // 防止CSRF攻击的简单防护
   getCsrfToken: function() {
     if (!sessionStorage.getItem('csrfToken')) {
       sessionStorage.setItem('csrfToken', this.generateId());
     }
     return sessionStorage.getItem('csrfToken');
   },
-  
-  // 日志脱敏
   sanitizeLog: function(data) {
     if (typeof data === 'object') {
       return JSON.stringify(data, (key, value) => {
-        if (key.toLowerCase().includes('token') || 
-            key.toLowerCase().includes('password') || 
-            key.toLowerCase().includes('secret')) {
+        if (key.toLowerCase().includes('token') || key.toLowerCase().includes('password') || key.toLowerCase().includes('secret')) {
           return '***';
         }
         return value;
@@ -284,19 +187,15 @@ const Security = {
     return data;
   }
 };
-
 document.addEventListener('DOMContentLoaded',()=>{
-  // 临时禁用console.log以减少DPlayer初始化日志
   const originalLog = console.log;
   console.log = function() {};
-  
   const dp = new DPlayer({
     container: document.getElementById('dplayer'),
     autoplay: true,
     volume: 0.5,
     preload: 'auto',
     video: { url: '' },
-
     hls: {
       maxBufferSize: 10*1000*1000,
       maxBufferLength: 5,
@@ -306,25 +205,17 @@ document.addEventListener('DOMContentLoaded',()=>{
       fpsDropped: true,
       autoStartLoad: true
     },
-
     flv: {
       enableWorker: true,
       lazyLoad: false,
       maxBufferLength: 3,
       autoCleanupSourceBuffer: true
     },
-
     notice: false, mask: false, logo: false
   });
-  
-  // 恢复console.log
   console.log = originalLog;
-
   const list = document.getElementById('list');
-
   let currentErrorElement = null;
-
-  // 农历数据
   const lunarInfo = [
     0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
     0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
@@ -348,7 +239,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   const solarTerm = ["小寒","大寒","立春","雨水","惊蛰","春分","清明","谷雨","立夏","小满","芒种","夏至","小暑","大暑","立秋","处暑","白露","秋分","寒露","霜降","立冬","小雪","大雪","冬至"];
   const lunarMonthNames = ["正","二","三","四","五","六","七","八","九","十","冬","腊"];
   const lunarDayNames = ["初一","初二","初三","初四","初五","初六","初七","初八","初九","初十","十一","十二","十三","十四","十五","十六","十七","十八","十九","二十","廿一","廿二","廿三","廿四","廿五","廿六","廿七","廿八","廿九","三十"];
-
   function getLunarDate(date) {
     let year = date.getFullYear(), month = date.getMonth() + 1, day = date.getDate();
     let baseDate = new Date(1900, 0, 31);
@@ -381,10 +271,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   function leapDays(y) { if (leapMonth(y)) return (lunarInfo[y - 1900] & 0x10000) ? 30 : 29; return 0; }
   function leapMonth(y) { return lunarInfo[y - 1900] & 0xf; }
   function monthDays(y, m) { return (lunarInfo[y - 1900] & (0x10000 >> m)) ? 30 : 29; }
-  function toChinaString(lunar) {
-    return lunarMonthNames[lunar.month - 1] + "月" + lunarDayNames[lunar.day - 1];
-  }
-
+  function toChinaString(lunar) { return lunarMonthNames[lunar.month - 1] + "月" + lunarDayNames[lunar.day - 1]; }
   function showDateInfo() {
     const now = new Date();
     const year = now.getFullYear();
@@ -397,58 +284,50 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('weekDay').textContent = weekDays[now.getDay()];
   }
   showDateInfo();
-
-  // 静态翻页时钟
   function initFlipClock() {
     const flipClock = document.getElementById('flipClock');
     flipClock.innerHTML = `
       <div class="flip-card" id="flip-hour">00</div>
-      <div class="flip-dividers">
-        <span class="flip-divider active"></span>
-        <span class="flip-divider active"></span>
-      </div>
+      <span class="flip-colon">:</span>
       <div class="flip-card" id="flip-minute">00</div>
-      <div class="flip-dividers">
-        <span class="flip-divider active"></span>
-        <span class="flip-divider active"></span>
-      </div>
+      <span class="flip-colon">:</span>
       <div class="flip-card" id="flip-second">00</div>
     `;
-    
     updateFlipClock();
   }
-
   let lastHour = -1;
-
-function playBeep(duration = 300, frequency = 800) {
-  try {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.value = frequency;
-    oscillator.type = 'sine';
-    
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + duration / 1000);
-  } catch (e) {
-    console.log('音频播放不可用');
+  function playBeep(duration = 500, frequency = 400) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const harmonics = [
+        { freq: frequency, amp: 0.4 },
+        { freq: frequency * 2, amp: 0.2 },
+        { freq: frequency * 3, amp: 0.15 },
+        { freq: frequency * 4, amp: 0.1 },
+        { freq: frequency * 0.5, amp: 0.15 }
+      ];
+      harmonics.forEach(({ freq, amp }) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.frequency.value = freq;
+        oscillator.type = 'sine';
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(amp, audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration / 1000);
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + duration / 1000);
+      });
+    } catch (e) {
+      console.log('音频播放不可用');
+    }
   }
-}
-
-function updateFlipClock() {
+  function updateFlipClock() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
-    
-    // 整点报时
     if (minutes === '00' && seconds === '00') {
       const currentHour = parseInt(hours);
       if (currentHour !== lastHour) {
@@ -458,374 +337,230 @@ function updateFlipClock() {
     } else if (seconds !== '00') {
       lastHour = -1;
     }
-    
-    // 更新小时卡片
     const hourCard = document.getElementById('flip-hour');
-    if (hourCard) {
-      hourCard.textContent = hours;
-    }
-    
-    // 更新分钟卡片
+    if (hourCard) hourCard.textContent = hours;
     const minuteCard = document.getElementById('flip-minute');
-    if (minuteCard) {
-      minuteCard.textContent = minutes;
-    }
-    
-    // 更新秒数卡片
+    if (minuteCard) minuteCard.textContent = minutes;
     const secondCard = document.getElementById('flip-second');
-    if (secondCard) {
-      secondCard.textContent = seconds;
+    if (secondCard) secondCard.textContent = seconds;
+  }
+  function playHourlyChime(hour) {
+    const hourText = hour === 0 ? '十二' : hour > 12 ? hour - 12 : hour;
+    const period = hour >= 0 && hour < 12 ? '上午' : '下午';
+    const text = `电视家重生提醒您，现在是北京时间${period}${hourText}点整`;
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      utterance.volume = 0.8;
+      utterance.onend = () => { playChimeSound(hour); };
+      window.speechSynthesis.speak(utterance);
+    } else {
+      playChimeSound(hour);
     }
   }
-
-  function playHourlyChime(hour) {
+  function playChimeSound(hour) {
     const chimes = hour % 12 || 12;
     let delay = 0;
-    
     for (let i = 0; i < chimes; i++) {
-      setTimeout(() => {
-        playBeep(400, 600 + i * 50);
-      }, delay);
+      setTimeout(() => { playBeep(500, 400 + i * 50); }, delay);
       delay += 800;
     }
   }
-
   initFlipClock();
   setInterval(updateFlipClock, 1000);
-
+  const weatherMap = {
+    'Sunny': '晴天', 'Clear': '晴', 'Partly cloudy': '多云', 'Cloudy': '阴天',
+    'Overcast': '阴', 'Mist': '薄雾', 'Fog': '雾', 'Light rain': '小雨',
+    'Moderate rain': '中雨', 'Heavy rain': '大雨', 'Rain': '雨',
+    'Light snow': '小雪', 'Moderate snow': '中雪', 'Heavy snow': '大雪', 'Snow': '雪',
+    'Thunderstorm': '雷阵雨', 'Sleet': '雨夹雪', 'Hail': '冰雹',
+    'Windy': '大风', 'Blowing sand': '扬沙', 'Dust': '沙尘',
+    'Haze': '雾霾', 'Smoke': '烟雾', 'Clear sky': '晴', 'Fair': '晴',
+    'Partly Cloudy': '多云', 'Mostly Cloudy': '多云', 'Broken clouds': '多云',
+    'Scattered clouds': '多云', 'Few clouds': '少云', 'Light intensity drizzle': '小雨',
+    'Drizzle': '小雨', 'Heavy intensity drizzle': '大雨', 'Light rain shower': '阵雨',
+    'Rain shower': '阵雨', 'Heavy rain shower': '雷阵雨', 'Thunderstorm with light rain': '雷阵雨',
+    'Thunderstorm with heavy rain': '雷阵雨', 'Thunderstorm': '雷阵雨',
+    'Light snow showers': '阵雪', 'Snow showers': '阵雪', 'Heavy snow showers': '大雪',
+    'Light sleet': '雨夹雪', 'Moderate or heavy sleet': '雨夹雪',
+    'Light rain and snow': '雨夹雪', 'Rain and snow': '雨夹雪',
+    'Mist': '雾', 'Freezing fog': '冻雾', 'Sand/dust whirls': '沙尘',
+    'Duststorm': '沙尘暴', 'Volcanic ash': '灰霾', 'Squalls': '大风',
+    'Tornado': '龙卷风', 'Hot': '炎热', 'Cold': '寒冷', 'Unknown': '未知'
+  };
   function getWeather() {
-    document.getElementById('weatherCity').textContent = '加载中...';
+    document.getElementById('weatherCity').textContent = '获取位置...';
     document.getElementById('weatherTemp').textContent = '--°C';
     document.getElementById('weatherText').textContent = '--';
-
-    const weatherMap = {
-      'Sunny': '晴天', 'Clear': '晴', 'Partly cloudy': '多云', 'Cloudy': '阴天',
-      'Overcast': '阴', 'Mist': '薄雾', 'Fog': '雾', 'Light rain': '小雨',
-      'Moderate rain': '中雨', 'Heavy rain': '大雨', 'Rain': '雨',
-      'Light snow': '小雪', 'Moderate snow': '中雪', 'Heavy snow': '大雪', 'Snow': '雪',
-      'Thunderstorm': '雷阵雨', 'Sleet': '雨夹雪', 'Hail': '冰雹',
-      'Windy': '大风', 'Blowing sand': '扬沙', 'Dust': '沙尘',
-      'Haze': '雾霾', 'Smoke': '烟雾', 'Clear sky': '晴', 'Fair': '晴',
-      'Partly Cloudy': '多云', 'Mostly Cloudy': '多云', 'Broken clouds': '多云',
-      'Scattered clouds': '多云', 'Few clouds': '少云', 'Light intensity drizzle': '小雨',
-      'Drizzle': '小雨', 'Heavy intensity drizzle': '大雨', 'Light rain shower': '阵雨',
-      'Rain shower': '阵雨', 'Heavy rain shower': '雷阵雨', 'Thunderstorm with light rain': '雷阵雨',
-      'Thunderstorm with heavy rain': '雷阵雨', 'Thunderstorm': '雷阵雨',
-      'Light snow showers': '阵雪', 'Snow showers': '阵雪', 'Heavy snow showers': '大雪',
-      'Light sleet': '雨夹雪', 'Moderate or heavy sleet': '雨夹雪',
-      'Light rain and snow': '雨夹雪', 'Rain and snow': '雨夹雪',
-      'Mist': '雾', 'Freezing fog': '冻雾', 'Sand/dust whirls': '沙尘',
-      'Duststorm': '沙尘暴', 'Volcanic ash': '灰霾', 'Squalls': '大风',
-      'Tornado': '龙卷风', 'Hot': '炎热', 'Cold': '寒冷', 'Unknown': '未知'
-    };
-
-    const cityMap = {
-      'Shenzhen': '深圳', 'Beijing': '北京', 'Shanghai': '上海', 'Guangzhou': '广州',
-      'Hangzhou': '杭州', 'Chengdu': '成都', 'Wuhan': '武汉', 'Nanjing': '南京',
-      'Xian': '西安', 'Chongqing': '重庆', 'Tianjin': '天津', 'Suzhou': '苏州',
-      'Dongguan': '东莞', 'Foshan': '佛山', 'Changsha': '长沙', 'Zhengzhou': '郑州',
-      'Jinan': '济南', 'Qingdao': '青岛', 'Shenyang': '沈阳', 'Harbin': '哈尔滨',
-      'Changchun': '长春', 'Dalian': '大连', 'Xiamen': '厦门', 'Fuzhou': '福州',
-      'Kunming': '昆明', 'Guiyang': '贵阳', 'Nanchang': '南昌', 'Hefei': '合肥',
-      'Taiyuan': '太原', 'Shijiazhuang': '石家庄', 'Nanning': '南宁',
-      'Urumqi': '乌鲁木齐', 'Lanzhou': '兰州', 'Yinchuan': '银川', 'Xining': '西宁',
-      'Lhasa': '拉萨', 'Hohhot': '呼和浩特', 'Macau': '澳门', 'Hong Kong': '香港',
-      'Taipei': '台北', 'Kaohsiung': '高雄', 'Taichung': '台中', 'New Taipei': '新北',
-      'Guangxi': '广西', 'Yunnan': '云南', 'Guangdong': '广东',
-      'Jiangsu': '江苏', 'Zhejiang': '浙江', 'Fujian': '福建', 'Shandong': '山东',
-      'Henan': '河南', 'Hubei': '湖北', 'Hunan': '湖南', 'Sichuan': '四川',
-      // 新增：补充更多城市和区名
-      'Jangan': '杭州', 'Jianggan': '杭州', 'Jianggan District': '杭州',
-      'Pudong': '上海', 'Bao\'an': '深圳', 'Nanshan': '深圳', 'Futian': '深圳',
-      'Tianhe': '广州', 'Haizhu': '广州', 'Liwan': '广州',
-      'Chaoyang': '北京', 'Haidian': '北京', 'Dongcheng': '北京', 'Xicheng': '北京',
-      'Jing\'an': '上海', 'Hongkou': '上海', 'Changning': '上海',
-      'West Lake': '杭州', 'Xihu': '杭州', 'Binjiang': '杭州',
-      'Jinjiang': '泉州', 'Quanzhou': '泉州',
-      'Shunde': '佛山', 'Nanhai': '佛山',
-      'Huadu': '广州', 'Conghua': '广州', 'Zengcheng': '广州',
-      'Longgang': '深圳', 'Luohu': '深圳', 'Yantian': '深圳',
-      'Chongwen': '北京', 'Xuanwu': '北京', 'Fengtai': '北京', 'Shijingshan': '北京',
-      'Tongzhou': '北京', 'Changping': '北京', 'Daxing': '北京', 'Mentougou': '北京',
-      'Fangshan': '北京', 'Huairou': '北京', 'Miyun': '北京', 'Pinggu': '北京',
-      'Yanqing': '北京', 'Shunyi': '北京', 'Chaoyang District': '北京',
-      'Haidian District': '北京', 'Dongcheng District': '北京', 'Xicheng District': '北京',
-      'Pudong New Area': '上海', 'Jing\'an District': '上海', 'Hongkou District': '上海',
-      'Changning District': '上海', 'Xuhui': '上海', 'Huangpu': '上海', 'Jing\'an': '上海',
-      'Zhabei': '上海', 'Putuo': '上海', 'Yangpu': '上海', 'Baoshan': '上海',
-      'Minhang': '上海', 'Xinzhuang': '上海', 'Songjiang': '上海', 'Jiading': '上海',
-      'Qingpu': '上海', 'Fengxian': '上海', 'Jinshan': '上海', 'Chongming': '上海',
-      'Xiamen Island': '厦门', 'Siming': '厦门', 'Haicang': '厦门', 'Jimei': '厦门',
-      'Tong\'an': '厦门', 'Xiang\'an': '厦门',
-      'Ningbo': '宁波', 'Wenzhou': '温州', 'Shaoxing': '绍兴', 'Jiaxing': '嘉兴',
-      'Huzhou': '湖州', 'Zhoushan': '舟山', 'Taizhou': '台州', 'Lishui': '丽水',
-      'Changzhou': '常州', 'Wuxi': '无锡', 'Xuzhou': '徐州', 'Nantong': '南通',
-      'Yangzhou': '扬州', 'Zhenjiang': '镇江', 'Huai\'an': '淮安', 'Suqian': '宿迁',
-      'Lianyungang': '连云港', 'Taizhou': '泰州',
-      'Foshan City': '佛山', 'Dongguan City': '东莞', 'Zhongshan': '中山', 'Zhuhai': '珠海',
-      'Shantou': '汕头', 'Jieyang': '揭阳', 'Chaozhou': '潮州', 'Huizhou': '惠州',
-      'Jiangmen': '江门', 'Zhaoqing': '肇庆', 'Meizhou': '梅州', 'Shanwei': '汕尾',
-      'Yunfu': '云浮', 'Qingyuan': '清远', 'Yangjiang': '阳江', 'Maoming': '茂名',
-      'Zhanjiang': '湛江', 'Heyuan': '河源',
-      'Chengdu City': '成都', 'Chongqing City': '重庆', 'Xi\'an City': '西安',
-      'Wuhan City': '武汉', 'Changsha City': '长沙', 'Nanjing City': '南京',
-      'Hangzhou City': '杭州', 'Shenzhen City': '深圳', 'Guangzhou City': '广州',
-      'Shanghai City': '上海', 'Beijing City': '北京',
-      // 补充常见地区英文名
-      'City of Guangzhou': '广州', 'City of Shenzhen': '深圳', 'City of Shanghai': '上海',
-      'City of Beijing': '北京', 'City of Hangzhou': '杭州', 'City of Chengdu': '成都',
-      'City of Wuhan': '武汉', 'City of Nanjing': '南京', 'City of Xi\'an': '西安',
-      'City of Chongqing': '重庆', 'City of Tianjin': '天津', 'City of Suzhou': '苏州',
-      'City of Zhengzhou': '郑州', 'City of Changsha': '长沙', 'City of Foshan': '佛山',
-      'City of Dongguan': '东莞', 'City of Qingdao': '青岛', 'City of Jinan': '济南',
-      'City of Shenyang': '沈阳', 'City of Harbin': '哈尔滨', 'City of Dalian': '大连',
-      'City of Xiamen': '厦门', 'City of Fuzhou': '福州', 'City of Kunming': '昆明',
-      'City of Nanning': '南宁', 'City of Hefei': '合肥', 'City of Nanchang': '南昌',
-      'City of Taiyuan': '太原', 'City of Guiyang': '贵阳', 'City of Lanzhou': '兰州',
-      'City of Urumqi': '乌鲁木齐', 'City of Hohhot': '呼和浩特', 'City of Lhasa': '拉萨',
-      'City of Xining': '西宁', 'City of Yinchuan': '银川', 'City of Shijiazhuang': '石家庄'
-    };
-
-    // 全国34个省会城市列表（用于下拉选择）
-    const commonCities = [
-      // 直辖市
-      { en: 'Beijing', zh: '北京' },
-      { en: 'Shanghai', zh: '上海' },
-      { en: 'Tianjin', zh: '天津' },
-      { en: 'Chongqing', zh: '重庆' },
-      // 河北省
-      { en: 'Shijiazhuang', zh: '石家庄' },
-      // 山西省
-      { en: 'Taiyuan', zh: '太原' },
-      // 内蒙古自治区
-      { en: 'Hohhot', zh: '呼和浩特' },
-      // 辽宁省
-      { en: 'Shenyang', zh: '沈阳' },
-      // 吉林省
-      { en: 'Changchun', zh: '长春' },
-      // 黑龙江省
-      { en: 'Harbin', zh: '哈尔滨' },
-      // 江苏省
-      { en: 'Nanjing', zh: '南京' },
-      // 浙江省
-      { en: 'Hangzhou', zh: '杭州' },
-      // 安徽省
-      { en: 'Hefei', zh: '合肥' },
-      // 福建省
-      { en: 'Fuzhou', zh: '福州' },
-      // 江西省
-      { en: 'Nanchang', zh: '南昌' },
-      // 山东省
-      { en: 'Jinan', zh: '济南' },
-      // 河南省
-      { en: 'Zhengzhou', zh: '郑州' },
-      // 湖北省
-      { en: 'Wuhan', zh: '武汉' },
-      // 湖南省
-      { en: 'Changsha', zh: '长沙' },
-      // 广东省
-      { en: 'Guangzhou', zh: '广州' },
-      // 广西壮族自治区
-      { en: 'Nanning', zh: '南宁' },
-      // 海南省
-      { en: 'Haikou', zh: '海口' },
-      // 四川省
-      { en: 'Chengdu', zh: '成都' },
-      // 贵州省
-      { en: 'Guiyang', zh: '贵阳' },
-      // 云南省
-      { en: 'Kunming', zh: '昆明' },
-      // 西藏自治区
-      { en: 'Lhasa', zh: '拉萨' },
-      // 陕西省
-      { en: "Xi'an", zh: '西安' },
-      // 甘肃省
-      { en: 'Lanzhou', zh: '兰州' },
-      // 青海省
-      { en: 'Xining', zh: '西宁' },
-      // 宁夏回族自治区
-      { en: 'Yinchuan', zh: '银川' },
-      // 新疆维吾尔自治区
-      { en: 'Urumqi', zh: '乌鲁木齐' },
-      // 香港特别行政区
-      { en: 'Hong Kong', zh: '香港' },
-      // 澳门特别行政区
-      { en: 'Macau', zh: '澳门' },
-      // 台湾地区
-      { en: 'Taipei', zh: '台北' }
-    ];
-
-    const translateWeather = (weather) => {
-      if (weatherMap[weather]) return weatherMap[weather];
-      const lowerWeather = weather.toLowerCase();
-      if (lowerWeather.includes('sunny') || lowerWeather.includes('clear')) return '晴';
-      if (lowerWeather.includes('cloudy') || lowerWeather.includes('overcast')) return '多云';
-      if (lowerWeather.includes('rain') || lowerWeather.includes('drizzle')) {
-        if (lowerWeather.includes('heavy')) return '大雨';
-        if (lowerWeather.includes('moderate')) return '中雨';
-        return '小雨';
-      }
-      if (lowerWeather.includes('snow')) {
-        if (lowerWeather.includes('heavy')) return '大雪';
-        if (lowerWeather.includes('moderate')) return '中雪';
-        return '小雪';
-      }
-      if (lowerWeather.includes('thunder')) return '雷阵雨';
-      if (lowerWeather.includes('fog') || lowerWeather.includes('mist')) return '雾';
-      if (lowerWeather.includes('wind')) return '大风';
-      if (lowerWeather.includes('haze') || lowerWeather.includes('dust') || lowerWeather.includes('sand')) return '雾霾';
-      return weather;
-    };
-
-    // 创建城市选择器（直接显示在城市名称位置）
-    const createCitySelector = () => {
-      const cityElement = document.getElementById('weatherCity');
-      if (!cityElement) return;
-      
-      const selector = document.createElement('select');
-      selector.style.background = 'transparent';
-      selector.style.color = '#00aaff';
-      selector.style.border = '1px solid #00aaff';
-      selector.style.borderRadius = '4px';
-      selector.style.fontSize = '14px';
-      selector.style.cursor = 'pointer';
-      selector.style.outline = 'none';
-      selector.style.padding = '2px 6px';
-      selector.style.minWidth = '80px';
-      selector.style.textAlign = 'center';
-      
-      // 添加默认选项
-      const defaultOption = document.createElement('option');
-      defaultOption.value = '';
-      defaultOption.textContent = '选择城市';
-      selector.appendChild(defaultOption);
-      
-      // 添加常用城市
-      commonCities.forEach(city => {
-        const option = document.createElement('option');
-        option.value = city.en;
-        option.textContent = city.zh;
-        selector.appendChild(option);
-      });
-      
-      // 监听城市选择
-      selector.addEventListener('change', (e) => {
-        const selectedCity = e.target.value;
-        if (selectedCity) {
-          // 使用try-catch避免浏览器隐私策略阻止localStorage
-          try {
-            localStorage.setItem('selectedCity', selectedCity);
-          } catch (e) {
-            console.log('浏览器隐私策略限制，无法保存城市设置');
+    fetch('https://wttr.in/?format=j1')
+      .then(res => res.json())
+      .then(data => {
+        if (data.current_condition && data.current_condition[0]) {
+          let cityName = '天气';
+          if (data.nearest_area && data.nearest_area[0] && data.nearest_area[0].areaName && data.nearest_area[0].areaName[0]) {
+            cityName = data.nearest_area[0].areaName[0].value;
+          } else if (data.location && data.location.name) {
+            cityName = data.location.name;
           }
-          fetchWeatherByCity(selectedCity);
+          const temp = data.current_condition[0].temp_C + '°C';
+          const weather = data.current_condition[0].weatherDesc[0].value;
+          document.getElementById('weatherCity').textContent = cityMap[cityName] || cityName;
+          document.getElementById('weatherTemp').textContent = temp;
+          document.getElementById('weatherText').textContent = translateWeather(weather);
         }
+      })
+      .catch(() => {
+        document.getElementById('weatherCity').textContent = '定位失败';
+        document.getElementById('weatherTemp').textContent = '--°C';
+        document.getElementById('weatherText').textContent = '--';
       });
-      
-      // 替换原有的城市名称元素
-      cityElement.parentNode.replaceChild(selector, cityElement);
-      
-      return selector;
-    };
-    
-    let citySelector = null;
-
-    const fetchWeatherByCity = (city) => {
-      fetch(`https://wttr.in/${city}?format=j1`)
-        .then(res => res.json())
-        .then(data => {
-          // 更新选择框的值
-          if (citySelector) {
-            citySelector.value = city;
-          }
-          
-          if (data.current_condition && data.current_condition[0]) {
-            const temp = data.current_condition[0].temp_C + '°C';
-            const weather = data.current_condition[0].weatherDesc[0].value;
-            document.getElementById('weatherTemp').textContent = temp;
-            document.getElementById('weatherText').textContent = translateWeather(weather);
-          }
-        })
-        .catch(() => {
-          if (citySelector) {
-            citySelector.value = '';
-          }
-          document.getElementById('weatherTemp').textContent = '--';
-          document.getElementById('weatherText').textContent = '请检查网络';
-        });
-    };
-
-    const fetchWeather = () => {
-      // 检查是否有手动选择的城市（使用try-catch避免浏览器隐私策略限制）
-      let selectedCity = null;
-      try {
-        selectedCity = localStorage.getItem('selectedCity');
-      } catch (e) {
-        console.log('浏览器隐私策略限制，无法读取保存的城市设置');
-      }
-      if (selectedCity) {
-        fetchWeatherByCity(selectedCity);
-        return;
-      }
-      
-      // 使用 IP 自动定位获取天气
-      fetch('https://wttr.in/?format=j1')
-        .then(res => res.json())
-        .then(data => {
-          let city = '';
-          if (data.location && data.location.name) {
-            city = data.location.name;
-          } else if (data.nearest_area && data.nearest_area[0]) {
-            const area = data.nearest_area[0];
-            if (area.areaName && area.areaName[0] && area.areaName[0].value) {
-              city = area.areaName[0].value;
-            } else if (area.region && area.region[0] && area.region[0].value) {
-              city = area.region[0].value;
-            }
-          }
-          
-          // 更新选择框显示中文城市名
-          if (citySelector) {
-            if (cityMap[city]) {
-              // 如果有中文映射，找到对应的英文值并设置
-              const englishCity = Object.keys(cityMap).find(key => cityMap[key] === cityMap[city]);
-              if (englishCity) {
-                citySelector.value = englishCity;
-              }
-            } else {
-              // 如果没有映射，保持默认选项
-              citySelector.value = '';
-            }
-          }
-
-          if (data.current_condition && data.current_condition[0]) {
-            const temp = data.current_condition[0].temp_C + '°C';
-            const weather = data.current_condition[0].weatherDesc[0].value;
-            document.getElementById('weatherTemp').textContent = temp;
-            document.getElementById('weatherText').textContent = translateWeather(weather);
-          }
-        })
-        .catch(() => {
-          if (citySelector) {
-            citySelector.value = '';
-          }
-          document.getElementById('weatherTemp').textContent = '--';
-          document.getElementById('weatherText').textContent = '请检查网络';
-        });
-    };
-
-    // 创建城市选择器
-    citySelector = createCitySelector();
-    
-    // 获取天气
-    fetchWeather();
-    setInterval(fetchWeather, 60000);
   }
-
-  setTimeout(() => {
-    getWeather();
-  }, 500);
-
+  const cityMap = {
+    'Shenzhen': '深圳', 'Beijing': '北京', 'Shanghai': '上海', 'Guangzhou': '广州',
+    'Hangzhou': '杭州', 'Chengdu': '成都', 'Wuhan': '武汉', 'Nanjing': '南京',
+    'Xian': '西安', 'Chongqing': '重庆', 'Tianjin': '天津', 'Suzhou': '苏州',
+    'Dongguan': '东莞', 'Foshan': '佛山', 'Changsha': '长沙', 'Zhengzhou': '郑州',
+    'Jinan': '济南', 'Qingdao': '青岛', 'Shenyang': '沈阳', 'Harbin': '哈尔滨',
+    'Changchun': '长春', 'Dalian': '大连', 'Xiamen': '厦门', 'Fuzhou': '福州',
+    'Kunming': '昆明', 'Guiyang': '贵阳', 'Nanchang': '南昌', 'Hefei': '合肥',
+    'Taiyuan': '太原', 'Shijiazhuang': '石家庄', 'Nanning': '南宁',
+    'Urumqi': '乌鲁木齐', 'Lanzhou': '兰州', 'Yinchuan': '银川', 'Xining': '西宁',
+    'Lhasa': '拉萨', 'Hohhot': '呼和浩特', 'Macau': '澳门', 'Hong Kong': '香港',
+    'Taipei': '台北', 'Kaohsiung': '高雄', 'Taichung': '台中', 'New Taipei': '新北'
+  };
+  const commonCities = [
+    { en: 'Beijing', zh: '北京' }, { en: 'Shanghai', zh: '上海' },
+    { en: 'Tianjin', zh: '天津' }, { en: 'Chongqing', zh: '重庆' },
+    { en: 'Shijiazhuang', zh: '石家庄' }, { en: 'Taiyuan', zh: '太原' },
+    { en: 'Hohhot', zh: '呼和浩特' }, { en: 'Shenyang', zh: '沈阳' },
+    { en: 'Changchun', zh: '长春' }, { en: 'Harbin', zh: '哈尔滨' },
+    { en: 'Nanjing', zh: '南京' }, { en: 'Hangzhou', zh: '杭州' },
+    { en: 'Hefei', zh: '合肥' }, { en: 'Fuzhou', zh: '福州' },
+    { en: 'Nanchang', zh: '南昌' }, { en: 'Jinan', zh: '济南' },
+    { en: 'Zhengzhou', zh: '郑州' }, { en: 'Wuhan', zh: '武汉' },
+    { en: 'Changsha', zh: '长沙' }, { en: 'Guangzhou', zh: '广州' },
+    { en: 'Nanning', zh: '南宁' }, { en: 'Haikou', zh: '海口' },
+    { en: 'Chengdu', zh: '成都' }, { en: 'Guiyang', zh: '贵阳' },
+    { en: 'Kunming', zh: '昆明' }, { en: 'Lhasa', zh: '拉萨' },
+    { en: "Xi'an", zh: '西安' }, { en: 'Lanzhou', zh: '兰州' },
+    { en: 'Xining', zh: '西宁' }, { en: 'Yinchuan', zh: '银川' },
+    { en: 'Urumqi', zh: '乌鲁木齐' }, { en: 'Hong Kong', zh: '香港' },
+    { en: 'Macau', zh: '澳门' }, { en: 'Taipei', zh: '台北' }
+  ];
+  const translateWeather = (weather) => {
+    if (weatherMap[weather]) return weatherMap[weather];
+    const lowerWeather = weather.toLowerCase();
+    if (lowerWeather.includes('sunny') || lowerWeather.includes('clear')) return '晴';
+    if (lowerWeather.includes('cloudy') || lowerWeather.includes('overcast')) return '多云';
+    if (lowerWeather.includes('rain') || lowerWeather.includes('drizzle')) {
+      if (lowerWeather.includes('heavy')) return '大雨';
+      if (lowerWeather.includes('moderate')) return '中雨';
+      return '小雨';
+    }
+    if (lowerWeather.includes('snow')) {
+      if (lowerWeather.includes('heavy')) return '大雪';
+      if (lowerWeather.includes('moderate')) return '中雪';
+      return '小雪';
+    }
+    if (lowerWeather.includes('thunder')) return '雷阵雨';
+    if (lowerWeather.includes('fog') || lowerWeather.includes('mist')) return '雾';
+    if (lowerWeather.includes('wind')) return '大风';
+    if (lowerWeather.includes('haze') || lowerWeather.includes('dust') || lowerWeather.includes('sand')) return '雾霾';
+    return weather;
+  };
+  const createCitySelector = () => {
+    const cityElement = document.getElementById('weatherCity');
+    if (!cityElement) return;
+    const selector = document.createElement('select');
+    selector.style.background = 'transparent';
+    selector.style.color = '#00aaff';
+    selector.style.border = '1px solid #00aaff';
+    selector.style.borderRadius = '4px';
+    selector.style.fontSize = '14px';
+    selector.style.cursor = 'pointer';
+    selector.style.outline = 'none';
+    selector.style.padding = '2px 6px';
+    selector.style.minWidth = '80px';
+    selector.style.textAlign = 'center';
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = '选择城市';
+    selector.appendChild(defaultOption);
+    commonCities.forEach(city => {
+      const option = document.createElement('option');
+      option.value = city.en;
+      option.textContent = city.zh;
+      selector.appendChild(option);
+    });
+    selector.addEventListener('change', (e) => {
+      const selectedCity = e.target.value;
+      if (selectedCity) {
+        try { localStorage.setItem('selectedCity', selectedCity); } catch (e) { console.log('浏览器隐私策略限制'); }
+        fetchWeatherByCity(selectedCity);
+      }
+    });
+    cityElement.parentNode.replaceChild(selector, cityElement);
+    return selector;
+  };
+  let citySelector = null;
+  const fetchWeatherByCity = (city) => {
+    fetch(`https://wttr.in/${city}?format=j1`)
+      .then(res => res.json())
+      .then(data => {
+        if (citySelector) citySelector.value = city;
+        if (data.current_condition && data.current_condition[0]) {
+          const temp = data.current_condition[0].temp_C + '°C';
+          const weather = data.current_condition[0].weatherDesc[0].value;
+          document.getElementById('weatherTemp').textContent = temp;
+          document.getElementById('weatherText').textContent = translateWeather(weather);
+        }
+      })
+      .catch(() => {
+        if (citySelector) citySelector.value = '';
+        document.getElementById('weatherTemp').textContent = '--';
+        document.getElementById('weatherText').textContent = '请检查网络';
+      });
+  };
+  const fetchWeather = () => {
+    let selectedCity = null;
+    try { selectedCity = localStorage.getItem('selectedCity'); } catch (e) { console.log('浏览器隐私策略限制'); }
+    if (selectedCity) {
+      fetchWeatherByCity(selectedCity);
+      return;
+    }
+    fetch('https://wttr.in/?format=j1')
+      .then(res => res.json())
+      .then(data => {
+        let city = '';
+        if (data.location && data.location.name) city = data.location.name;
+        else if (data.nearest_area && data.nearest_area[0]) {
+          const area = data.nearest_area[0];
+          if (area.areaName && area.areaName[0] && area.areaName[0].value) city = area.areaName[0].value;
+          else if (area.region && area.region[0] && area.region[0].value) city = area.region[0].value;
+        }
+        if (citySelector) {
+          if (cityMap[city]) {
+            const englishCity = Object.keys(cityMap).find(key => cityMap[key] === cityMap[city]);
+            if (englishCity) citySelector.value = englishCity;
+          } else citySelector.value = '';
+        }
+        if (data.current_condition && data.current_condition[0]) {
+          const temp = data.current_condition[0].temp_C + '°C';
+          const weather = data.current_condition[0].weatherDesc[0].value;
+          document.getElementById('weatherTemp').textContent = temp;
+          document.getElementById('weatherText').textContent = translateWeather(weather);
+        }
+      })
+      .catch(() => {
+        if (citySelector) citySelector.value = '';
+        document.getElementById('weatherTemp').textContent = '--';
+        document.getElementById('weatherText').textContent = '请检查网络';
+      });
+  };
+  setTimeout(() => { getWeather(); }, 2000);
   function updateBufferStatus() {
     try {
       const video = dp.video;
@@ -838,118 +573,65 @@ function updateFlipClock() {
         const bufferedEnd = buffered.end(buffered.length - 1);
         const currentTime = video.currentTime;
         const bufferedAhead = bufferedEnd - currentTime;
-        if (bufferedAhead > 10) {
-          document.getElementById('netSpeed').textContent = '↓缓冲充足';
-        } else if (bufferedAhead > 5) {
-          document.getElementById('netSpeed').textContent = '↓缓冲正常';
-        } else if (bufferedAhead > 2) {
-          document.getElementById('netSpeed').textContent = '↓缓冲较少';
-        } else {
-          document.getElementById('netSpeed').textContent = '↓缓冲中...';
-        }
-      } else {
-        document.getElementById('netSpeed').textContent = '↓加载中...';
-      }
-    } catch (e) {
-      document.getElementById('netSpeed').textContent = '↓--';
-    }
+        if (bufferedAhead > 10) document.getElementById('netSpeed').textContent = '↓缓冲充足';
+        else if (bufferedAhead > 5) document.getElementById('netSpeed').textContent = '↓缓冲正常';
+        else if (bufferedAhead > 2) document.getElementById('netSpeed').textContent = '↓缓冲较少';
+        else document.getElementById('netSpeed').textContent = '↓缓冲中...';
+      } else document.getElementById('netSpeed').textContent = '↓加载中...';
+    } catch (e) { document.getElementById('netSpeed').textContent = '↓--'; }
   }
   setInterval(updateBufferStatus, 2000);
-
-  // 移除全局错误监听器，改为在play函数中临时绑定
-
-  function play(channel, errorElement, url){
-    try{
-      // 隐藏所有错误提示
-      document.querySelectorAll('.channel-error').forEach(el => {
-        el.style.display = 'none';
-      });
-      
-      // 设置当前错误提示元素
+  function play(channel, errorElement, url) {
+    try {
+      document.querySelectorAll('.channel-error').forEach(el => { el.style.display = 'none'; });
       currentErrorElement = errorElement;
-      
-      if(dp.video){dp.pause();}
-
-      let type='normal';
-      if(url.includes('.m3u8'))type='hls';
-      if(url.includes('.flv'))type='flv';
-      // .ts文件单独处理，使用正常模式播放
-      if(url.includes('.ts') && !url.includes('.m3u8')){
-        type='normal';
+      if (dp.video) dp.pause();
+      let type = 'normal';
+      if (url.includes('.m3u8')) type = 'hls';
+      if (url.includes('.flv')) type = 'flv';
+      if (url.includes('.ts') && !url.includes('.m3u8')) type = 'normal';
+      if (!/Mobile|Android|iPhone/.test(navigator.userAgent) && location.protocol === 'https:') {
+        url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
       }
-
-      if(!/Mobile|Android|iPhone/.test(navigator.userAgent)&&location.protocol==='https:'){
-        url='https://api.allorigins.win/raw?url='+encodeURIComponent(url);
-      }
-
-      // 重置错误状态
       let isError = false;
-      
-      // 设置错误监听器
       const errorHandler = () => {
         if (!isError) {
           isError = true;
-          if (currentErrorElement) {
-            currentErrorElement.style.display = 'block';
-          }
+          if (currentErrorElement) currentErrorElement.style.display = 'block';
         }
       };
-      
-      // 临时绑定错误事件
-      const originalErrorHandler = dp.events['error'];
       dp.on('error', errorHandler);
-      
       if (dp.video) {
         const originalVideoErrorHandler = dp.video.onerror;
         dp.video.onerror = errorHandler;
-        
-        // 保存原始处理器以便恢复
         dp._originalVideoErrorHandler = originalVideoErrorHandler;
       }
-      
-      // 确保视频元素显示
       if (dp.video) {
         dp.video.style.display = 'block';
         dp.video.style.opacity = '1';
         dp.video.style.visibility = 'visible';
       }
-      
-      // 确保视频包装器显示
       if (dp.videoWrap) {
         dp.videoWrap.style.display = 'block';
         dp.videoWrap.style.opacity = '1';
         dp.videoWrap.style.visibility = 'visible';
       }
-      
-      dp.switchVideo({url,type});
-      dp.video.volume=0.5;
+      dp.switchVideo({ url, type });
+      dp.video.volume = 0.5;
       dp.play().catch((error) => {
-        // 只在网络错误或解码错误时显示提示
-        if (error && (error.name === 'NetworkError' || error.message.includes('decode'))) {
-          errorHandler();
-        }
+        if (error && (error.name === 'NetworkError' || error.message.includes('decode'))) errorHandler();
       });
-      
-      // 监听视频正常播放
       if (dp.video) {
         dp.video.oncanplay = () => {
-          // 视频能正常播放，清除错误状态
           isError = false;
-          if (currentErrorElement) {
-            currentErrorElement.style.display = 'none';
-          }
-          
-          // 确保视频元素显示
+          if (currentErrorElement) currentErrorElement.style.display = 'none';
           if (dp.video) {
             dp.video.style.display = 'block';
             dp.video.style.opacity = '1';
             dp.video.style.visibility = 'visible';
           }
         };
-        
-        // 监听视频加载
         dp.video.onloadeddata = () => {
-          // 确保视频元素显示
           if (dp.video) {
             dp.video.style.display = 'block';
             dp.video.style.opacity = '1';
@@ -957,19 +639,12 @@ function updateFlipClock() {
           }
         };
       }
-      
-    }catch(e){
-      // 只有在网络错误时显示提示
-      if (e && (e.name === 'NetworkError' || e.message.includes('network'))) {
-        errorElement.style.display='block';
-      }
+    } catch (e) {
+      if (e && (e.name === 'NetworkError' || e.message.includes('network'))) errorElement.style.display = 'block';
     }
   }
-
-  // 根据频道名称获取台标
-  const getChannelLogo = (channelName) => {
+  function getChannelLogo(channelName) {
     const logoMap = {
-      // 央视系列
       'CCTV-1': 'https://www.cctv.com/favicon.ico',
       'CCTV-2': 'https://www.cctv.com/favicon.ico',
       'CCTV-3': 'https://www.cctv.com/favicon.ico',
@@ -987,7 +662,6 @@ function updateFlipClock() {
       'CCTV-15': 'https://music.cctv.com/favicon.ico',
       'CCTV-16': 'https://sports.cctv.com/favicon.ico',
       'CCTV-17': 'https://www.cctv.com/favicon.ico',
-      // 卫视系列
       '北京卫视': 'https://www.brtn.cn/favicon.ico',
       '东方卫视': 'https://www.smg.cn/favicon.ico',
       '湖南卫视': 'https://www.hunantv.com/favicon.ico',
@@ -1014,7 +688,6 @@ function updateFlipClock() {
       '福建东南卫视': 'https://www.setv.com.cn/favicon.ico',
       '深圳卫视': 'https://www.sztv.com.cn/favicon.ico',
       '厦门卫视': 'https://www.xmtv.cn/favicon.ico',
-      // 港澳台系列
       '凤凰卫视': 'https://www.phoenixtv.com/favicon.ico',
       '凤凰中文': 'https://www.phoenixtv.com/favicon.ico',
       '凤凰资讯': 'https://www.phoenixtv.com/favicon.ico',
@@ -1027,62 +700,36 @@ function updateFlipClock() {
       'TVB': 'https://www.tvb.com/favicon.ico',
       '香港电台': 'https://www.rthk.hk/favicon.ico',
       '澳门卫视': 'https://www.tdm.com.mo/favicon.ico',
-      // CHC系列
       'CHC动作电影': 'https://www.chc.cn/favicon.ico',
       'CHC影迷电影': 'https://www.chc.cn/favicon.ico',
       'CHC家庭影院': 'https://www.chc.cn/favicon.ico',
-      // 其他
       '中国教育3': 'https://www.cetv.cn/favicon.ico',
       '优漫卡通': 'https://www.youmancartoon.com/favicon.ico',
       '卡酷少儿': 'https://www.kaku.tv/favicon.ico',
       '天元围棋': 'https://www.twyq.com/favicon.ico',
       '国学频道': 'https://www.guoxue.tv/favicon.ico'
     };
-    
-    // 尝试精确匹配
-    if (logoMap[channelName]) {
-      return logoMap[channelName];
-    }
-    
-    // 尝试模糊匹配
+    if (logoMap[channelName]) return logoMap[channelName];
     for (const key of Object.keys(logoMap)) {
-      if (channelName.includes(key) || key.includes(channelName)) {
-        return logoMap[key];
-      }
+      if (channelName.includes(key) || key.includes(channelName)) return logoMap[key];
     }
-    
-    // 默认返回一个通用图标
     return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a90d9"%3E%3Cpath d="M8 5v14l11-7z"/%3E%3C/svg%3E';
-  };
-
-  // 安全加载直播源
-  const loadChannels = () => {
+  }
+  function loadChannels() {
     const sourceUrl = 'https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt';
-    
-    // 验证源URL
     if (!Security.validateUrl(sourceUrl)) {
       console.error('安全警告: 无效的直播源URL');
       return;
     }
-    
     fetch(sourceUrl)
       .then(r => {
-        // 验证响应状态
-        if (!r.ok) {
-          throw new Error(`HTTP错误: ${r.status}`);
-        }
+        if (!r.ok) throw new Error(`HTTP错误: ${r.status}`);
         return r.text();
       })
       .then(txt => {
-        // 验证内容长度，防止过大的响应
-        if (txt.length > 1000000) {
-          throw new Error('安全警告: 响应内容过大');
-        }
-        
+        if (txt.length > 1000000) throw new Error('安全警告: 响应内容过大');
         txt.split('\n').forEach(line => {
           if (!line.trim()) return;
-          
-          // 安全检查：防止注入攻击
           var tagStart = '<sc' + 'ript';
           var jsProto = 'java' + 'script:';
           var dtProto = 'da' + 'ta:';
@@ -1090,10 +737,8 @@ function updateFlipClock() {
             console.warn('安全警告: 检测到潜在的恶意内容');
             return;
           }
-          
           if (line.includes(',#genre#')) {
             const genreName = line.split(',')[0];
-            // 验证分类名称
             if (!Security.validateChannelName(genreName)) {
               console.warn('安全警告: 无效的分类名称');
               return;
@@ -1104,28 +749,20 @@ function updateFlipClock() {
             list.appendChild(d);
             return;
           }
-          
           const arr = line.split(',');
           if (arr.length >= 2 && arr[1].startsWith('http')) {
             const channelName = arr[0];
             const channelUrl = arr[1];
-            
-            // 验证频道名称
             if (!Security.validateChannelName(channelName)) {
               console.warn('安全警告: 无效的频道名称:', channelName);
               return;
             }
-            
-            // 验证频道URL
             if (!Security.validateUrl(channelUrl)) {
               console.warn('安全警告: 无效的频道URL:', channelUrl);
               return;
             }
-            
             const item = document.createElement('div');
             item.className = 'channel';
-            
-            // 创建台标容器
             const logo = document.createElement('img');
             logo.className = 'channel-logo';
             logo.src = getChannelLogo(channelName);
@@ -1134,36 +771,24 @@ function updateFlipClock() {
               logo.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a90d9"%3E%3Cpath d="M8 5v14l11-7z"/%3E%3C/svg%3E';
             };
             item.appendChild(logo);
-            
-            // 创建频道名称容器
             const nameSpan = document.createElement('span');
             nameSpan.className = 'channel-name';
             Security.setText(nameSpan, channelName);
             item.appendChild(nameSpan);
-            
-            // 创建错误提示元素
             const errorElement = document.createElement('div');
             errorElement.className = 'channel-error';
             Security.setText(errorElement, '频道已失效，请等待更新');
-            
-            // 将错误提示作为频道的子元素
             item.appendChild(errorElement);
-            
-            // 使用闭包保护变量
             const safeUrl = channelUrl;
             item.onclick = () => {
-              // 安全检查：防止重复点击
               if (item.classList.contains('active')) return;
-              
               play(item, errorElement, safeUrl);
               document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
               item.classList.add('active');
             };
-            
             list.appendChild(item);
           }
         });
-
         setTimeout(() => {
           const first = document.querySelector('.channel');
           if (first) first.click();
@@ -1173,10 +798,9 @@ function updateFlipClock() {
         console.error('加载直播源失败:', Security.sanitizeLog(err));
         document.getElementById('netSpeed').textContent = '加载失败';
       });
-  };
-
+  }
   loadChannels();
 });
 </script>
 </body>
-  </html>
+</html>
