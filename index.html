@@ -197,19 +197,23 @@ document.addEventListener('DOMContentLoaded',()=>{
     preload: 'auto',
     video: { url: '' },
     hls: {
-      maxBufferSize: 10*1000*1000,
-      maxBufferLength: 5,
-      minBufferLength: 1,
+      maxBufferSize: 30*1000*1000,
+      maxBufferLength: 15,
+      minBufferLength: 3,
       enableWorker: true,
-      lowLatencyMode: true,
-      fpsDropped: true,
-      autoStartLoad: true
+      lowLatencyMode: false,
+      fpsDroppedMonitoring: false,
+      autoStartLoad: true,
+      startLevel: -1
     },
     flv: {
       enableWorker: true,
-      lazyLoad: false,
-      maxBufferLength: 3,
-      autoCleanupSourceBuffer: true
+      lazyLoad: true,
+      lazyLoadMaxDuration: 60,
+      maxBufferLength: 10,
+      maxBufferSize: 40*1000*1000,
+      autoCleanupSourceBuffer: true,
+      autoCleanupMaxDuration: 30
     },
     notice: false, mask: false, logo: false
   });
@@ -589,8 +593,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       let type = 'normal';
       if (url.includes('.m3u8')) type = 'hls';
       if (url.includes('.flv')) type = 'flv';
-      if (url.includes('.ts') && !url.includes('.m3u8')) type = 'normal';
-      if (!/Mobile|Android|iPhone/.test(navigator.userAgent) && location.protocol === 'https:') {
+      if (!/Mobile|Android|iPhone/.test(navigator.userAgent) && location.protocol === 'https:' && !url.startsWith('http://')) {
         url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
       }
       let isError = false;
@@ -716,7 +719,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a90d9"%3E%3Cpath d="M8 5v14l11-7z"/%3E%3C/svg%3E';
   }
   function loadChannels() {
-    const sourceUrl = 'https://gh-proxy.org/https://github.com/bang359/dsj/blob/main/iphone.txt';
+    const sourceUrl = 'https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt';
     if (!Security.validateUrl(sourceUrl)) {
       console.error('安全警告: 无效的直播源URL');
       return;
