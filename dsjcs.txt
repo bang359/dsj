@@ -1140,11 +1140,11 @@ ICS频道,http://218.1.208.13:7777/tsfile/live/1033_1.m3u8?key=txiptv&playlive=1
 🔥港台电影,#genre#
 好莱坞电影#http://rihou.cc:555/tv/好莱坞
 中國電影,http://iptv.4666888.xyz/iptv2A.php?id=61
-美亚电影[TW],http://iptv.4666888.xyz/iptv2A.php?id=30
-美亚电影,http://rihou.cc:555/tv/美亚电影
-NOW爆谷,https://iptv.707626.xyz/ch/68527adcbbc4f6f0c815314a24d71aaf/master.m3u8
-NOW星影,https://iptv.707626.xyz/ch/d435662d54b451d96cdb1bc534b4de82/master.m3u8
-POPC电影,https://iptv.707626.xyz/ch/daeefde9dc8798b55bca340479357ebf/master.m3u8
+美亚电影tw,http://iptv.4666888.xyz/iptv2A.php?id=30
+美亚电影hk,http://rihou.cc:555/tv/美亚电影
+NOW爆谷,https://test.946985.filegear-sg.me/proxy/d82d2bda2cc2cbaa
+NOW星影,https://test.946985.filegear-sg.me/proxy/84de4c236d106553
+POPC电影,https://test.946985.filegear-sg.me/proxy/37414657af7ded2b
 天映频道,http://o11.163189.xyz/stream/live/typd/
 天映经典,http://o11.163189.xyz/stream/live/ccm/
 影迷数位电影,http://rihou.cc:555/tv/影迷数位电影
