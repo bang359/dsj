@@ -1197,7 +1197,7 @@ Thrill,http://175.178.232.13:16888/api/htuiliu.php?exp=78cba6776663af4865dc63d5e
 美亚电影TW,http://iptv.4666888.xyz/iptv2A.php?id=30
 美亚电影HK,http://rihou.cc:555/tv/美亚电影
 NOW爆谷,http://175.178.232.13:16888/api/htuiliu.php?exp=78cba6776663af4865dc63d5e6fa5bd3&ip=221.219.199.242&id=6c944b78eb2a12b16ad9af300666807980e7b105d36e00fc8490728e3b82555e 
-NOW星影,http://175.178.232.13:16888/api/htuiliu.php?exp=78cba6776663af4865dc63d5e6fa5bd3&ip=221.219.199.242&id=e8b0e6720b361c47c1a91fa98a7c2b53c037d134ac5ead0532148d10cfa3ccff 
+NOW星影,http://rihou.cc:555/tv/星影台
 POPC电影,https://my5353.com/popc 
 天映频道,http://o11.163189.xyz/stream/live/typd/
 天映经典,http://o11.163189.xyz/stream/live/ccm/
