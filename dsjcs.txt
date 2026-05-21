@@ -7,8 +7,8 @@
 ❤️永久维护,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ❤️觉得好用,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ❤️请打赏观看,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
-九屏直播,http://plex.home.yulei.online:9999/rtp/226.0.2.197:9488$山西太原联通
-九屏直播,http://119.250.103.198:4000/rtp/239.253.92.203:6150$河北石家庄联通
+九屏直播,http://183.188.197.72:8000/rtp/226.0.2.197:9488$山西太原联通
+九屏直播,http://119.250.99.117:4000/rtp/239.253.92.203:6150$河北石家庄联通
 中国天气,http://221.7.49.226:50085/tsfile/live/0018_8.m3u8?key=txiptv&playlive=1&authid=0$酒店线路
 中国天气,http://plex.home.yulei.online:9999/rtp/226.0.2.103:8736$山西联通
 每日经济,http://swiftplay.hxkjmedia.com/tv/spbW.m3u8
@@ -1190,13 +1190,11 @@ ICS频道,http://218.1.208.13:7777/tsfile/live/1033_1.m3u8?key=txiptv&playlive=1
 重庆音乐现场,http://home.scanflove.com:7788/rtp/235.254.198.77:1584$重庆cmc3+
 重庆高网电影,http://home.scanflove.com:7788/rtp/235.254.198.95:1656$重庆cmc3+
 🔥港台电影,#genre#
-Kix,http://175.178.232.13:16888/api/htuiliu.php?exp=78cba6776663af4865dc63d5e6fa5bd3&ip=221.219.199.242&id=3845f7b83a9f61198a1e1387e9282ef7
-Thrill,http://175.178.232.13:16888/api/htuiliu.php?exp=78cba6776663af4865dc63d5e6fa5bd3&ip=221.219.199.242&id=e3939ca0dc30485bf74d2cadc7d7227ae055fe9815affaa07ceb6c53dcdae582
 好莱坞电影#http://rihou.cc:555/tv/好莱坞
 中國電影,http://iptv.4666888.xyz/iptv2A.php?id=61
 美亚电影TW,http://iptv.4666888.xyz/iptv2A.php?id=30
 美亚电影HK,http://rihou.cc:555/tv/美亚电影
-NOW爆谷,http://175.178.232.13:16888/api/htuiliu.php?exp=78cba6776663af4865dc63d5e6fa5bd3&ip=221.219.199.242&id=6c944b78eb2a12b16ad9af300666807980e7b105d36e00fc8490728e3b82555e 
+NOW爆谷 
 NOW星影,http://rihou.cc:555/tv/星影台
 POPC电影,https://my5353.com/popc 
 天映频道,http://o11.163189.xyz/stream/live/typd/
@@ -1370,6 +1368,52 @@ MoMo综合,rtmp://f13h.mine.nu/sat/tv761
 ELEVEN体育1,rtmp://f13h.mine.nu/sat/tv731
 ELEVEN体育2,rtmp://f13h.mine.nu/sat/tv741
 智林體育,http://iptv.4666888.xyz/iptv2A.php?id=5
+靖天电影,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv061&token=https://t.me/GPT_858
+靖天国际,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv063&token=https://t.me/GPT_858
+靖天欢乐,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv054&token=https://t.me/GPT_858
+靖天卡通,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv044&token=https://t.me/GPT_858
+靖天日本,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv047&token=https://t.me/GPT_858
+靖天戏剧,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv058&token=https://t.me/GPT_858
+靖天映画,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv055&token=https://t.me/GPT_858
+靖天育乐,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv062&token=https://t.me/GPT_858
+靖天资讯,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv065&token=https://t.me/GPT_858
+靖天综合,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv046&token=https://t.me/GPT_858
+靖洋卡通,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv057&token=https://t.me/GPT_858
+靖洋戏剧,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv045&token=https://t.me/GPT_858
+客家电视,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv043&token=https://t.me/GPT_858
+民视第一,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv003&token=https://t.me/GPT_858
+民视旅游,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv07&token=https://t.me/GPT_858
+民视台湾,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv001&token=https://t.me/GPT_858
+民视影剧,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv09&token=https://t.me/GPT_858
+民视综艺,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv004&token=https://t.me/GPT_858
+时尚运动X,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv014&token=https://t.me/GPT_858
+视纳华仁纪实,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv013&token=https://t.me/GPT_858
+亚洲旅游,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv076&token=https://t.me/GPT_858
+影迷数位电影,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv011&token=https://t.me/GPT_858
+影迷数位纪实,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv15&token=https://t.me/GPT_858
+智林体育,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv101&token=https://t.me/GPT_858
+中视,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv040&token=https://t.me/GPT_858
+猪哥亮歌厅秀,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv006&token=https://t.me/GPT_858
+国会1,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv084&token=https://t.me/GPT_858
+国会2,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv085&token=https://t.me/GPT_858
+CLASSICA古典乐,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv059&token=https://t.me/GPT_858
+ELTV生活英语,https://litv.tzh911.qzz.io/litv.php?id=litv-xinchuang20&token=https://t.me/GPT_858
+GINX Esports TV,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv053&token=https://t.me/GPT_858
+Mezzo Live HD,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv083&token=https://t.me/GPT_858
+MyCinemaEurope我的欧洲电影,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv10&token=https://t.me/GPT_858
+Pet Club TV,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv110&token=https://t.me/GPT_858
+TRACE Sport Stars,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv077&token=https://t.me/GPT_858
+TRACE Urban,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv082&token=https://t.me/GPT_858
+爱尔达娱乐,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv070&token=https://t.me/GPT_858
+八大精彩,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv034&token=https://t.me/GPT_858
+八大综艺,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv039&token=https://t.me/GPT_858
+采昌影剧,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv049&token=https://t.me/GPT_858
+达文西,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv018&token=https://t.me/GPT_858
+公视戏剧,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv042&token=https://t.me/GPT_858
+韩国娱乐台KMTV,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv016&token=https://t.me/GPT_858
+好消息,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv16&token=https://t.me/GPT_858
+好消息2,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv17&token=https://t.me/GPT_858
+华视,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv041&token=https://t.me/GPT_858
 NOW 70s,https://php.946985.filegear-sg.me/mytv265.php?id=NOW7
 NOW 80s,https://php.946985.filegear-sg.me/mytv265.php?id=NOW8
 NOW ROCK,https://php.946985.filegear-sg.me/mytv265.php?id=NOWR
