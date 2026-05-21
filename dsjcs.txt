@@ -1228,7 +1228,7 @@ ROCK Action,http://iptv.4666888.xyz/iptv2A.php?id=50
 峨眉电影,http://118.122.144.115:8888/newlive/live/hls/32/live.m3u8$四川电信酒店
 峨眉电影,http://183.220.20.17:4321/udp/239.11.0.11:5140$四川移动
 湖南电影,http://218.77.84.102:85/tsfile/live/149/2005_1.m3u8?key=txiptv
-河南乡村,http://zmgd.zyrnet.com:8888/hls/28/index.m3u8
+河南乡村,http://111.170.156.74:3344/河南频道/hntv.php?id=hnxc#http://zmgd.zyrnet.com:8888/hls/28/index.m3u8
 重温经典,http://rihou.cc:555/tv/重温经典
 新视觉HD,http://221.7.49.226:50085/tsfile/live/0016_2.m3u8?key=txiptv&playlive=1&authid=0
 新视觉HD,http://gat.bkpcp.top/ymg.php?id=mlzq
