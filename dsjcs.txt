@@ -1221,6 +1221,7 @@ CINEMAX
 ROCK Action,http://iptv.4666888.xyz/iptv2A.php?id=50
 1905流金岁月,https://cdn.jdshipin.com/1905.php
 1905环球经典,http://8.138.7.223/tv/1905.php?id=LIVE8J4LTCXPI7QJ5
+凤凰电影,http://hao6688.3322.org:30066/stream/channelid/1776639112?ticket=1702a2c002bcd734ff936cd6c06c359b489b63c4&profile=pass
 凤凰电影,http://221.7.175.154:8445/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$广西/联通
 凤凰电影,http://122.224.58.42:85/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$浙江/绍兴/电信
 峨眉电影,http://112.19.31.13:85/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0
@@ -1319,7 +1320,7 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 中天综合#http://rihou.cc:555/tv/中天综合
 中天娱乐#http://rihou.cc:555/tv/中天娱乐
 寰宇新聞,http://rihou.cc:555/tv/寰宇新闻
-寰宇新聞台湾#http://rihou.cc:555/tv/寰宇台湾
+寰宇新聞台湾,http://rihou.cc:555/tv/寰宇台湾
 东森新闻,http://rihou.cc:555/tv/东森新闻
 东森美洲,http://udnhls.skilldns.com:80/dsxw.m3u8
 TVBS,http://rihou.cc:555/tv/TVBS1
