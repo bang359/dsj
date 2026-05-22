@@ -1,7 +1,6 @@
-
 央视频,#genre#,JS=https://gongdian.top/tv/ku9/web.js
 频道测试,http://rihou.cc:555/tv/频道测试
-凤凰直播,https://flive.ifeng.com/live/1016529.html
+凤凰直播,http://A/ku9/js/web.js?id=https://flive.ifeng.com/live/1016529.html
 CCTV4K,https://gongdian.top/tv/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600002264
 CCTV1,http://A/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600001859
 CCTV2,http://A/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600001800
