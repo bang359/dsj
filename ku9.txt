@@ -1,5 +1,6 @@
 央视频,#genre#,JS=https://gongdian.top/tv/ku9/web.js
 频道测试,http://rihou.cc:555/tv/频道测试
+CCTV13抖音,http://A/ku9/js/web.js?id=https://live.douyin.com/1606137427
 凤凰直播,http://A/ku9/js/web.js?id=https://flive.ifeng.com/live/1016529.html
 CCTV4K,https://gongdian.top/tv/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600002264
 CCTV1,http://A/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600001859
@@ -38,8 +39,6 @@ CGTN Русский,http://A/ku9/js/web.js?id=https://russian.cgtn.com/channel
 CGTN Русский,http://A/ku9/js/web.js?id=https://www.yangshipin.cn/tv/home?pid=600084758
 CGTN Documentary,http://A/ku9/js/web.js?id=https://www.cgtn.com/channel/documentary
 CGTN Documentary,http://A/ku9/js/web.js?id=https://www.yangshipin.cn/tv/home?pid=600084781
-
-
 风云剧场,http://A/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600099658
 第一剧场,http://A/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600099655
 怀旧剧场,http://A/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600099620
@@ -159,17 +158,14 @@ CETV1,http://A/ku9/js/web.js?id=https://tv.gxtv.cn/channel/channelivePlay_ffa6b6
 CETV2,http://A/ku9/js/web.js?id=https://tv.gxtv.cn/channel/channelivePlay_80d0ffb42c114eaf9663708629ff0a3e.html
 CETV4,http://A/ku9/js/web.js?id=https://tv.gxtv.cn/channel/channelivePlay_67eace939278435bb4bca90800fb4225.html
 CECTV-1 汉语文化,http://A/ku9/js/web.js?id=http://play.cec-tv.com.cn/channel/cec-tv1.m3u8
-
 CECTV-2 国际旅游,http://A/ku9/js/web.js?id=http://play.cec-tv.com.cn/channel/cec-tv2.m3u8
-
 CECTV-3 国际教育,http://A/ku9/js/web.js?id=http://play.cec-tv.com.cn/channel/cec-tv3.m3u8
-
 CECTV-4 国际健康,http://A/ku9/js/web.js?id=http://play.cec-tv.com.cn/channel/cec-tv4.m3u8
 
 北京,#genre#,JS=https://gongdian.top/tv/ku9/webview.js
 北京卫视,http://A/ku9/js/web.js?id=https://www.btime.com/btv/btvsy_index
 上海,#genre#,JS=https://gongdian.top/tv/ku9/webview.js
-东方卫视,http://A/ku9/js/web.js?id=https://live.kankanews.com/huikan?id=1
+东方卫视4k,http://A/ku9/js/web.js?id=https://live.kankanews.com/huikan?id=1
 上海新闻综合,http://A/ku9/js/web.js?id=https://live.kankanews.com/huikan?id=2
 上海都市,http://A/ku9/js/web.js?id=https://live.kankanews.com/huikan?id=4
 第一财经,http://A/ku9/js/web.js?id=https://live.kankanews.com/huikan?id=5
@@ -199,20 +195,15 @@ CECTV-4 国际健康,http://A/ku9/js/web.js?id=http://play.cec-tv.com.cn/channel
 河北少儿,http://A/ku9/js/web.js?id=https://www.hebtv.com/19/19js/st/xdszb/index.shtml?index=5
 河北文旅公共,http://A/ku9/js/web.js?id=https://www.hebtv.com/19/19js/st/xdszb/index.shtml?index=6
 河北三佳购物频道,http://A/ku9/js/web.js?id=https://www.hebtv.com/19/19js/st/xdszb/index.shtml?index=7
-
-
 石家庄新闻综合,http://A/ku9/js/web.js?id=http://plusshare.sjzntv.cn/?_hgOutLink=live/livedetail%26channel_id=4
 石家庄城市服务,http://A/ku9/js/web.js?id=http://plusshare.sjzntv.cn/?_hgOutLink=live/livedetail%26channel_id=5
 石家庄文化娱乐,http://A/ku9/js/web.js?id=http://plusshare.sjzntv.cn/?_hgOutLink=live/livedetail%26channel_id=6
 石家庄都市,http://A/ku9/js/web.js?id=http://plusshare.sjzntv.cn/?_hgOutLink=live/livedetail%26channel_id=7
-
 衡水综合,http://hls.hsrtv.cn/live/hshstv1.m3u8
 衡水公共,http://hls.hsrtv.cn/live/hshstv2.m3u8
 衡水综合,http://A/ku9/js/web.js?id=http://app.hsrtv.cn/web/teletv/tv_content_1.html
 衡水公共,http://A/ku9/js/web.js?id=http://app.hsrtv.cn/web/teletv/tv_content_4.html
 邢台城市生活,http://A/ku9/js/web.js?id=https://www.xttv.com.cn/index/channel/index/id/64.html
-
-
 沧州综合,http://A/ku9/js/web.js?id=https://www.czgd.tv/Article/des?infoid=32768%26modelid=3
 沧州公共,http://A/ku9/js/web.js?id=https://www.czgd.tv/Article/des?infoid=32769%26modelid=3
 沧州影视娱乐,http://A/ku9/js/web.js?id=https://www.czgd.tv/Article/des?infoid=32770%26modelid=3
@@ -241,34 +232,27 @@ cctv-南昌新闻综合,http://A/ku9/js/web.js?id=https://www.nctv.net.cn/live
 大连乐天购物,http://A/ku9/js/web.js?id=http://www.guangbomi.com/tv/ln/dlydtv.html
 金普电视1台,http://A/ku9/js/web.js?id=https://web.guangdianyun.tv/tv/?id=1066%26uin=1332
 金普慢直播大黑山,http://A/ku9/js/web.js?id=https://web.guangdianyun.tv/live/78563?uin=1332
-
 丹东1,http://A/ku9/js/web.js?id=https://app.ddrtv.cn/application/tvradio/h5/detail.html?type=tv
 辽宁沈阳浑河桥,http://A/ku9/js/web.js?id=https://livechina.cctv.com/live_zb/LIVE3331.html?pageid=3331%26tag=MicroLiveType
 辽宁大连金普区大黑山,http://A/ku9/js/web.js?id=https://web.guangdianyun.tv/live/78563?uin=1332
-
 
 重庆,#genre#,JS=https://gongdian.top/tv/ku9/webview.js
 重庆新闻,http://A/ku9/js/web.js?id=https://www.cbg.cn/web/list/4918/1.html?5DEFC70C1A4AOD5173881C62BD4ACAD0
 河南,#genre#,JS=https://gongdian.top/tv/ku9/webview.js
 河南都市,http://A/ku9/js/web.js?id=https://www.hntv2.net/index.html%23/pages/tv/index
 郑州教育,http://A/ku9/js/web.js?id=http://web.chinamcloud.com/yszh32/wz/zb/index.shtml
-
 洛阳综合,https://wshlslive.migucloud.com/live/6AL7GTQX_C0/playlist.m3u8
 洛阳科教,https://wshlslive.migucloud.com/live/RJ0EYBCZ_C0/playlist.m3u8
 洛阳文旅,https://wshlslive.migucloud.com/live/CVN934JS_C0/playlist.m3u8
 新安综合,http://tvpull.dxhmt.cn/tv/10323-1.m3u8
-
-
 河南南阳一套,http://A/ku9/js/web.js?id=https://web.guangdianyun.tv/tv/?id=142%26uin=1081%26refererId=1651172
 河南南阳二套,http://A/ku9/js/web.js?id=https://web.guangdianyun.tv/tv/?id=295%26uin=1081%26refererId=1651172
-
 开封新闻综合,http://A/ku9/js/web.js?id=https://www.kftv.net.cn/info/944
 开封文化旅游,http://A/ku9/js/web.js?id=https://www.kftv.net.cn/info/943
 兰考新闻频道,http://A/ku9/js/web.js?id=https://www.kftv.net.cn/info/942
 杞县新闻综合,http://A/ku9/js/web.js?id=https://www.kftv.net.cn/info/941
 尉氏新闻频道,http://A/ku9/js/web.js?id=https://www.kftv.net.cn/info/940
 通许综合频道,http://A/ku9/js/web.js?id=https://www.kftv.net.cn/info/939
-
 焦作综合,http://A/ku9/js/web.js?id=http://www.jzrt.com/list-zhpd.html
 焦作公共,http://A/ku9/js/web.js?id=http://www.jzrt.com/list-ggpd.html
 驻马店新闻综合,http://tvlive.zmdtvw.cn/live/106770611978226682/index.m3u8
@@ -314,9 +298,7 @@ cctv-南昌新闻综合,http://A/ku9/js/web.js?id=https://www.nctv.net.cn/live
 湖北云上黄石,http://A/ku9/js/web.js?id=https://web.guangdianyun.tv/tv/3071?uin=3065
 襄阳经济生活,http://A/ku9/js/web.js?id=https://web.guangdianyun.tv/tv/?id=2675%26uin=1500
 襄阳综合,http://A/ku9/js/web.js?id=https://web.guangdianyun.tv/tv/?id=3061%26uin=1500
-
 襄阳公共,http://A/ku9/js/web.js?id=https://web.guangdianyun.tv/tv/?id=22337%26uin=1500
-
 襄阳经济生活,http://A/ku9/js/web.js?id=https://xiangyang.cjyun.org/app/streamradio/138
 襄阳综合,http://A/ku9/js/web.js?id=https://xiangyang.cjyun.org/app/streamradio/142
 襄阳公共,http://A/ku9/js/web.js?id=https://xiangyang.cjyun.org/app/streamradio/130
@@ -334,7 +316,7 @@ cctv-南昌新闻综合,http://A/ku9/js/web.js?id=https://www.nctv.net.cn/live
 咸宁新闻综合,http://A/ku9/js/web.js?id=https://app.cjyun.org.cn/video/videojs/index?site_id=10140%26id=91%26page=canvas%26live_type=1
 咸宁经济生活,http://A/ku9/js/web.js?id=https://app.cjyun.org.cn/video/videojs/index?site_id=10140%26id=80%26page=canvas%26live_type=1
 江苏,#genre#,JS=https://gongdian.top/tv/ku9/webview.js
-江苏卫视4K,http://A/ku9/js/web.js?id=https://live.jstv.com?channelId=662
+江苏卫视4K,http://A/ku9/js/web.js?id=https://live.jstv.com?channelId=676
 江苏卫视,http://A/ku9/js/web.js?id=https://live.jstv.com?channelId=670
 江苏城市,http://A/ku9/js/web.js?id=https://live.jstv.com/?channelId=669
 江苏综艺,http://A/ku9/js/web.js?id=https://live.jstv.com/?channelId=663
@@ -442,15 +424,12 @@ cctv-南昌新闻综合,http://A/ku9/js/web.js?id=https://www.nctv.net.cn/live
 泰安1,http://A/ku9/js/web.js?id=http://www.taianxinwen.com/tatv/contents/113/1.html
 泰安2,http://A/ku9/js/web.js?id=http://live.1545ts.net/zhibotatv2.html
 甘肃,#genre#,JS=https://gongdian.top/tv/ku9/webview.js
-甘肃卫视,http://A/ku9/js/web.js?id=https://www.gstv.com.cn/zxc.jhtml#
-
-科教频道,https://hls.gstv.com.cn/9hvng2/xcl739.m3u8
-甘肃卫视,https://hls.gstv.com.cn/9hvng2/m96r7x.m3u8
-文化影视,https://hls.gstv.com.cn/9hvng2/tbq0aj.m3u8
-公共应急,https://hls.gstv.com.cn/9hvng2/t16sp1.m3u8
-少儿频道,https://hls.gstv.com.cn/9hvng2/zb7122.m3u8
-移动电视,https://hls.gstv.com.cn/94ycke/v9qci2.m3u8
-
+甘肃卫视,https://live.gstv.com.cn/live/oxfhvoy.m3u8
+文化影视,https://live.gstv.com.cn/live/lg2va3a.m3u8
+移动电视,https://live.gstv.com.cn/live/j6od116.m3u8
+少儿频道,https://live.gstv.com.cn/live/456r6be.m3u8
+科教频道,https://live.gstv.com.cn/live/c6gljof.m3u8
+公共应急,https://live.gstv.com.cn/live/c6gljof.m3u8
 兰州新闻综合,http://A/ku9/js/web.js?id=https://www.lzr.com.cn/folder25/folder26/
 兰州文旅频道,http://A/ku9/js/web.js?id=https://www.lzr.com.cn/folder25/folder26/folder30/
 内蒙古,#genre#,JS=https://gongdian.top/tv/ku9/webview.js
