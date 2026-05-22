@@ -1200,9 +1200,12 @@ NOW星影,http://rihou.cc:555/tv/星影台
 POPC电影,https://my5353.com/popc 
 天映频道,http://o11.163189.xyz/stream/live/typd/
 天映经典,http://o11.163189.xyz/stream/live/ccm/
+
 影迷数位电影,http://rihou.cc:555/tv/影迷数位电影
 东森电影,http://rihou.cc:555/tv/东森电影 
-东森洋片,http://rihou.cc:555/tv/东森洋片 
+东森洋片,http://rihou.cc:555/tv/东森洋片
+东森戏剧,https://smt.1678520.xyz/163189/f60cd3f14b06dabc
+纬来电影,https://smt.1678520.xyz/163189/602e9465658d4f8c 
 靖洋戏剧,http://iptv.4666888.xyz/iptv2A.php?id=42
 靖天电影,http://iptv.4666888.xyz/iptv2A.php?id=56
 金光布袋戏,http://o11.163189.xyz/stream/live/jgbdx/
@@ -1221,7 +1224,6 @@ CINEMAX
 ROCK Action,http://iptv.4666888.xyz/iptv2A.php?id=50
 1905流金岁月,https://cdn.jdshipin.com/1905.php
 1905环球经典,http://8.138.7.223/tv/1905.php?id=LIVE8J4LTCXPI7QJ5
-凤凰电影,http://hao6688.3322.org:30066/stream/channelid/1776639112?ticket=1702a2c002bcd734ff936cd6c06c359b489b63c4&profile=pass
 凤凰电影,http://221.7.175.154:8445/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$广西/联通
 凤凰电影,http://122.224.58.42:85/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$浙江/绍兴/电信
 峨眉电影,http://112.19.31.13:85/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0
@@ -1257,7 +1259,7 @@ ROCK Action,http://iptv.4666888.xyz/iptv2A.php?id=50
 凤凰中文,http://221.7.175.154:8445/tsfile/live/1020_1.m3u8?key=txiptv&playlive=1&authid=0$广西广电
 凤凰资讯,http://221.7.175.154:8445/tsfile/live/1021_1.m3u8?key=txiptv&playlive=1&authid=0$广西广电
 翡翠台4K,https://o11.163189.xyz/stream/tvb/fct4k/
-翡翠台,https://cdn6.163189.xyz/163189/fct
+翡翠台,https://my5353.com/fct#https://cdn6.163189.xyz/163189/fct
 翡翠台,http://o11.163189.xyz/stream/tvb/fct/#https://mytv.cdn.loc.cc/o12.php?id=fct
 明珠台,http://mytv.cdn.loc.cc/o12.php?id=mzt
 娱乐新闻,https://cdn6.163189.xyz/163189/ylxw
