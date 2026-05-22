@@ -1316,7 +1316,7 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 东森美洲,http://udnhls.skilldns.com:80/dsxw.m3u8
 TVBS,http://rihou.cc:555/tv/TVBS1
 TVBS NEWS,http://jnzq.ohoyee.com:9080/live/xingjiaoge-tvbsxw.m3u8
-TVBS新闻,http://rihou.cc:555/tv/[FY]tvbS新闻
+TVBS新闻,https://test.946985.filegear-sg.me/proxy/aeeed2eb197331b1
 TVBS亚洲 
 镜新闻,http://rihou.cc:555/tv/镜新闻
 民视新闻,http://rihou.cc:555/tv/民视新闻
