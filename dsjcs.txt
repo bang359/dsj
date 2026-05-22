@@ -1,4 +1,4 @@
-使用公告,#genre#
+📢使用公告,#genre#
 更新日期,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 2026/05/20 13:50:56,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 浏览器扫码下载,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/new.mp4
@@ -12,7 +12,6 @@
 中国天气,http://221.7.49.226:50085/tsfile/live/0018_8.m3u8?key=txiptv&playlive=1&authid=0$酒店线路
 中国天气,http://plex.home.yulei.online:9999/rtp/226.0.2.103:8736$山西联通
 每日经济,http://swiftplay.hxkjmedia.com/tv/spbW.m3u8
-澎湃直播,https://play-a2.quklive.com/live/1779417640519284.m3u8
 澎湃景区,https://play-a2.quklive.com/live/1765245429980053.m3u8
 慢直播丨在“世界之巅”珠峰看日出日落感受风云际会,https://play-a2.quklive.com/live/1732443163041173.m3u8
 ❤️CCTV4K,http://111.170.156.74:3344/央视/cctv.php?id=cctv4k#http://38.75.136.137:98/gslb/dsdqpub/cctv4k.m3u8?auth=testpub
@@ -1180,9 +1179,7 @@ ICS频道,http://218.1.208.13:7777/tsfile/live/1033_1.m3u8?key=txiptv&playlive=1
 重庆高网电影,http://home.scanflove.com:7788/rtp/235.254.198.95:1656$重庆cmc3+
 🔥港台电影,#genre#
 好莱坞电影#http://rihou.cc:555/tv/好莱坞
-中國電影,http://iptv.4666888.xyz/iptv2A.php?id=61
-美亚电影TW,http://iptv.4666888.xyz/iptv2A.php?id=30
-美亚电影HK,http://rihou.cc:555/tv/美亚电影
+美亚电影,http://rihou.cc:555/tv/美亚电影
 NOW星影,rtmp://digital-live-pull.zegonetwork.com/live/xiangjiaoge-xy
 NOW爆谷,rtmp://digital-live-pull.zegonetwork.com/live/xiangjiaoge-bg 
 NOW星影,http://rihou.cc:555/tv/星影台
@@ -1195,12 +1192,10 @@ POPC电影,https://my5353.com/popc
 东森洋片,http://rihou.cc:555/tv/东森洋片
 东森戏剧,https://smt.1678520.xyz/163189/f60cd3f14b06dabc
 纬来电影,https://smt.1678520.xyz/163189/602e9465658d4f8c 
-靖洋戏剧,http://iptv.4666888.xyz/iptv2A.php?id=42
-靖天电影,http://iptv.4666888.xyz/iptv2A.php?id=56
 金光布袋戏,http://o11.163189.xyz/stream/live/jgbdx/
 龙祥时代,http://rihou.cc:555/tv/龙祥时代
-龙华电影,http://iptv.4666888.xyz/iptv2A.php?id=45
-龙华洋片,http://iptv.4666888.xyz/iptv2A.php?id=60
+龙华电影
+龙华洋片
 龙华电影,http://cdn8.163189.xyz/163189/lhdy
 龙华经典,http://cdn8.163189.xyz/163189/lhjd
 龙华卡通
@@ -1210,7 +1205,7 @@ POPC电影,https://my5353.com/popc
 龙华洋片 http://cdn8.163189.xyz/163189/lhyp 
 AXNTaiwan   
 CINEMAX 
-ROCK Action,http://iptv.4666888.xyz/iptv2A.php?id=50
+ROCK Action 
 1905流金岁月,https://cdn.jdshipin.com/1905.php
 1905环球经典,http://8.138.7.223/tv/1905.php?id=LIVE8J4LTCXPI7QJ5
 凤凰电影,http://221.7.175.154:8445/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$广西/联通
@@ -1231,7 +1226,9 @@ ROCK Action,http://iptv.4666888.xyz/iptv2A.php?id=50
 邵氏武侠,http://38.75.136.137:98/gslb/dsdqpub/lbsswx.m3u8?auth=testpub
 邵氏动作,http://38.75.136.137:98/gslb/dsdqpub/lbssdz.m3u8?auth=testpub
 邵氏喜剧,http://38.75.136.137:98/gslb/dsdqpub/lbssxj.m3u8?auth=testpub
-恐怖電影,http://iptv.4666888.xyz/iptv2A.php?id=59
+昆仑剧场,https://3ea9e6-31f5e6.kylintv.tv/live/kunlunhd_iphone.m3u8
+长江剧场,https://3ea9e6-31f5e6.kylintv.tv/live/yangtse_iphone.m3u8
+
 🇭🇰香港,#genre#
 凤凰中文,https://cdn6.163189.xyz/163189/fhzw
 凤凰资讯,https://cdn6.163189.xyz/163189/fhzx
@@ -1259,8 +1256,8 @@ TVB Plus,https://o11.163189.xyz/stream/tvb/tvbp/#http://r.jdshipin.com/Nr5jq
 华丽翡翠(新加坡),http://o11.163189.xyz/stream/live/jade/ 
 Now新闻,http://cdn.163189.xyz/163189/now
 HOY 76 
-HOY 77 
-HOY 78 
+HOY 77,http://115.44.140.170:18180/TV00000000000000000036@HHZT
+HOY 78,http://115.44.140.170:18180/TV00000000000000000088@HHZT
 HOY 77,http://cdn.163189.xyz/163189/hoy
 ViuTV,https://cdn.163189.xyz/163189/viu
 ViuTV Six,https://cdn10.163189.xyz/stream/163189/viu6/ 
@@ -1271,7 +1268,6 @@ TVB黄金华剧,http://r.jdshipin.com/62WM7
 TVB DRAMA,https://amg01868-amg01868c5-tvbanywhere-us-4493.playouts.now.amagi.tv/playlist/amg01868-tvbusa-tvbdrama-tvbanywhereus/playlist.m3u8
 RTHK 31,http://cdn.163189.xyz/163189/rthk31
 RTHK 32,http://cdn.163189.xyz/163189/rthk32
-RTHK 33 
 爱奇艺,https://o11.163189.xyz/stream/live/iqiyi/
 Astro AEC,https://o11.163189.xyz/stream/live/aec/
 Astro AOD,https://o11.163189.xyz/stream/live/aod/
@@ -1289,21 +1285,8 @@ Channel [V],http://rihou.cc:555/tv/Channel+V
 澳门综艺,http://cdn6.163189.xyz/163189/amzy
 澳门Macau,https://cdn6.163189.xyz/163189/as
 澳视澳门,https://cdn6.163189.xyz/163189/asam
-凤凰中文,http://iptv.4666888.xyz/iptv2A.php?id=27$秒播线路
-TVB黄金华剧,http://iptv.4666888.xyz/iptv2A.php?id=34$秒播线路
-TVB翡翠(马来),http://iptv.4666888.xyz/iptv2A.php?id=28$秒播线路
-明珠台,http://iptv.4666888.xyz/iptv2A.php?id=29$秒播线路
-TVBJ1,http://iptv.4666888.xyz/iptv2A.php?id=26$秒播线路
-TVB1,http://iptv.4666888.xyz/iptv2A.php?id=25$秒播线路
-TVB千禧经典,http://iptv.4666888.xyz/iptv2A.php?id=22$秒播线路
-HOY 77,http://iptv.4666888.xyz/iptv2A.php?id=35$秒播线路
-TVB-奖门人,http://iptv.4666888.xyz/iptv2A.php?id=31$秒播线路
-TVB-金曲,http://iptv.4666888.xyz/iptv2A.php?id=57$秒播线路
-RTHK 31,http://iptv.4666888.xyz/iptv2A.php?id=23$秒播线路
-娱乐新闻,http://iptv.4666888.xyz/iptv2A.php?id=36$秒播线路
-澳视澳门,http://iptv.4666888.xyz/iptv2A.php?id=41$秒播线路
-中国电影,http://iptv.4666888.xyz/iptv2A.php?id=61$秒播线路
 Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
+
 🇹🇼台湾,#genre#
 温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
 中天新闻,rtmp://home.aceimage.cn/live/xiangjiaoge-ztxw#http://rihou.cc:555/tv/中天新闻
@@ -1329,10 +1312,6 @@ TVBS亚洲
 公视,http://211.72.174.95:8116/0.ts$原生解码最佳
 民视,http://211.72.174.95:8115/0.ts$原生解码最佳
 台视,http://211.72.174.95:8112/0.ts$原生解码最佳
-民視綜藝,http://iptv.4666888.xyz/iptv2A.php?id=46
-TVBS精采,http://iptv.4666888.xyz/iptv2A.php?id=47
-台视综合,http://iptv.4666888.xyz/iptv2A.php?id=51
-民视影剧,http://iptv.4666888.xyz/iptv2A.php?id=53
 民视影剧,https://cdn12.178.indevs.in/163189/73d93f1c22fa91d7
 公视戏剧,https://cdn12.178.indevs.in/163189/2973b910e7719c08
 采昌影剧,https://cdn12.178.indevs.in/163189/0a6204ed0261460c
@@ -1360,7 +1339,6 @@ DreamWorks梦工厂动画,https://cdn12.178.indevs.in/163189/10395eb942c5a9b9
 MoMo综合,rtmp://f13h.mine.nu/sat/tv761
 ELEVEN体育1,rtmp://f13h.mine.nu/sat/tv731
 ELEVEN体育2,rtmp://f13h.mine.nu/sat/tv741
-智林體育,http://iptv.4666888.xyz/iptv2A.php?id=5
 靖天电影,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv061&token=https://t.me/GPT_858
 靖天国际,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv063&token=https://t.me/GPT_858
 靖天欢乐,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv054&token=https://t.me/GPT_858
@@ -1426,6 +1404,7 @@ NatGeo Wild
 人间卫视,http://61.216.67.119:1935/bltvhd/bltv1/chunklist_w1266569526.m3u8
 生命电视,http://61.216.67.119:1935/lifetv/lifetv.stream/manifest.m3u8 
 唯心电视,http://mobile.ccdntech.com/transcoder/_definst_/vod164_Live/live/playlist.m3u8
+
 🇺🇸美国,#genre# 
 News max,http://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8
 CNN,https://turnerlive.warnermediacdn.com/hls/live/586495/cnngo/cnn_slate/VIDEO_0_3564000.m3u8
