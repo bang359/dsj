@@ -1736,6 +1736,7 @@ TVBS新闻,https://test.946985.filegear-sg.me/proxy/aeeed2eb197331b1
 TVBS亚洲 
 镜新闻,http://rihou.cc:555/tv/镜新闻
 民视新闻,http://rihou.cc:555/tv/民视新闻
+华视新闻,http://rihou.cc:555/tv/华视新闻
 中视新闻#http://rihou.cc:555/tv/中视新闻 
 台视新闻#http://rihou.cc:555/tv/台视新闻 
 年代新闻#http://rihou.cc:555/tv/年代新闻
