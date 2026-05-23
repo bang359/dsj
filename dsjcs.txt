@@ -1738,7 +1738,7 @@ TVBS亚洲
 民视新闻,http://rihou.cc:555/tv/民视新闻
 华视新闻,http://rihou.cc:555/tv/华视新闻
 中视新闻#http://rihou.cc:555/tv/中视新闻 
-台视新闻#http://rihou.cc:555/tv/台视新闻 
+台视新闻,http://rihou.cc:555/tv/台视新闻 
 年代新闻#http://rihou.cc:555/tv/年代新闻
 民视新闻,http://211.72.174.95:8117/0.ts$原生解码最佳
 中视,http://211.72.174.95:8113/0.ts$原生解码最佳
