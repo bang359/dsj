@@ -42,6 +42,8 @@
 CHC动作电影,http://rihou.cc:555/tv/CHC动作电影
 CHC影迷电影,http://rihou.cc:555/tv/CHC影迷电影
 CHC家庭影院,http://rihou.cc:555/tv/CHC家庭影院
+短剧轮播,http://rihou.cc:555/tv/短剧
+电影轮播,http://rihou.cc:555/tv/电影轮播
 至臻4K,http://221.181.100.64/gslbserv.itv.cmvideo.cn/1.m3u8?channel-id=FifastbLive&Contentid=3000000010000015686&livemode=1&stbId=m
 经典鬼片3000部 https://yylunbo.ottiptv.cc/yy/29460894
 🎵点歌台,http://cfss.cc/cdn/du/85894.flv
@@ -1263,6 +1265,7 @@ ICS频道,http://218.1.208.13:7777/tsfile/live/1033_1.m3u8?key=txiptv&playlive=1
 龙华洋片,http://iptv.4666888.xyz/iptv2A.php?id=60
 恐怖电影,http://iptv.4666888.xyz/iptv2A.php?id=59
 ROCK_Action,http://iptv.4666888.xyz/iptv2A.php?id=50
+澳门莲花,https://cdn6.163189.xyz/163189/amlh
 
 好莱坞电影#http://rihou.cc:555/tv/好莱坞
 美亚电影,http://rihou.cc:555/tv/美亚电影
@@ -1376,6 +1379,8 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 寰宇新闻,http://rihou.cc:555/tv/寰宇新闻
 寰宇台湾,http://rihou.cc:555/tv/寰宇台湾
 东森新闻,http://rihou.cc:555/tv/东森新闻
+东森美洲,http://bt.sc1970.xyz:9099/38.64.72.148/hls/modn/list/2016/playlist.m3u8
+东森中国,http://bt.sc1970.xyz:9099/38.64.72.148/hls/modn/list/2003/playlist.m3u8
 东森美洲,http://udnhls.skilldns.com:80/dsxw.m3u8
 TVBS,http://rihou.cc:555/tv/TVBS1
 TVBS NEWS,http://jnzq.ohoyee.com:9080/live/xingjiaoge-tvbsxw.m3u8
