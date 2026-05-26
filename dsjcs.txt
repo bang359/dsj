@@ -1252,7 +1252,18 @@ ICS频道,http://218.1.208.13:7777/tsfile/live/1033_1.m3u8?key=txiptv&playlive=1
 重庆野外,http://home.scanflove.com:7788/rtp/235.254.198.119:1752$重庆cmc3+
 重庆音乐现场,http://home.scanflove.com:7788/rtp/235.254.198.77:1584$重庆cmc3+
 重庆高网电影,http://home.scanflove.com:7788/rtp/235.254.198.95:1656$重庆cmc3+
+
 🔥港台电影,#genre#
+中国电影,http://iptv.4666888.xyz/iptv2A.php?id=61
+靖洋戏剧,http://iptv.4666888.xyz/iptv2A.php?id=42
+靖天电影,http://iptv.4666888.xyz/iptv2A.php?id=56
+东森电影,http://iptv.4666888.xyz/iptv2A.php?id=48
+影迷数位电影,http://iptv.4666888.xyz/iptv2A.php?id=54
+龙华电影,http://iptv.4666888.xyz/iptv2A.php?id=45
+龙华洋片,http://iptv.4666888.xyz/iptv2A.php?id=60
+恐怖电影,http://iptv.4666888.xyz/iptv2A.php?id=59
+ROCK_Action,http://iptv.4666888.xyz/iptv2A.php?id=50
+
 好莱坞电影#http://rihou.cc:555/tv/好莱坞
 美亚电影,http://rihou.cc:555/tv/美亚电影
 NOW星影,rtmp://digital-live-pull.zegonetwork.com/live/xiangjiaoge-xy
@@ -1280,7 +1291,6 @@ POPC电影,https://my5353.com/popc
 龙华洋片 http://cdn8.163189.xyz/163189/lhyp 
 AXNTaiwan   
 CINEMAX 
-ROCK Action 
 1905流金岁月,https://cdn.jdshipin.com/1905.php
 1905环球经典,http://8.138.7.223/tv/1905.php?id=LIVE8J4LTCXPI7QJ5
 凤凰电影,http://221.7.175.154:8445/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$广西/联通
@@ -1301,8 +1311,6 @@ ROCK Action
 邵氏武侠,http://38.75.136.137:98/gslb/dsdqpub/lbsswx.m3u8?auth=testpub
 邵氏动作,http://38.75.136.137:98/gslb/dsdqpub/lbssdz.m3u8?auth=testpub
 邵氏喜剧,http://38.75.136.137:98/gslb/dsdqpub/lbssxj.m3u8?auth=testpub
-昆仑剧场,https://3ea9e6-31f5e6.kylintv.tv/live/kunlunhd_iphone.m3u8
-长江剧场,https://3ea9e6-31f5e6.kylintv.tv/live/yangtse_iphone.m3u8
 
 🇭🇰香港,#genre#
 凤凰中文,https://cdn6.163189.xyz/163189/fhzw
@@ -1371,8 +1379,7 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 东森美洲,http://udnhls.skilldns.com:80/dsxw.m3u8
 TVBS,http://rihou.cc:555/tv/TVBS1
 TVBS NEWS,http://jnzq.ohoyee.com:9080/live/xingjiaoge-tvbsxw.m3u8
-TVBS新闻,https://test.946985.filegear-sg.me/proxy/aeeed2eb197331b1
-TVBS亚洲 
+TVBS新闻,http://iptv.4666888.xyz/iptv2A.php?id=43
 镜新闻,http://rihou.cc:555/tv/镜新闻
 民视新闻,http://rihou.cc:555/tv/民视新闻
 华视新闻,http://rihou.cc:555/tv/华视新闻
@@ -1401,6 +1408,26 @@ CMusic,https://cdn12.178.indevs.in/163189/d396cb84b6c89889
 DreamWorks梦工厂动画,https://cdn12.178.indevs.in/163189/10395eb942c5a9b9
 精选动漫台,https://cdn12.178.indevs.in/163189/e1d66f74bd2d4894
 金光布袋戏,https://cdn12.178.indevs.in/163189/5479c245d9d580b5
+
+TVBS新闻,http://iptv.4666888.xyz/iptv2A.php?id=43
+非凡新闻,http://iptv.4666888.xyz/iptv2A.php?id=44
+民视,http://iptv.4666888.xyz/iptv2A.php?id=55
+华艺中文,http://iptv.4666888.xyz/iptv2A.php?id=37
+爱奇艺,http://iptv.4666888.xyz/iptv2A.php?id=21
+梦工场动漫,http://iptv.4666888.xyz/iptv2A.php?id=40
+Duck TV儿童卡通,http://iptv.4666888.xyz/iptv2A.php?id=39
+MOMO亲子,http://iptv.4666888.xyz/iptv2A.php?id=49
+金光布袋戏,http://iptv.4666888.xyz/iptv2A.php?id=38
+民视综艺,http://iptv.4666888.xyz/iptv2A.php?id=46
+民视影剧,http://iptv.4666888.xyz/iptv2A.php?id=53
+TVBS精采,http://iptv.4666888.xyz/iptv2A.php?id=47
+台视综合,http://iptv.4666888.xyz/iptv2A.php?id=51
+TVBS台剧,http://iptv.4666888.xyz/iptv2A.php?id=58
+八度空间,http://iptv.4666888.xyz/iptv2A.php?id=52
+韩流美食料理秀,http://iptv.4666888.xyz/iptv2A.php?id=63
+娱乐百分百,http://iptv.4666888.xyz/iptv2A.php?id=64
+综艺大赢家,http://iptv.4666888.xyz/iptv2A.php?id=65
+
 民视,rtmp://f13h.mine.nu/sat/tv051
 台视,rtmp://f13h.mine.nu/sat/tv071
 中视,rtmp://f13h.mine.nu/sat/tv091
