@@ -1412,52 +1412,6 @@ DreamWorks梦工厂动画,https://cdn12.178.indevs.in/163189/10395eb942c5a9b9
 MoMo综合,rtmp://f13h.mine.nu/sat/tv761
 ELEVEN体育1,rtmp://f13h.mine.nu/sat/tv731
 ELEVEN体育2,rtmp://f13h.mine.nu/sat/tv741
-靖天电影,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv061&token=https://t.me/GPT_858
-靖天国际,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv063&token=https://t.me/GPT_858
-靖天欢乐,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv054&token=https://t.me/GPT_858
-靖天卡通,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv044&token=https://t.me/GPT_858
-靖天日本,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv047&token=https://t.me/GPT_858
-靖天戏剧,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv058&token=https://t.me/GPT_858
-靖天映画,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv055&token=https://t.me/GPT_858
-靖天育乐,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv062&token=https://t.me/GPT_858
-靖天资讯,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv065&token=https://t.me/GPT_858
-靖天综合,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv046&token=https://t.me/GPT_858
-靖洋卡通,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv057&token=https://t.me/GPT_858
-靖洋戏剧,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv045&token=https://t.me/GPT_858
-客家电视,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv043&token=https://t.me/GPT_858
-民视第一,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv003&token=https://t.me/GPT_858
-民视旅游,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv07&token=https://t.me/GPT_858
-民视台湾,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv001&token=https://t.me/GPT_858
-民视影剧,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv09&token=https://t.me/GPT_858
-民视综艺,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv004&token=https://t.me/GPT_858
-时尚运动X,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv014&token=https://t.me/GPT_858
-视纳华仁纪实,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv013&token=https://t.me/GPT_858
-亚洲旅游,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv076&token=https://t.me/GPT_858
-影迷数位电影,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv011&token=https://t.me/GPT_858
-影迷数位纪实,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv15&token=https://t.me/GPT_858
-智林体育,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv101&token=https://t.me/GPT_858
-中视,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv040&token=https://t.me/GPT_858
-猪哥亮歌厅秀,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv006&token=https://t.me/GPT_858
-国会1,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv084&token=https://t.me/GPT_858
-国会2,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv085&token=https://t.me/GPT_858
-CLASSICA古典乐,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv059&token=https://t.me/GPT_858
-ELTV生活英语,https://litv.tzh911.qzz.io/litv.php?id=litv-xinchuang20&token=https://t.me/GPT_858
-GINX Esports TV,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv053&token=https://t.me/GPT_858
-Mezzo Live HD,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv083&token=https://t.me/GPT_858
-MyCinemaEurope我的欧洲电影,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv10&token=https://t.me/GPT_858
-Pet Club TV,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv110&token=https://t.me/GPT_858
-TRACE Sport Stars,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv077&token=https://t.me/GPT_858
-TRACE Urban,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv082&token=https://t.me/GPT_858
-爱尔达娱乐,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv070&token=https://t.me/GPT_858
-八大精彩,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv034&token=https://t.me/GPT_858
-八大综艺,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv039&token=https://t.me/GPT_858
-采昌影剧,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv049&token=https://t.me/GPT_858
-达文西,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv018&token=https://t.me/GPT_858
-公视戏剧,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv042&token=https://t.me/GPT_858
-韩国娱乐台KMTV,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv016&token=https://t.me/GPT_858
-好消息,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv16&token=https://t.me/GPT_858
-好消息2,https://litv.tzh911.qzz.io/litv.php?id=litv-ftv17&token=https://t.me/GPT_858
-华视,https://litv.tzh911.qzz.io/litv.php?id=4gtv-4gtv041&token=https://t.me/GPT_858
 NOW 70s,https://php.946985.filegear-sg.me/mytv265.php?id=NOW7
 NOW 80s,https://php.946985.filegear-sg.me/mytv265.php?id=NOW8
 NOW ROCK,https://php.946985.filegear-sg.me/mytv265.php?id=NOWR
