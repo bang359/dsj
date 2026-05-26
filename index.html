@@ -8,7 +8,7 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="X-XSS-Protection" content="1; mode=block">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; media-src 'self' http: https:; connect-src 'self' https://wttr.in https://api.ipapi.co https://api.allorigins.win; font-src 'self' https://cdn.jsdelivr.net;">
+<meta name="Content-Security-Policy" content="default-src 'self' http: https:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https: http:; media-src 'self' http: https:; connect-src 'self' https://wttr.in https://api.ipapi.co https://api.allorigins.win http: https:; font-src 'self' https://cdn.jsdelivr.net;">
 <title>极速直播</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
@@ -79,6 +79,8 @@ video::-webkit-media-controls-overlay-play-button{display:none!important}
   .weather-box{padding:6px 16px;height:44px!important}
   .weather-info{font-size:13px;gap:14px}
   .date-info{font-size:11px;gap:10px}
+  .dplayer-controls,.dplayer-controller,.dplayer-button,.dplayer-mask,.dplayer-loading{display:block!important;opacity:1!important;visibility:visible!important;width:auto!important;height:auto!important;pointer-events:auto!important}
+  .dplayer-volume,.dplayer-volume-bar,.dplayer-full,.dplayer-full-in-icon{display:flex!important;opacity:1!important;visibility:visible!important;width:auto!important;height:auto!important;pointer-events:auto!important}
 }
 @media(max-width:768px){
   .main{flex-direction:column}
@@ -93,6 +95,7 @@ video::-webkit-media-controls-overlay-play-button{display:none!important}
   .flip-card{width:28px!important;height:22px!important;font-size:14px!important}
   .flip-dividers{gap:10px;padding:0 1px}
   .flip-divider{width:4px!important;height:4px!important}
+  .dplayer-controls,.dplayer-controller,.dplayer-button,.dplayer-volume,.dplayer-volume-bar,.dplayer-full,.dplayer-full-in-icon{display:none!important}
 }
 </style>
 </head>
@@ -122,7 +125,7 @@ video::-webkit-media-controls-overlay-play-button{display:none!important}
   <div class="channel-box">
     <div class="top-bar">
       <div>📺网页电视</div>
-      <a href="http://rihou.cc:555/tv/dsjcs520" target="_blank" class="app-download">电视家重生APP下载</a>
+      <a href="http://rihou.cc:555/tv/uEcrg3" target="_blank" class="app-download">电视家重生APP下载</a>
       <div class="donate"><a href="http://cccimg.com/view.php/292d03a93f0210df6ae1168b6219ab95.jpg" target="_blank">打赏支持</a></div>
     </div>
     <div class="channel-list" id="list"></div>
@@ -190,6 +193,17 @@ const Security = {
 document.addEventListener('DOMContentLoaded',()=>{
   const originalLog = console.log;
   console.log = function() {};
+  function checkHLSSupport() {
+    if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+      return true;
+    }
+    const video = document.createElement('video');
+    return video.canPlayType('application/vnd.apple.mpegurl') !== '';
+  }
+  const hlsSupported = checkHLSSupport();
+  if (!hlsSupported && typeof Hls !== 'undefined') {
+    console.log('hls.js 不支持当前浏览器');
+  }
   const dp = new DPlayer({
     container: document.getElementById('dplayer'),
     autoplay: true,
@@ -197,14 +211,35 @@ document.addEventListener('DOMContentLoaded',()=>{
     preload: 'auto',
     video: { url: '' },
     hls: {
-      maxBufferSize: 30*1000*1000,
-      maxBufferLength: 15,
-      minBufferLength: 3,
+      maxBufferSize: 60*1000*1000,
+      maxBufferLength: 20,
+      minBufferLength: 5,
       enableWorker: true,
       lowLatencyMode: false,
       fpsDroppedMonitoring: false,
       autoStartLoad: true,
-      startLevel: -1
+      startLevel: -1,
+      enableSoftwareAES: true,
+      manifestLoadingMaxRetry: 3,
+      manifestLoadingRetryDelay: 500,
+      levelLoadingMaxRetry: 3,
+      levelLoadingRetryDelay: 500,
+      fragLoadingMaxRetry: 3,
+      fragLoadingRetryDelay: 500,
+      bandwidth: 10000000,
+      highBufferWatchdogPeriod: 3,
+      nudgeOffset: 0.1,
+      nudgeMaxRetry: 3,
+      maxFragLookUpTolerance: 0.25,
+      liveSyncDurationCount: 3,
+      liveMaxLatencyDuration: Infinity,
+      liveSyncDuration: 30,
+      maxBufferSize: 60*1000*1000,
+      maxBufferLength: 20,
+      minBufferLength: 5,
+      backBufferLength: 90,
+      maxHlsPlaylistSize: 10,
+      maxListSize: 10
     },
     flv: {
       enableWorker: true,
@@ -591,16 +626,43 @@ document.addEventListener('DOMContentLoaded',()=>{
       currentErrorElement = errorElement;
       if (dp.video) dp.pause();
       let type = 'normal';
-      if (url.includes('.m3u8')) type = 'hls';
-      if (url.includes('.flv')) type = 'flv';
+      if (url.includes('.m3u8') || url.includes('/live/') || url.includes('/stream/') || url.includes('.ts')) {
+        type = 'hls';
+      } else if (url.includes('.flv')) {
+        type = 'flv';
+      } else {
+        type = 'hls';
+      }
       if (!/Mobile|Android|iPhone/.test(navigator.userAgent) && location.protocol === 'https:' && !url.startsWith('http://')) {
-        url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+        const proxies = [
+          'https://gh-proxy.org/',
+          'https://raw.fastgit.org/',
+          'https://cdn.jsdelivr.net/gh/',
+          'https://github.moeyy.xyz/'
+        ];
+        const randomProxy = proxies[Math.floor(Math.random() * proxies.length)];
+        if (url.startsWith('https://raw.githubusercontent.com/')) {
+          url = url.replace('https://raw.githubusercontent.com/', randomProxy);
+        } else if (url.startsWith('https://github.com/')) {
+          url = url.replace('https://github.com/', randomProxy);
+        } else {
+          url = 'https://gh-proxy.org/' + url;
+        }
       }
       let isError = false;
+      let retryCount = 0;
+      const maxRetries = 2;
       const errorHandler = () => {
         if (!isError) {
           isError = true;
-          if (currentErrorElement) currentErrorElement.style.display = 'block';
+          if (retryCount < maxRetries) {
+            retryCount++;
+            setTimeout(() => {
+              play(channel, errorElement, url);
+            }, 2000);
+          } else {
+            if (currentErrorElement) currentErrorElement.style.display = 'block';
+          }
         }
       };
       dp.on('error', errorHandler);
@@ -622,11 +684,21 @@ document.addEventListener('DOMContentLoaded',()=>{
       dp.switchVideo({ url, type });
       dp.video.volume = 0.5;
       dp.play().catch((error) => {
-        if (error && (error.name === 'NetworkError' || error.message.includes('decode'))) errorHandler();
+        if (error && (error.name === 'NetworkError' || error.message.includes('decode') || error.message.includes('timeout'))) {
+          if (retryCount < maxRetries) {
+            retryCount++;
+            setTimeout(() => {
+              play(channel, errorElement, url);
+            }, 2000);
+          } else {
+            errorHandler();
+          }
+        }
       });
       if (dp.video) {
         dp.video.oncanplay = () => {
           isError = false;
+          retryCount = 0;
           if (currentErrorElement) currentErrorElement.style.display = 'none';
           if (dp.video) {
             dp.video.style.display = 'block';
@@ -639,6 +711,13 @@ document.addEventListener('DOMContentLoaded',()=>{
             dp.video.style.display = 'block';
             dp.video.style.opacity = '1';
             dp.video.style.visibility = 'visible';
+          }
+        };
+        dp.video.ontimeupdate = () => {
+          if (dp.video && dp.video.duration > 0 && dp.video.currentTime > 0) {
+            isError = false;
+            retryCount = 0;
+            if (currentErrorElement) currentErrorElement.style.display = 'none';
           }
         };
       }
@@ -697,9 +776,9 @@ document.addEventListener('DOMContentLoaded',()=>{
       '凤凰香港': 'https://www.phoenixtv.com/favicon.ico',
       '中天新闻': 'https://www.ctitv.com.tw/favicon.ico',
       'TVBS': 'https://www.tvbs.com.tw/favicon.ico',
-      '民视新闻': 'https://d.0j7.cn/MQhJ7',
-      '镜新闻': 'https://d.0j7.cn/MQhJ7',
-      'NTD': 'https://d.0j7.cn/MQhJ7',
+      '民视新闻': 'https://www.ftv.com.tw/favicon.ico',
+      '镜新闻': 'https://www.mirrortv.tw/favicon.ico',
+      'NTD': 'https://www.ntdtv.com/favicon.ico',
       'TVB': 'https://www.tvb.com/favicon.ico',
       '香港电台': 'https://www.rthk.hk/favicon.ico',
       '澳门卫视': 'https://www.tdm.com.mo/favicon.ico',
@@ -806,4 +885,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </body>
-</html>
+  </html>
