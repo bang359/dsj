@@ -1361,12 +1361,12 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 
 🇹🇼台湾,#genre#
 温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
-中天新闻,rtmp://home.aceimage.cn/live/xiangjiaoge-ztxw#http://rihou.cc:555/tv/中天新闻
+中天新闻,http://rihou.cc:555/tv/中天新闻
 中天亚洲#http://rihou.cc:555/tv/中天亚洲
 中天综合#http://rihou.cc:555/tv/中天综合
 中天娱乐#http://rihou.cc:555/tv/中天娱乐
-寰宇新聞,http://rihou.cc:555/tv/寰宇新闻
-寰宇新聞台湾,http://rihou.cc:555/tv/寰宇台湾
+寰宇新闻,http://rihou.cc:555/tv/寰宇新闻
+寰宇台湾,http://rihou.cc:555/tv/寰宇台湾
 东森新闻,http://rihou.cc:555/tv/东森新闻
 东森美洲,http://udnhls.skilldns.com:80/dsxw.m3u8
 TVBS,http://rihou.cc:555/tv/TVBS1
