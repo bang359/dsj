@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -15,11 +13,32 @@
 <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.css">
+<!-- Video.js 播放器 (类似 m3u8-player.com) -->
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-hls@5.15.0/dist/videojs-contrib-hls.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:#000;overflow:hidden}
 .main{display:flex;width:100vw;height:100vh}
 .player-box{position:relative;background:#000;height:100%}
+
+/* Video.js 播放器样式 (纯画面版 - 无任何遮挡) */
+#my-video{width:100%!important;height:calc(100% - 60px)!important;position:absolute!important;top:0!important;left:0!important;right:0!important;z-index:1!important}
+.video-js{width:100%;height:100%}
+.video-js .vjs-big-play-button{display:none!important}
+.video-js .vjs-control-bar{display:none!important}
+.video-js .vjs-progress-control{display:none!important}
+.video-js .vjs-load-progress{display:none!important}
+.video-js .vjs-play-progress{display:none!important}
+.video-js .vjs-slider{display:none!important}
+.video-js .vjs-progress-handle{display:none!important}
+.video-js .vjs-volume-panel{display:none!important}
+.video-js .vjs-fullscreen-control{display:none!important}
+.video-js .vjs-poster{display:none!important}
+.video-js .vjs-icon-placeholder{display:none!important}
+.video-js .vjs-modal-dialog{display:none!important}
+.video-js .vjs-text-track-display{display:none!important}
 #dplayer{width:100%!important;height:calc(100% - 40px)!important;position:absolute!important;top:0!important;left:0!important;right:0!important;z-index:1!important}
 .dplayer-video-wrap{display:block!important;position:relative!important;width:100%!important;height:100%!important;background:#000!important;z-index:2!important}
 .dplayer-video{display:block!important;position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;object-fit:contain!important;background:#000!important;z-index:3!important}
@@ -102,7 +121,10 @@ video::-webkit-media-controls-overlay-play-button{display:none!important}
 <body>
 <div class="main">
   <div class="player-box">
-    <div id="dplayer"></div>
+    <!-- Video.js 播放器 (类似 m3u8-player.com) -->
+    <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" width="100%" height="100%" data-setup='{}'>
+      <source src="" type="application/x-mpegURL">
+    </video>
     <div class="weather-box" id="weatherBox">
       <div class="weather-info">
         <span id="netSpeed">↓0 KB/s</span>
@@ -193,34 +215,23 @@ const Security = {
 document.addEventListener('DOMContentLoaded',()=>{
   const originalLog = console.log;
   console.log = function() {};
-  const dp = new DPlayer({
-    container: document.getElementById('dplayer'),
-    autoplay: true,
-    volume: 0.5,
+  
+  // Video.js 播放器初始化 (简化版 - 只保留进度条)
+  const player = videojs('my-video', {
+    controls: true,
+    autoplay: false,
     preload: 'auto',
-    video: { url: '' },
-    hls: {
-      maxBufferSize: 30*1000*1000,
-      maxBufferLength: 15,
-      minBufferLength: 3,
-      enableWorker: true,
-      lowLatencyMode: false,
-      fpsDroppedMonitoring: false,
-      autoStartLoad: true,
-      startLevel: -1
-    },
-    flv: {
-      enableWorker: true,
-      lazyLoad: true,
-      lazyLoadMaxDuration: 60,
-      maxBufferLength: 10,
-      maxBufferSize: 40*1000*1000,
-      autoCleanupSourceBuffer: true,
-      autoCleanupMaxDuration: 30
-    },
-    notice: false, mask: false, logo: false
+    fluid: true,
+    aspectRatio: '16:9',
+    controlBar: {
+      children: [
+        'progressControl'
+      ]
+    }
   });
+  
   console.log = originalLog;
+  
   const list = document.getElementById('list');
   let currentErrorElement = null;
   const lunarInfo = [
@@ -570,7 +581,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   setTimeout(() => { getWeather(); }, 2000);
   function updateBufferStatus() {
     try {
-      const video = dp.video;
+      const video = player && player.el().querySelector('video');
       if (!video || video.readyState < 2) {
         document.getElementById('netSpeed').textContent = '↓缓冲中...';
         return;
@@ -592,15 +603,21 @@ document.addEventListener('DOMContentLoaded',()=>{
     try {
       document.querySelectorAll('.channel-error').forEach(el => { el.style.display = 'none'; });
       currentErrorElement = errorElement;
-      if (dp.video) dp.pause();
-      let type = 'normal';
-      if (url.includes('.m3u8') || url.includes('.ts')) type = 'hls';
-      if (url.includes('.flv')) type = 'flv';
-      // PC浏览器且是https时，对特定格式使用代理解决跨域问题
+      if (player) player.pause();
+      
+      // HTTPS网站下，对所有外部直播源使用代理解决跨域和混合内容问题
       const isMobile = /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (!isMobile && location.protocol === 'https:' && !url.startsWith('http://') && (type === 'hls' || type === 'flv')) {
-        url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+      const isLocal = url.startsWith('//') || url.startsWith('/') || url.startsWith('./') || url.startsWith('../');
+      if (!isMobile && location.protocol === 'https:' && !isLocal && (url.includes('.m3u8') || url.includes('.ts') || url.includes('.flv'))) {
+        const fullUrl = url.startsWith('http') ? url : 'https://' + url;
+        url = 'https://gh-proxy.org/' + encodeURIComponent(fullUrl);
       }
+      
+      // 检测类型
+      let contentType = 'video/mp4';
+      if (url.includes('.m3u8')) contentType = 'application/x-mpegURL';
+      else if (url.includes('.flv')) contentType = 'video/x-flv';
+      
       let isError = false;
       const errorHandler = () => {
         if (!isError) {
@@ -608,45 +625,19 @@ document.addEventListener('DOMContentLoaded',()=>{
           if (currentErrorElement) currentErrorElement.style.display = 'block';
         }
       };
-      dp.on('error', errorHandler);
-      if (dp.video) {
-        const originalVideoErrorHandler = dp.video.onerror;
-        dp.video.onerror = errorHandler;
-        dp._originalVideoErrorHandler = originalVideoErrorHandler;
-      }
-      if (dp.video) {
-        dp.video.style.display = 'block';
-        dp.video.style.opacity = '1';
-        dp.video.style.visibility = 'visible';
-      }
-      if (dp.videoWrap) {
-        dp.videoWrap.style.display = 'block';
-        dp.videoWrap.style.opacity = '1';
-        dp.videoWrap.style.visibility = 'visible';
-      }
-      dp.switchVideo({ url, type });
-      dp.video.volume = 0.5;
-      dp.play().catch((error) => {
+      
+      // 设置源并播放
+      player.src({ type: contentType, src: url });
+      player.load();
+      player.play().catch((error) => {
         if (error && (error.name === 'NetworkError' || error.message.includes('decode'))) errorHandler();
       });
-      if (dp.video) {
-        dp.video.oncanplay = () => {
-          isError = false;
-          if (currentErrorElement) currentErrorElement.style.display = 'none';
-          if (dp.video) {
-            dp.video.style.display = 'block';
-            dp.video.style.opacity = '1';
-            dp.video.style.visibility = 'visible';
-          }
-        };
-        dp.video.onloadeddata = () => {
-          if (dp.video) {
-            dp.video.style.display = 'block';
-            dp.video.style.opacity = '1';
-            dp.video.style.visibility = 'visible';
-          }
-        };
-      }
+      
+      player.on('error', errorHandler);
+      player.on('canplay', () => {
+        isError = false;
+        if (currentErrorElement) currentErrorElement.style.display = 'none';
+      });
     } catch (e) {
       if (e && (e.name === 'NetworkError' || e.message.includes('network'))) errorElement.style.display = 'block';
     }
