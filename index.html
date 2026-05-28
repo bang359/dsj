@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -595,7 +596,9 @@ document.addEventListener('DOMContentLoaded',()=>{
       let type = 'normal';
       if (url.includes('.m3u8') || url.includes('.ts')) type = 'hls';
       if (url.includes('.flv')) type = 'flv';
-      if (!/Mobile|Android|iPhone/.test(navigator.userAgent) && location.protocol === 'https:' && !url.startsWith('http://')) {
+      // PC浏览器且是https时，对特定格式使用代理解决跨域问题
+      const isMobile = /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isMobile && location.protocol === 'https:' && !url.startsWith('http://') && (type === 'hls' || type === 'flv')) {
         url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
       }
       let isError = false;
@@ -650,78 +653,164 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
   function getChannelLogo(channelName) {
     const logoMap = {
-'CCTV-1': 'https://live.404003.xyz/LOGO/CCTV1.png',
-'CCTV-2': 'https://live.404003.xyz/LOGO/CCTV2.png',
-'CCTV-3': 'https://live.404003.xyz/LOGO/CCTV3.png',
-'CCTV-4': 'https://live.404003.xyz/LOGO/CCTV4.png',
-'CCTV-5': 'https://live.404003.xyz/LOGO/CCTV5.png',
-'CCTV-6': 'https://live.404003.xyz/LOGO/CCTV6.png',
-'CCTV-7': 'https://live.404003.xyz/LOGO/CCTV7.png',
-'CCTV-8': 'https://live.404003.xyz/LOGO/CCTV8.png',
-'CCTV-9': 'https://live.404003.xyz/LOGO/CCTV9.png',
-'CCTV-10': 'https://live.404003.xyz/LOGO/CCTV10.png',
-'CCTV-11': 'https://live.404003.xyz/LOGO/CCTV11.png',
-'CCTV-12': 'https://live.404003.xyz/LOGO/CCTV12.png',
-'CCTV-13': 'https://live.404003.xyz/LOGO/CCTV13.png',
-'CCTV-14': 'https://live.404003.xyz/LOGO/CCTV14.png',
-'CCTV-15': 'https://live.404003.xyz/LOGO/CCTV15.png',
-'CCTV-16': 'https://live.404003.xyz/LOGO/CCTV16.png',
-'CCTV-17': 'https://live.404003.xyz/LOGO/CCTV17.png',
-'北京卫视': 'https://live.404003.xyz/LOGO/北京卫视.png',
-'东方卫视': 'https://live.404003.xyz/LOGO/东方卫视.png',
-'湖南卫视': 'https://live.404003.xyz/LOGO/湖南卫视.png',
-'浙江卫视': 'https://live.404003.xyz/LOGO/浙江卫视.png',
-'江苏卫视': 'https://live.404003.xyz/LOGO/江苏卫视.png',
-'安徽卫视': 'https://live.404003.xyz/LOGO/安徽卫视.png',
-'山东卫视': 'https://live.404003.xyz/LOGO/山东卫视.png',
-'天津卫视': 'https://live.404003.xyz/LOGO/天津卫视.png',
-'四川卫视': 'https://live.404003.xyz/LOGO/四川卫视.png',
-'重庆卫视': 'https://live.404003.xyz/LOGO/重庆卫视.png',
-'湖北卫视': 'https://live.404003.xyz/LOGO/湖北卫视.png',
-'河南卫视': 'https://live.404003.xyz/LOGO/河南卫视.png',
-'广东卫视': 'https://live.404003.xyz/LOGO/广东卫视.png',
-'广西卫视': 'https://live.404003.xyz/LOGO/广西卫视.png',
-'江西卫视': 'https://live.404003.xyz/LOGO/江西卫视.png',
-'辽宁卫视': 'https://live.404003.xyz/LOGO/辽宁卫视.png',
-'黑龙江卫视': 'https://live.404003.xyz/LOGO/黑龙江卫视.png',
-'吉林卫视': 'https://live.404003.xyz/LOGO/吉林卫视.png',
-'云南卫视': 'https://live.404003.xyz/LOGO/云南卫视.png',
-'贵州卫视': 'https://live.404003.xyz/LOGO/贵州卫视.png',
-'陕西卫视': 'https://live.404003.xyz/LOGO/陕西卫视.png',
-'山西卫视': 'https://live.404003.xyz/LOGO/山西卫视.png',
-'河北卫视': 'https://live.404003.xyz/LOGO/河北卫视.png',
-'福建东南卫视': 'https://live.404003.xyz/LOGO/福建东南卫视.png',
-'深圳卫视': 'https://live.404003.xyz/LOGO/深圳卫视.png',
-'厦门卫视': 'https://live.404003.xyz/LOGO/厦门卫视.png',
-'凤凰卫视': 'https://live.404003.xyz/LOGO/凤凰卫视.png',
-'凤凰中文': 'https://live.404003.xyz/LOGO/凤凰中文.png',
-'凤凰资讯': 'https://live.404003.xyz/LOGO/凤凰资讯.png',
-'凤凰香港': 'https://live.404003.xyz/LOGO/凤凰香港.png',
-'中天新闻': 'https://live.404003.xyz/LOGO/中天新闻.png',
-'TVBS': 'https://live.404003.xyz/LOGO/TVBS.png',
-'民视新闻': 'https://live.404003.xyz/LOGO/民视新闻.png',
-'镜新闻': 'https://live.404003.xyz/LOGO/镜新闻.png',
-'NTD': 'https://live.404003.xyz/LOGO/NTD.png',
-'TVB': 'https://live.404003.xyz/LOGO/TVB.png',
-'香港电台': 'https://live.404003.xyz/LOGO/香港电台.png',
-'澳门卫视': 'https://live.404003.xyz/LOGO/澳门卫视.png',
+'CCTV-1': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV1.png',
+'CCTV-2': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV2.png',
+'CCTV-3': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV3.png',
+'CCTV-4': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV4.png',
+'CCTV-5': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV5.png',
+'CCTV-6': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV6.png',
+'CCTV-7': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV7.png',
+'CCTV-8': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV8.png',
+'CCTV-9': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV9.png',
+'CCTV-10': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV10.png',
+'CCTV-11': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV11.png',
+'CCTV-12': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV12.png',
+'CCTV-13': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV13.png',
+'CCTV-14': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV14.png',
+'CCTV-15': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV15.png',
+'CCTV-16': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV16.png',
+'CCTV-17': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV17.png',
+'北京卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Beijing.png',
+'东方卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Dongfang.png',
+'湖南卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Hunan.png',
+'浙江卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Zhejiang.png',
+'江苏卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Jiangsu.png',
+'安徽卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Anhui.png',
+'重庆卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Chongqing.png',
+'东南卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Dongnan.png',
+'甘肃卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Gansu.png',
+'广东卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Guangdong.png',
+'广西卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Guangxi.png',
+'贵州卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Guizhou.png',
+'海南卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Hainan.png',
+'河北卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Hebei.png',
+'河南卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Henan.png',
+'黑龙江卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Heilongjiang.png',
+'湖北卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Hubei.png',
+'吉林卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Jilin.png',
+'江西卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Jiangxi.png',
+'辽宁卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Liaoning.png',
+'内蒙古卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Neimeng.png',
+'宁夏卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Ningxia.png',
+'青海卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Qinghai.png',
+'山东卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Shandong.png',
+'山西卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Shanxi_.png',
+'陕西卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Shanxi.png',
+'深圳卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Shenzhen.png',
+'四川卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Sichuan.png',
+'天津卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Tianjin.png',
+'新疆卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Xinjiang.png',
+'西藏卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Xizang.png',
+'云南卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Yunnan.png',
+'海峡卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Haixia.png',
+'兵团卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Bingtuan.png',
+'黄河卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Huanghe.png',
+'安多卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Anduo.png',
+'康巴卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Kangba.png',
+'南方卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Nanfang.png',
+'农林卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Nonglin.png',
+'三沙卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Sansha.png',
+'延边卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Yanbian.png',
+'厦门卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Xiamen.png',
+'山东教育卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Shandongjy.png',
+'澜湄国际卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Meilan.png',
+'福建东南卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Dongfang.png',
+'凤凰卫视': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Phoenix1.png',
 'CHC动作电影': 'https://live.404003.xyz/LOGO/CHC动作电影.png',
 'CHC影迷电影': 'https://live.404003.xyz/LOGO/CHC影迷电影.png',
 'CHC家庭影院': 'https://live.404003.xyz/LOGO/CHC家庭影院.png',
+'惊艳台': 'https://live.404003.xyz/LOGO/%E6%83%8A%E8%89%B3.png',
+'镜新闻': 'https://live.404003.xyz/LOGO/%E9%95%9C%E6%96%B0%E9%97%BB.png',
+'民事新闻': 'https://live.404003.xyz/LOGO/%E6%B0%91%E8%A7%86%E6%96%B0%E9%97%BB.png',
+'TVB': 'https://live.404003.xyz/LOGO/TVB.png',
 '中国教育3': 'https://live.404003.xyz/LOGO/中国教育3.png',
 '优漫卡通': 'https://live.404003.xyz/LOGO/优漫卡通.png',
 '卡酷少儿': 'https://live.404003.xyz/LOGO/卡酷少儿.png',
 '天元围棋': 'https://live.404003.xyz/LOGO/天元围棋.png',
-'国学频道': 'https://live.404003.xyz/LOGO/国学频道.png'
+'国学频道': 'https://live.404003.xyz/LOGO/国学频道.png',
+'民视新闻': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/FTV.png',
+'新唐人': 'https://gcore.jsdelivr.net/gh/taksssss/tv/icon/%E6%96%B0%E5%94%90%E4%BA%BA%E4%BA%9A%E5%A4%AA.png',
+'CCTV-5+': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV5plus.png',
+'CCTV-4K超高清': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV4K.png',
+'CCTV-8K超高清': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV8K.png',
+'CCTV-电视指南': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVdszn.png',
+'CCTV-第一剧场': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVdyjc.png',
+'CCTV-风云剧场': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVfyjc.png',
+'CCTV-风云音乐': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVfyyy.png',
+'CCTV-风云足球': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVfyzq.png',
+'CCTV-高尔夫网球': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVgefwq.png',
+'CCTV-兵器科技': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVbqkj.png',
+'CCTV-女性时尚': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVnxss.png',
+'CCTV-世界地理': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVsjdl.png',
+'CCTV-怀旧剧场': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVhjjc.png',
+'CCTV-央视台球': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVystq.png',
+'CCTV-央视文化精品': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVyswhjp.png',
+'CCTV-卫生健康': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTVwsjk.png'
     };
     
     if (logoMap[channelName]) return logoMap[channelName];
+    
+    // 禁用图标的频道
+    const noLogoChannels = ['频道测试', '澎湃景区', '网络热曲', '永久维护'];
+    for (const noLogo of noLogoChannels) {
+      if (channelName.includes(noLogo)) return '';
+    }
     
     for (const key of Object.keys(logoMap)) {
       if (channelName.includes(key) || key.includes(channelName)) return logoMap[key];
     }
     
-    return `https://live.404003.xyz/LOGO/${encodeURIComponent(channelName)}.png`;
+    const simplifiedName = channelName.replace(/CCTV[-_]/gi, '').replace(/[-_ ]/g, '');
+    for (const key of Object.keys(logoMap)) {
+      const simplifiedKey = key.replace(/CCTV[-_]/gi, '').replace(/[-_ ]/g, '');
+      if (simplifiedName.includes(simplifiedKey) || simplifiedKey.includes(simplifiedName)) {
+        return logoMap[key];
+      }
+    }
+    
+    if (channelName.includes('广东')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Guangdong.png';
+    if (channelName.includes('广西')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Guangxi.png';
+    if (channelName.includes('湖南')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Hunan.png';
+    if (channelName.includes('江苏')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Jiangsu.png';
+    if (channelName.includes('浙江')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Zhejiang.png';
+    if (channelName.includes('北京')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Beijing.png';
+    if (channelName.includes('吉林')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Jilin.png';
+    if (channelName.includes('辽宁')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Liaoning.png';
+    if (channelName.includes('江西')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Jiangxi.png';
+    if (channelName.includes('四川')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Sichuan.png';
+    if (channelName.includes('山东')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Shandong.png';
+    if (channelName.includes('山西')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Shanxi_.png';
+    if (channelName.includes('陕西')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Shanxi.png';
+    if (channelName.includes('湖北')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Hubei.png';
+    if (channelName.includes('河南')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Henan.png';
+    if (channelName.includes('河北')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Hebei.png';
+    if (channelName.includes('黑龙江')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/Heilongjiang.png';
+    if (channelName.includes('电影')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV6.png';
+    if (channelName.includes('邵氏')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV6.png';
+    if (channelName.includes('卡通') || channelName.includes('少儿')) return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV14.png';
+    if (channelName.includes('CCTV') || channelName.includes('央视')) {
+      if (channelName.includes('体育') || channelName.includes('5') || channelName.includes('足球') || channelName.includes('网球') || channelName.includes('台球')) {
+        return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV5.png';
+      } else if (channelName.includes('电影') || channelName.includes('6') || channelName.includes('怀旧')) {
+        return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV6.png';
+      } else if (channelName.includes('电视剧') || channelName.includes('8') || channelName.includes('剧场')) {
+        return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV8.png';
+      } else if (channelName.includes('音乐') || channelName.includes('15')) {
+        return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV15.png';
+      } else if (channelName.includes('军事') || channelName.includes('7') || channelName.includes('农业') || channelName.includes('兵器')) {
+        return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV7.png';
+      } else if (channelName.includes('纪录') || channelName.includes('9') || channelName.includes('地理')) {
+        return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV9.png';
+      } else if (channelName.includes('新闻') || channelName.includes('13')) {
+        return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV13.png';
+      } else if (channelName.includes('综艺') || channelName.includes('3') || channelName.includes('时尚')) {
+        return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV3.png';
+      } else {
+        return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV1.png';
+      }
+    }
+    
+    return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV1.png';
   }
   function loadChannels() {
     const sourceUrl = 'https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt';
@@ -776,8 +865,11 @@ document.addEventListener('DOMContentLoaded',()=>{
             logo.src = getChannelLogo(channelName);
             logo.alt = '';
             logo.onerror = () => {
-              logo.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234a90d9"%3E%3Cpath d="M8 5v14l11-7z"/%3E%3C/svg%3E';
+              logo.style.display = 'none';
             };
+            if (!getChannelLogo(channelName)) {
+              logo.style.display = 'none';
+            }
             item.appendChild(logo);
             const nameSpan = document.createElement('span');
             nameSpan.className = 'channel-name';
