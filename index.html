@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -896,7 +897,37 @@ document.addEventListener('DOMContentLoaded',()=>{
               document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
               item.classList.add('active');
             };
-            list.appendChild(item);
+            
+            // 在"频道测试"右侧添加影视跳转链接
+            if (channelName === '频道测试') {
+              const container = document.createElement('div');
+              container.style.display = 'flex';
+              container.style.gap = '8px';
+              
+              const linkItem = document.createElement('div');
+              linkItem.className = 'channel link-channel';
+              linkItem.style.background = '#2d5a27';
+              linkItem.style.borderLeft = '3px solid #4caf50';
+              linkItem.style.flex = '1';
+              const linkLogo = document.createElement('img');
+              linkLogo.className = 'channel-logo';
+              linkLogo.src = '';
+              linkLogo.style.display = 'none';
+              linkItem.appendChild(linkLogo);
+              const linkName = document.createElement('span');
+              linkName.className = 'channel-name';
+              linkName.innerHTML = '🍿 点我看影视';
+              linkItem.appendChild(linkName);
+              linkItem.onclick = () => {
+                window.open('https://www.kanxige.com/', '_blank');
+              };
+              
+              container.appendChild(item);
+              container.appendChild(linkItem);
+              list.appendChild(container);
+            } else {
+              list.appendChild(item);
+            }
           }
         });
         setTimeout(() => {
@@ -913,4 +944,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </body>
-</html>
+  </html>
