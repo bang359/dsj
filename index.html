@@ -899,7 +899,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             };
             
             // 在"频道测试"右侧添加影视跳转链接
-            if (channelName === '频道测试') {
+            if (channelName.includes('频道测试')) {
               const container = document.createElement('div');
               container.style.display = 'flex';
               container.style.gap = '8px';
@@ -919,7 +919,7 @@ document.addEventListener('DOMContentLoaded',()=>{
               linkName.innerHTML = '🍿 点我看影视';
               linkItem.appendChild(linkName);
               linkItem.onclick = () => {
-                window.open('https://www.kanxige.com/', '_blank');
+                window.open('https://www.shidai.tv/', '_blank');
               };
               
               container.appendChild(item);
@@ -944,4 +944,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </body>
-  </html>
+</html>
