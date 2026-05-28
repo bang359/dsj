@@ -123,7 +123,7 @@ video::-webkit-media-controls-overlay-play-button{display:none!important}
 <div class="main">
   <div class="player-box">
     <!-- Video.js 播放器 (类似 m3u8-player.com) -->
-    <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" width="100%" height="100%" data-setup='{}'>
+    <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" width="100%" height="100%" data-setup='{}' playsinline webkit-playsinline x-webkit-airplay="allow" disablePictureInPicture>
       <source src="" type="application/x-mpegURL">
     </video>
     <div class="weather-box" id="weatherBox">
@@ -228,7 +228,17 @@ document.addEventListener('DOMContentLoaded',()=>{
     fullscreen: false,
     controlBar: false,
     userActions: {
-      hotkeys: false
+      hotkeys: false,
+      doubleClick: false,
+      touchControls: false
+    },
+    html5: {
+      vhs: {
+        overrideNative: true
+      },
+      nativeVideoTracks: false,
+      nativeAudioTracks: false,
+      nativeTextTracks: false
     }
   });
   
@@ -241,6 +251,31 @@ document.addEventListener('DOMContentLoaded',()=>{
   player.on('dblclick', (e) => {
     e.preventDefault();
   });
+  
+  // iOS Safari 特殊处理
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  
+  if (isIOS || isSafari) {
+    // 确保视频标签有 playsinline 属性
+    const videoEl = player.tech_.el();
+    videoEl.setAttribute('playsinline', '');
+    videoEl.setAttribute('webkit-playsinline', '');
+    videoEl.setAttribute('x-webkit-airplay', 'allow');
+    videoEl.setAttribute('disablePictureInPicture', '');
+    videoEl.removeAttribute('controls');
+    
+    // 禁用 iOS Safari 的自动全屏行为
+    videoEl.addEventListener('webkitbeginfullscreen', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }, false);
+    
+    videoEl.addEventListener('webkitendfullscreen', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }, false);
+  }
   
   console.log = originalLog;
   
@@ -739,6 +774,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 '惊艳台': 'https://live.404003.xyz/LOGO/%E6%83%8A%E8%89%B3.png',
 '镜新闻': 'https://live.404003.xyz/LOGO/%E9%95%9C%E6%96%B0%E9%97%BB.png',
 '民事新闻': 'https://live.404003.xyz/LOGO/%E6%B0%91%E8%A7%86%E6%96%B0%E9%97%BB.png',
+'中天新闻': 'https://live.404003.xyz/LOGO/中天新闻.png',
 'TVB': 'https://live.404003.xyz/LOGO/TVB.png',
 '中国教育3': 'https://live.404003.xyz/LOGO/中国教育3.png',
 '优漫卡通': 'https://live.404003.xyz/LOGO/优漫卡通.png',
@@ -899,6 +935,13 @@ document.addEventListener('DOMContentLoaded',()=>{
             const safeUrl = channelUrl;
             item.onclick = () => {
               if (item.classList.contains('active')) return;
+              // 检测是否是外部网站链接（非视频流）
+              const isVideoUrl = safeUrl.includes('.m3u8') || safeUrl.includes('.flv') || safeUrl.includes('.mp4') || safeUrl.includes('.ts') || safeUrl.includes('.mkv') || safeUrl.includes('.webm');
+              if (!isVideoUrl) {
+                // 外部网站链接，在新窗口打开
+                window.open(safeUrl, '_blank');
+                return;
+              }
               play(item, errorElement, safeUrl);
               document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
               item.classList.add('active');
@@ -910,6 +953,21 @@ document.addEventListener('DOMContentLoaded',()=>{
           const first = document.querySelector('.channel');
           if (first) first.click();
         }, 200);
+        
+        // 添加跳转链接按钮
+        const linkItem = document.createElement('div');
+        linkItem.className = 'channel link-channel';
+        linkItem.style.borderTop = '1px solid #333';
+        linkItem.style.marginTop = '8px';
+        linkItem.style.paddingTop = '8px';
+        const linkSpan = document.createElement('span');
+        linkSpan.className = 'channel-name';
+        linkSpan.innerHTML = '🍿看电影';
+        linkItem.appendChild(linkSpan);
+        linkItem.onclick = () => {
+          window.open('https://www.kanxige.com/', '_blank');
+        };
+        list.appendChild(linkItem);
       })
       .catch(err => {
         console.error('加载直播源失败:', Security.sanitizeLog(err));
