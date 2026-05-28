@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -13,33 +15,11 @@
 <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.css">
-<!-- Video.js 播放器 (类似 m3u8-player.com) -->
-<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
-<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-hls@5.15.0/dist/videojs-contrib-hls.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:#000;overflow:hidden}
 .main{display:flex;width:100vw;height:100vh}
 .player-box{position:relative;background:#000;height:100%}
-
-/* Video.js 播放器样式 (纯画面版 - 无任何遮挡) */
-#my-video{width:100%!important;height:calc(100% - 60px)!important;position:absolute!important;top:0!important;left:0!important;right:0!important;z-index:1!important;pointer-events:none}
-.video-js{width:100%;height:100%;pointer-events:none}
-.video-js video{pointer-events:none!important}
-.video-js .vjs-big-play-button{display:none!important}
-.video-js .vjs-control-bar{display:none!important}
-.video-js .vjs-progress-control{display:none!important}
-.video-js .vjs-load-progress{display:none!important}
-.video-js .vjs-play-progress{display:none!important}
-.video-js .vjs-slider{display:none!important}
-.video-js .vjs-progress-handle{display:none!important}
-.video-js .vjs-volume-panel{display:none!important}
-.video-js .vjs-fullscreen-control{display:none!important}
-.video-js .vjs-poster{display:none!important}
-.video-js .vjs-icon-placeholder{display:none!important}
-.video-js .vjs-modal-dialog{display:none!important}
-.video-js .vjs-text-track-display{display:none!important}
 #dplayer{width:100%!important;height:calc(100% - 40px)!important;position:absolute!important;top:0!important;left:0!important;right:0!important;z-index:1!important}
 .dplayer-video-wrap{display:block!important;position:relative!important;width:100%!important;height:100%!important;background:#000!important;z-index:2!important}
 .dplayer-video{display:block!important;position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;object-fit:contain!important;background:#000!important;z-index:3!important}
@@ -122,10 +102,7 @@ video::-webkit-media-controls-overlay-play-button{display:none!important}
 <body>
 <div class="main">
   <div class="player-box">
-    <!-- Video.js 播放器 (类似 m3u8-player.com) -->
-    <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" width="100%" height="100%" data-setup='{}' playsinline webkit-playsinline disablePictureInPicture x5VideoPlayerType="h5" x5VideoOrientation="landscape" x5Playsinline>
-      <source src="" type="application/x-mpegURL">
-    </video>
+    <div id="dplayer"></div>
     <div class="weather-box" id="weatherBox">
       <div class="weather-info">
         <span id="netSpeed">↓0 KB/s</span>
@@ -216,34 +193,34 @@ const Security = {
 document.addEventListener('DOMContentLoaded',()=>{
   const originalLog = console.log;
   console.log = function() {};
-  
-  // Video.js 播放器初始化 (纯播放版 - 无任何控制)
-  const player = videojs('my-video', {
-    controls: false,
-    autoplay: false,
+  const dp = new DPlayer({
+    container: document.getElementById('dplayer'),
+    autoplay: true,
+    volume: 0.5,
     preload: 'auto',
-    fluid: false,
-    aspectRatio: '16:9',
-    nativeControlsForTouch: false,
-    fullscreen: false,
-    controlBar: false,
-    userActions: {
-      hotkeys: false
-    }
+    video: { url: '' },
+    hls: {
+      maxBufferSize: 30*1000*1000,
+      maxBufferLength: 15,
+      minBufferLength: 3,
+      enableWorker: true,
+      lowLatencyMode: false,
+      fpsDroppedMonitoring: false,
+      autoStartLoad: true,
+      startLevel: -1
+    },
+    flv: {
+      enableWorker: true,
+      lazyLoad: true,
+      lazyLoadMaxDuration: 60,
+      maxBufferLength: 10,
+      maxBufferSize: 40*1000*1000,
+      autoCleanupSourceBuffer: true,
+      autoCleanupMaxDuration: 30
+    },
+    notice: false, mask: false, logo: false
   });
-  
-  // 防止移动端点击屏幕触发全屏
-  player.on('touchstart', (e) => {
-    e.preventDefault();
-  });
-  
-  // 禁用双击全屏
-  player.on('dblclick', (e) => {
-    e.preventDefault();
-  });
-  
   console.log = originalLog;
-  
   const list = document.getElementById('list');
   let currentErrorElement = null;
   const lunarInfo = [
@@ -593,7 +570,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   setTimeout(() => { getWeather(); }, 2000);
   function updateBufferStatus() {
     try {
-      const video = player && player.el().querySelector('video');
+      const video = dp.video;
       if (!video || video.readyState < 2) {
         document.getElementById('netSpeed').textContent = '↓缓冲中...';
         return;
@@ -615,22 +592,15 @@ document.addEventListener('DOMContentLoaded',()=>{
     try {
       document.querySelectorAll('.channel-error').forEach(el => { el.style.display = 'none'; });
       currentErrorElement = errorElement;
-      if (player) player.pause();
-      
-      // HTTPS网站下，对所有外部直播源使用代理解决跨域和混合内容问题
+      if (dp.video) dp.pause();
+      let type = 'normal';
+      if (url.includes('.m3u8') || url.includes('.ts')) type = 'hls';
+      if (url.includes('.flv')) type = 'flv';
+      // PC浏览器且是https时，对特定格式使用代理解决跨域问题
       const isMobile = /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      const isLocal = url.startsWith('//') || url.startsWith('/') || url.startsWith('./') || url.startsWith('../');
-      // 对所有平台的直播源都使用代理，包括移动端
-      if (location.protocol === 'https:' && !isLocal && (url.includes('.m3u8') || url.includes('.ts') || url.includes('.flv') || url.includes('/live/'))) {
-        const fullUrl = url.startsWith('http') ? url : 'https://' + url;
-        url = 'https://gh-proxy.org/' + encodeURIComponent(fullUrl);
+      if (!isMobile && location.protocol === 'https:' && !url.startsWith('http://') && (type === 'hls' || type === 'flv')) {
+        url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
       }
-      
-      // 检测类型
-      let contentType = 'video/mp4';
-      if (url.includes('.m3u8')) contentType = 'application/x-mpegURL';
-      else if (url.includes('.flv')) contentType = 'video/x-flv';
-      
       let isError = false;
       const errorHandler = () => {
         if (!isError) {
@@ -638,19 +608,45 @@ document.addEventListener('DOMContentLoaded',()=>{
           if (currentErrorElement) currentErrorElement.style.display = 'block';
         }
       };
-      
-      // 设置源并播放
-      player.src({ type: contentType, src: url });
-      player.load();
-      player.play().catch((error) => {
+      dp.on('error', errorHandler);
+      if (dp.video) {
+        const originalVideoErrorHandler = dp.video.onerror;
+        dp.video.onerror = errorHandler;
+        dp._originalVideoErrorHandler = originalVideoErrorHandler;
+      }
+      if (dp.video) {
+        dp.video.style.display = 'block';
+        dp.video.style.opacity = '1';
+        dp.video.style.visibility = 'visible';
+      }
+      if (dp.videoWrap) {
+        dp.videoWrap.style.display = 'block';
+        dp.videoWrap.style.opacity = '1';
+        dp.videoWrap.style.visibility = 'visible';
+      }
+      dp.switchVideo({ url, type });
+      dp.video.volume = 0.5;
+      dp.play().catch((error) => {
         if (error && (error.name === 'NetworkError' || error.message.includes('decode'))) errorHandler();
       });
-      
-      player.on('error', errorHandler);
-      player.on('canplay', () => {
-        isError = false;
-        if (currentErrorElement) currentErrorElement.style.display = 'none';
-      });
+      if (dp.video) {
+        dp.video.oncanplay = () => {
+          isError = false;
+          if (currentErrorElement) currentErrorElement.style.display = 'none';
+          if (dp.video) {
+            dp.video.style.display = 'block';
+            dp.video.style.opacity = '1';
+            dp.video.style.visibility = 'visible';
+          }
+        };
+        dp.video.onloadeddata = () => {
+          if (dp.video) {
+            dp.video.style.display = 'block';
+            dp.video.style.opacity = '1';
+            dp.video.style.visibility = 'visible';
+          }
+        };
+      }
     } catch (e) {
       if (e && (e.name === 'NetworkError' || e.message.includes('network'))) errorElement.style.display = 'block';
     }
@@ -732,14 +728,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 '卡酷少儿': 'https://live.404003.xyz/LOGO/卡酷少儿.png',
 '天元围棋': 'https://live.404003.xyz/LOGO/天元围棋.png',
 '国学频道': 'https://live.404003.xyz/LOGO/国学频道.png',
-'中天新闻': 'https://live.404003.xyz/LOGO/中天新闻.png',
-'成龙电影': 'https://d.0j7.cn/Zw0RXd',
-'周润发电影': 'https://d.0j7.cn/qU6Ygr',
-'周星驰电影': 'https://d.0j7.cn/QBaHX',
-'邵氏': 'https://d.0j7.cn/4jOTJkK',
-'林正英': 'https://d.0j7.cn/HVBkv',
 '民视新闻': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/FTV.png',
-'NTD': 'https://gcore.jsdelivr.net/gh/taksssss/tv/icon/新唐人亚太.png',
+'新唐人': 'https://gcore.jsdelivr.net/gh/taksssss/tv/icon/%E6%96%B0%E5%94%90%E4%BA%BA%E4%BA%9A%E5%A4%AA.png',
 'CCTV-5+': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV5plus.png',
 'CCTV-4K超高清': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV4K.png',
 'CCTV-8K超高清': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV8K.png',
@@ -896,37 +886,7 @@ document.addEventListener('DOMContentLoaded',()=>{
               document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
               item.classList.add('active');
             };
-            
-            // 在"频道测试"右侧添加影视跳转链接
-            if (channelName.includes('频道测试')) {
-              const container = document.createElement('div');
-              container.style.display = 'flex';
-              container.style.gap = '8px';
-              
-              const linkItem = document.createElement('div');
-              linkItem.className = 'channel link-channel';
-              linkItem.style.background = '#2d5a27';
-              linkItem.style.borderLeft = '3px solid #4caf50';
-              linkItem.style.flex = '1';
-              const linkLogo = document.createElement('img');
-              linkLogo.className = 'channel-logo';
-              linkLogo.src = '';
-              linkLogo.style.display = 'none';
-              linkItem.appendChild(linkLogo);
-              const linkName = document.createElement('span');
-              linkName.className = 'channel-name';
-              linkName.innerHTML = '🍿 看电影';
-              linkItem.appendChild(linkName);
-              linkItem.onclick = () => {
-                window.open('https://www.4kmovie.top/', '_blank');
-              };
-              
-              container.appendChild(item);
-              container.appendChild(linkItem);
-              list.appendChild(container);
-            } else {
-              list.appendChild(item);
-            }
+            list.appendChild(item);
           }
         });
         setTimeout(() => {
@@ -943,4 +903,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </body>
-  </html>
+</html>
