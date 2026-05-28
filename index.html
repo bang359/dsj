@@ -622,7 +622,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       // HTTPS网站下，对所有外部直播源使用代理解决跨域和混合内容问题
       const isMobile = /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       const isLocal = url.startsWith('//') || url.startsWith('/') || url.startsWith('./') || url.startsWith('../');
-      if (!isMobile && location.protocol === 'https:' && !isLocal && (url.includes('.m3u8') || url.includes('.ts') || url.includes('.flv'))) {
+      // 对所有平台的直播源都使用代理，包括移动端
+      if (location.protocol === 'https:' && !isLocal && (url.includes('.m3u8') || url.includes('.ts') || url.includes('.flv') || url.includes('/live/'))) {
         const fullUrl = url.startsWith('http') ? url : 'https://' + url;
         url = 'https://gh-proxy.org/' + encodeURIComponent(fullUrl);
       }
@@ -919,7 +920,7 @@ document.addEventListener('DOMContentLoaded',()=>{
               linkName.innerHTML = '🍿 点我看影视';
               linkItem.appendChild(linkName);
               linkItem.onclick = () => {
-                window.open('https://www.4kmovie.top/', '_blank');
+                window.open('https://www.kanxige.com/', '_blank');
               };
               
               container.appendChild(item);
