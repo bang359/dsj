@@ -645,6 +645,20 @@ document.addEventListener('DOMContentLoaded',()=>{
         if (error && (error.name === 'NetworkError' || error.message.includes('decode'))) errorHandler();
       });
       
+      // 确保不会自动全屏
+      setTimeout(() => {
+        if (player.isFullscreen()) {
+          player.exitFullscreen();
+        }
+      }, 100);
+      
+      // 监听全屏事件，立即退出
+      player.on('fullscreenchange', () => {
+        if (player.isFullscreen()) {
+          player.exitFullscreen();
+        }
+      });
+      
       player.on('error', errorHandler);
       player.on('canplay', () => {
         isError = false;
@@ -732,7 +746,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 '天元围棋': 'https://live.404003.xyz/LOGO/天元围棋.png',
 '国学频道': 'https://live.404003.xyz/LOGO/国学频道.png',
 '民视新闻': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/FTV.png',
-'新唐人': 'https://gcore.jsdelivr.net/gh/taksssss/tv/icon/%E6%96%B0%E5%94%90%E4%BA%BA%E4%BA%9A%E5%A4%AA.png',
+'NTD': 'https://gcore.jsdelivr.net/gh/taksssss/tv/icon/%E6%96%B0%E5%94%90%E4%BA%BA%E4%BA%9A%E5%A4%AA.png',
 'CCTV-5+': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV5plus.png',
 'CCTV-4K超高清': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV4K.png',
 'CCTV-8K超高清': 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV8K.png',
