@@ -216,18 +216,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   const originalLog = console.log;
   console.log = function() {};
   
-  // Video.js 播放器初始化 (简化版 - 只保留进度条)
+  // Video.js 播放器初始化 (纯播放版 - 无任何控制)
   const player = videojs('my-video', {
-    controls: true,
+    controls: false,
     autoplay: false,
     preload: 'auto',
-    fluid: true,
+    fluid: false,
     aspectRatio: '16:9',
-    controlBar: {
-      children: [
-        'progressControl'
-      ]
-    }
+    nativeControlsForTouch: false,
+    fullscreen: false,
+    controlBar: false
   });
   
   console.log = originalLog;
