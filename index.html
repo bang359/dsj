@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -12,10 +9,10 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; media-src 'self' http: https:; connect-src 'self' https://wttr.in https://api.ipapi.co https://api.allorigins.win; font-src 'self' https://cdn.jsdelivr.net;">
 <title>极速直播</title>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.1/dist/hls.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@1.27.1/dist/DPlayer.min.css" media="print" onload="this.media='all'">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:#000;overflow:hidden}
@@ -200,23 +197,28 @@ document.addEventListener('DOMContentLoaded',()=>{
     preload: 'auto',
     video: { url: '' },
     hls: {
-      maxBufferSize: 30*1000*1000,
-      maxBufferLength: 15,
-      minBufferLength: 3,
+      maxBufferSize: 10*1000*1000,
+      maxBufferLength: 3,
+      minBufferLength: 0.5,
       enableWorker: true,
-      lowLatencyMode: false,
-      fpsDroppedMonitoring: false,
+      lowLatencyMode: true,
+      fpsDroppedMonitoring: true,
       autoStartLoad: true,
-      startLevel: -1
+      startLevel: -1,
+      enableWebAssembly: true,
+      maxFragLookUpTolerance: 0.25,
+      highBufferWatchdogPeriod: 1,
+      nudgeOffset: 0.1,
+      nudgeMaxRetry: 3
     },
     flv: {
       enableWorker: true,
-      lazyLoad: true,
-      lazyLoadMaxDuration: 60,
-      maxBufferLength: 10,
-      maxBufferSize: 40*1000*1000,
+      lazyLoad: false,
+      lazyLoadMaxDuration: 3,
+      maxBufferLength: 3,
+      maxBufferSize: 15*1000*1000,
       autoCleanupSourceBuffer: true,
-      autoCleanupMaxDuration: 30
+      autoCleanupMaxDuration: 10
     },
     notice: false, mask: false, logo: false
   });
@@ -588,19 +590,70 @@ document.addEventListener('DOMContentLoaded',()=>{
     } catch (e) { document.getElementById('netSpeed').textContent = '↓--'; }
   }
   setInterval(updateBufferStatus, 2000);
+  const preloadCache = new Map();
+  
+  function preloadChannel(url) {
+    if (!url || preloadCache.has(url)) return;
+    preloadCache.set(url, 'loading');
+    
+    let type = 'normal';
+    if (url.includes('.m3u8') || url.includes('.ts')) type = 'hls';
+    if (url.includes('.flv')) type = 'flv';
+    
+    const isMobile = /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    let preloadUrl = url;
+    if (!isMobile && location.protocol === 'https:' && !url.startsWith('http://') && (type === 'hls' || type === 'flv')) {
+      preloadUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+    }
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open('HEAD', preloadUrl, true);
+    xhr.timeout = 5000;
+    xhr.onload = () => {
+      preloadCache.set(url, xhr.status >= 200 && xhr.status < 400 ? 'available' : 'unavailable');
+    };
+    xhr.onerror = () => {
+      preloadCache.set(url, 'unavailable');
+    };
+    xhr.ontimeout = () => {
+      preloadCache.set(url, 'timeout');
+    };
+    xhr.send();
+  }
+  
+  function preloadNeighborChannels(currentIndex) {
+    const neighbors = [-2, -1, 1, 2];
+    neighbors.forEach(offset => {
+      const index = currentIndex + offset;
+      if (index >= 0 && index < channelDataList.length) {
+        const channelData = channelDataList[index];
+        if (channelData && channelData.url) {
+          preloadChannel(channelData.url);
+        }
+      }
+    });
+  }
+  
   function play(channel, errorElement, url) {
     try {
       document.querySelectorAll('.channel-error').forEach(el => { el.style.display = 'none'; });
       currentErrorElement = errorElement;
+      
+      const currentIndex = channelDataList.findIndex(item => item && item.element === channel);
+      if (currentIndex >= 0) {
+        preloadNeighborChannels(currentIndex);
+      }
+      
       if (dp.video) dp.pause();
       let type = 'normal';
       if (url.includes('.m3u8') || url.includes('.ts')) type = 'hls';
       if (url.includes('.flv')) type = 'flv';
-      // PC浏览器且是https时，对特定格式使用代理解决跨域问题
+      
       const isMobile = /Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (!isMobile && location.protocol === 'https:' && !url.startsWith('http://') && (type === 'hls' || type === 'flv')) {
         url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
       }
+      
       let isError = false;
       const errorHandler = () => {
         if (!isError) {
@@ -608,12 +661,12 @@ document.addEventListener('DOMContentLoaded',()=>{
           if (currentErrorElement) currentErrorElement.style.display = 'block';
         }
       };
+      
       dp.on('error', errorHandler);
       if (dp.video) {
-        const originalVideoErrorHandler = dp.video.onerror;
         dp.video.onerror = errorHandler;
-        dp._originalVideoErrorHandler = originalVideoErrorHandler;
       }
+      
       if (dp.video) {
         dp.video.style.display = 'block';
         dp.video.style.opacity = '1';
@@ -624,11 +677,13 @@ document.addEventListener('DOMContentLoaded',()=>{
         dp.videoWrap.style.opacity = '1';
         dp.videoWrap.style.visibility = 'visible';
       }
+      
       dp.switchVideo({ url, type });
       dp.video.volume = 0.5;
       dp.play().catch((error) => {
         if (error && (error.name === 'NetworkError' || error.message.includes('decode'))) errorHandler();
       });
+      
       if (dp.video) {
         dp.video.oncanplay = () => {
           isError = false;
@@ -818,12 +873,147 @@ document.addEventListener('DOMContentLoaded',()=>{
     
     return 'https://gh-proxy.org/https://raw.githubusercontent.com/wanglindl/TVlogo/main/img/CCTV1.png';
   }
+  const CACHE_EXPIRE = 3600000;
+  const channelDataList = [];
+  const logoCache = new Map();
+  
+  function preloadLogo(url) {
+    if (!url || logoCache.has(url)) return;
+    logoCache.set(url, 'loading');
+    const img = new Image();
+    img.onload = () => { logoCache.set(url, 'loaded'); };
+    img.onerror = () => { logoCache.set(url, 'error'); };
+    img.src = url;
+  }
+  
+  function parseChannelLine(line) {
+    var tagStart = '<sc' + 'ript';
+    var jsProto = 'java' + 'script:';
+    var dtProto = 'da' + 'ta:';
+    if (line.indexOf(tagStart) !== -1 || line.indexOf(jsProto) !== -1 || line.indexOf(dtProto) !== -1) {
+      return null;
+    }
+    if (line.includes(',#genre#')) {
+      const genreName = line.split(',')[0];
+      if (!Security.validateChannelName(genreName)) return null;
+      return { type: 'genre', name: genreName };
+    }
+    const arr = line.split(',');
+    if (arr.length >= 2 && arr[1].startsWith('http')) {
+      const channelName = arr[0];
+      const channelUrl = arr[1];
+      if (!Security.validateChannelName(channelName) || !Security.validateUrl(channelUrl)) return null;
+      return { type: 'channel', name: channelName, url: channelUrl };
+    }
+    return null;
+  }
+  
+  function createChannelElement(channel) {
+    const item = document.createElement('div');
+    item.className = 'channel';
+    
+    const logoUrl = getChannelLogo(channel.name);
+    const logo = document.createElement('img');
+    logo.className = 'channel-logo';
+    logo.src = logoUrl;
+    logo.alt = '';
+    logo.onerror = () => { logo.style.display = 'none'; };
+    if (!logoUrl) logo.style.display = 'none';
+    item.appendChild(logo);
+    
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'channel-name';
+    Security.setText(nameSpan, channel.name);
+    item.appendChild(nameSpan);
+    
+    const errorElement = document.createElement('div');
+    errorElement.className = 'channel-error';
+    Security.setText(errorElement, '频道已失效，请等待更新');
+    item.appendChild(errorElement);
+    
+    item.onclick = () => {
+      if (item.classList.contains('active')) return;
+      play(item, errorElement, channel.url);
+      document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    };
+    
+    return { element: item, errorElement, url: channel.url };
+  }
+  
+  function renderChannels(data) {
+    list.innerHTML = '';
+    data.forEach((item, index) => {
+      if (item.type === 'genre') {
+        const d = document.createElement('div');
+        d.className = 'genre';
+        Security.setText(d, item.name);
+        list.appendChild(d);
+      } else if (item.type === 'channel') {
+        const result = createChannelElement(item);
+        channelDataList[index] = result;
+        
+        if (item.name.includes('频道测试')) {
+          const wrapper = document.createElement('div');
+          wrapper.style.display = 'flex';
+          wrapper.style.gap = '8px';
+          wrapper.appendChild(result.element);
+          
+          const movieItem = document.createElement('div');
+          movieItem.className = 'channel';
+          movieItem.style.flex = '1';
+          const movieName = document.createElement('span');
+          movieName.className = 'channel-name';
+          Security.setText(movieName, '🍿看电影');
+          movieItem.appendChild(movieName);
+          movieItem.onclick = () => {
+            window.open('https://www.4kmovie.top/', '_blank');
+          };
+          wrapper.appendChild(movieItem);
+          list.appendChild(wrapper);
+        } else {
+          list.appendChild(result.element);
+        }
+        
+        preloadLogo(getChannelLogo(item.name));
+      }
+    });
+    
+    requestAnimationFrame(() => {
+      const first = document.querySelector('.channel');
+      if (first) first.click();
+    });
+  }
+  
   function loadChannels() {
     const sourceUrl = 'https://raw.githubusercontent.com/bang359/dsj/main/iphone.txt';
     if (!Security.validateUrl(sourceUrl)) {
       console.error('安全警告: 无效的直播源URL');
       return;
     }
+    
+    try {
+      const cached = localStorage.getItem('channelCache');
+      const cachedTime = localStorage.getItem('channelCacheTime');
+      if (cached && cachedTime) {
+        const now = Date.now();
+        if (now - parseInt(cachedTime) < CACHE_EXPIRE) {
+          const data = JSON.parse(cached);
+          renderChannels(data);
+          fetch(sourceUrl).then(r => r.text()).then(txt => {
+            if (txt.length <= 1000000) {
+              const newData = txt.split('\n').filter(line => line.trim()).map(parseChannelLine).filter(Boolean);
+              localStorage.setItem('channelCache', JSON.stringify(newData));
+              localStorage.setItem('channelCacheTime', Date.now().toString());
+            }
+          }).catch(() => {});
+          return;
+        }
+      }
+    } catch (e) {
+      console.log('浏览器隐私策略限制');
+    }
+    
     fetch(sourceUrl)
       .then(r => {
         if (!r.ok) throw new Error(`HTTP错误: ${r.status}`);
@@ -831,99 +1021,30 @@ document.addEventListener('DOMContentLoaded',()=>{
       })
       .then(txt => {
         if (txt.length > 1000000) throw new Error('安全警告: 响应内容过大');
-        txt.split('\n').forEach(line => {
-          if (!line.trim()) return;
-          var tagStart = '<sc' + 'ript';
-          var jsProto = 'java' + 'script:';
-          var dtProto = 'da' + 'ta:';
-          if (line.indexOf(tagStart) !== -1 || line.indexOf(jsProto) !== -1 || line.indexOf(dtProto) !== -1) {
-            console.warn('安全警告: 检测到潜在的恶意内容');
-            return;
-          }
-          if (line.includes(',#genre#')) {
-            const genreName = line.split(',')[0];
-            if (!Security.validateChannelName(genreName)) {
-              console.warn('安全警告: 无效的分类名称');
-              return;
-            }
-            const d = document.createElement('div');
-            d.className = 'genre';
-            Security.setText(d, genreName);
-            list.appendChild(d);
-            return;
-          }
-          const arr = line.split(',');
-          if (arr.length >= 2 && arr[1].startsWith('http')) {
-            const channelName = arr[0];
-            const channelUrl = arr[1];
-            if (!Security.validateChannelName(channelName)) {
-              console.warn('安全警告: 无效的频道名称:', channelName);
-              return;
-            }
-            if (!Security.validateUrl(channelUrl)) {
-              console.warn('安全警告: 无效的频道URL:', channelUrl);
-              return;
-            }
-            const item = document.createElement('div');
-            item.className = 'channel';
-            const logo = document.createElement('img');
-            logo.className = 'channel-logo';
-            logo.src = getChannelLogo(channelName);
-            logo.alt = '';
-            logo.onerror = () => {
-              logo.style.display = 'none';
-            };
-            if (!getChannelLogo(channelName)) {
-              logo.style.display = 'none';
-            }
-            item.appendChild(logo);
-            const nameSpan = document.createElement('span');
-            nameSpan.className = 'channel-name';
-            Security.setText(nameSpan, channelName);
-            item.appendChild(nameSpan);
-            const errorElement = document.createElement('div');
-            errorElement.className = 'channel-error';
-            Security.setText(errorElement, '频道已失效，请等待更新');
-            item.appendChild(errorElement);
-            const safeUrl = channelUrl;
-            item.onclick = () => {
-              if (item.classList.contains('active')) return;
-              play(item, errorElement, safeUrl);
-              document.querySelectorAll('.channel').forEach(i => i.classList.remove('active'));
-              item.classList.add('active');
-            };
-            
-            if (channelName.includes('频道测试')) {
-              const wrapper = document.createElement('div');
-              wrapper.style.display = 'flex';
-              wrapper.style.gap = '8px';
-              wrapper.appendChild(item);
-              
-              const movieItem = document.createElement('div');
-              movieItem.className = 'channel';
-              movieItem.style.flex = '1';
-              const movieName = document.createElement('span');
-              movieName.className = 'channel-name';
-              Security.setText(movieName, '🍿看电影');
-              movieItem.appendChild(movieName);
-              movieItem.onclick = () => {
-                window.open('https://www.4kmovie.top/', '_blank');
-              };
-              wrapper.appendChild(movieItem);
-              list.appendChild(wrapper);
-            } else {
-              list.appendChild(item);
-            }
-          }
-        });
-        setTimeout(() => {
-          const first = document.querySelector('.channel');
-          if (first) first.click();
-        }, 200);
+        const data = txt.split('\n').filter(line => line.trim()).map(parseChannelLine).filter(Boolean);
+        
+        try {
+          localStorage.setItem('channelCache', JSON.stringify(data));
+          localStorage.setItem('channelCacheTime', Date.now().toString());
+        } catch (e) {
+          console.log('浏览器隐私策略限制');
+        }
+        
+        renderChannels(data);
       })
       .catch(err => {
         console.error('加载直播源失败:', Security.sanitizeLog(err));
         document.getElementById('netSpeed').textContent = '加载失败';
+        
+        try {
+          const cached = localStorage.getItem('channelCache');
+          if (cached) {
+            const data = JSON.parse(cached);
+            renderChannels(data);
+          }
+        } catch (e) {
+          console.log('缓存加载失败');
+        }
       });
   }
   loadChannels();
