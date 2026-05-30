@@ -3,9 +3,9 @@
 🎵网络热曲（默认自动播放-注意流量),https://www.cunshao.com/666666/api/pc.php
 ❤️永久维护-觉得好用-请打赏观看,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 中天新闻,http://rihou.cc:555/tv/中天新闻
-凤凰卫视,http://rihou.cc:555/tv/凤凰卫视
-民视新闻,http://rihou.cc:555/tv/民视新闻
-镜新闻,http://rihou.cc:555/tv/镜新闻
+凤凰卫视,https://play-flive.ifeng.com/flive/FLIVE_TX_NR_0J2UY0IAZ28.m3u8
+民视新闻,https://livedata.cloudokyo.cloud/hls/094041f3-7cb6-4dd1-a2e6-de1b1e6c8d29/hls_1080p/video.m3u8
+镜新闻,https://d36dgdk71xuzzg.cloudfront.net/v1/manifest/3a2ac8e6b6c76471996ebf627393d9c9417a60b6/linetv-6-627778910172-MediaTailor-production/c9b2313d-efdd-4777-9fae-573be8a86755/0.m3u8
 NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
 TVB plus,https://vdm6-hw.nbgdsygs.com/live/h6-2.m3u8
 浙江卫视,https://ali-xwl.cztv.com/live/channel011080Plxw.m3u8
