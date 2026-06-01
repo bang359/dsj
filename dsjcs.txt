@@ -1,4 +1,4 @@
-📢使用公告,#genre#
+📢使用公告,#类型#
 更新日期,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 2026/05/20 13:50:56,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 浏览器扫码下载,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/new.mp4
@@ -1222,6 +1222,7 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 
 🇹🇼台湾,#genre#
 温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
+中天新闻,rtmp://ai.unispc.com/live/nb-py-ztxw
 中天新闻,http://rihou.cc:555/tv/中天新闻
 中天亚洲#http://rihou.cc:555/tv/中天亚洲
 中天综合#http://rihou.cc:555/tv/中天综合
