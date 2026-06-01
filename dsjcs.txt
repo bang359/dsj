@@ -47,7 +47,7 @@ CHC家庭影院,http://rihou.cc:555/tv/CHC家庭影院
 经典鬼片3000部 https://yylunbo.ottiptv.cc/yy/29460894
 🎵点歌台,http://cfss.cc/cdn/du/85894.flv
 🎵周杰伦MV,http://cfss.cc/cdn/du/122402.flv
-🎵TDI广播电视台,https://peer2.tdiradio.com/static/streaming-playlists/hls/8f5d84ce-e8ac-4109-9975-9665f5605557/master.m3u8
+ 🎵TDI广播电视台,https://peer2.tdiradio.com/static/streaming-playlists/hls/8f5d84ce-e8ac-4109-9975-9665f5605557/master.m3u8
 🎵音乐快斗,http://cfss.cc/cdn/du/8324627.flv
 🎵音乐Wu哥,http://cfss.cc/cdn/du/8667755.flv
 🎵音乐电视,https://secured.albportal.net:2083/AlbKanaleMusicTv/index.m3u8
@@ -165,8 +165,8 @@ CCTV卫生健康,http://rihou.cc:555/tv/CCTV卫生健康
 重庆卫视,http://rihou.cc:555/tv/重庆卫视
 四川卫视,http://rihou.cc:555/tv/四川卫视4K
 河南卫视,http://rihou.cc:555/tv/河南卫视
-福建东南卫视,http://rihou.cc:555/tv/福建东南卫视
-贵州卫视,http://rihou.cc:555/tv/贵州卫视
+海信电视版本,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/new1.mp4
+2026/05/20 13:50:56,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 江西卫视,http://rihou.cc:555/tv/江西卫视
 辽宁卫视,http://rihou.cc:555/tv/辽宁卫视
 安徽卫视,http://rihou.cc:555/tv/安徽卫视
@@ -1230,6 +1230,7 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 寰宇新闻,http://rihou.cc:555/tv/寰宇新闻
 寰宇台湾,http://rihou.cc:555/tv/寰宇台湾
 东森新闻,http://rihou.cc:555/tv/东森新闻
+三立新闻,https://4gtv.158.qzz.io/163189/6fb8aec9-e4b2-4bed-8832-b5e9cce4a830/
 TVBS,http://rihou.cc:555/tv/TVBS1
 TVBS NEWS,http://jnzq.ohoyee.com:9080/live/xingjiaoge-tvbsxw.m3u8
 TVBS新闻,http://iptv.4666888.xyz/iptv2A.php?id=43
