@@ -1129,6 +1129,8 @@ NOW星影#http://rihou.cc:555/tv/星影台
 POPC电影 
 天映频道,http://o11.163189.xyz/stream/live/typd/
 天映经典,http://o11.163189.xyz/stream/live/ccm/
+天映频道,http://103.58.160.157:8278/720-CELESTIALMOVIES/playlist.m3u8
+kix,https://liveh34.vtvprime.vn/hls/KIX/04.m3u8
 
 影迷数位电影#http://rihou.cc:555/tv/影迷数位电影
 东森电影#http://rihou.cc:555/tv/东森电影 
