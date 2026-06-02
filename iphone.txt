@@ -154,9 +154,3 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 邵氏动作,http://192.151.150.154/live/lbssdz.m3u8
 邵氏喜剧,http://192.151.150.154/live/lbssxj.m3u8
 🎵亚洲经典,https://lhttp.qingting.fm/live/5021912/64k.mp3
-临时频道_1234,#genre#
-惊艳,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/85.ts
-潘多啦,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/86.ts
-松1,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/88.ts
-松2,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/89.ts
-松3,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/90.ts
