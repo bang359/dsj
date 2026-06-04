@@ -106,8 +106,7 @@ ta视湖北,http://cfss.cc/cdn/dy/SmarTower.flv
 河南民生,http://cfss.cc/cdn/dy/594830048.flv
 环球网,http://cfss.cc/cdn/dy/huanqiuwang.flv
 北京时间,http://cfss.cc/cdn/dy/87324405858.flv
-武汉黄鹤楼,http://cfss.cc/cdn/dy/30180017542.flv
-东湖樱花园,http://cfss.cc/cdn/dy/hidonghu.flv
+ 
 📺央卫网络,#genre#
 CCTV1,http://rihou.cc:555/tv/CCTV1酒店
 CCTV2,http://rihou.cc:555/tv/CCTV2酒店
