@@ -45,8 +45,8 @@ CHC家庭影院,http://rihou.cc:555/tv/CHC家庭影院
 电影轮播,http://rihou.cc:555/tv/电影轮播
 至臻4K,http://221.181.100.64/gslbserv.itv.cmvideo.cn/1.m3u8?channel-id=FifastbLive&Contentid=3000000010000015686&livemode=1&stbId=m
 经典鬼片3000部 https://yylunbo.ottiptv.cc/yy/29460894
-🎵点歌台,http://cfss.cc/cdn/du/85894.flv
-🎵周杰伦MV,http://cfss.cc/cdn/du/122402.flv
+ 🎵点歌台,http://cfss.cc/cdn/du/85894.flv
+ 🎵周杰伦MV,http://cfss.cc/cdn/du/122402.flv
  🎵TDI广播电视台,https://peer2.tdiradio.com/static/streaming-playlists/hls/8f5d84ce-e8ac-4109-9975-9665f5605557/master.m3u8
 🎵音乐快斗,http://cfss.cc/cdn/du/8324627.flv
 🎵音乐Wu哥,http://cfss.cc/cdn/du/8667755.flv
@@ -1013,10 +1013,11 @@ ICS频道,http://218.1.208.13:7777/tsfile/live/1033_1.m3u8?key=txiptv&playlive=1
 重庆高网电影,http://home.scanflove.com:7788/rtp/235.254.198.95:1656$重庆cmc3+
 
 🔥港台电影,#genre#
+东森电影,http://iptv.4666888.xyz/iptv2A.php?id=48
+
 中国电影,http://iptv.4666888.xyz/iptv2A.php?id=61
 靖洋戏剧,http://iptv.4666888.xyz/iptv2A.php?id=42
 靖天电影,http://iptv.4666888.xyz/iptv2A.php?id=56
-东森电影,http://iptv.4666888.xyz/iptv2A.php?id=48
 影迷数位电影,http://iptv.4666888.xyz/iptv2A.php?id=54
 龙华电影,http://iptv.4666888.xyz/iptv2A.php?id=45
 龙华洋片,http://iptv.4666888.xyz/iptv2A.php?id=60
@@ -1024,23 +1025,22 @@ ICS频道,http://218.1.208.13:7777/tsfile/live/1033_1.m3u8?key=txiptv&playlive=1
 ROCK_Action,http://iptv.4666888.xyz/iptv2A.php?id=50
 澳门莲花,https://cdn6.163189.xyz/163189/amlh
 
-好莱坞电影#http://rihou.cc:555/tv/好莱坞
-美亚电影#http://rihou.cc:555/tv/美亚电影
-NOW星影 
+好莱坞电影  http://rihou.cc:555/tv/好莱坞
+美亚电影   http://rihou.cc:555/tv/美亚电影
+
 NOW爆谷 
-NOW星影#http://rihou.cc:555/tv/星影台
+NOW星影   http://rihou.cc:555/tv/星影台
 POPC电影 
 天映频道,http://o11.163189.xyz/stream/live/typd/
 天映经典,http://o11.163189.xyz/stream/live/ccm/
-天映频道,http://103.58.160.157:8278/720-CELESTIALMOVIES/playlist.m3u8
 kix,https://liveh34.vtvprime.vn/hls/KIX/04.m3u8
 
-影迷数位电影#http://rihou.cc:555/tv/影迷数位电影
-东森电影#http://rihou.cc:555/tv/东森电影 
-东森洋片#http://rihou.cc:555/tv/东森洋片
+影迷数位电影  http://rihou.cc:555/tv/影迷数位电影
+东森电影 http://rihou.cc:555/tv/东森电影 
+东森洋片 http://rihou.cc:555/tv/东森洋片
  
 金光布袋戏,http://o11.163189.xyz/stream/live/jgbdx/
-龙祥时代#http://rihou.cc:555/tv/龙祥时代
+龙祥时代  http://rihou.cc:555/tv/龙祥时代
 龙华电影
 龙华洋片
 龙华电影,http://cdn8.163189.xyz/163189/lhdy
@@ -1052,15 +1052,15 @@ kix,https://liveh34.vtvprime.vn/hls/KIX/04.m3u8
 龙华洋片 http://cdn8.163189.xyz/163189/lhyp 
 AXNTaiwan   
 CINEMAX 
-1905流金岁月,https://cdn.jdshipin.com/1905.php
-1905环球经典,http://8.138.7.223/tv/1905.php?id=LIVE8J4LTCXPI7QJ5
+1905流金岁月 https://cdn.jdshipin.com/1905.php
+1905环球经典 http://8.138.7.223/tv/1905.php?id=LIVE8J4LTCXPI7QJ5
 凤凰电影,http://221.7.175.154:8445/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$广西/联通
 凤凰电影,http://122.224.58.42:85/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$浙江/绍兴/电信
 峨眉电影,http://112.19.31.13:85/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0
 峨眉电影,http://118.122.144.115:8888/newlive/live/hls/32/live.m3u8$四川电信酒店
 峨眉电影,http://183.220.20.17:4321/udp/239.11.0.11:5140$四川移动
 湖南电影,http://218.77.84.102:85/tsfile/live/149/2005_1.m3u8?key=txiptv
-河南乡村,http://111.170.156.74:3344/河南频道/hntv.php?id=hnxc#http://zmgd.zyrnet.com:8888/hls/28/index.m3u8
+河南乡村,http://zmgd.zyrnet.com:8888/hls/28/index.m3u8
 重温经典,http://rihou.cc:555/tv/重温经典
 新视觉HD,http://221.7.49.226:50085/tsfile/live/0016_2.m3u8?key=txiptv&playlive=1&authid=0
 新视觉HD,http://gat.bkpcp.top/ymg.php?id=mlzq
@@ -1128,21 +1128,21 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 🇹🇼台湾,#genre#
 温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
 中天新闻,https://my5353.com/ztxw#rtmp://ai.unispc.com/live/nb-py-ztxw
-中天亚洲#http://rihou.cc:555/tv/中天亚洲
-中天综合#http://rihou.cc:555/tv/中天综合
-中天娱乐#http://rihou.cc:555/tv/中天娱乐
+中天亚洲  http://rihou.cc:555/tv/中天亚洲
+中天综合  http://rihou.cc:555/tv/中天综合
+中天娱乐  http://rihou.cc:555/tv/中天娱乐
 寰宇新闻,http://rihou.cc:555/tv/寰宇新闻
-寰宇台湾,http://rihou.cc:555/tv/寰宇台湾
-东森新闻,http://rihou.cc:555/tv/东森新闻
-三立新闻,https://4gtv.158.qzz.io/163189/6fb8aec9-e4b2-4bed-8832-b5e9cce4a830/
-TVBS,http://rihou.cc:555/tv/TVBS1
+寰宇台湾  http://rihou.cc:555/tv/寰宇台湾
+东森新闻  http://rihou.cc:555/tv/东森新闻
+三立新闻 
+TVBS  http://rihou.cc:555/tv/TVBS1
 TVBS新闻,http://iptv.4666888.xyz/iptv2A.php?id=43
 镜新闻,http://rihou.cc:555/tv/镜新闻
 民视新闻,http://rihou.cc:555/tv/民视新闻
-华视新闻,http://rihou.cc:555/tv/华视新闻
-中视新闻,http://rihou.cc:555/tv/中视新闻 
+华视新闻 http://rihou.cc:555/tv/华视新闻
+中视新闻 http://rihou.cc:555/tv/中视新闻 
 台视新闻,http://rihou.cc:555/tv/台视新闻 
-年代新闻#http://rihou.cc:555/tv/年代新闻
+年代新闻 http://rihou.cc:555/tv/年代新闻
 台湾生活,http://rihou.cc:555/tv/台湾生活
 民视台湾,https://4gtv.158.qzz.io/163189/e75ce7b6-beac-42b9-bb54-798f21e20a00/
 TITV,https://hc9lby9bzw8zcar.wcetv.com/hls/titv.m3u8
@@ -1169,7 +1169,6 @@ DreamWorks梦工厂动画,https://cdn12.178.indevs.in/163189/10395eb942c5a9b9
 精选动漫台,https://cdn12.178.indevs.in/163189/e1d66f74bd2d4894
 金光布袋戏,https://cdn12.178.indevs.in/163189/5479c245d9d580b5
 
-TVBS新闻,https://pull-wsu.liveonlinetest.com:443/live/lgCsR0O7TNF4l1D1N8QZrDC8Uka25r-TVBSxwt.flv
 非凡新闻,http://iptv.4666888.xyz/iptv2A.php?id=44
 民视,http://iptv.4666888.xyz/iptv2A.php?id=55
 华艺中文,http://iptv.4666888.xyz/iptv2A.php?id=37
@@ -1208,7 +1207,7 @@ TRACEURBAN,https://php.946985.filegear-sg.me/mytv265.php?id=TRUR
 NewsWorld,https://php.946985.filegear-sg.me/mytv265.php?id=NSWD
 Taiwan+,https://fastly.live.brightcove.com/6385235869112/ap-northeast-1/6282251407001/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0IjoiaWU4OWZvLmVncmVzcy5pdjNqZDgiLCJhY2NvdW50X2lkIjoiNjI4MjI1MTQwNzAwMSIsImVobiI6ImZhc3RseS5saXZlLmJyaWdodGNvdmUuY29tIiwiaXNzIjoiYmxpdmUtcGxheWJhY2stc291cmNlLWFwaSIsInN1YiI6InBhdGhtYXB0b2tlbiIsImF1ZCI6WyI2MjgyMjUxNDA3MDAxIl0sImp0aSI6IjYzODUyMzU4NjkxMTIifQ.4c-V1Ks3nBx9nRljtn5-jCNP_nLuWBbk-pw9BFWZfMQ/playlist-hls.m3u8
 新唐人,http://rihou.cc:555/tv/NTD
-Love Nature,http://rihou.cc:555/tv/LoveNature 
+Love Nature 4K,http://rihou.cc:555/tv/LoveNature 
 Wild TV,https://dfhsahpa45kk2.cloudfront.net/scheduler/scheduleMaster/476.m3u8
 动物星球 
 Discovery 
