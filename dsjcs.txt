@@ -562,10 +562,15 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 💚河北卫视,https://event.pull.hebtv.com/jishi/weishi_tingyun.m3u8
 河北4K频道,https://event.pull.hebtv.com/live/live101.m3u8
 
-💚山东卫视,http://zh.sqitv.com:888/hls/49/index.m3u8 
+💚山东卫视,http://58.56.162.102:4466/newlive/live/hls/47/live.m3u8#http://zh.sqitv.com:888/hls/49/index.m3u8
+山东齐鲁,http://58.56.162.102:4466/newlive/live/hls/48/live.m3u8
+山东文旅,http://58.56.162.102:4466/newlive/live/hls/51/live.m3u8
+山东综艺,http://58.56.162.102:4466/newlive/live/hls/52/live.m3u8
+山东体育,http://58.56.162.102:4466/newlive/live/hls/53/live.m3u8
+山东农科,http://58.56.162.102:4466/newlive/live/hls/54/live.m3u8
+山东少儿,http://58.56.162.102:4466/newlive/live/hls/55/live.m3u8
 山东教育卫视,http://test1.live.sdetv.com.cn/live/dianshizhibo/playlist.m3u8
 
- 
 💚山西卫视,http://rihou.cc:555/tv/山西卫视
 山西黄河,http://113.26.251.182:8009/hls/24/index.m3u8
 山西经济与科技,http://113.26.251.182:8009/hls/20/index.m3u8
@@ -619,11 +624,11 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 湖北综合,http://120.202.94.181:9446/tsfile/live/1002_1.m3u8?key=txiptv&playlive=0&authid=0
 湖北生活,http://120.202.94.181:9446/tsfile/live/1007_1.m3u8?key=txiptv&playlive=0&authid=0
 湖北教育,http://120.202.94.181:9446/tsfile/live/0107_1.m3u8?key=txiptv&playlive=0&authid=0
-湖北经视,http://59.173.121.253:7777/tsfile/live/0132_3.m3u8?key=txiptv&playlive=1&authid=0 
-湖北公共,http://59.173.121.253:7777/tsfile/live/0132_2.m3u8?key=txiptv&playlive=1&authid=0 
-湖北综合,http://59.173.121.253:7777/tsfile/live/0132_4.m3u8?key=txiptv&playlive=1&authid=0
-湖北垄上,http://171.43.64.122:85/tsfile/live/faacts/1013_1.m3u8?key=txiptv&playlive=1&authid=0
-湖北影视,http://171.43.64.122:85/tsfile/live/faacts/1016_1.m3u8?key=txiptv&playlive=1&authid=0 
+湖北经视,http://58.48.104.133:7777/tsfile/live/0132_3.m3u8?key=txiptv&playlive=1&authid=0 
+湖北公共,http://58.48.104.133:7777/tsfile/live/0132_2.m3u8?key=txiptv&playlive=1&authid=0 
+湖北综合,http://58.48.104.133:7777/tsfile/live/0132_4.m3u8?key=txiptv&playlive=1&authid=0
+湖北垄上 
+湖北影视 
 
 💚湖北卫视,rtsp://111.48.34.138:1554/170000004112/99180001000000060000000000000194$武汉移动
 湖北经视,rtsp://111.48.34.138:1554/170000004112/10000100000000050000000002444588$武汉移动
