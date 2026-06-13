@@ -1038,11 +1038,11 @@ ROCK_Action,http://iptv.4666888.xyz/iptv2A.php?id=50
 澳门莲花,https://cdn6.163189.xyz/163189/amlh
 
 好莱坞电影  http://rihou.cc:555/tv/好莱坞
-美亚电影   http://rihou.cc:555/tv/美亚电影
+美亚电影,http://rihou.cc:555/tv/美亚电影
 
-NOW爆谷 
-NOW星影   http://rihou.cc:555/tv/星影台
-POPC电影 
+NOW爆谷,http://rihou.cc:555/tv/爆谷台
+NOW星影,http://rihou.cc:555/tv/星影台
+PopC电影,http://gat.xyys.site/cdnlive.php?mode=play;id=72c5e8ed98e857b3a31a5103a22bb938;token=CADtQqrhvJcKnfMGNgqMrhDsYuV86aY7
 天映频道,http://o11.163189.xyz/stream/live/typd/
 天映经典,http://o11.163189.xyz/stream/live/ccm/
 kix,https://liveh34.vtvprime.vn/hls/KIX/04.m3u8
@@ -1145,7 +1145,7 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 中天娱乐  http://rihou.cc:555/tv/中天娱乐
 寰宇新闻,http://rihou.cc:555/tv/寰宇新闻
 寰宇台湾  http://rihou.cc:555/tv/寰宇台湾
-东森新闻  http://rihou.cc:555/tv/东森新闻
+东森新闻,http://rihou.cc:555/tv/东森新闻
 三立新闻 
 TVBS  http://rihou.cc:555/tv/TVBS1
 TVBS新闻,http://iptv.4666888.xyz/iptv2A.php?id=43
