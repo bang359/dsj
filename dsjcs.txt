@@ -946,14 +946,14 @@ GRTN生活频道
 新星综合,http://test5.btzx.com.cn/live/13TV.stream/playlist.m3u8
 玛纳斯综合,http://218.84.127.245:1026/hls/main1/playlist.m3u8?zxinjd
 
-💚BTV北京卫视,http://114.241.104.35:85/tsfile/live/16/1016_1.m3u8?key=txiptv 
-BTV新闻,http://114.241.104.35:85/tsfile/live/24/1024_1.m3u8?key=txiptv 
-BTV体育,http://114.241.104.35:85/tsfile/live/25/1025_1.m3u8?key=txiptv 
-BTV文艺,http://114.241.104.35:85/tsfile/live/17/1017_1.m3u8?key=txiptv 
-BTV科教,http://114.241.104.35:85/tsfile/live/18/1018_1.m3u8?key=txiptv 
-BTV影视,http://114.241.104.35:85/tsfile/live/19/1019_1.m3u8?key=txiptv 
-BTV财经,http://114.241.104.35:85/tsfile/live/20/1020_1.m3u8?key=txiptv 
-BTV生活,http://114.241.104.35:85/tsfile/live/22/1022_1.m3u8?key=txiptv
+💚BTV北京卫视,http://114.241.108.91:85/tsfile/live/16/1016_1.m3u8?key=txiptv 
+BTV新闻,http://114.241.108.91:85/tsfile/live/24/1024_1.m3u8?key=txiptv 
+BTV体育,http://1114.241.108.91:85/tsfile/live/25/1025_1.m3u8?key=txiptv 
+BTV文艺,http://114.241.108.91:85/tsfile/live/17/1017_1.m3u8?key=txiptv 
+BTV科教,http://114.241.108.91:85/tsfile/live/18/1018_1.m3u8?key=txiptv 
+BTV影视,http://114.241.108.91:85/tsfile/live/19/1019_1.m3u8?key=txiptv 
+BTV财经,http://114.241.108.91:85/tsfile/live/20/1020_1.m3u8?key=txiptv 
+BTV生活,http://114.241.108.91:85/tsfile/live/22/1022_1.m3u8?key=txiptv
 
 💚天津卫视,http://k.061899.xyz/k.php?id=tjws
 天津新闻,http://38.75.136.137:98/gslb/dsdqpub/tjtv1.m3u8?auth=testpub
