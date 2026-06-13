@@ -7,7 +7,7 @@
 ❤️永久维护,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ❤️觉得好用,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ❤️请打赏观看,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
-🏆爱尔达体育1,http://gat.xyys.site/cdnlive.php?mode=play;id=95243f1030a854eab5305eccad5cf992;token=CADtQqrhvJcKnfMGNgqMrhDsYuV86aY7
+🏆2026世界杯4K,http://rihou.cc:555/tv/世界杯
 九屏直播,http://60.223.72.64:8003//rtp/226.0.2.197:9488$山西太原联通
 九屏直播,http://119.250.99.117:4000/rtp/239.253.92.203:6150$河北石家庄联通
 中国天气,http://221.7.49.226:50085/tsfile/live/0018_8.m3u8?key=txiptv&playlive=1&authid=0$酒店线路
@@ -1325,17 +1325,19 @@ NewKID4,https://stream.ads.ottera.tv/playlist.m3u8?network_id=872
 韩国音乐,http://mgugaklive.nowcdn.co.kr/gugakvideo/gugakvideo.stream/playlist.m3u8
 RNA,http://5ddfc48289114.streamlock.net/CHsoom/LIVE/playist.m3u8
 🏀体育,#genre#
-广东体育,http://m.061899.xyz/mg/gdty
+CCTV5,http://gslbserv.itv.cmvideo.cn:80/1000000004000007755/1.m3u8?channel-id=ystenlive&Contentid=1000000004000007755&livemode=1&stbId=toShengfen&mode=1
+超级体育
+精品体育,http://gslbserv.itv.cmvideo.cn:80/6460382139625130259/1.m3u8?channel-id=ystenlive&Contentid=6460382139625130259&livemode=1&stbId=toShengfen&mode=1
+五星体育,http://180.165.12.42:50001/tsfile/live/0001_41.m3u8?key=txiptv&playlive=1&authid=0
+广东体育高清,http://49.234.31.101:7040/tsfile/live/1011_1.m3u8?key=txiptv&playlive=1&authid=0
 广东体育,http://r.jdshipin.com/LiYdg
 四海钓鱼,http://wfenf.x3322.net:7788/637444975
 快乐垂钓,http://wfenf.x3322.net:7788/961930263
 红牛TV,https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master_1660.m3u8
-劲爆体育,http://t.061899.xyz/tl/dq.php?id=jbty
+劲爆体育
 风云足球,http://120.238.84.45:9901/tsfile/live/1087_1.m3u8?key=txiptv&playlive=1&authid=0
-五星体育,https://cdn15.163189.xyz/163189/9c893bb003e1c7de
-安徽综艺体育,http://112.27.235.94:8000/hls/25/index.m3u8
 纬来体育,rtmp://f13h.mine.nu/sat/tv721
-MBC体育,http://211.33.246.4:32954/cj_live/myStream.sdp/chunklist_w517347500.m3u8
+
  
 🐬动画,#genre#
 CCTV14,http://rihou.cc:555/tv/CCTV14酒店
