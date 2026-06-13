@@ -8,10 +8,10 @@
 ❤️觉得好用,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ❤️请打赏观看,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 🏆世界杯4K,http://rihou.cc:555/tv/世界杯
-九屏直播,http://60.223.72.64:8003//rtp/226.0.2.197:9488$山西太原联通
+九屏直播,http://171.117.252.107:8083/rtp/226.0.2.197:9488$山西太原联通
 九屏直播,http://119.250.99.117:4000/rtp/239.253.92.203:6150$河北石家庄联通
 中国天气,http://221.7.49.226:50085/tsfile/live/0018_8.m3u8?key=txiptv&playlive=1&authid=0$酒店线路
-中国天气,http://60.223.72.64:8003/rtp/226.0.2.103:8736$山西联通
+中国天气,http://171.117.252.107:8083/rtp/226.0.2.103:8736$山西联通
 每日经济,http://swiftplay.hxkjmedia.com/tv/spbW.m3u8
 澎湃景区,https://play-a2.quklive.com/live/1765245429980053.m3u8
 ❤️CCTV4K,http://192.151.150.154/live/cctv4k.m3u8#http://38.75.136.137:98/gslb/dsdqpub/cctv4k.m3u8?auth=testpub
@@ -57,7 +57,7 @@ CHC家庭影院,http://rihou.cc:555/tv/CHC家庭影院
 环球直播,http://cfss.cc/cdn/du/9036111.flv
 巴拉巴拉樱之花,https://cdn7.ryplay7.com/20241009/3516_c23ab1eb/index.m3u8
 😎建议反馈,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
-九屏直播,http://60.223.72.64:8003//rtp/226.0.2.197:9488$山西太原联通
+
 ☕给点支持,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ☘️个人常看,#genre#
 CCTV3-综艺,rtsp://111.48.34.138:1554/170000004112/99180001000000050000000000000391 
