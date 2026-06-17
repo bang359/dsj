@@ -1150,7 +1150,7 @@ Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 中天综合  http://rihou.cc:555/tv/中天综合
 中天娱乐  http://rihou.cc:555/tv/中天娱乐
 寰宇新闻,http://rihou.cc:555/tv/寰宇新闻
-寰宇台湾  http://rihou.cc:555/tv/寰宇台湾
+寰宇台湾,http://rihou.cc:555/tv/寰宇台湾
 东森新闻,http://rihou.cc:555/tv/东森新闻
 三立新闻 
 TVBS,http://rihou.cc:555/tv/TVBS1
@@ -1158,7 +1158,7 @@ TVBS新闻,http://4t.537224.xyz/live/media-live072#http://iptv.4666888.xyz/iptv2
 镜新闻,http://rihou.cc:555/tv/镜新闻
 民视新闻,http://rihou.cc:555/tv/民视新闻
 华视新闻 http://rihou.cc:555/tv/华视新闻
-中视新闻 http://rihou.cc:555/tv/中视新闻 
+中视新闻,http://rihou.cc:555/tv/中视新闻 
 台视新闻,http://rihou.cc:555/tv/台视新闻 
 年代新闻 http://rihou.cc:555/tv/年代新闻
 台湾生活,http://rihou.cc:555/tv/台湾生活
