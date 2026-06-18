@@ -8,10 +8,10 @@
 ❤️觉得好用,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ❤️请打赏观看,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 🏆世界杯4K,http://rihou.cc:555/tv/世界杯
-九屏直播,http://171.117.252.107:8083/rtp/226.0.2.197:9488$山西太原联通
-九屏直播,http://119.250.99.117:4000/rtp/239.253.92.203:6150$河北石家庄联通
+九屏直播,http://118.78.196.25:55555/rtp/226.0.2.197:9488$山西太原联通
+九屏直播,http://121.29.215.105:2083/rtp/239.253.92.203:6150$河北石家庄联通
 中国天气,http://221.7.49.226:50085/tsfile/live/0018_8.m3u8?key=txiptv&playlive=1&authid=0$酒店线路
-中国天气,http://171.117.252.107:8083/rtp/226.0.2.103:8736$山西联通
+中国天气,http://118.78.196.25:55555/rtp/226.0.2.103:8736$山西联通
 每日经济,http://swiftplay.hxkjmedia.com/tv/spbW.m3u8
 澎湃景区,https://play-a2.quklive.com/live/1765245429980053.m3u8
 ❤️CCTV4K,http://192.151.150.154/live/cctv4k.m3u8#http://38.75.136.137:98/gslb/dsdqpub/cctv4k.m3u8?auth=testpub
