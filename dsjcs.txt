@@ -344,10 +344,10 @@ CCTV8,http://121.57.88.206:898/hls/8/index.m3u8
 CCTV9,http://121.57.88.206:898/hls/9/index.m3u8
 CCTV10,http://121.57.88.206:898/hls/10/index.m3u8
 CCTV11,http://121.57.88.206:898/hls/11/index.m3u8
-CCTV12,http://218.77.84.102:85/tsfile/live/169/2024_1.m3u8?key=txiptv
-CCTV13,http://218.77.84.102:85/tsfile/live/170/2025_1.m3u8?key=txiptv
-CCTV14,http://218.77.84.102:85/tsfile/live/171/2026_1.m3u8?key=txiptv
-CCTV15,http://218.77.84.102:85/tsfile/live/172/2027_1.m3u8?key=txiptv
+CCTV12,http://125.43.249.150:85/tsfile/live/1015_1.m3u8?key=txiptv&playlive=1&authid=0
+CCTV13,http://125.43.249.150:85/tsfile/live/1016_1.m3u8?key=txiptv&playlive=1&authid=0
+CCTV14,http://125.43.249.150:85/tsfile/live/1017_1.m3u8?key=txiptv&playlive=1&authid=0
+CCTV15,http://125.43.249.150:85/tsfile/live/1018_1.m3u8?key=txiptv&playlive=1&authid=0
 CCTV16,http://121.57.88.206:898/hls/16/index.m3u8
 CCTV17,http://121.57.88.206:898/hls/17/index.m3u8
 湖南卫视,http://222.90.21.30:9901/hls/18/index.m3u8
