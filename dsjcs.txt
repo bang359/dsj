@@ -344,9 +344,9 @@ CCTV8,http://121.57.88.206:898/hls/8/index.m3u8
 CCTV9,http://121.57.88.206:898/hls/9/index.m3u8
 CCTV10,http://121.57.88.206:898/hls/10/index.m3u8
 CCTV11,http://121.57.88.206:898/hls/11/index.m3u8
-CCTV12,http://144.123.165.186:9901/tsfile/live/0012_1.m3u8?key=txiptv&playlive=1&authid=0
-CCTV13,http://144.123.165.186:9901/tsfile/live/0013_1.m3u8?key=txiptv&playlive=1&authid=0
-CCTV14,http://144.123.165.186:9901/tsfile/live/0014_1.m3u8?key=txiptv&playlive=1&authid=0
+CCTV12,http://106.115.24.104:19901/tsfile/live/1011_1.m3u8?key=txiptv&playlive=1&authid=0
+CCTV13,http://106.115.24.104:19901/tsfile/live/1012_1.m3u8?key=txiptv&playlive=1&authid=0
+CCTV14,http://106.115.24.104:19901/tsfile/live/1013_1.m3u8?key=txiptv&playlive=1&authid=0
 CCTV15,http://61.145.242.11:9088/hls/15/index.m3u8
 CCTV16,http://121.57.88.206:898/hls/16/index.m3u8
 CCTV17,http://121.57.88.206:898/hls/17/index.m3u8
