@@ -1067,7 +1067,10 @@ ICS频道,http://218.1.208.13:7777/tsfile/live/1033_1.m3u8?key=txiptv&playlive=1
 
 NOW爆谷,http://rihou.cc:555/tv/爆谷台
 NOW星影,http://rihou.cc:555/tv/星影台
-PopC电影
+中国电影,http://gat.xyys.site/cdnlive.php?mode=play;id=c5f0c4c714a85562b87f44d500725691;token=CADtQqrhvJcKnfMGNgqMrhDsYuV86aY7
+PopC电影,http://gat.xyys.site/cdnlive.php?mode=play;id=ab975bfc34c6545486c0a9fd1c187f45;token=CADtQqrhvJcKnfMGNgqMrhDsYuV86aY7
+ROCK_Action,http://gat.xyys.site/cdnlive.php?mode=play;id=7c382660ff335bf794f8935c50e24566;token=CADtQqrhvJcKnfMGNgqMrhDsYuV86aY7
+恐怖电影,http://gat.xyys.site/cdnlive.php?mode=play;id=99684b8268ec567ba12991bf25eac238;token=CADtQqrhvJcKnfMGNgqMrhDsYuV86aY7
 天映频道,http://o11.163189.xyz/stream/live/typd/
 天映经典,http://o11.163189.xyz/stream/live/ccm/
 
@@ -1165,7 +1168,8 @@ CHU,http://cdn6.163189.xyz/163189/chu
 东森新闻,http://rihou.cc:555/tv/东森新闻
 三立新闻 
 TVBS,http://rihou.cc:555/tv/TVBS1
-TVBS新闻,http://jnzq.ohoyee.com:9080/live/332123-tvbsxw.m3u8
+TVBS news,http://jnzq.ohoyee.com:9080/live/332123-tvbsxw.m3u8
+TVBS新闻,http://gat.xyys.site/cdnlive.php?mode=play;id=bc475c195fd65259bc006f7ed66d916d;token=CADtQqrhvJcKnfMGNgqMrhDsYuV86aY7
 镜新闻,http://rihou.cc:555/tv/镜新闻
 民视新闻,http://rihou.cc:555/tv/民视新闻
 华视新闻 http://rihou.cc:555/tv/华视新闻
