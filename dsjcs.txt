@@ -1165,7 +1165,7 @@ CHU,http://cdn6.163189.xyz/163189/chu
 东森新闻,http://rihou.cc:555/tv/东森新闻
 三立新闻 
 TVBS,http://rihou.cc:555/tv/TVBS1
-TVBS新闻,
+TVBS新闻,http://jnzq.ohoyee.com:9080/live/332123-tvbsxw.m3u8
 镜新闻,http://rihou.cc:555/tv/镜新闻
 民视新闻,http://rihou.cc:555/tv/民视新闻
 华视新闻 http://rihou.cc:555/tv/华视新闻
