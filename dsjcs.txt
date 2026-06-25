@@ -712,6 +712,10 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 快乐购,http://218.77.84.102:85/tsfile/live/155/2010_1.m3u8?key=txiptv$湖南/永州/电信
 湖南教育,http://218.77.84.102:85/tsfile/live/156/2011_1.m3u8?key=txiptv$湖南/永州/电信
 湖南国际,http://192.151.150.154/live/hngj.m3u8
+郴州综合,https://live.ngcz.tv/aczxw/20221028/live.m3u8?auth_key=1782363034-0-0-11d2d51dbdcd47fc46d0e8559a2b1851
+郴州文旅,https://live.ngcz.tv/acz/czgg20221025/live.m3u8?auth_key=1782363493-0-0-0e3c66634e80c56eec3746674dcb955b
+郴州综合,http://demo1.ruisilink.top:9000/rtp/239.76.253.75:9000$电信
+
 
 💚江苏卫视,http://ah2.sohu.blog:8000/hls/32/index.m3u8
 江苏新闻,http://106.52.119.159:1234/626064693
@@ -811,6 +815,11 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 贵州经济,http://123.207.224.130:123/guizhou/guizhou.php?id=gzjj
 贵州移动,http://123.207.224.130:123/guizhou/guizhou.php?id=gzyd
 仁怀新闻,http://123.207.224.130:123/guizhou/renhuai.php
+贵州卫视,http://106.32.133.109:9999/tsfile/live/1000_1.m3u8?key=txiptv&playlive=0&authid=0
+贵州公共,http://106.32.133.109:9999/tsfile/live/1001_1.m3u8?key=txiptv&playlive=0&authid=0
+贵州生活,http://106.32.133.109:9999/tsfile/live/1003_1.m3u8?key=txiptv&playlive=0&authid=0
+贵州法制,http://106.32.133.109:9999/tsfile/live/1004_1.m3u8?key=txiptv&playlive=0&authid=0
+贵阳,http://106.32.133.109:9999/tsfile/live/1005_1.m3u8?key=txiptv&playlive=0&authid=0
 
 💚四川科教,http://182.150.115.21:8030/pcgacg/pcgacg_0.m3u8$官网
 四川卫视,http://222.214.208.34:59901/tsfile/live/0017_1.m3u8
@@ -877,6 +886,8 @@ GRTN生活频道
 广州综合,https://tencentplay.gztv.com/live/zonghes.m3u8?txSecret=e381ab098841a0badbf7e11f24143cf7&txTime=18e6ff43701
 广州新闻,https://tencentplay.gztv.com/live/xinwen.m3u8?txSecret=d217bd6cf85c93e3b47b96504cd2dc1c&txTime=18e6ff29019
 广州南国都市4k,https://tencentplay.gztv.com/live/nanguodushi.m3u8?txSecret=550af55c0ea34ce492748481415b6dfa&txTime=1903e7b17de
+中山综合,http://ikuai.haleeyo.cn:9003/rtp/239.253.43.62:5146$广州电信
+中山综合,http://v.zsbtv.com.cn/lsdream/qTl38me/1000/live.m3u8$官网内置解码
 
 💚深圳慢直播,https://livepull-tcyzb.sztv.com.cn/live/YSZ_SHZM.m3u8
 深圳直播,https://livepull-tcyzb.sztv.com.cn/live/YSZ_regularlive.m3u8
