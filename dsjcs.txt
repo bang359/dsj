@@ -90,7 +90,7 @@ CHC高清电影,rtsp://111.48.34.138:1554/170000004112/9918000100000005000000000
 频道测试,http://rihou.cc:555/tv/频道测试
 🖥抖音直播,#genre#
 CCTV6电影,http://cfss.cc/cdn/dy/cctv6media..flv
-CCTV-13新闻,http://cfss.cc/cdn/dy/1606137427.flv
+CCTV-13新闻,http://cfss.cc/cdn/dy/cctv_video.flv
 CCTV2财经,http://cfss.cc/cdn/dy/nuanxinnengl.flv
 维度新闻,http://cfss.cc/cdn/dy/975107749.flv
 东西湖发布,http://cfss.cc/cdn/dy/wuhanlkgrmt.flv
