@@ -1196,15 +1196,17 @@ CINEMAX
 凤凰资讯,https://cdn6.163189.xyz/163189/fhzx
 凤凰香港,https://cdn6.163189.xyz/163189/fhhk
 凤凰中文,http://zmgd.zyrnet.com:8888/hls/110/index.m3u8$郑州酒店
+凤凰中文,http://120.238.84.45:9901/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0$广东移动
 凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店
 翡翠台4K,https://o11.163189.xyz/stream/tvb/fct4k/
+翡翠台,http://120.238.84.45:9901/tsfile/live/1103_1.m3u8?key=txiptv&playlive=1&authid=0
 翡翠台,https://cdn6.163189.xyz/163189/fct
-翡翠台,http://o11.163189.xyz/stream/tvb/fct/#https://mytv.cdn.loc.cc/o12.php?id=fct
-明珠台,http://mytv.cdn.loc.cc/o12.php?id=mzt
+翡翠台,http://o11.163189.xyz/stream/tvb/fct
+明珠台,http://120.238.84.45:9901/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0
 娱乐新闻,https://cdn6.163189.xyz/163189/ylxw
 无线新闻,https://cdn6.163189.xyz/163189/wxxw
 TVB1,https://6.cdn.loc.cc/163189.php?id=tvb1
-TVB Plus,https://o11.163189.xyz/stream/tvb/tvbp/#http://r.jdshipin.com/Nr5jq
+TVB Plus,https://o11.163189.xyz/stream/tvb/tvbp/
 华丽翡翠,https://o11.163189.xyz/stream/live/hlt/
 华丽翡翠(新加坡),http://o11.163189.xyz/stream/live/jade/ 
 Now新闻,http://cdn.163189.xyz/163189/now
@@ -1215,7 +1217,7 @@ ViuTV Six,https://cdn.163189.xyz/163189/viu6
 TVB星河,https://o11.163189.xyz/stream/live/tvbxh/#https://cdn10.163189.xyz/stream/163189/xinghe/
 TVB千禧经典,https://o11.163189.xyz/stream/live/tvbc/
 TVB武侠,https://cdn6.163189.xyz/163189/yzwx
-TVB黄金华剧,http://r.jdshipin.com/62WM7
+TVB黄金华剧,https://cdn10.163189.xyz/163189/fct/
 TVB DRAMA,https://amg01868-amg01868c5-tvbanywhere-us-4493.playouts.now.amagi.tv/playlist/amg01868-tvbusa-tvbdrama-tvbanywhereus/playlist.m3u8
 RTHK 31,http://cdn.163189.xyz/163189/rthk31
 RTHK 32,http://cdn.163189.xyz/163189/rthk32
@@ -1245,11 +1247,8 @@ CHU,http://cdn6.163189.xyz/163189/chu
 寰宇新闻,http://rihou.cc:555/tv/寰宇新闻
 寰宇台湾,http://rihou.cc:555/tv/寰宇台湾
 东森新闻,http://rihou.cc:555/tv/东森新闻
-三立新闻 
 TVBS#http://rihou.cc:555/tv/TVBS1
-TVBS news,http://jnzq.ohoyee.com:9080/live/332123-tvbsxw.m3u8
- 
-
+TVBS news,http://jnzq.ohoyee.com:9080/live/332123-tvbsxw.m3u8 
 镜新闻,http://rihou.cc:555/tv/镜新闻
 民视新闻,http://rihou.cc:555/tv/民视新闻
 华视新闻 http://rihou.cc:555/tv/华视新闻
@@ -1264,9 +1263,6 @@ TITV,https://hc9lby9bzw8zcar.wcetv.com/hls/titv.m3u8
 公视,http://211.72.174.95:8116/0.ts$原生解码最佳
 民视,http://211.72.174.95:8115/0.ts$原生解码最佳
 台视,http://211.72.174.95:8112/0.ts$原生解码最佳
-
-
-
 民视,rtmp://f13h.mine.nu/sat/tv051
 台视,rtmp://f13h.mine.nu/sat/tv071
 中视,rtmp://f13h.mine.nu/sat/tv091
