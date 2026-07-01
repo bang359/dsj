@@ -91,6 +91,7 @@ CHC高清电影,rtsp://111.48.34.138:1554/170000004112/9918000100000005000000000
 🖥抖音直播,#genre#
 CCTV6电影,http://cfss.cc/cdn/dy/cctv6media..flv
 CCTV-13新闻,http://cfss.cc/cdn/dy/cctv_video.flv
+凤凰资讯,http://cfss.cc/cdn/dy/Ifengdy.flv
 CCTV2财经,http://cfss.cc/cdn/dy/nuanxinnengl.flv
 维度新闻,http://cfss.cc/cdn/dy/975107749.flv
 东西湖发布,http://cfss.cc/cdn/dy/wuhanlkgrmt.flv
@@ -1197,7 +1198,7 @@ CINEMAX
 凤凰香港
 凤凰中文,http://zmgd.zyrnet.com:8888/hls/110/index.m3u8$郑州酒店
 凤凰中文,http://120.238.84.45:9901/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0$广东移动
-凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店
+凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店#http://cfss.cc/cdn/dy/Ifengdy.flv$抖音
 翡翠台4K,https://o11.163189.xyz/stream/tvb/fct4k/
 翡翠台,http://120.238.84.45:9901/tsfile/live/1103_1.m3u8?key=txiptv&playlive=1&authid=0
 翡翠台,https://cdn6.163189.xyz/163189/fct
