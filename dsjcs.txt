@@ -1241,7 +1241,7 @@ CHU,http://cdn6.163189.xyz/163189/chu
 
 🇹🇼台湾,#genre#
 温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
-中天新闻,https://my5353.com/ztxw#rtmp://ai.unispc.com/live/nb-py-ztxw
+中天新闻,https://my5353.com/ztxw
 中天亚洲  http://rihou.cc:555/tv/中天亚洲
 中天综合  http://rihou.cc:555/tv/中天综合
 中天娱乐  http://rihou.cc:555/tv/中天娱乐
@@ -1273,8 +1273,8 @@ TITV,https://hc9lby9bzw8zcar.wcetv.com/hls/titv.m3u8
 纬来日本,rtmp://f13h.mine.nu/sat/tv771
 东森超视,rtmp://f13h.mine.nu/sat/tv331
 MoMo综合,rtmp://f13h.mine.nu/sat/tv761
-ELEVEN体育1,rtmp://f13h.mine.nu/sat/tv731
-ELEVEN体育2,rtmp://f13h.mine.nu/sat/tv741
+DAZN1,rtmp://f13h.mine.nu/sat/tv731
+DAZN2,rtmp://f13h.mine.nu/sat/tv741
 NOW 70s,https://php.946985.filegear-sg.me/mytv265.php?id=NOW7
 NOW 80s,https://php.946985.filegear-sg.me/mytv265.php?id=NOW8
 NOW ROCK,https://php.946985.filegear-sg.me/mytv265.php?id=NOWR
@@ -1297,7 +1297,6 @@ NatGeo Wild
 
 🚀风云极速,#genre#
 TVBS新闻,http://iptv.4666888.xyz/iptv2A.php?id=43
-镜新闻,http://iptv.4666888.xyz/iptv2A.php?id=44
 民视,http://iptv.4666888.xyz/iptv2A.php?id=55
 华艺中文,http://iptv.4666888.xyz/iptv2A.php?id=37
 爱奇艺,http://iptv.4666888.xyz/iptv2A.php?id=21
