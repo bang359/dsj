@@ -1144,6 +1144,8 @@ BTV生活,http://114.241.108.91:85/tsfile/live/22/1022_1.m3u8?key=txiptv
 重庆高网电影,http://home.scanflove.com:7788/rtp/235.254.198.95:1656$重庆cmc3+
 
 🔥港台电影,#genre#
+东森电影,http://rihou.cc:555/tv/东森电影 
+东森洋片,http://rihou.cc:555/tv/东森洋片
 澳门莲花,https://play-sh.quklive.com/live/1780907795235397.m3u8
 好莱坞电影  http://rihou.cc:555/tv/好莱坞
 美亚电影#http://rihou.cc:555/tv/美亚电影
@@ -1152,8 +1154,7 @@ NOW星影#http://rihou.cc:555/tv/星影台
 天映频道,http://o11.163189.xyz/stream/live/typd/
 天映经典,http://o11.163189.xyz/stream/live/ccm/
 影迷数位电影  http://rihou.cc:555/tv/影迷数位电影
-东森电影 http://rihou.cc:555/tv/东森电影 
-东森洋片 http://rihou.cc:555/tv/东森洋片
+
 金光布袋戏,http://o11.163189.xyz/stream/live/jgbdx/
 龙祥时代  http://rihou.cc:555/tv/龙祥时代
 龙华电影
