@@ -1144,7 +1144,7 @@ BTV生活,http://114.241.108.91:85/tsfile/live/22/1022_1.m3u8?key=txiptv
 重庆高网电影,http://home.scanflove.com:7788/rtp/235.254.198.95:1656$重庆cmc3+
 
 🔥港台电影,#genre#
-澳门莲花,https://cdn6.163189.xyz/163189/amlh
+澳门莲花,https://play-sh.quklive.com/live/1780907795235397.m3u8
 好莱坞电影  http://rihou.cc:555/tv/好莱坞
 美亚电影#http://rihou.cc:555/tv/美亚电影
 NOW爆谷#http://rihou.cc:555/tv/爆谷台
