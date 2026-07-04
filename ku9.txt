@@ -1,8 +1,9 @@
 央视频,#genre#,JS=https://gongdian.top/tv/ku9/web.js
 频道测试,http://rihou.cc:555/tv/频道测试
 playboy,http://A/ku9/js/web.js?id=https://adult-tv-channels.com/playboy-tv-online/
-CCTV13抖音,http://A/ku9/js/web.js?id=https://live.douyin.com/1606137427
+CCTV13抖音,http://A/ku9/js/web.js?id=https://live.douyin.com/cctv_video
 凤凰直播,http://A/ku9/js/web.js?id=https://flive.ifeng.com/live/1016529.html
+中天新闻,http://A/ku9/js/web.js?id=https://v.kylintv.com/#/livedetails?id=44657EE3F5EBA103F5A6
 CCTV4K,https://gongdian.top/tv/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600002264
 CCTV1,http://A/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600001859
 CCTV2,http://A/ku9/js/web.js?id=https://yangshipin.cn/tv/home?pid=600001800
