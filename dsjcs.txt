@@ -1100,13 +1100,13 @@ BTV生活,http://114.241.108.91:85/tsfile/live/22/1022_1.m3u8?key=txiptv
 🔥港台电影,#genre#
 东森电影,http://rihou.cc:555/tv/东森电影 
 东森洋片,http://rihou.cc:555/tv/东森洋片
-澳门莲花,https://play-sh.quklive.com/live/1780907795235397.m3u8
+澳门莲花,http://rihou.cc:555/tv/澳门莲花
 好莱坞电影  http://rihou.cc:555/tv/好莱坞
 美亚电影#http://rihou.cc:555/tv/美亚电影
 NOW爆谷#http://rihou.cc:555/tv/爆谷台
 NOW星影#http://rihou.cc:555/tv/星影台
-天映频道 
-天映经典 
+天映频道,http://hitv.airinf.eu.org:5052/trams/1941/playlist.m3u8?token=1314 
+天映经典,http://hitv.airinf.eu.org:5052/trams/1587/playlist.m3u8?token=1314 
 影迷数位电影  http://rihou.cc:555/tv/影迷数位电影
 金光布袋戏 
 龙祥时代  http://rihou.cc:555/tv/龙祥时代
@@ -1149,7 +1149,7 @@ CINEMAX
 明珠台,http://115.44.140.5:18180/TV00000000000000000035@HHZT
 RTHK31,http://115.44.140.5:18180/TV00000000000000000019@HHZT
 RTHK32,http://115.44.140.5:18180/TV00000000000000000017@HHZT
-viutv,http://115.44.140.5:18180/TV00000000000000000037@HHZT
+ViuTV,http://115.44.140.5:18180/TV00000000000000000037@HHZT
 
 翡翠台,http://120.238.84.45:9901/tsfile/live/1103_1.m3u8?key=txiptv&playlive=1&authid=0
 明珠台,http://120.238.84.45:9901/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0
@@ -1159,48 +1159,52 @@ viutv,http://115.44.140.5:18180/TV00000000000000000037@HHZT
 凤凰中文,http://120.238.84.45:9901/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0$广东移动
 凤凰中文,http://zmgd.zyrnet.com:8888/hls/110/index.m3u8$郑州酒店
 凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店#http://cfss.cc/cdn/dy/Ifengdy.flv$抖音
+
+凤凰中文,http://push.cdn1.hls123.de:8080/streams/a4y2t99pzyi/index.m3u8
+凤凰资讯,http://push.cdn1.hls123.de:8080/streams/0u0qd5ovqkg/index.m3u8
+凤凰香港,http://push.cdn1.hls123.de:8080/streams/898y722sqjr/index.m3u8
+TVB星河,http://push.cdn1.hls123.de:8080/streams/hbiwgswysds/index.m3u8
+ViuTV,http://push.cdn1.hls123.de:8080/streams/iewbjlpp9v/index.m3u8
+Now新闻,http://push.cdn1.hls123.de:8080/streams/zed7kdzyh1/index.m3u8
 HOY77,http://push.cdn1.hls123.de:8080/streams/dguce4v9b69/index.m3u8
 HOY78,http://push.cdn1.hls123.de:8080/streams/xeblk620c0e/index.m3u8
+
 TVB DRAMA,https://amg01868-amg01868c5-tvbanywhere-us-4493.playouts.now.amagi.tv/playlist/amg01868-tvbusa-tvbdrama-tvbanywhereus/playlist.m3u8
 
-翡翠台4K,https://o11.163189.xyz/stream/tvb/fct4k/
-翡翠台,https://cdn6.163189.xyz/163189/fct
-翡翠台,http://o11.163189.xyz/stream/tvb/fct
-娱乐新闻,https://cdn6.163189.xyz/163189/ylxw
-无线新闻,https://cdn6.163189.xyz/163189/wxxw
-TVB1,https://6.cdn.loc.cc/163189.php?id=tvb1
-TVB Plus,https://o11.163189.xyz/stream/tvb/tvbp/
-华丽翡翠,https://o11.163189.xyz/stream/live/hlt/
-华丽翡翠(新加坡),http://o11.163189.xyz/stream/live/jade/ 
-Now新闻,http://cdn.163189.xyz/163189/now
+翡翠台4K 
+翡翠台 
+娱乐新闻 
+无线新闻 
+TVB1 
+TVB Plus 
+华丽翡翠 
+华丽翡翠(新加坡) 
+Now新闻 
 HOY76
-HOY77,http://cdn.163189.xyz/163189/hoy 
-
-ViuTV,https://cdn10.163189.xyz/163189/viu/
-ViuTV Six,https://cdn.163189.xyz/163189/viu6 
-TVB星河,https://o11.163189.xyz/stream/live/tvbxh/#https://cdn10.163189.xyz/stream/163189/xinghe/
-TVB千禧经典,https://o11.163189.xyz/stream/live/tvbc/
-TVB武侠,https://cdn6.163189.xyz/163189/yzwx
-TVB黄金华剧,https://cdn10.163189.xyz/163189/fct/
-
-RTHK 31,http://cdn.163189.xyz/163189/rthk31
-RTHK 32,http://cdn.163189.xyz/163189/rthk32
-爱奇艺,https://o11.163189.xyz/stream/live/iqiyi/
-Astro AEC,https://o11.163189.xyz/stream/live/aec/
-Astro AOD,https://o11.163189.xyz/stream/live/aod/
+HOY77 
+ViuTV 
+ViuTV Six 
+TVB星河 
+TVB千禧经典 
+TVB武侠 
+TVB黄金华剧 
+爱奇艺 
+Astro AEC 
+Astro AOD 
 Astro QJ
-Astro 欢喜台,https://o11.163189.xyz/stream/live/hxt/
-CH5,http://cdn6.163189.xyz/163189/ch5
-CH8,http://cdn6.163189.xyz/163189/ch8
-CHU,http://cdn6.163189.xyz/163189/chu
-八度空间,http://cdn6.163189.xyz/163189/8tv
+Astro 欢喜台 
+CH5 
+CH8 
+CHU 
+八度空间 
 香港卫视,http://webcast.hkstv.tv/livestream/mutfysrq/playlist.m3u8$官网
 环球电视,http://utv1.hqtvzb.com:9999/hls/world.m3u8$官网
 耀才財經,https://v3.mediacast.hk/webcast/bshdlive-pc/playlist.m3u8
-澳门体育,http://cdn6.163189.xyz/163189/amty
-澳门综艺,http://cdn6.163189.xyz/163189/amzy
-澳门Macau,https://cdn6.163189.xyz/163189/as
-澳视澳门,https://cdn6.163189.xyz/163189/asam
+澳门体育 
+澳门综艺 
+澳门Macau 
+澳视澳门,http://push.cdn1.hls123.de:8080/streams/2r8ba88ujh6/index.m3u8
+澳视卫星,http://push.cdn1.hls123.de:8080/streams/gese9d57376/index.m3u8
 
 🇹🇼台湾,#genre#
 温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
