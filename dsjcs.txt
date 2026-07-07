@@ -1158,8 +1158,10 @@ ViuTV,http://115.44.140.5:18180/TV00000000000000000037@HHZT
 凤凰中文,http://120.198.95.220:9901/tsfile/live/1037_1.m3u8?key=txiptv&playlive=1&down=1$广东移动
 凤凰中文,http://120.238.84.45:9901/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0$广东移动
 凤凰中文,http://zmgd.zyrnet.com:8888/hls/110/index.m3u8$郑州酒店
-凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店#http://cfss.cc/cdn/dy/Ifengdy.flv$抖音
-
+凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店 
+HOY76,http://49.232.143.177:80/pyxg/export.php?id=12&key=****
+HOY77,http://49.232.143.177:80/pyxg/export.php?id=10&key=****
+HOY78,http://49.232.143.177:80/pyxg/export.php?id=11&key=****
 凤凰中文,http://push.cdn1.hls123.de:8080/streams/a4y2t99pzyi/index.m3u8
 凤凰资讯,http://push.cdn1.hls123.de:8080/streams/0u0qd5ovqkg/index.m3u8
 凤凰香港,http://push.cdn1.hls123.de:8080/streams/898y722sqjr/index.m3u8
