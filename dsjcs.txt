@@ -1210,6 +1210,7 @@ CHU
 
 🇹🇼台湾,#genre#
 温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
+中天新闻,rtmp://ai.gdjs.net.cn/live/332000-ztxw2
 中天新闻,https://my5353.com/ztxw
 中天亚洲  http://rihou.cc:555/tv/中天亚洲
 中天综合  http://rihou.cc:555/tv/中天综合
