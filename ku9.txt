@@ -1,6 +1,7 @@
 央视频,#genre#,JS=https://gongdian.top/tv/ku9/web.js
 频道测试,http://rihou.cc:555/tv/频道测试
 playboy,http://A/ku9/js/web.js?id=https://adult-tv-channels.com/playboy-tv-online/
+babes,http://A/ku9/js/web.js?id=http://oxax.tv/babes-tv.html
 CCTV13抖音,http://A/ku9/js/web.js?id=https://live.douyin.com/cctv_video
 凤凰资讯,http://A/ku9/js/web.js?id=https://live.douyin.com/Ifengdy
 凤凰直播,http://A/ku9/js/web.js?id=https://flive.ifeng.com/live/1016529.html
