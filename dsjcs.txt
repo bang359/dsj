@@ -8,10 +8,11 @@
 ❤️觉得好用,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ❤️请打赏观看,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 🏆世界杯4K,http://rihou.cc:555/tv/世界杯
-九屏直播,http://61.134.228.185:8005/rtp/226.0.2.197:9488$山西太原联通
-九屏直播,http://60.0.218.70:9999/rtp/239.253.92.203:6150$河北石家庄联通
+🌀台风-动向,http://cfss.cc/cdn/dy/ppxw_thepaper.flv
+九屏直播,http://183.184.144.219:8004/rtp/226.0.2.197:9488$山西太原联通
+九屏直播,http://121.29.69.105:9999/rtp/239.253.92.203:6150$河北石家庄联通
 中国天气,http://221.7.49.226:50085/tsfile/live/0018_8.m3u8?key=txiptv&playlive=1&authid=0$酒店线路
-中国天气,http://61.134.228.185:8005/rtp/226.0.2.103:8736$山西联通
+中国天气,http://183.184.144.219:8004/rtp/226.0.2.103:8736$山西联通
 每日经济,http://swiftplay.hxkjmedia.com/tv/spbW.m3u8
 澎湃景区,https://play-a2.quklive.com/live/1765245429980053.m3u8
 ❤️CCTV4K,http://192.151.150.154/live/cctv4k.m3u8#http://38.75.136.137:98/gslb/dsdqpub/cctv4k.m3u8?auth=testpub
@@ -1141,16 +1142,16 @@ CINEMAX
 邵氏喜剧,http://38.75.136.137:98/gslb/dsdqpub/lbssxj.m3u8?auth=testpub
 
 🇭🇰香港,#genre#
-凤凰中文,http://115.44.140.5:18180/TV00000000000000000008@HHZT
-凤凰资讯,http://115.44.140.5:18180/TV00000000000000000009@HHZT
-凤凰香港,http://115.44.140.5:18180/TV00000000000000000024@HHZT
-翡翠台,http://115.44.140.5:18180/TV00000000000000000032@HHZT
-无线新闻,http://115.44.140.5:18180/TV00000000000000000034@HHZT
-明珠台,http://115.44.140.5:18180/TV00000000000000000035@HHZT
-RTHK31,http://115.44.140.5:18180/TV00000000000000000019@HHZT
-RTHK32,http://115.44.140.5:18180/TV00000000000000000017@HHZT
-ViuTV,http://115.44.140.5:18180/TV00000000000000000037@HHZT
-
+凤凰中文,https://dfe3-6a12-2f81-6b56.kylintv.tv/live/pxinhd_iphone.m3u8
+凤凰资讯,https://dfe3-6a12-2f81-6b56.kylintv.tv/live/pxinhd_iphone.m3u8
+凤凰美洲,https://dfe3-6a12-2f81-6b56.kylintv.tv/live/pxnaus_iphone.m3u8
+凤凰香港,https://dfe3-6a12-2f81-6b56.kylintv.tv/live/pxhkus_iphone.m3u8
+北美焦点新闻台,https://dfe3-6a12-2f81-6b56.kylintv.tv/live/qljdhd_iphone.m3u8
+北美美食播客,https://85e7-724c-30ec-0b74.kylintv.tv/live/bmmssp_iphone.m3u8
+北美生活视频,https://85e7-724c-30ec-0b74.kylintv.tv/live/bmshsp_iphone.m3u8
+中国电影频道(北美),https://dfe3-6a12-2f81-6b56.kylintv.tv/live/chinamovie_iphone.m3u8
+昆仑剧场HD,https://dfe3-6a12-2f81-6b56.kylintv.tv/live/kunlunhd_iphone.m3u8
+长江剧场HD,https://dfe3-6a12-2f81-6b56.kylintv.tv/live/yangtse_iphone.m3u8
 翡翠台,http://120.238.84.45:9901/tsfile/live/1103_1.m3u8?key=txiptv&playlive=1&authid=0
 明珠台,http://120.238.84.45:9901/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0
 凤凰资讯,http://120.198.95.220:9901/tsfile/live/1036_1.m3u8?key=txiptv&playlive=1&down=1$广东移动
@@ -1158,7 +1159,6 @@ ViuTV,http://115.44.140.5:18180/TV00000000000000000037@HHZT
 凤凰中文,http://120.238.84.45:9901/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0$广东移动
 凤凰中文,http://zmgd.zyrnet.com:8888/hls/110/index.m3u8$郑州酒店
 凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店 
- 
 TVB DRAMA,https://amg01868-amg01868c5-tvbanywhere-us-4493.playouts.now.amagi.tv/playlist/amg01868-tvbusa-tvbdrama-tvbanywhereus/playlist.m3u8
 翡翠台4K 
 翡翠台 
