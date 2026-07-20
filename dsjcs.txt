@@ -1166,15 +1166,23 @@ TVB DRAMA,https://amg01868-amg01868c5-tvbanywhere-us-4493.playouts.now.amagi.tv/
 翡翠台 
 娱乐新闻 
 无线新闻 
-TVB1 
+TVB1,https://cdn.qd.je/163189.php?id=tvb1
+TVBj1,https://cdn.qd.je/163189.php?id=j1
+翡翠剧集台,https://cdn.qd.je/163189.php?id=tvbd
 TVB Plus 
 华丽翡翠 
 华丽翡翠(新加坡) 
-Now新闻 
-HOY76
-HOY77 
-ViuTV 
-ViuTV Six 
+ViuTV,https://cdn.qd.je/163189.php?id=viu
+ViuTV six,https://cdn.qd.je/163189.php?id=viu6
+NOW新闻,https://cdn.qd.je/163189.php?id=now
+hoy76,https://cdn11.163189.xyz/163189/hoy76
+hoy77,https://cdn11.163189.xyz/163189/hoy77
+hoy78,https://cdn11.163189.xyz/163189/hoy78
+金光布袋戏,https://cdn.qd.je/163189.php?id=jgbdx
+亚洲武侠,https://cdn.qd.je/163189.php?id=yzwx
+TVB星河,https://cdn.qd.je/163189.php?id=xinghe
+天映频道,https://cdn.qd.je/163189.php?id=typd
+天映经典,https://cdn.qd.je/163189.php?id=ccm
 TVB星河 
 TVB千禧经典 
 TVB武侠 
@@ -1184,16 +1192,21 @@ Astro AEC
 Astro AOD 
 Astro QJ
 Astro 欢喜台 
-CH5 
-CH8 
-CHU 
-八度空间 
+CH5,https://cdn.qd.je/163189.php?id=ch5
+CH8,https://cdn.qd.je/163189.php?id=ch8
+CHU,https://cdn.qd.je/163189.php?id=chu
+RTHK31,https://cdn.qd.je/163189.php?id=rthk31
+RTHK32,https://cdn.qd.je/163189.php?id=rthk32
+八度空间,https://cdn.qd.je/163189.php?id=8tv
 香港卫视,http://webcast.hkstv.tv/livestream/mutfysrq/playlist.m3u8$官网
 环球电视,http://utv1.hqtvzb.com:9999/hls/world.m3u8$官网
 耀才財經,https://v3.mediacast.hk/webcast/bshdlive-pc/playlist.m3u8
-澳门体育 
-澳门综艺 
-澳门Macau 
+澳视澳门,https://cdn.qd.je/163189.php?id=asam
+澳视卫星,https://cdn.qd.je/163189.php?id=as
+澳门体育,https://cdn.qd.je/163189.php?id=amty
+澳门综艺,https://cdn.qd.je/163189.php?id=amzy
+澳门莲花,https://cdn.qd.je/163189.php?id=amlh
+重温经典,https://cdn.qd.je/163189.php?id=cwjd 
  
 🇹🇼台湾,#genre#
 温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
