@@ -193,6 +193,10 @@ CETV1,http://rihou.cc:555/tv/CETV1
 CETV2,http://rihou.cc:555/tv/CETV2
 CETV3,http://rihou.cc:555/tv/CETV3
 CETV4,http://rihou.cc:555/tv/CETV4
+CEC文化,http://play.cec-tv.com.cn/channel/cec-tv1.m3u8
+CEC旅游,http://play.cec-tv.com.cn/channel/cec-tv2.m3u8
+CEC教育,http://play.cec-tv.com.cn/channel/cec-tv3.m3u8
+CEC健康,http://play.cec-tv.com.cn/channel/cec-tv4.m3u8
 发现中国,https://amg01314-amg01314c8-distrotv-us-10218.playouts.now.amagi.tv/playlist/amg01314-cgtn-cgtndiscoveringchina-distrotvus/playlist.m3u8
 vevo90s,https://amg00056-vevotv-vevo90saunz-samsungau-n6a0d.amagi.tv/ts-us-e2-n1/playlist/amg00056-vevotv-vevo90saunz-samsungau/playlist.m3u8
 Vevo复古摇滚,https://amg00056-vevotv-vevoretrorockau-samsungnz-nog2o.amagi.tv/playlist/amg00056-vevotv-vevoretrorockau-samsungnz/playlist.m3u8
