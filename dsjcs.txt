@@ -85,10 +85,10 @@ CCTV13-新闻,rtsp://111.48.34.138:1554/170000004112/991800010000000500000000000
 校园音乐,https://vd2.bdstatic.com/mda-rhg66pjgq86q0143/360p/h264/1755405757807137576/mda-rhg66pjgq86q0143.mp4?auth_key=1764426688-0-0-80960852adf7ddef833dd9124eae3841&bcevod_channel=searchbox_feed&cr=0&cd=0&pd=1&pt=4&logid=1888834174&vid=7005594265619699806
 频道测试,http://rihou.cc:555/tv/频道测试
 🖥抖音直播,#genre#
+CCTV2-财经,https://iptv.catvod.com/douyin/nuanxinnengl
 CCTV6-电影,http://cfss.cc/cdn/dy/cctv6media..flv
 CCTV13-新闻,http://cfss.cc/cdn/dy/cctv_video.flv
 凤凰资讯,http://cfss.cc/cdn/dy/Ifengdy.flv
-CCTV2财经,http://cfss.cc/cdn/dy/nuanxinnengl.flv
 维度新闻,http://cfss.cc/cdn/dy/975107749.flv
 东西湖发布,http://cfss.cc/cdn/dy/wuhanlkgrmt.flv
 万岁山,http://cfss.cc/cdn/dy/Wansuishan.flv
