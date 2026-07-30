@@ -1215,7 +1215,6 @@ RTHK32,https://cdn.qd.je/163189.php?id=rthk32
  
 🇹🇼台湾,#genre#
 温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
-中天新闻,http://rihou.cc:555/tv/中天新闻
 中天新闻,https://my5353.com/ztxw
 中天亚洲  http://rihou.cc:555/tv/中天亚洲
 中天综合  http://rihou.cc:555/tv/中天综合
