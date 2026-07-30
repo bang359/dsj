@@ -1220,17 +1220,17 @@ RTHK32,https://cdn.qd.je/163189.php?id=rthk32
 中天综合  http://rihou.cc:555/tv/中天综合
 中天娱乐  http://rihou.cc:555/tv/中天娱乐
 寰宇新闻,http://rihou.cc:555/tv/寰宇新闻
-寰宇台湾,http://rihou.cc:555/tv/寰宇台湾
+寰宇台湾 http://rihou.cc:555/tv/寰宇台湾
 东森新闻,http://rihou.cc:555/tv/东森新闻
 TVBS,http://rihou.cc:555/tv/TVBS1
-镜新闻,http://rihou.cc:555/tv/镜新闻
+镜新闻 http://rihou.cc:555/tv/镜新闻
 民视新闻,http://rihou.cc:555/tv/民视新闻
-华视新闻 http://rihou.cc:555/tv/华视新闻
-中视新闻#http://rihou.cc:555/tv/中视新闻 
-台视新闻,http://rihou.cc:555/tv/台视新闻 
+华视新闻,http://rihou.cc:555/tv/华视新闻
+中视新闻,http://rihou.cc:555/tv/中视新闻 
 年代新闻#http://rihou.cc:555/tv/年代新闻
-台湾生活,http://rihou.cc:555/tv/台湾生活
-TITV,https://hc9lby9bzw8zcar.wcetv.com/hls/titv.m3u8
+三立新闻,http://rihou.cc:555/tv/三立新闻
+LIVE三立,http://rihou.cc:555/tv/LIVE三立
+台视新闻,http://rihou.cc:555/tv/台视新闻
 民视新闻,http://211.72.174.95:8117/0.ts$原生解码最佳
 中视,http://211.72.174.95:8113/0.ts$原生解码最佳
 华视,http://211.72.174.95:8114/0.ts$原生解码最佳
