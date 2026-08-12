@@ -17,9 +17,9 @@
 ❤️CCTV4K,http://192.151.150.154/live/cctv4k.m3u8#http://38.75.136.137:98/gslb/dsdqpub/cctv4k.m3u8?auth=testpub
 ❤️CCTV8K,http://192.151.150.154/live/cctv8k.m3u8
 ❤️CCTV16-4K,http://121.57.88.206:898/hls/16/index.m3u8
-❤️湖南卫视4K,http://rihou.cc:555/tv/湖南卫视4K
+❤️湖南卫视4K,http://hlsal-ldvt.qing.mgtv.com/nn_live/nn_x64/dWlwPTEyNy4wLjAuMSZ1aWQ9cWluZy1jbXMmbm5fdGltZXpvbmU9OCZjZG5leF9pZD1hbF9obHNfbGR2dCZ1dWlkPTliODY4NmU5ZTM2YzYwMmMmZT02OTE0NjA0JnY9MSZpZD1ITldTWkdTVCZzPTcwN2RiYTc2YzJjNmJmMTQ4MmUyZGYzOWU2NWM3YWFi/HNWSZGST.m3u8
 ❤️江苏卫视4K,http://rihou.cc:555/tv/江苏卫视4K
-❤️浙江卫视4K,http://rihou.cc:555/tv/浙江卫视4K
+❤️浙江卫视4K,http://ali-xwl.cztv.com/live/channel4k2160p.m3u8
 ❤️东方卫视4K,http://rihou.cc:555/tv/东方卫视4K
 ❤️深圳卫视4K,http://rihou.cc:555/tv/szws
 ❤️北京卫视4K,http://rihou.cc:555/tv/北京卫视4K
@@ -47,9 +47,9 @@ CHC家庭影院,https://my5353.com/chc2
 电影轮播,http://rihou.cc:555/tv/电影轮播
 至臻4K,http://221.181.100.64/gslbserv.itv.cmvideo.cn/1.m3u8?channel-id=FifastbLive&Contentid=3000000010000015686&livemode=1&stbId=m
 经典鬼片3000部 https://yylunbo.ottiptv.cc/yy/29460894
- 🎵点歌台,http://cfss.cc/cdn/du/85894.flv
- 🎵周杰伦MV,http://cfss.cc/cdn/du/122402.flv
- 🎵TDI广播,https://peer2.tdiradio.com/static/streaming-playlists/hls/8f5d84ce-e8ac-4109-9975-9665f5605557/master.m3u8
+🎵点歌台,http://cfss.cc/cdn/du/85894.flv
+🎵周杰伦MV,http://cfss.cc/cdn/du/122402.flv
+🎵TDI广播,https://peer2.tdiradio.com/static/streaming-playlists/hls/8f5d84ce-e8ac-4109-9975-9665f5605557/master.m3u8
 🎵音乐快斗,http://cfss.cc/cdn/du/8324627.flv
 🎵音乐Wu哥,http://cfss.cc/cdn/du/8667755.flv
 🎵音乐电视,https://secured.albportal.net:2083/AlbKanaleMusicTv/index.m3u8
@@ -1220,12 +1220,12 @@ RTHK32,https://cdn.qd.je/163189.php?id=rthk32
 中天亚洲  http://rihou.cc:555/tv/中天亚洲
 中天综合  http://rihou.cc:555/tv/中天综合
 中天娱乐  http://rihou.cc:555/tv/中天娱乐
-寰宇新闻,http://rihou.cc:555/tv/寰宇新闻
+寰宇新闻,https://ktpremium.world/live/LT1976F/A9177/857803.ts
 寰宇台湾 http://rihou.cc:555/tv/寰宇台湾
-东森新闻,http://rihou.cc:555/tv/东森新闻
+东森新闻,https://d2jc41c1shgcol.cloudfront.net/live/EBCNews/playlist.m3u8
 TVBS,http://rihou.cc:555/tv/TVBS1
 镜新闻 http://rihou.cc:555/tv/镜新闻
-民视新闻,http://rihou.cc:555/tv/民视新闻
+民视新闻,https://d2jc41c1shgcol.cloudfront.net/live/ftvnewsqt/playlist.m3u8
 华视新闻,http://rihou.cc:555/tv/华视新闻
 中视新闻,http://rihou.cc:555/tv/中视新闻 
 年代新闻#http://rihou.cc:555/tv/年代新闻
@@ -1257,7 +1257,7 @@ Concerto,https://php.946985.filegear-sg.me/mytv265.php?id=CONC
 TRACEURBAN,https://php.946985.filegear-sg.me/mytv265.php?id=TRUR
 NewsWorld,https://php.946985.filegear-sg.me/mytv265.php?id=NSWD
 Taiwan+,https://fastly.live.brightcove.com/6385235869112/ap-northeast-1/6282251407001/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0IjoiaWU4OWZvLmVncmVzcy5pdjNqZDgiLCJhY2NvdW50X2lkIjoiNjI4MjI1MTQwNzAwMSIsImVobiI6ImZhc3RseS5saXZlLmJyaWdodGNvdmUuY29tIiwiaXNzIjoiYmxpdmUtcGxheWJhY2stc291cmNlLWFwaSIsInN1YiI6InBhdGhtYXB0b2tlbiIsImF1ZCI6WyI2MjgyMjUxNDA3MDAxIl0sImp0aSI6IjYzODUyMzU4NjkxMTIifQ.4c-V1Ks3nBx9nRljtn5-jCNP_nLuWBbk-pw9BFWZfMQ/playlist-hls.m3u8
-新唐人,http://rihou.cc:555/tv/NTD
+NTD,https://ntd02.akamaized.net/HD-NY/tracks-v3a1/mono.m3u8
 Love Nature 4K,http://rihou.cc:555/tv/LoveNature 
 Wild TV,https://dfhsahpa45kk2.cloudfront.net/scheduler/scheduleMaster/476.m3u8
 动物星球 
