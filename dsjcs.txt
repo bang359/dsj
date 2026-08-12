@@ -1215,7 +1215,7 @@ RTHK32,https://cdn.qd.je/163189.php?id=rthk32
 重温经典,https://cdn.qd.je/163189.php?id=cwjd 
  
 🇹🇼台湾,#genre#
-温馨提醒:设置超时30秒最佳,http://rihou.cc:555/tv/ds
+温馨提醒:设置超时30秒最佳,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 中天新闻,https://my5353.com/ztxw
 中天亚洲  http://rihou.cc:555/tv/中天亚洲
 中天综合  http://rihou.cc:555/tv/中天综合
@@ -1223,15 +1223,15 @@ RTHK32,https://cdn.qd.je/163189.php?id=rthk32
 寰宇新闻,https://ktpremium.world/live/LT1976F/A9177/857803.ts
 寰宇台湾 http://rihou.cc:555/tv/寰宇台湾
 东森新闻,https://d2jc41c1shgcol.cloudfront.net/live/EBCNews/playlist.m3u8
-TVBS,http://rihou.cc:555/tv/TVBS1
-镜新闻 http://rihou.cc:555/tv/镜新闻
+TVBS新闻,https://d2jc41c1shgcol.cloudfront.net/live/tvbsnewsqt/playlist.m3u8
+镜新闻  
 民视新闻,https://d2jc41c1shgcol.cloudfront.net/live/ftvnewsqt/playlist.m3u8
-华视新闻,http://rihou.cc:555/tv/华视新闻
-中视新闻,http://rihou.cc:555/tv/中视新闻 
-年代新闻#http://rihou.cc:555/tv/年代新闻
-三立新闻,http://rihou.cc:555/tv/三立新闻
-LIVE三立,http://rihou.cc:555/tv/LIVE三立
-台视新闻,http://rihou.cc:555/tv/台视新闻
+华视新闻,https://d2jc41c1shgcol.cloudfront.net/live/ctsnewsqt/playlist.m3u8
+中视新闻,https://d2jc41c1shgcol.cloudfront.net/live/ctvnewsqt/playlist.m3u8 
+年代新闻 
+三立新闻,https://d2jc41c1shgcol.cloudfront.net/live/iNEWS/playlist.m3u8
+LIVE三立,https://d2jc41c1shgcol.cloudfront.net/live/setnewsrtmp/playlist.m3u8
+台视新闻,https://ktpremium.world/live/LT1976F/A9177/515200.ts
 民视新闻,http://211.72.174.95:8117/0.ts$原生解码最佳
 中视,http://211.72.174.95:8113/0.ts$原生解码最佳
 华视,http://211.72.174.95:8114/0.ts$原生解码最佳
