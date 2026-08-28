@@ -1,7 +1,7 @@
 电视家重生版本  个人空余时间长期维护
 电视直播软件，安装即可使用
 【电视家重生版2026.5.20】 
-下载地址 http://rihou.cc:555/tv/dsjcs520
+下载地址 http://dsjcs.de5.net/
 安装U盘安装
 若电视安装闪退失败可尝试 这个版本 海信电视版本 https://pan.29o.cn/down.php/85874f8afcd9fb750450bc7b12c69d9e.apk
 网页电视：https://dsjcs.cc.cd/
@@ -21,3 +21,5 @@
 </tr>
 </tbody>
 </table>
+软件官网
+http://dsjcs.de5.net/
