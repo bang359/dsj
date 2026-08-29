@@ -41,8 +41,7 @@
 CHC动作电影,http://120.238.94.82:9901/tsfile/live/1052_1.m3u8
 CHC影迷电影,http://119.233.255.62:1234/952383261
 CHC家庭影院,http://63.141.230.178:82/gslb/zbdq5.m3u8?id=chcjt
-短剧轮播,http://rihou.cc:555/tv/短剧
-电影轮播,http://rihou.cc:555/tv/电影轮播
+星爷轮播,http://222.186.39.38:8000/028749/index.m3u8
 至臻4K,http://221.181.100.64/gslbserv.itv.cmvideo.cn/1.m3u8?channel-id=FifastbLive&Contentid=3000000010000015686&livemode=1&stbId=m
 经典鬼片3000部 https://yylunbo.ottiptv.cc/yy/29460894
 🎵点歌台,http://cfss.cc/cdn/du/85894.flv
@@ -81,7 +80,7 @@ CCTV13-新闻,rtsp://111.48.34.138:1554/170000004112/991800010000000500000000000
 健身,https://i.uik.cc/view.php/e88fd95f75bd9c600fd335b518c82d02.mp4
 健身,http://cccimg.com/view.php/25823c6bc7edb9eae25b914e89851025.mp4
 校园音乐,https://vd2.bdstatic.com/mda-rhg66pjgq86q0143/360p/h264/1755405757807137576/mda-rhg66pjgq86q0143.mp4?auth_key=1764426688-0-0-80960852adf7ddef833dd9124eae3841&bcevod_channel=searchbox_feed&cr=0&cd=0&pd=1&pt=4&logid=1888834174&vid=7005594265619699806
-频道测试,http://rihou.cc:555/tv/频道测试
+
 🖥抖音直播,#genre#
 CCTV2-财经,https://iptv.catvod.com/douyin/nuanxinnengl
 CCTV6-电影,http://cfss.cc/cdn/dy/cctv6media..flv
