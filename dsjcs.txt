@@ -853,19 +853,18 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 合肥生活,http://112.27.235.94:8000/hls/19/index.m3u8$安徽/合肥/移动
 合肥科创,http://112.27.235.94:8000/hls/20/index.m3u8$安徽/合肥/移动
 
-💚江西卫视,http://rihou.cc:555/tv/江西卫视
+💚江西卫视,,http://115.150.63.77:85/tsfile/live/0138_1.m3u8?key=txiptv&playlive=1&authid=0
 江西新闻,http://192.151.150.154/live/jxtv7.m3u8
 江西都市,http://192.151.150.154/live/jxtv2.m3u8
 江西经济生活,http://192.151.150.154/live/jxtv3.m3u8
 江西公共农业,http://192.151.150.154/live/jxtv5.m3u8
-江西少儿 
+江西少儿,http://115.150.63.77:85/tsfile/live/1062_1.m3u8?key=txiptv&playlive=1&authid=0 
 移动电视 
 陶瓷频道,http://192.151.150.154/live/jxtv10.m3u8
 江西教育 
-赣州新闻,https://pili-live-hls-sjxgz2024.sobeylive.com/jxgz2024/396_q_live172526329228525.m3u8$官网线路
-赣州经济生活,https://pili-live-hls-sjxgz2024.sobeylive.com/jxgz2024/396_q_live172526334096251.m3u8$官网线路
-赣州教育
-景德镇新闻,http://play-sh.quklive.com/live/1724916607073321.m3u8
+赣州新闻,http://115.150.63.77:9902/tsfile/live/0001_50.m3u8?key=txiptv&playlive=1&authid=0
+赣州生活,http://115.150.63.77:9902/tsfile/live/0001_51.m3u8?key=txiptv&playlive=1&authid=0
+赣州教育,http://115.150.63.77:9902/tsfile/live/0001_52.m3u8?key=txiptv&playlive=1&authid=0
 瑞金综合,https://play-a2.quklive.com/live/1760408109205119.m3u8
 
 💚东南卫视,http://183.250.156.180:9999/newlive/live/hls/20/live.m3u8
@@ -1165,7 +1164,11 @@ CINEMAX
 凤凰中文,http://120.198.95.220:9901/tsfile/live/1037_1.m3u8?key=txiptv&playlive=1&down=1$广东移动
 凤凰中文,http://120.238.84.45:9901/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0$广东移动
 凤凰中文,http://zmgd.zyrnet.com:8888/hls/110/index.m3u8$郑州酒店
-凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店 
+凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店
+凤凰中文,http://221.7.175.154:85/tsfile/live/1020_1.m3u8?key=txiptv&playlive=1&authid=0
+凤凰资讯,http://221.7.175.154:85/tsfile/live/1021_1.m3u8?key=txiptv&playlive=1&authid=0
+凤凰影视,http://221.7.175.154:85/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0
+ 
 TVB DRAMA,https://amg01868-amg01868c5-tvbanywhere-us-4493.playouts.now.amagi.tv/playlist/amg01868-tvbusa-tvbdrama-tvbanywhereus/playlist.m3u8
 翡翠台4K,https://cdn.qd.je/163189.php?id=fct4k 
 娱乐新闻,https://cdn.qd.je/163189.php?id=ylxw 
