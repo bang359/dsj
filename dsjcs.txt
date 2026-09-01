@@ -7,10 +7,10 @@
 ❤️永久维护,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ❤️觉得好用,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 ❤️请打赏观看,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
-九屏直播,http://183.184.144.57:8002/rtp/226.0.2.197:9488$山西太原联通
+九屏直播,http://home.yulei.online:9999/rtp/226.0.2.197:9488$山西太原联通
 九屏直播,http://110.252.211.115:4022/rtp/239.253.92.203:6150$河北石家庄联通
 中国天气,http://221.7.49.226:50085/tsfile/live/0018_8.m3u8?key=txiptv&playlive=1&authid=0$酒店线路
-中国天气,http://183.184.144.57:8002/rtp/226.0.2.103:8736$山西联通
+中国天气,http://home.yulei.online:9999/rtp/226.0.2.103:8736$山西联通
 每日经济,http://swiftplay.hxkjmedia.com/tv/spbW.m3u8
 澎湃景区,https://play-a2.quklive.com/live/1765245429980053.m3u8
 ❤️CCTV4K,http://107.150.60.122/live/cctv4k.m3u8#http://38.75.136.137:98/gslb/dsdqpub/cctv4k.m3u8?auth=testpub
@@ -39,7 +39,7 @@
 经典电影,http://222.214.208.34:59901/tsfile/live/1020_1.m3u8?key=txiptv&playlive=1&authid=0
 华语影院,http://222.214.208.34:59901/tsfile/live/1021_1.m3u8?key=txiptv&playlive=1&authid=0
 CHC动作电影,http://120.238.94.82:9901/tsfile/live/1052_1.m3u8
-CHC影迷电影,http://119.233.255.62:1234/952383261
+CHC影迷电影,http://119.233.255.62:1234/952383261#http://112.27.5.218:9901/tsfile/live/faacts/1038_1.m3u8
 CHC家庭影院,http://63.141.230.178:82/gslb/zbdq5.m3u8?id=chcjt
 星爷轮播,http://222.186.39.38:8000/028749/index.m3u8
 至臻4K,http://221.181.100.64/gslbserv.itv.cmvideo.cn/1.m3u8?channel-id=FifastbLive&Contentid=3000000010000015686&livemode=1&stbId=m
@@ -658,10 +658,9 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 长春综合,http://123.207.224.130:123/jilin/jilin.php?id=cczh
 吉林教育 
 
-💚辽宁卫视,http://rihou.cc:555/tv/辽宁卫视
-辽宁都市,http://63.141.230.178:82/gslb/zbdq5.m3u8?id=lnds 
+💚 辽宁都市,http://63.141.230.178:82/gslb/zbdq5.m3u8?id=lnds 
 辽宁影视,http://63.141.230.178:82/gslb/zbdq5.m3u8?id=lnys
-辽宁体育,http://60.168.108.94:1234/962067526#http://63.141.230.178:82/gslb/zbdq5.m3u8?id=lnty
+辽宁体育,http://120.76.248.139/live/bfgd/4200000611.m3u8#http://63.141.230.178:82/gslb/zbdq5.m3u8?id=lnty
 辽宁生活,http://63.141.230.178:82/gslb/zbdq5.m3u8?id=lnsh 
 辽宁教育青少 
 辽宁北方,http://63.141.230.178:82/gslb/zbdq5.m3u8?id=lnbf 
@@ -669,18 +668,18 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 辽宁经济 
 辽宁移动电视 
 
-💚河南新闻,http://1.94.31.214/php/hntv.php?id=hnxw
-河南都市,http://123.207.224.130:123/henan/henan.php?id=hnds 
-河南民生,http://123.207.224.130:123/henan/henan.php?id=hnms 
-河南梨园,http://1.94.31.214/php/hntv.php?id=hnly
-河南电视剧,http://1.192.152.27:9901/tsfile/live/1030_1.m3u8?key=txiptv&playlive=1&authid=0 
-法治频道,http://123.149.41.12:9901/tsfile/live/1002_1.m3u8?key=txiptv&playlive=1&authid=0
-河南公共,http://1.94.31.214/php/hntv.php?id=hngg
-河南乡村,http://1.192.152.27:9901/tsfile/live/1034_1.m3u8?key=txiptv&playlive=1&authid=0
-文物宝库,http://1.94.31.214/php/hntv.php?id=wwbk
-武术世界,http://1.94.31.214/php/hntv.php?id=wspd
-河南曲艺,http://1.94.31.214/php/hntv.php?id=jczy
-象视界,http://1.94.31.214/php/hntv.php?id=xsj
+💚河南新闻, 
+河南都市, 
+河南民生, 
+河南梨园, 
+河南电视剧, 
+法治频道,  
+河南公共, 
+河南乡村, 
+文物宝库, 
+武术世界, 
+河南曲艺, 
+象视界, 
 文体旅游,http://39.165.39.49:85/tsfile/live/1094_1.m3u8?key=txiptv&playlive=0&authid=0
 国学频道, 
 
@@ -690,7 +689,7 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 河北都市,http://tv.pull.hebtv.com/jishi/dushipindao.m3u8?t=1893427200&k=49867ab5d80a7564abaf8ee18868992f       
 河北影视剧,http://tv.pull.hebtv.com/jishi/yingshijupindao.m3u8?t=1893427200&k=2bbbb53c494c02c044ed8805c541df4e          
 河北少儿科教,http://tv.pull.hebtv.com/jishi/shaoerkejiao.m3u8?t=1893427200&k=d4a455b288ebbc0f53903f4750372b0f           
-河北文旅体育,http://106.115.24.89:19901/tsfile/live/1018_1.m3u8?key=txiptv&playlive=1&authid=0       
+河北文旅体育        
 河北三佳购物,http://tv.pull.hebtv.com/jishi/sanjiagouwu.m3u8?t=1893427200&k=6bd4aeba4f185e4918a1408e970f4064
 💚河北卫视,https://event.pull.hebtv.com/jishi/weishi_tingyun.m3u8
 河北4K频道,https://event.pull.hebtv.com/live/live101.m3u8
@@ -704,40 +703,36 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 山东少儿,http://58.56.162.102:4466/newlive/live/hls/55/live.m3u8
 山东教育卫视,http://test1.live.sdetv.com.cn/live/dianshizhibo/playlist.m3u8
 
-💚山西卫视,http://rihou.cc:555/tv/山西卫视
-山西黄河,http://113.26.251.182:8009/hls/24/index.m3u8
+💚山西黄河,http://113.26.251.182:8009/hls/24/index.m3u8
 山西经济与科技,http://113.26.251.182:8009/hls/20/index.m3u8
 山西影视,http://113.26.251.182:8009/hls/21/index.m3u8
 山西社会与法治,http://113.26.251.182:8009/hls/22/index.m3u8
 山西文体生活,http://113.26.251.182:8009/hls/23/index.m3u8
 
-💚陕西卫视,http://222.90.21.30:9901/hls/46/index.m3u8#http://112.46.105.20:8009/hls/17/index.m3u8$陕西移动
-新闻资讯,http://222.90.21.30:9901/hls/72/index.m3u8#http://gxlive.snrtv.com/sx1-SD.m3u8
-都市青春,http://222.90.21.30:9901/hls/70/index.m3u8#http://gxlive.snrtv.com/sx2-SD.m3u8
-银龄频道,http://222.90.21.30:9901/hls/49/index.m3u8#http://gxlive.snrtv.com/sx3-SD.m3u8
-秦腔频道,http://222.90.21.30:9901/hls/51/index.m3u8#http://gxlive.snrtv.com/sx5-SD.m3u8
-体育休闲,http://222.90.21.30:9901/hls/74/index.m3u8#http://gxlive.snrtv.com/sx7-SD.m3u8
-西部电影,http://222.90.21.30:9901/hls/75/index.m3u8#http://gxlive.snrtv.com/sx8-SD.m3u8
+💚陕西卫视,http://112.46.105.20:8009/hls/17/index.m3u8$陕西移动
+新闻资讯,http://gxlive.snrtv.com/sx1-SD.m3u8
+都市青春,http://gxlive.snrtv.com/sx2-SD.m3u8
+银龄频道,http://gxlive.snrtv.com/sx3-SD.m3u8
+秦腔频道,http://gxlive.snrtv.com/sx5-SD.m3u8
+体育休闲,http://gxlive.snrtv.com/sx7-SD.m3u8
+西部电影,hhttp://gxlive.snrtv.com/sx8-SD.m3u8
 
 新闻资讯,http://112.46.105.20:8009/hls/18/index.m3u8$陕西移动
 都市青春,http://112.46.105.20:8009/hls/19/index.m3u8$陕西移动
 银龄频道,http://112.46.105.20:8009/hls/20/index.m3u8$陕西移动
 秦腔频道,http://112.46.105.20:8009/hls/22/index.m3u8$陕西移动
  
-农林卫视,http://222.90.21.30:9901/hls/66/index.m3u8#http://gxlive.snrtv.com/nlws-SD.m3u8
+农林卫视,http://gxlive.snrtv.com/nlws-SD.m3u8
 西安新闻,http://xatv-yt.xiancity.cn/live/1/index.m3u8
 西安都市,http://xatv-yt.xiancity.cn/live/2/index.m3u8
 西安戏剧影视,http://xatv-yt.xiancity.cn/live/4/index.m3u8
 西安丝路,http://xatv-yt.xiancity.cn/live/5/index.m3u8
 西安移动电视,http://xatv-yt.xiancity.cn/live/7/index.m3u8
 
-💚陕西卫视,http://rihou.cc:555/tv/陕西卫视
 新闻资讯,http://219.145.93.74:10000/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0$陕西电信酒店
 都市青春,http://219.145.93.74:10000/tsfile/live/1001_1.m3u8?key=txiptv&playlive=1&authid=0$陕西电信酒店
 西部电影,http://219.144.157.62:9901/tsfile/live/1029_1.m3u8?key=txiptv&playlive=1&authid=0$陕西电信酒店
 
-
-💚甘肃卫视,http://rihou.cc:555/tv/甘肃卫视
 💚甘肃卫视,http://61.178.227.57:9901/tsfile/live/0110_1.m3u8?key=txiptv&playlive=1&authid=0
 甘肃都市,http://61.178.227.57:9901/tsfile/live/1005_1.m3u8?key=txiptv&playlive=1&authid=0
 甘肃少儿,http://61.178.227.57:9901/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0
@@ -749,12 +744,12 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 甘肃移动电视 
 证券服务,https://hlss.gstv.com.cn/se0rch/20sv46.m3u8
 
-💚青海卫视,http://rihou.cc:555/tv/青海卫视
+💚青海卫视, 
 西宁新闻,https://liveout.xntv.tv/a65jur/96iln2.m3u8
 
-💚湖北卫视,http://rihou.cc:555/tv/湖北卫视
-湖北经视,http://221.232.198.115:7777/tsfile/live/0132_3.m3u8?key=txiptv&playlive=1&authid=0
-湖北综合,http://221.232.198.115:7777/tsfile/live/0132_4.m3u8?key=txiptv&playlive=1&authid=0
+💚湖北卫视,
+湖北经视, 
+湖北综合, 
 湖北教育
 湖北影视 
 湖北垄上 
@@ -766,7 +761,6 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 湖北综合,rtsp://111.48.34.138:1554/170000004112/10000100000000050000000002444593$武汉移动
 湖北垄上,rtsp://111.48.34.138:1554/170000004112/10000100000000050000000002444600$武汉移动
 
-💚湖北卫视,http://120.202.94.181:9446/tsfile/live/0132_1.m3u8?key=txiptv&playlive=0&authid=0$十堰移动
 武汉新闻综合,http://livestream.hannews.com.cn/hannews/1511-hannews.m3u8?txSecret=894cfb3bf400ee80f6b4c1a1ed0bd3ab&txTime=760D3C40
 武汉教育
 武汉文体
@@ -793,10 +787,10 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 金鹰卡通,http://218.77.84.102:85/tsfile/live/153/2009_1.m3u8?key=txiptv$湖南/永州/电信
 快乐购,http://218.77.84.102:85/tsfile/live/155/2010_1.m3u8?key=txiptv$湖南/永州/电信
 湖南教育,http://218.77.84.102:85/tsfile/live/156/2011_1.m3u8?key=txiptv$湖南/永州/电信
-湖南国际,http://192.151.150.154/live/hngj.m3u8
+湖南国际, 
 郴州综合,http://demo1.ruisilink.top:9000/rtp/239.76.253.75:9000$电信
 
-💚江苏卫视,http://ah2.sohu.blog:8000/hls/32/index.m3u8
+💚江苏卫视,http://59.172.112.202:8000/hls/20/index.m3u8
 江苏新闻,http://106.52.119.159:1234/626064693
 江苏体育,http://106.52.119.159:1234/626064707
 江苏城市,http://106.52.119.159:1234/626064714
@@ -843,16 +837,14 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 浙江之江纪录,https://ali-xwl.cztv.com/live/channel121080Pnew.m3u8
 浙江之江纪录,https://ali-xwl.cztv.com/live/channel12720Pnew.m3u8 
 
-💚安徽卫视,http://rihou.cc:555/tv/安徽卫视
-安徽经济,http://112.27.235.94:8000/hls/22/index.m3u8$安徽/合肥/移动
-安徽公共,http://112.27.235.94:8000/hls/23/index.m3u8$安徽/合肥/移动
-安徽影视,http://112.27.235.94:8000/hls/24/index.m3u8$安徽/合肥/移动
-安徽综艺,http://112.27.235.94:8000/hls/25/index.m3u8$安徽/合肥/移动
-合肥新闻,http://112.27.235.94:8000/hls/18/index.m3u8$安徽/合肥/移动
-合肥生活,http://112.27.235.94:8000/hls/19/index.m3u8$安徽/合肥/移动
-合肥科创,http://112.27.235.94:8000/hls/20/index.m3u8$安徽/合肥/移动
+💚安徽卫视,http://112.27.5.218:9901/tsfile/live/0130_2.m3u8
+安徽经济,http://112.27.5.218:9901/tsfile/live/1031_1.m3u8
+安徽公共,http://112.27.5.218:9901/tsfile/live/1008_1.m3u8 
+安徽影视,http://112.27.5.218:9901/tsfile/live/1009_1.m3u8 
+安徽综艺,http://112.27.5.218:9901/tsfile/live/1006_1.m3u8
+安徽科教,http://112.27.5.218:9901/tsfile/live/1032_1.m3u8
 
-💚江西卫视,,http://115.150.63.77:85/tsfile/live/0138_1.m3u8?key=txiptv&playlive=1&authid=0
+💚江西卫视,http://115.150.63.77:85/tsfile/live/0138_1.m3u8?key=txiptv&playlive=1&authid=0
 江西新闻,http://192.151.150.154/live/jxtv7.m3u8
 江西都市,http://192.151.150.154/live/jxtv2.m3u8
 江西经济生活,http://192.151.150.154/live/jxtv3.m3u8
@@ -867,7 +859,7 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 瑞金综合,https://play-a2.quklive.com/live/1760408109205119.m3u8
 
 💚东南卫视,http://183.250.156.180:9999/newlive/live/hls/20/live.m3u8
-海峡卫视,http://rihou.cc:555/tv/海峡卫视
+海峡卫视
 福建新闻,http://183.250.156.180:9999/newlive/live/hls/22/live.m3u8
 福建文旅,http://183.250.156.180:9999/newlive/live/hls/24/live.m3u8
 福建综合 
@@ -877,7 +869,7 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 福建文旅,http://110.80.17.38:9999/tsfile/live/0138_1.m3u8?key=txiptv&playlive=1&authid=0
 福州新闻,https://live.zohi.tv/video/s10001-fztv-1/index.m3u8
  
-💚云南卫视,http://k.061899.xyz/k.php?id=ynws
+💚云南卫视 
 云南都市,https://hwapi.yntv.net/62hdvf/rjwt14.m3u8$官网线路 
 云南娱乐,https://hwapi.yntv.net/62hdvf/q9vs1b.m3u8$官网线路
 云南康旅,https://hwapi.yntv.net/62hdvf/227q43.m3u8$官网线路
@@ -900,7 +892,7 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 四川经济,http://222.214.208.34:59901/tsfile/live/1012_1.m3u8
 四川文旅,http://222.214.208.34:59901/tsfile/live/1015_1.m3u8
 四川妇女,http://222.214.208.34:59901/tsfile/live/1006_1.m3u8
-四川乡村,http://scxclivepull.sctvcloud.com/live/c0b8c1c3018e1000e51198d100000000/playlist.m3u8?wsSecret=b627c9d9b2cdf4afed08253b6125fe1f&wsTime=2019657600
+四川乡村,
 峨眉电影,http://222.214.208.34:59901/tsfile/live/1004_1.m3u8
 康巴卫视
 
@@ -921,7 +913,7 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 广东影视,http://121.9.14.195:50085/tsfile/live/1018_1.m3u8?key=txiptv&playlive=1&authid=0
 广东4K超高清,http://38.75.136.137:98/gslb/dsdqpub/gdtvs3.m3u8?auth=testpub
 广东少儿,http://38.75.136.137:98/gslb/dsdqpub/gdtvs5.m3u8?auth=testpub
-大湾区卫视,http://rihou.cc:555/tv/大湾区卫视1
+大湾区卫视 
 嘉佳卡通
 南方购物
 岭南戏曲,http://183.239.108.37:1698/hls/75/index.m3u8
@@ -942,9 +934,9 @@ GRTN生活频道
 
 💚深圳慢直播,https://livepull-tcyzb.sztv.com.cn/live/YSZ_SHZM.m3u8
 深圳直播,https://livepull-tcyzb.sztv.com.cn/live/YSZ_regularlive.m3u8
-深圳卫视,http://111.221.137.234:44330/tsfile/live/1013_1.m3u8?key=txiptv&playlive=0&authid=0
-深圳都市,http://111.221.137.234:44330/tsfile/live/1014_1.m3u8?key=txiptv&playlive=0&authid=0
-深圳电视剧,http://111.221.137.234:44330/tsfile/live/1015_1.m3u8?key=txiptv&playlive=0&authid=0
+深圳卫视
+深圳都市
+深圳电视剧
 深圳财经生活 
 深圳卫视,http://116.77.33.98:44330/tsfile/live/0018_1.m3u8?key=txiptv&playlive=0&authid=0
 深圳都市,http://116.77.33.98:44330/tsfile/live/0019_1.m3u8?key=txiptv&playlive=0&authid=0
@@ -984,8 +976,7 @@ GRTN生活频道
 巴彦淖尔,http://play1-qk.nmtv.cn/live/1735546423467029.m3u8
 阿拉善,http://play1-qk.nmtv.cn/live/1735547046115053.m3u8
 
-💚广西卫视,http://rihou.cc:555/tv/广西卫视
-
+💚广西卫视
 广西综艺,http://38.75.136.137:98/gslb/dsdqpub/gxzy.m3u8?auth=testpub
 广西影视,http://38.75.136.137:98/gslb/dsdqpub/gxys.m3u8?auth=testpub
 广西都市,http://38.75.136.137:98/gslb/dsdqpub/gxds.m3u8?auth=testpub
@@ -1011,7 +1002,7 @@ GRTN生活频道
 日喀则汉语,https://consolestream.rkzrm.cn:20323/4.m3u8
 日喀则藏语,https://consolestream.rkzrm.cn:20323/8.m3u8
 
-💚宁夏卫视,http://k.061899.xyz/k.php?id=nxws
+💚宁夏卫视
 
 💚新疆卫视,http://k.061899.xyz/k.php?id=xjws
 新疆2套维语 
@@ -1037,14 +1028,14 @@ GRTN生活频道
 新星综合,http://test5.btzx.com.cn/live/13TV.stream/playlist.m3u8
 玛纳斯综合,http://218.84.127.245:1026/hls/main1/playlist.m3u8?zxinjd
 
-💚BTV北京卫视,http://114.241.108.91:85/tsfile/live/16/1016_1.m3u8?key=txiptv 
-BTV新闻,http://114.241.108.91:85/tsfile/live/24/1024_1.m3u8?key=txiptv 
-BTV体育,http://114.241.108.91:85/tsfile/live/25/1025_1.m3u8?key=txiptv 
-BTV文艺,http://114.241.108.91:85/tsfile/live/17/1017_1.m3u8?key=txiptv 
-BTV科教,http://114.241.108.91:85/tsfile/live/18/1018_1.m3u8?key=txiptv 
-BTV影视,http://114.241.108.91:85/tsfile/live/19/1019_1.m3u8?key=txiptv 
-BTV财经,http://114.241.108.91:85/tsfile/live/20/1020_1.m3u8?key=txiptv 
-BTV生活,http://114.241.108.91:85/tsfile/live/22/1022_1.m3u8?key=txiptv
+💚BTV北京卫视,http://114.245.198.169:85/tsfile/live/16/1016_1.m3u8?key=txiptv 
+BTV新闻,http://114.245.198.169:85/tsfile/live/24/1024_1.m3u8?key=txiptv 
+BTV体育,http://114.245.198.169:85/tsfile/live/25/1025_1.m3u8?key=txiptv 
+BTV文艺,http://114.245.198.169:85/tsfile/live/17/1017_1.m3u8?key=txiptv 
+BTV科教,http://114.245.198.169:85/tsfile/live/18/1018_1.m3u8?key=txiptv 
+BTV影视,http://114.245.198.169:85/tsfile/live/19/1019_1.m3u8?key=txiptv 
+BTV财经,http://114.245.198.169:85/tsfile/live/20/1020_1.m3u8?key=txiptv 
+BTV生活,http://114.245.198.169:85/tsfile/live/22/1022_1.m3u8?key=txiptv
 
 💚天津卫视,http://k.061899.xyz/k.php?id=tjws
 天津新闻,http://38.75.136.137:98/gslb/dsdqpub/tjtv1.m3u8?auth=testpub
@@ -1103,18 +1094,18 @@ BTV生活,http://114.241.108.91:85/tsfile/live/22/1022_1.m3u8?key=txiptv
 重庆高网电影,http://home.scanflove.com:7788/rtp/235.254.198.95:1656$重庆cmc3+
 
 🔥港台电影,#genre#
-东森电影,http://rihou.cc:555/tv/东森电影 
-东森洋片,http://rihou.cc:555/tv/东森洋片
-澳门莲花,http://rihou.cc:555/tv/澳门莲花
-好莱坞电影  http://rihou.cc:555/tv/好莱坞
-美亚电影#http://rihou.cc:555/tv/美亚电影
-NOW爆谷#http://rihou.cc:555/tv/爆谷台
-NOW星影#http://rihou.cc:555/tv/星影台
-天映频道,http://hitv.airinf.eu.org:5052/trams/1941/playlist.m3u8?token=1314 
-天映经典,http://hitv.airinf.eu.org:5052/trams/1587/playlist.m3u8?token=1314 
-影迷数位电影  http://rihou.cc:555/tv/影迷数位电影
+东森电影 
+东森洋片 
+澳门莲花 
+好莱坞电影  
+美亚电影 
+NOW爆谷 
+NOW星影 
+天映频道 
+天映经典 
+影迷数位电影  
 金光布袋戏 
-龙祥时代  http://rihou.cc:555/tv/龙祥时代
+龙祥时代  
 龙华电影
 龙华洋片
 龙华电影 
@@ -1128,17 +1119,17 @@ AXNTaiwan
 CINEMAX 
 1905流金岁月 
 1905环球经典 
+精彩影视,http://112.27.5.218:9901/tsfile/live/faacts/1040_1.m3u8
 凤凰电影,http://122.224.58.42:85/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$浙江/绍兴/电信
-峨眉电影,http://112.19.31.13:85/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0
 峨眉电影,http://118.122.144.115:8888/newlive/live/hls/32/live.m3u8$四川电信酒店
 峨眉电影,http://183.220.20.17:4321/udp/239.11.0.11:5140$四川移动
 湖南电影,http://218.77.84.102:85/tsfile/live/149/2005_1.m3u8?key=txiptv
 河南乡村,http://zmgd.zyrnet.com:8888/hls/28/index.m3u8
-重温经典,http://rihou.cc:555/tv/重温经典
+重温经典,http://112.27.5.218:9901/tsfile/live/1012_1.m3u8
 新视觉HD,http://221.7.49.226:50085/tsfile/live/0016_2.m3u8?key=txiptv&playlive=1&authid=0
 新视觉HD,http://gat.bkpcp.top/ymg.php?id=mlzq
 新视觉HD,http://t.061899.xyz/tl/dq.php?id=mlzq
-华数电影,http://hmfs.f3322.net:3388/hls/40/index.m3u8
+华数电影,http://hmfs.f3322.net:3388/hls/40/index.m3u8 挂 
 中牟生活,http://zmgd.zyrnet.com:8888/hls/20/index.m3u8$郑州/移动酒店
 邵氏电影,http://38.75.136.137:98/gslb/dsdqpub/lbssdy.m3u8?auth=testpub
 邵氏武侠,http://38.75.136.137:98/gslb/dsdqpub/lbsswx.m3u8?auth=testpub
