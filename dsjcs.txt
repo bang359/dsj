@@ -688,14 +688,14 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 河北经济生活,http://tv.pull.hebtv.com/jishi/jingjishenghuo.m3u8?t=1893427200&k=ad907331c90d847d7e7ae51764d8a09a            
 河北三农,http://tv.pull.hebtv.com/jishi/nongminpindao.m3u8?t=1893427200&k=f07ae1d5be12d118d136be90e032bfce        
 河北都市,http://tv.pull.hebtv.com/jishi/dushipindao.m3u8?t=1893427200&k=49867ab5d80a7564abaf8ee18868992f       
-河北影视剧,http://tv.pull.hebtv.com/jishi/yingshijupindao.m3u8?t=1893427200&k=2bbbb53c494c02c044ed8805c541df4e          
+河北文旅体育,http://tv.pull.hebtv.com/jishi/yingshijupindao.m3u8?t=1893427200&k=2bbbb53c494c02c044ed8805c541df4e          
 河北少儿科教,http://tv.pull.hebtv.com/jishi/shaoerkejiao.m3u8?t=1893427200&k=d4a455b288ebbc0f53903f4750372b0f           
-河北文旅体育        
+河北影视剧        
 河北三佳购物,http://tv.pull.hebtv.com/jishi/sanjiagouwu.m3u8?t=1893427200&k=6bd4aeba4f185e4918a1408e970f4064
 💚河北卫视,https://event.pull.hebtv.com/jishi/weishi_tingyun.m3u8
 河北4K频道,https://event.pull.hebtv.com/live/live101.m3u8
 
-💚山东卫视,http://58.56.162.102:4466/newlive/live/hls/47/live.m3u8#http://zh.sqitv.com:888/hls/49/index.m3u8
+💚山东卫视,http://59.172.112.202:8000/hls/27/index.m3u8
 山东齐鲁,http://58.56.162.102:4466/newlive/live/hls/48/live.m3u8
 山东文旅,http://58.56.162.102:4466/newlive/live/hls/51/live.m3u8
 山东综艺,http://58.56.162.102:4466/newlive/live/hls/52/live.m3u8
@@ -772,7 +772,7 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 湖北综合,rtsp://111.48.34.138:1554/170000004112/10000100000000050000000002444593$武汉移动
 湖北垄上,rtsp://111.48.34.138:1554/170000004112/10000100000000050000000002444600$武汉移动
 
-武汉新闻综合,http://livestream.hannews.com.cn/hannews/1511-hannews.m3u8?txSecret=894cfb3bf400ee80f6b4c1a1ed0bd3ab&txTime=760D3C40
+武汉新闻,http://livestream.hannews.com.cn/hannews/1511-hannews.m3u8?txSecret=894cfb3bf400ee80f6b4c1a1ed0bd3ab&txTime=760D3C40
 武汉教育
 武汉文体
 武汉电视剧 
@@ -1133,13 +1133,13 @@ BTV生活,http://114.245.198.169:85/tsfile/live/22/1022_1.m3u8?key=txiptv
 重庆高网电影,http://home.scanflove.com:7788/rtp/235.254.198.95:1656$重庆cmc3+
 
 🔥港台电影,#genre#
-东森电影 
+东森电影,http://iptv.4666888.xyz/iptv2A.php?id=48  
 东森洋片 
 澳门莲花 
 好莱坞电影  
 美亚电影 
 NOW爆谷 
-Now星影,http://iptv.852851.xyz/l/5gC9h6XtL1X3bJoC55t2qVlMPysmpR1MOrEigXzD1If0rc4moQDCzruuZ2JwV18A/index.m3u8 
+Now星影 
 天映频道 
 天映经典 
 影迷数位电影  
