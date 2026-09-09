@@ -32,9 +32,11 @@ dsjcs.de5.net,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dasha
 淘电影,http://36.110.54.118:866/hls/21/index.m3u8
 淘娱乐
 淘剧场,http://36.110.54.118:866/hls/20/index.m3u8
-淘Baby
-淘萌宠
-都市剧场
+淘电影,http://mingjd.cn:7077/rtp/239.3.1.250:8001$北京联通
+淘娱乐,http://mingjd.cn:7077/udp/239.3.1.100:8001$北京联通
+淘剧场,http://mingjd.cn:7077/udp/239.3.1.95:8001$北京联通
+淘Baby,http://mingjd.cn:7077/udp/239.3.1.238:8001$北京联通
+淘萌宠,http://mingjd.cn:7077/udp/239.3.1.102:8001$北京联通
 谍战剧场,http://120.237.39.10:9901/tsfile/live/1041_1.m3u8?key=txiptv&playlive=1&down=1
 重温经典,http://111.8.224.6:9999/tsfile/live/1054_1.m3u8?key=txiptv&playlive=1&authid=0
 都市剧场,http://111.8.224.6:9999/tsfile/live/1038_1.m3u8?key=txiptv&playlive=1&authid=0
