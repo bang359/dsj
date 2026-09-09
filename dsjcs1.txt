@@ -54,6 +54,7 @@ CHC家庭影院,http://63.141.230.178:82/gslb/zbdq5.m3u8?id=chcjt
 🎵音乐快斗,http://cfss.cc/cdn/du/8324627.flv
 🎵音乐Wu哥,http://cfss.cc/cdn/du/8667755.flv
 🎵音乐电视,https://secured.albportal.net:2083/AlbKanaleMusicTv/index.m3u8
+🎵电音pmc,https://pmcrohls.wns.live/hls/stream.m3u8
 环球直播,http://cfss.cc/cdn/du/9036111.flv
 巴拉巴拉樱之花,https://cdn7.ryplay7.com/20241009/3516_c23ab1eb/index.m3u8
 😎建议反馈,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
