@@ -44,7 +44,7 @@ dsjcs.de5.net,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dasha
 华语影院,http://222.214.208.34:59901/tsfile/live/1021_1.m3u8?key=txiptv&playlive=1&authid=0
 CHC动作电影,http://120.238.94.82:9901/tsfile/live/1052_1.m3u8
 CHC影迷电影,http://119.233.255.62:1234/952383261#http://112.27.5.218:9901/tsfile/live/faacts/1038_1.m3u8
-CHC家庭电影,http://120.238.84.45:9901/tsfile/live/1093_1.m3u8?key=txiptv&playlive=1&authid=0
+CHC家庭影院,http://120.238.84.45:9901/tsfile/live/1093_1.m3u8?key=txiptv&playlive=1&authid=0
 CHC家庭影院,http://63.141.230.178:82/gslb/zbdq5.m3u8?id=chcjt
 星爷轮播,http://222.186.39.38:8000/028749/index.m3u8
 至臻4K,http://221.181.100.64/gslbserv.itv.cmvideo.cn/1.m3u8?channel-id=FifastbLive&Contentid=3000000010000015686&livemode=1&stbId=m
