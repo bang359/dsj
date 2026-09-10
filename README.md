@@ -4,7 +4,7 @@
 下载地址 http://dsjcs.de5.net/
 安装U盘安装
 若电视安装闪退失败可尝试 这个版本 海信电视版本
-网页电视：bang359.github.io/dsj/
+电视家重生网页版：http://bang359.github.io/dsj/
 小米电视可以使用小米电视助手进行安装 
 如电视可以启用ADB，也可以通过ADB进行安装
  
