@@ -183,7 +183,7 @@ CCTV卫生健康,http://198.204.228.26/live/wsjk.m3u8
 大湾区卫视,http://119.233.255.62:1234/608917627
 延边卫视,https://srs.iyb983.cn/video/CYS/index.m3u8
 三沙卫视,http://119.233.255.62:1234/961023778
-海峡卫视,http://183.250.156.180:9999/newlive/live/hls/27/live.m3u8#http://119.233.255.62:1234/849119120
+海峡卫视,http://183.250.156.180:9999/newlive/live/hls/27/live.m3u8
 农林卫视,http://gxlive.snrtv.com/nlws-SD.m3u8
 厦门卫视,http://198.204.228.26/live/xmws.m3u8
 CETV1,http://120.237.39.10:9901/tsfile/live/1039_1.m3u8?key=txiptv&playlive=1&down=1
