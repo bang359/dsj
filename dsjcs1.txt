@@ -124,8 +124,8 @@ CCTV12,http://gslbserv.itv.cmvideo.cn:80/5325631075193490169/1.m3u8?channel-id=y
 CCTV13,http://59.172.112.202:8000/hls/13/index.m3u8
 CCTV14,http://gslbserv.itv.cmvideo.cn:80/8203666801302077036/1.m3u8?channel-id=ystenlive&Contentid=8203666801302077036&livemode=1&stbId=toShengfen&mode=1
 CCTV15,http://59.172.112.202:8000/hls/15/index.m3u8
-CCTV16,http://121.57.88.206:898/hls/16/index.m3u8
-CCTV16(4K),http://121.57.88.206:898/hls/16/index.m3u8
+CCTV16,http://112.27.5.218:9901/tsfile/live/faacts/1001_1.m3u8?key=txiptv&playlive=1&authid=0
+CCTV16(4K),http://112.27.5.218:9901/tsfile/live/faacts/1001_1.m3u8?key=txiptv&playlive=1&authid=0
 CCTV17,http://121.57.88.206:898/hls/17/index.m3u8
 CCTV4K,http://192.151.150.154/live/cctv4k.m3u8
 CCTV8K,http://107.150.60.122/live/cctv8k.m3u8
@@ -217,6 +217,7 @@ CCTV12社会与法,http://mg.cttv.vip/673168185
 CCTV13新闻,http://mg.cttv.vip/608807423
 CCTV14少儿,http://mg.cttv.vip/624878440
 CCTV15音乐,http://mg.cttv.vip/673168223
+CCTV16,http://112.27.5.218:9901/tsfile/live/faacts/1001_1.m3u8?key=txiptv&playlive=1&authid=0
 CCTV17农业农村,http://mg.cttv.vip/673168256
 CCTV4欧洲,http://mg.cttv.vip/608807419
 CCTV4美洲,http://mg.cttv.vip/608807416
