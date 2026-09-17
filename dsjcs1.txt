@@ -601,21 +601,21 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 辽宁经济,http://120.76.248.139/live/bfgd/4200000076.m3u8
 辽宁移动电视 
 
-💚河南卫视,http://123.160.172.52:85/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0
-河南新闻,http://123.160.172.52:85/tsfile/live/1003_1.m3u8?key=txiptv&playlive=1&authid=0 
-河南都市,http://123.160.172.52:85/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0 
-河南民生,http://123.160.172.52:85/tsfile/live/1001_1.m3u8?key=txiptv&playlive=1&authid=0 
-河南梨园,http://123.160.172.52:85/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0 
-河南电视剧,http://123.12.8.224:85/tsfile/live/1004_1.m3u8?key=txiptv&playlive=1&authid=0 
-法治频道,http://123.160.172.52:85/tsfile/live/1002_1.m3u8?key=txiptv&playlive=1&authid=0  
-河南公共,http://123.160.172.52:85/tsfile/live/1004_1.m3u8?key=txiptv&playlive=1&authid=0 
-河南乡村,http://123.12.8.224:85/tsfile/live/1025_1.m3u8?key=txiptv&playlive=1&authid=0 
-文物宝库,http://123.12.8.224:85/tsfile/live/1034_1.m3u8?key=txiptv&playlive=1&authid=0 
-武术世界,http://123.12.8.224:85/tsfile/live/1065_1.m3u8?key=txiptv&playlive=1&authid=0 
+💚河南卫视,http://42.225.117.174:11199/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0
+河南新闻,http://182.122.73.131:8089/hls/22/index.m3u8
+河南都市,http://42.225.117.174:11199/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0 
+河南民生,http://182.122.73.131:8089/hls/19/index.m3u8
+河南梨园,http://42.225.117.174:11199/tsfile/live/1001_1.m3u8?key=txiptv&playlive=1&authid=0
+河南电视剧,http://182.122.73.131:8089/hls/22/index.m3u8
+法治频道,http://182.122.73.131:8089/hls/20/index.m3u8 
+河南公共,http://182.122.73.131:8089/hls/24/index.m3u8
+河南乡村  
+文物宝库 
+武术世界 
 河南曲艺 
 象视界
-文体旅游,http://39.165.39.49:85/tsfile/live/1094_1.m3u8?key=txiptv&playlive=0&authid=0
-国学频道,http://123.12.8.224:85/tsfile/live/1020_1.m3u8?key=txiptv&playlive=1&authid=0
+文体旅游 
+国学频道 
 
 💚河北卫视,http://tv.pull.hebtv.com/jishi/weishipindao.m3u8?t=1893427200&k=590149d139a9820d4a4e5c89383199b1
 河北经济生活,http://tv.pull.hebtv.com/jishi/jingjishenghuo.m3u8?t=1893427200&k=ad907331c90d847d7e7ae51764d8a09a            
