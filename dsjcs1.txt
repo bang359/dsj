@@ -22,7 +22,7 @@ dsjcs.de5.net,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dasha
 ❤️深圳卫视4K,http://59.172.112.202:8000/hls/24/index.m3u8
 ❤️北京卫视4K,http://59.172.112.202:8000/hls/22/index.m3u8
 ❤️广东卫视4K,http://59.172.112.202:8000/hls/23/index.m3u8
-❤️四川卫视4K,http://111.8.224.6:9999/tsfile/live/1056_1.m3u8?key=txiptv&playlive=1&authid=0
+❤️四川卫视4K,http://101.66.194.68:85/tsfile/live/0123_1.m3u8?key=txiptv&playlive=0&authid=0
 ❤️山东卫视4K,http://59.172.112.202:8000/hls/27/index.m3u8
 ❤️河南卫视4K,http://xn--z6ut02b.xn--qoqw77q.top/iptv.php?id=hnws
 ❤️南国都市4K,https://tencentplay.gztv.com/live/nanguodushi.m3u8?txSecret=550af55c0ea34ce492748481415b6dfa&txTime=1903e7b17de
@@ -38,8 +38,8 @@ dsjcs.de5.net,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dasha
 淘Baby,http://mingjd.cn:7077/udp/239.3.1.238:8001$北京联通
 淘萌宠,http://mingjd.cn:7077/udp/239.3.1.102:8001$北京联通
 谍战剧场,http://120.237.39.10:9901/tsfile/live/1041_1.m3u8?key=txiptv&playlive=1&down=1
-重温经典,http://111.8.224.6:9999/tsfile/live/1054_1.m3u8?key=txiptv&playlive=1&authid=0
-都市剧场,http://111.8.224.6:9999/tsfile/live/1038_1.m3u8?key=txiptv&playlive=1&authid=0
+重温经典,http://110.53.235.13:10085/tsfile/live/1002_1.m3u8?key=txiptv&playlive=1&authid=0
+都市剧场#http://111.8.224.6:9999/tsfile/live/1038_1.m3u8?key=txiptv&playlive=1&authid=0
 经典电影,http://222.214.208.34:59901/tsfile/live/1020_1.m3u8?key=txiptv&playlive=1&authid=0
 华语影院,http://222.214.208.34:59901/tsfile/live/1021_1.m3u8?key=txiptv&playlive=1&authid=0
 CHC动作电影,http://120.238.94.82:9901/tsfile/live/1052_1.m3u8
@@ -118,7 +118,7 @@ CCTV6,http://121.57.88.206:898/hls/6/index.m3u8
 CCTV7,http://121.57.88.206:898/hls/7/index.m3u8
 CCTV8,http://59.172.112.202:8000/hls/8/index.m3u8
 CCTV9,http://121.57.88.206:898/hls/9/index.m3u8
-CCTV10,http://111.8.224.6:9999/tsfile/live/1039_1.m3u8?key=txiptv&playlive=1&authid=0
+CCTV10,http://101.66.194.68:85/tsfile/live/0010_1.m3u8?key=txiptv&playlive=0&authid=0 
 CCTV11,http://59.172.112.202:8000/hls/11/index.m3u8
 CCTV12,http://gslbserv.itv.cmvideo.cn:80/5325631075193490169/1.m3u8?channel-id=ystenlive&Contentid=5325631075193490169&livemode=1&stbId=toShengfen&mode=1
 CCTV13,http://59.172.112.202:8000/hls/13/index.m3u8
@@ -158,7 +158,7 @@ CCTV卫生健康,http://198.204.228.26/live/wsjk.m3u8
 广东卫视,http://59.172.112.202:8000/hls/23/index.m3u8
 广西卫视,http://120.238.84.45:9901/tsfile/live/1067_1.m3u8?key=txiptv&playlive=1&authid=0
 黑龙江卫视,http://120.238.84.45:9901/tsfile/live/1049_1.m3u8?key=txiptv&playlive=1&authid=0
-海南卫视,http://111.8.224.6:9999/tsfile/live/1028_1.m3u8?key=txiptv&playlive=1&authid=0
+海南卫视,http://123.207.224.130:123/hainan/hainan.php?id=hnws 
 海南卫视 http://47.108.20.161:8866/hainan/hainan.php?id=hnws
 重庆卫视,http://120.238.84.45:9901/tsfile/live/1063_1.m3u8?key=txiptv&playlive=1&authid=0
 四川卫视,http://120.238.84.45:9901/tsfile/live/1058_1.m3u8?key=txiptv&playlive=1&authid=0
