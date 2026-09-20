@@ -118,7 +118,7 @@ CCTV6,http://121.57.88.206:898/hls/6/index.m3u8
 CCTV7,http://121.57.88.206:898/hls/7/index.m3u8
 CCTV8,http://59.172.112.202:8000/hls/8/index.m3u8
 CCTV9,http://121.57.88.206:898/hls/9/index.m3u8
-CCTV10,http://101.66.194.68:85/tsfile/live/0010_1.m3u8?key=txiptv&playlive=0&authid=0 
+CCTV10,http://120.198.95.220:9901/tsfile/live/1025_1.m3u8?key=txiptv&playlive=1&down=1 
 CCTV11,http://59.172.112.202:8000/hls/11/index.m3u8
 CCTV12,http://gslbserv.itv.cmvideo.cn:80/5325631075193490169/1.m3u8?channel-id=ystenlive&Contentid=5325631075193490169&livemode=1&stbId=toShengfen&mode=1
 CCTV13,http://59.172.112.202:8000/hls/13/index.m3u8
