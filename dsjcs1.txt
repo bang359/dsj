@@ -90,13 +90,13 @@ CCTV13-新闻,rtsp://111.48.34.138:1554/170000004112/991800010000000500000000000
 CCTV2-财经,https://iptv.catvod.com/douyin/nuanxinnengl
 CCTV6-电影,http://cfss.cc/cdn/dy/cctv6media..flv
 CCTV13-新闻,http://cfss.cc/cdn/dy/cctv_video.flv
+极目新闻,https://iptv.catvod.com/douyin/915896692100
 维度新闻,http://cfss.cc/cdn/dy/975107749.flv
 东西湖发布,http://cfss.cc/cdn/dy/wuhanlkgrmt.flv
 万岁山,http://cfss.cc/cdn/dy/Wansuishan.flv
 老凤祥,http://cfss.cc/cdn/dy/46348755919.flv
 中国黄金,http://cfss.cc/cdn/dy/80375313070.flv
 宝泉,http://cfss.cc/cdn/dy/baoquan666.flv
-极目新闻,http://cfss.cc/cdn/dy/915896692100.flv
 第一财经,http://cfss.cc/cdn/dy/diyicaijing.flv
 九派新闻,http://cfss.cc/cdn/dy/jiupainews.flv
 ta视湖北,http://cfss.cc/cdn/dy/SmarTower.flv
