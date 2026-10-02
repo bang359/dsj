@@ -132,7 +132,7 @@ CCTV8K,http://107.150.60.122/live/cctv8k.m3u8
 CGTN,https://0472.org/hls/cgtn.m3u8
 CGTN法语,http://120.245.84.126:1234/609006476
 CGTN俄语,http://120.245.84.126:1234/609006446
-CGTN阿拉伯语,http://119.233.255.62:1234/609154345
+CGTN阿拉伯语,http://120.245.84.126:1234/609154345
 CGTN西班牙语,http://espanol-liveali.cgtn.com/hls/LSveOGBaBw41Ea7ukkVAUdKQ220802LSTexu6xAuFH8VZNBLE1ZNEa220802cd.m3u8
 CGTN外语纪录,http://english-livebkali.cgtn.com/live/doccgtn_0.m3u8
 CCTV风云剧场,http://198.204.228.26/live/fyjc.m3u8
@@ -150,7 +150,7 @@ CCTV电视指南,http://198.204.228.26/live/dszn.m3u8
 CCTV卫生健康,http://198.204.228.26/live/wsjk.m3u8
 湖南卫视,http://59.172.112.202:8000/hls/18/index.m3u8
 江苏卫视,http://59.172.112.202:8000/hls/20/index.m3u8
-浙江卫视,http://ali-m-l.cztv.com/channels/lantian/channel01/1080p.m3u8
+浙江卫视,http://ali-xwl.cztv.com/live/channel011080Plxw.m3u8
 东方卫视,http://59.172.112.202:8000/hls/21/index.m3u8
 深圳卫视,http://59.172.112.202:8000/hls/24/index.m3u8
 北京卫视,http://59.172.112.202:8000/hls/22/index.m3u8
@@ -163,10 +163,10 @@ CCTV卫生健康,http://198.204.228.26/live/wsjk.m3u8
 重庆卫视,http://120.238.84.45:9901/tsfile/live/1063_1.m3u8?key=txiptv&playlive=1&authid=0
 四川卫视,http://120.238.84.45:9901/tsfile/live/1058_1.m3u8?key=txiptv&playlive=1&authid=0
 河南卫视,http://xn--z6ut02b.xn--qoqw77q.top/iptv.php?id=hnws
-江西卫视,http://119.233.255.62:1234/783847495
-辽宁卫视,http://119.233.255.62:1234/630291707
+江西卫视,http://120.245.84.126:1234/783847495
+辽宁卫视,http://120.245.84.126:1234/630291707
 安徽卫视,http://120.238.84.45:9901/tsfile/live/1060_1.m3u8?key=txiptv&playlive=1&authid=0
-河北卫视,http://119.233.255.62:1234/962042070
+河北卫视,http://120.245.84.126:1234/962042070
 山东卫视,http://120.238.84.45:9901/tsfile/live/1052_1.m3u8?key=txiptv&playlive=1&authid=0
 天津卫视,http://120.238.84.45:9901/tsfile/live/1051_1.m3u8?key=txiptv&playlive=1&authid=0
 吉林卫视,http://120.245.84.126:1234/947472500 
