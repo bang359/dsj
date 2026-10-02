@@ -3,6 +3,8 @@
 🎵网络热曲（默认自动播放-注意流量),https://www.cunshao.com/666666/api/pc.php
 ❤️永久维护-觉得好用-请打赏观看,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dashang.mp4
 中天新闻,https://d2jc41c1shgcol.cloudfront.net/live/CtiNEWS1/playlist.m3u8
+CCTV2,https://iptv.catvod.com/douyin/nuanxinnengl
+CCTV13,https://iptv.catvod.com/douyin/CMG_yangshipin
 凤凰中文,http://43.152.224.209/qctv.fengshows.cn/live/0701pcc72.m3u8
 凤凰资讯,http://43.152.224.209/qctv.fengshows.cn/live/0701pin72.m3u8
 民视新闻,https://livedata.cloudokyo.cloud/hls/094041f3-7cb6-4dd1-a2e6-de1b1e6c8d29/hls_1080p/video.m3u8
