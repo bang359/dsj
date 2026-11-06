@@ -1230,11 +1230,11 @@ Astro 欢喜台
 CH5 https://cdn.qd.je/163189.php?id=ch5
 CH8 https://cdn.qd.je/163189.php?id=ch8
 CHU https://cdn.qd.je/163189.php?id=chu
-TVB Plus,http://play.wenxiang.cn/live/5ec77f27f37babab48d60b879fde862a.flv
-HOY77,http://play.wenxiang.cn/live/43dc6fc9b1af5af8ec332f3c88b95e4a.flv
-HOY78,http://play.wenxiang.cn/live/cf4526f51988d0ed065b5c3fa4bc925d.flv
-RTHK31,http://play.wenxiang.cn/live/0f4b100c9ed81fdd547ba0a1a20dea49.flv
-RTHK32,http://play.wenxiang.cn/live/1c84d2c289c82f92f588aaa566858174.flv
+TVB Plus,https://vdm6-hw.nbgdsygs.com/live/h6-2.flv
+HOY77 
+HOY78 
+RTHK31 
+RTHK32 
 八度空间 https://cdn.qd.je/163189.php?id=8tv
 香港卫视,http://webcast.hkstv.tv/livestream/mutfysrq/playlist.m3u8$官网
 环球电视,http://utv1.hqtvzb.com:9999/hls/world.m3u8$官网
@@ -1245,7 +1245,6 @@ RTHK32,http://play.wenxiang.cn/live/1c84d2c289c82f92f588aaa566858174.flv
 澳门综艺 https://cdn.qd.je/163189.php?id=amzy
 澳门莲花 https://cdn.qd.je/163189.php?id=amlh
 翡翠台,http://211.97.63.3:3443/hls/541/index.m3u8
-凤凰中文,http://120.234.44.98:18180/TV00000000000000000008@HHZT$天威hh
 凤凰资讯,http://120.234.44.98:18180/TV00000000000000000009@HHZT$天威hh
 凤凰香港,http://120.234.44.98:18180/TV00000000000000000024@HHZT$天威hh
 翡翠台,http://120.234.44.98:18180/TV00000000000000000032@HHZT$天威hh
