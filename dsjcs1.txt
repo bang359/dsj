@@ -120,7 +120,7 @@ CCTV16(4K),http://112.27.5.218:9901/tsfile/live/faacts/1001_1.m3u8?key=txiptv&pl
 CCTV17,http://121.57.88.206:898/hls/17/index.m3u8
 CCTV4K,http://vip1.xinketongxun.fun:8082/tsfile/live/1026_1.m3u8 
 CCTV8K 
-CGTN,https://0472.org/hls/cgtn.m3u8
+CGTN,http://123.10.79.181:808/hls/16/index.m3u8 
 CGTN法语,http://114.240.228.159:7788/609006476
 CGTN俄语,http://114.240.228.159:7788/609006446
 CGTN阿拉伯语,http://114.240.228.159:7788/609154345
