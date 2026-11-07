@@ -122,8 +122,8 @@ CCTV卫生健康
 北京卫视,http://59.172.112.202:8000/hls/22/index.m3u8
 湖北卫视,http://59.172.112.202:8000/hls/17/index.m3u8
 广东卫视,http://59.172.112.202:8000/hls/23/index.m3u8
-广西卫视,http://123.10.79.181:808/hls/52/index.m3u8
-黑龙江卫视,http://123.10.79.181:808/hls/45/index.m3u8
+广西卫视,http://113.15.109.216:59901/tsfile/live/0113_1.m3u8?key=txiptv&playlive=1&authid=0
+黑龙江卫视,http://110.72.39.159:808/hls/30/index.m3u8
 海南卫视,http://123.207.224.130:123/hainan/hainan.php?id=hnws 
 重庆卫视,http://110.72.39.159:808/hls/44/index.m3u8
 四川卫视,http://110.72.39.159:808/hls/38/index.m3u8
@@ -139,7 +139,7 @@ CCTV卫生健康
 宁夏卫视,http://114.240.228.159:7788/738910535  
 内蒙古卫视,http://121.57.88.206:898/hls/19/index.m3u8  
 云南卫视,http://221.226.51.220:50081/newlive/live/hls/33/live.m3u8  
-山西卫视,http://123.10.79.181:808/hls/56/index.m3u8 
+山西卫视,http://113.15.109.216:59901/tsfile/live/0118_1.m3u8?key=txiptv&playlive=1&authid=0 
 青海卫视,http://114.240.228.159:7788/947472506
 甘肃卫视,http://110.72.39.159:808/hls/36/index.m3u8
 西藏卫视,http://110.72.39.159:808/hls/49/index.m3u8 
