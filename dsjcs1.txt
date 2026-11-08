@@ -1056,13 +1056,14 @@ CINEMAX
 1905流金岁月 
 1905环球经典 
 精彩影视,http://112.27.5.218:9901/tsfile/live/faacts/1040_1.m3u8
-凤凰电影,http://122.224.58.42:85/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0$浙江/绍兴/电信 挂
+凤凰电影 
 峨眉电影,http://118.122.144.115:8888/newlive/live/hls/32/live.m3u8$四川电信酒店
 湖南电影,http://218.77.84.102:85/tsfile/live/149/2005_1.m3u8?key=txiptv
+河南乡村,http://171.14.93.38:85/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0
 河南乡村,http://zmgd.zyrnet.com:8888/hls/28/index.m3u8
 重温经典,http://112.27.5.218:9901/tsfile/live/1012_1.m3u8
 新视觉HD,http://221.7.49.226:50085/tsfile/live/0016_2.m3u8?key=txiptv&playlive=1&authid=0
-华数电影 http://hmfs.f3322.net:3388/hls/40/index.m3u8$广东/茂名/电信
+爱电影,http://59.39.89.130:60901/tsfile/live/0125_29.m3u8?key=txiptv&playlive=1&authid=0
 中牟生活,http://zmgd.zyrnet.com:8888/hls/20/index.m3u8$郑州/移动酒店
 
 🇭🇰香港,#genre#
