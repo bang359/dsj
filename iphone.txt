@@ -93,19 +93,6 @@ CCTV央视文化精品,http://fn.wsk-net.online:6008/relay/ysp-vip-cctvwhjp.m3u8
 CCTV央视台球,http://fn.wsk-net.online:6008/relay/ysp-vip-cctvtq.m3u8
 CCTV电视指南,http://fn.wsk-net.online:6008/relay/ysp-vip-cctvdszn.m3u8
 CCTV卫生健康,http://fn.wsk-net.online:6008/relay/ysp-vip-cctvwsjk.m3u8 
-成龙电影,http://192.151.150.154/live/lbcl.m3u8
-周润发电影,http://192.151.150.154/live/lbzrf.m3u8
-周星驰电影,http://192.151.150.154/live/lbzxc.m3u8
-林正英影院,http://192.151.150.154/live/lblzy.m3u8
-辽宁影视剧,http://63.141.230.178/live/lnys.m3u8
-成龙电影,http://63.141.230.178/live/lbcl.m3u8
-周润发电影,http://63.141.230.178/live/lbzrf.m3u8
-周星驰电影,http://63.141.230.178/live/lbzxc.m3u8
-邵氏武侠,http://63.141.230.178/live/lbsswx.m3u8
-邵氏动作,http://63.141.230.178/live/lbssdz.m3u8
-邵氏喜剧,http://63.141.230.178/live/lbssxj.m3u8
-周星驰,http://63.141.230.178/live/hyzxc.m3u8
-林正英,http://63.141.230.178/live/hylzy.m3u8 
 CCTV-4K超高清,http://107.150.60.122/live/cctv4k.m3u8
 CCTV-8K超高清,http://107.150.60.122/live/cctv8k.m3u8
 CETV3,http://107.150.60.122/live/cetv3.m3u8
@@ -124,5 +111,4 @@ CETV3,http://107.150.60.122/live/cetv3.m3u8
 Bread TV,https://video.bread-tv.com:8091/hls-live24/online/index.m3u8
 🎵亚洲经典,https://lhttp.qingting.fm/live/5021912/64k.mp3
 惊艳,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/85.ts
-惊艳,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/85.m3u8
 惊艳,http://15.204.105.50:25461/live/G2s9zK2n9m/xDtwVfWM8T/85.m3u8
