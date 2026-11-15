@@ -1056,15 +1056,14 @@ CINEMAX
 1905流金岁月 
 1905环球经典 
 精彩影视,http://112.27.5.218:9901/tsfile/live/faacts/1040_1.m3u8
-凤凰电影 
+凤凰影视,http://221.7.175.154:8445/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0
 峨眉电影,http://118.122.144.115:8888/newlive/live/hls/32/live.m3u8$四川电信酒店
 湖南电影,http://218.77.84.102:85/tsfile/live/149/2005_1.m3u8?key=txiptv
 河南乡村,http://171.14.93.38:85/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0
-河南乡村,http://zmgd.zyrnet.com:8888/hls/28/index.m3u8
 重温经典,http://112.27.5.218:9901/tsfile/live/1012_1.m3u8
 新视觉HD,http://221.7.49.226:50085/tsfile/live/0016_2.m3u8?key=txiptv&playlive=1&authid=0
 爱电影,http://59.39.89.130:60901/tsfile/live/0125_29.m3u8?key=txiptv&playlive=1&authid=0
-中牟生活,http://zmgd.zyrnet.com:8888/hls/20/index.m3u8$郑州/移动酒店
+中牟生活
 
 🇭🇰香港,#genre#
 凤凰资讯,http://120.237.39.10:9901/tsfile/live/1036_1.m3u8?key=txiptv&playlive=1&down=1
@@ -1078,8 +1077,6 @@ CINEMAX
 凤凰资讯,http://183.236.161.115:8960/live1171.m3u8
 凤凰中文,http://120.198.95.220:9901/tsfile/live/1037_1.m3u8?key=txiptv&playlive=1&down=1$广东移动
 凤凰中文,http://120.238.84.45:9901/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0$广东移动
-凤凰中文,http://zmgd.zyrnet.com:8888/hls/110/index.m3u8$郑州酒店
-凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8$郑州酒店
 
 TVB DRAMA,https://amg01868-amg01868c5-tvbanywhere-us-4493.playouts.now.amagi.tv/playlist/amg01868-tvbusa-tvbdrama-tvbanywhereus/playlist.m3u8
 翡翠台4K,https://cdn3.indevs.in/stream/tvb/fct4k/ 
@@ -1177,10 +1174,9 @@ LIVE三立,https://d2jc41c1shgcol.cloudfront.net/live/setnewsrtmp/playlist.m3u8
 东森超视,rtmp://f13h.mine.nu/sat/tv331
 MoMo综合,rtmp://f13h.mine.nu/sat/tv761
 DAZN1,rtmp://f13h.mine.nu/sat/tv731
-DAZN2,rtmp://f13h.mine.nu/sat/tv741
- 
+DAZN2,rtmp://f13h.mine.nu/sat/tv741 
 Taiwan+,https://fastly.live.brightcove.com/6385235869112/ap-northeast-1/6282251407001/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0IjoiaWU4OWZvLmVncmVzcy5pdjNqZDgiLCJhY2NvdW50X2lkIjoiNjI4MjI1MTQwNzAwMSIsImVobiI6ImZhc3RseS5saXZlLmJyaWdodGNvdmUuY29tIiwiaXNzIjoiYmxpdmUtcGxheWJhY2stc291cmNlLWFwaSIsInN1YiI6InBhdGhtYXB0b2tlbiIsImF1ZCI6WyI2MjgyMjUxNDA3MDAxIl0sImp0aSI6IjYzODUyMzU4NjkxMTIifQ.4c-V1Ks3nBx9nRljtn5-jCNP_nLuWBbk-pw9BFWZfMQ/playlist-hls.m3u8
-NTD,https://livedata.cloudokyo.cloud/hls/424e5248-02c2-47f3-9435-28877812d25c/hls_1080p/video.m3u8
+NTD,https://d.0j7.cn/dMlTc
 Love Nature 4K,https://pb-ehs1glsha1juy.akamaized.net/Love_Nature_4K.m3u8
 Wild TV,https://dfhsahpa45kk2.cloudfront.net/scheduler/scheduleMaster/476.m3u8
 动物星球 
