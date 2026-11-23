@@ -18,10 +18,10 @@ dsjcs.de5.net,https://gh-proxy.org/https://github.com/bang359/dsj/raw/main/dasha
 ❤️江苏卫视4K,http://59.172.112.202:8000/hls/20/index.m3u8
 ❤️浙江卫视4K,http://ali-xwl.cztv.com/live/channel4k2160p.m3u8
 ❤️东方卫视4K,http://59.172.112.202:8000/hls/21/index.m3u8
-❤️深圳卫视4K,http://59.172.112.202:8000/hls/24/index.m3u8
+❤️深圳卫视4K,http://221.226.51.220:50081/newlive/live/hls/32/live.m3u8
 ❤️北京卫视4K,http://59.172.112.202:8000/hls/22/index.m3u8
-❤️广东卫视4K,http://59.172.112.202:8000/hls/23/index.m3u8
-❤️四川卫视4K,http://116.128.243.121:85/tsfile/live/0123_1.m3u8?key=txiptv&playlive=1&authid=0
+❤️广东卫视4K,http://221.226.51.220:50081/newlive/live/hls/30/live.m3u8
+❤️四川卫视4K,http://hbhyjq.ufyct.com:1088/hls/44/index.m3u8
 ❤️山东卫视4K,http://59.172.112.202:8000/hls/27/index.m3u8
 ❤️河南卫视4K,http://xn--z6ut02b.xn--qoqw77q.top/iptv.php?id=hnws
 ❤️南国都市4K,https://tencentplay.gztv.com/live/nanguodushi.m3u8?txSecret=550af55c0ea34ce492748481415b6dfa&txTime=1903e7b17de
@@ -143,10 +143,10 @@ CCTV卫生健康
 江苏卫视,http://59.172.112.202:8000/hls/20/index.m3u8
 浙江卫视,http://ali-xwl.cztv.com/live/channel011080Plxw.m3u8
 东方卫视,http://59.172.112.202:8000/hls/21/index.m3u8
-深圳卫视,http://59.172.112.202:8000/hls/24/index.m3u8
+深圳卫视,http://221.226.51.220:50081/newlive/live/hls/32/live.m3u8
 北京卫视,http://59.172.112.202:8000/hls/22/index.m3u8
-湖北卫视,http://59.172.112.202:8000/hls/17/index.m3u8
-广东卫视,http://59.172.112.202:8000/hls/23/index.m3u8
+湖北卫视,http://hbhyjq.ufyct.com:1088/hls/48/index.m3u8
+广东卫视,http://hbhyjq.ufyct.com:1088/hls/52/index.m3u8
 广西卫视,http://120.238.84.45:9901/tsfile/live/1067_1.m3u8?key=txiptv&playlive=1&authid=0 
 黑龙江卫视,http://hbhyjq.ufyct.com:1088/hls/43/index.m3u8 
 海南卫视,http://123.207.224.130:123/hainan/hainan.php?id=hnws 
