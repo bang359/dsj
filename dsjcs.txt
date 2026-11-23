@@ -118,10 +118,10 @@ CCTV卫生健康
 江苏卫视,http://59.172.112.202:8000/hls/20/index.m3u8
 浙江卫视,http://ali-xwl.cztv.com/live/channel011080Plxw.m3u8
 东方卫视,http://59.172.112.202:8000/hls/21/index.m3u8
-深圳卫视,http://59.172.112.202:8000/hls/24/index.m3u8
+深圳卫视,http://221.226.51.220:50081/newlive/live/hls/32/live.m3u8
 北京卫视,http://59.172.112.202:8000/hls/22/index.m3u8
-湖北卫视,http://59.172.112.202:8000/hls/17/index.m3u8
-广东卫视,http://59.172.112.202:8000/hls/23/index.m3u8
+湖北卫视,http://hbhyjq.ufyct.com:1088/hls/48/index.m3u8
+广东卫视,http://hbhyjq.ufyct.com:1088/hls/52/index.m3u8
 广西卫视,http://120.238.84.45:9901/tsfile/live/1067_1.m3u8?key=txiptv&playlive=1&authid=0 
 黑龙江卫视,http://hbhyjq.ufyct.com:1088/hls/43/index.m3u8 
 海南卫视,http://123.207.224.130:123/hainan/hainan.php?id=hnws 
