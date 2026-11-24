@@ -602,19 +602,19 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 辽宁经济,http://120.76.248.139/live/bfgd/4200000076.m3u8
 辽宁移动电视 
 
-💚河南卫视,https://tv.ygo233.top/hntv-145 
-河南都市,https://tv.ygo233.top/hntv-141  
-河南民生,https://tv.ygo233.top/hntv-146  
-河南法治,https://tv.ygo233.top/hntv-147 
-河南电视剧,https://tv.ygo233.top/hntv-148  
-河南新闻,https://tv.ygo233.top/hntv-149 
-河南公共,https://tv.ygo233.top/hntv-151
-河南乡村,http://171.14.93.38:85/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0 
+💚河南卫视,http://123.14.89.92:3333/hntv-145 
+河南都市,http://123.14.89.92:3333/hntv-141  
+河南民生,http://123.14.89.92:3333/hntv-146  
+河南法治,http://123.14.89.92:3333/hntv-147 
+河南电视剧,http://123.14.89.92:3333/hntv-148  
+河南新闻,http://123.14.89.92:3333/hntv-149 
+河南公共,http://123.14.89.92:3333/hntv-151
+河南乡村,http://123.14.89.92:3333/hntv-152 
 河南国际
-河南梨园,https://tv.ygo233.top/hntv-154 
-武术世界，https://tv.ygo233.top/hntv-156
-文物宝库,https://tv.ygo233.top/hntv-155
-国学频道,https://tv.ygo233.top/hntv-194
+河南梨园,http://123.14.89.92:3333/hntv-154 
+武术世界,http://123.14.89.92:3333/hntv-156
+文物宝库,http://123.14.89.92:3333/hntv-155
+国学频道,http://123.14.89.92:3333/hntv-194
  
 河南都市,http://42.225.117.174:11199/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0
 河南民生,http://42.225.117.174:11199/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0  
@@ -685,9 +685,31 @@ CGTN纪录,http://gslbserv.itv.cmvideo.cn:80/8428799834696888424/1.m3u8?channel-
 甘肃科教 
 甘肃移动电视 
 
-💚青海卫视, http://112.27.5.218:9901/tsfile/live/faacts/0140_1.m3u8?key=txiptv&playlive=1&authid=0
+💚青海卫视,http://112.27.5.218:9901/tsfile/live/faacts/0140_1.m3u8?key=txiptv&playlive=1&authid=0
 西宁新闻,https://liveout.xntv.tv/a65jur/96iln2.m3u8
 
+💚湖北卫视,http://123.14.89.92:3333/proxy/hbtv-431.m3u8
+湖北经视,http://123.14.89.92:3333/proxy/hbtv-432.m3u8
+湖北综合,http://123.14.89.92:3333/proxy/hbtv-433.m3u8
+湖北影视,http://123.14.89.92:3333/proxy/hbtv-435.m3u8
+湖北垄上,http://123.14.89.92:3333/proxy/hbtv-438.m3u8
+襄阳综合,http://123.14.89.92:3333/relay/gdy-3061-1500.m3u8
+襄阳经济生活,http://123.14.89.92:3333/relay/gdy-2675-1500.m3u8
+随州综合,http://123.14.89.92:3333/relay/gdy-304-1487.m3u8
+随州农村,http://123.14.89.92:3333/relay/gdy-305-1487.m3u8
+蔡甸新闻综合,http://123.14.89.92:3333/relay/gdy-1982-3165.m3u8
+新洲综合,http://123.14.89.92:3333/relay/gdy-2904-3951.m3u8
+黄石新闻综合,http://123.14.89.92:3333/relay/gdy-3031-3065.m3u8
+恩施文旅,http://123.14.89.92:3333/relay/gdy-1811-3179.m3u8
+巴东综合,http://123.14.89.92:3333/relay/gdy-3522-3179.m3u8
+咸丰综合,http://123.14.89.92:3333/relay/gdy-3567-3179.m3u8
+孝感新闻,http://123.14.89.92:3333/relay/gdy-64-1114.m3u8
+孝感生活,http://123.14.89.92:3333/relay/gdy-3683-1114.m3u8
+监利综合,http://123.14.89.92:3333/relay/gdy-2199-2013.m3u8
+恩施综合,http://123.14.89.92:3333/relay/gdy-3724-3179.m3u8
+阳新综合,http://123.14.89.92:3333/relay/gdy-3831-1887.m3u8
+房县综合,http://123.14.89.92:3333/relay/gdy-3947-4736.m3u8
+郧阳电视台,http://123.14.89.92:3333/relay/gdy-3820-3659.m3u8
 💚湖北卫视,http://183.94.146.79:9901/tsfile/live/0124_1.m3u8?key=txiptv&playlive=1&authid=0
 湖北经视,http://183.94.146.79:9901/tsfile/live/0128_1.m3u8?key=txiptv&playlive=1&authid=0
 湖北影视,http://183.94.146.79:9901/tsfile/live/0107_1.m3u8?key=txiptv&playlive=1&authid=0
@@ -1076,7 +1098,7 @@ CINEMAX
 凤凰影视,http://221.7.175.154:8445/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0
 峨眉电影,http://118.122.144.115:8888/newlive/live/hls/32/live.m3u8$四川电信酒店
 湖南电影,http://218.77.84.102:85/tsfile/live/149/2005_1.m3u8?key=txiptv
-河南乡村,http://171.14.93.38:85/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0
+河南乡村,http://123.14.89.92:3333/hntv-152
 重温经典,http://112.27.5.218:9901/tsfile/live/1012_1.m3u8
 新视觉HD,http://221.7.49.226:50085/tsfile/live/0016_2.m3u8?key=txiptv&playlive=1&authid=0
 爱电影,http://59.39.89.130:60901/tsfile/live/0125_29.m3u8?key=txiptv&playlive=1&authid=0
