@@ -1175,12 +1175,6 @@ TVBS新闻,https://d2jc41c1shgcol.cloudfront.net/live/tvbsnewsqt/playlist.m3u8
 三立新闻,https://d2jc41c1shgcol.cloudfront.net/live/iNEWS/playlist.m3u8
 LIVE三立,https://d2jc41c1shgcol.cloudfront.net/live/setnewsrtmp/playlist.m3u8
 台视新闻 
-民视新闻,http://211.72.174.95:8117/0.ts$原生解码最佳
-中视,http://211.72.174.95:8113/0.ts$原生解码最佳
-华视,http://211.72.174.95:8114/0.ts$原生解码最佳
-公视,http://211.72.174.95:8116/0.ts$原生解码最佳
-民视,http://211.72.174.95:8115/0.ts$原生解码最佳
-台视,http://211.72.174.95:8112/0.ts$原生解码最佳
 民视,rtmp://f13h.mine.nu/sat/tv051
 台视,rtmp://f13h.mine.nu/sat/tv071
 中视,rtmp://f13h.mine.nu/sat/tv091
